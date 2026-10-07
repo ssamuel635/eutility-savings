@@ -317,4 +317,5 @@ tests/calc.test.mjs
 4. Build the referral backend: issue codes, attribute sign-ups, count rewards.
 5. Add analytics events: `calc_completed`, `switch_clicked`, `whatsapp_clicked`, `sme_lead`, `referral_shared`.
 #   e u t i l i t y - s a v i n g s  
+ #   e u t i l i t y - s a v i n g s  
  
