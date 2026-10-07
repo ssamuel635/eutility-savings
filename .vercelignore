@@ -1,0 +1,31 @@
+# Not part of the deployed site.
+#
+# Paths are anchored with a leading slash. A bare "data/" would also match
+# assets/js/data/, which is the generated plan list the whole site depends on.
+#
+# package.json and server.js MUST stay excluded: with them present Vercel
+# detects a Node app and deploys server.js as the entrypoint instead of
+# serving this folder as static files. They're only used for local dev.
+/package.json
+/package-lock.json
+/server.js
+/tests/
+/tools/
+/data/
+/README.md
+/DEPLOY.md
+/node_modules/
+/.git/
+/.vercel/
+.env
+.env.*
+*.log
+
+# Superseded by boardroom.jpg (2.1 MB → 122 KB). Safe to delete from the folder.
+/assets/img/boardroom.png
+
+# Never publish archives or local output folders. A zip of this project would
+# include data/price-comparison-sheet.xlsx — commercial pricing data.
+*.zip
+/Claude outputs/
+/assets/img/sgimg2.jpg

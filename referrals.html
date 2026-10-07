@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en-SG" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Eutility Rewards — see who's leading</title>
+  <meta name="description" content="Get your friends switched, climb the leaderboard and earn rewards with Eutility.">
+  <!-- social -->
+  <link rel="canonical" href="https://eutility-savings.vercel.app/referrals.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Eutility Singapore">
+  <meta property="og:locale" content="en_SG">
+  <meta property="og:title" content="Eutility Rewards — see who&#x27;s leading">
+  <meta property="og:description" content="Get your friends switched, climb the leaderboard and earn rewards with Eutility.">
+  <meta property="og:url" content="https://eutility-savings.vercel.app/referrals.html">
+  <meta property="og:image" content="https://eutility-savings.vercel.app/assets/img/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Eutility — Stop overpaying for electricity. Compare every Singapore home plan in a minute.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#26649B">
+  <link rel="icon" href="assets/img/favicon-64.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/newsreader-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/img/bg-blur-light.jpg" as="image" fetchpriority="high">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <!-- modulepreload -->
+  <link rel="modulepreload" href="assets/js/config.js">
+  <link rel="modulepreload" href="assets/js/data/plans.js">
+  <link rel="modulepreload" href="assets/js/fx.js">
+  <link rel="modulepreload" href="assets/js/icons.js">
+  <link rel="modulepreload" href="assets/js/layout.js">
+  <link rel="modulepreload" href="assets/js/services/customer.js">
+  <link rel="modulepreload" href="assets/js/services/rewards.js">
+  <link rel="modulepreload" href="assets/js/services/store.js">
+  <!-- /modulepreload -->
+  <script type="module" src="assets/js/pages/referrals.js"></script>
+</head>
+<body data-page="referrals">
+<main id="main">
+  <!-- 1. Leaderboard first: the hook -->
+  <section class="container" style="padding-top:clamp(28px,4vw,56px);padding-bottom:clamp(40px,6vw,72px)">
+    <div class="grid-2 grid-2--card grid-2--top">
+      <div class="stack" style="--stack:18px">
+        <p class="eyebrow eyebrow--orange">Eutility Rewards</p>
+        <h1 class="display">See who's leading.</h1>
+        <p class="lead">Send your link to whoever’s still overpaying — family group chat, neighbours, the office. Every friend who switches counts towards your rewards.</p>
+        <div class="trust"><span>Free to join</span><span>No limit on friends</span><span>Rewards each campaign</span></div>
+      </div>
+      <div class="board-hero" id="leaderboard"></div>
+    </div>
+  </section>
+
+  <!-- 2. Your status and your link -->
+  <section class="container" style="padding-bottom:clamp(48px,7vw,88px)">
+    <div id="my-status"></div>
+  </section>
+
+  <!-- 3. Rewards -->
+  <section class="section section--cloud container">
+    <div class="section-head">
+      <p class="eyebrow">Rewards</p>
+      <h2 class="h2">What you can get.</h2>
+      <p class="lead">Campaigns change through the year. We’re still working out the exact rewards — this is what they’ll look like.</p>
+    </div>
+    <div class="grid-3">
+      <div class="reward"><span class="reward__icon" data-icon="gift"></span><h3 class="h4">Product gifts</h3><p class="small">Everyday essentials for your home.</p></div>
+      <div class="reward"><span class="reward__icon" data-icon="ticket"></span><h3 class="h4">Vouchers</h3><p class="small">Shopping and dining vouchers.</p></div>
+      <div class="reward"><span class="reward__icon" data-icon="trophy"></span><h3 class="h4">Campaign prizes</h3><p class="small">Seasonal prizes for the top of the board.</p></div>
+    </div>
+    <p class="small" style="margin-top:20px">Placeholder — final rewards to be confirmed by Eutility.</p>
+  </section>
+
+  <!-- 4. Activity + 5. How it works -->
+  <section class="section container">
+    <div class="grid-2 grid-2--top">
+      <div class="stack" style="--stack:16px">
+        <h2 class="h2">Recent activity</h2>
+        <p class="lead">What's been happening on your link.</p>
+        <div id="activity"></div>
+        <span class="pill pill--sample" style="width:max-content">Sample data</span>
+      </div>
+      <div class="stack" style="--stack:16px">
+        <h2 class="h2">How it works</h2>
+        <ol class="steps">
+          <li class="step"><span class="step__num">1</span><h3 class="h4">Share your link</h3><p>Send it on WhatsApp or copy it anywhere.</p></li>
+          <li class="step"><span class="step__num">2</span><h3 class="h4">Your friend switches</h3><p>They check their bill, like the number, and move over.</p></li>
+          <li class="step"><span class="step__num">3</span><h3 class="h4">You both get something</h3><p>Once their switch goes through, it counts towards your next reward.</p></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--cloud container" style="padding-top:0">
+    <div class="banner banner--blue" style="background:#fff">
+      <div class="stack" style="--stack:6px">
+        <h2 class="h3">Checked your own bill yet?</h2>
+        <p>Takes about a minute.</p>
+      </div>
+      <a class="btn" href="calculator.html">Check My Savings</a>
+    </div>
+  </section>
+</main>
+</body>
+</html>

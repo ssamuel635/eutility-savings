@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en-SG" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Explore Plans — Eutility</title>
+  <meta name="description" content="Browse every residential electricity plan in Singapore — fixed, no lock-in, green and night-saver plans — priced for your home.">
+  <!-- social -->
+  <link rel="canonical" href="https://eutility-savings.vercel.app/plans.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Eutility Singapore">
+  <meta property="og:locale" content="en_SG">
+  <meta property="og:title" content="Explore Plans — Eutility">
+  <meta property="og:description" content="Browse every residential electricity plan in Singapore — fixed, no lock-in, green and night-saver plans — priced for your home.">
+  <meta property="og:url" content="https://eutility-savings.vercel.app/plans.html">
+  <meta property="og:image" content="https://eutility-savings.vercel.app/assets/img/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Eutility — Stop overpaying for electricity. Compare every Singapore home plan in a minute.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#26649B">
+  <link rel="icon" href="assets/img/favicon-64.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/newsreader-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/img/bg-blur-light.jpg" as="image" fetchpriority="high">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <!-- modulepreload -->
+  <link rel="modulepreload" href="assets/js/calc.js">
+  <link rel="modulepreload" href="assets/js/config.js">
+  <link rel="modulepreload" href="assets/js/data/plans.js">
+  <link rel="modulepreload" href="assets/js/icons.js">
+  <link rel="modulepreload" href="assets/js/layout.js">
+  <link rel="modulepreload" href="assets/js/services/customer.js">
+  <link rel="modulepreload" href="assets/js/services/plans-service.js">
+  <link rel="modulepreload" href="assets/js/services/store.js">
+  <!-- /modulepreload -->
+  <script type="module" src="assets/js/pages/plans.js"></script>
+</head>
+<body data-page="plans">
+<main id="main">
+  <section class="container" style="padding-top:clamp(32px,5vw,64px);padding-bottom:24px">
+    <div class="stack" style="--stack:16px;max-width:760px">
+      <p class="eyebrow">Explore plans</p>
+      <h1 class="h1">Every home plan, in one place.</h1>
+      <p class="lead">Slide to your usage and see what each plan would actually cost you a month. No account needed. Prefer we just tell you the best one? <a href="calculator.html">Check your savings</a>.</p>
+    </div>
+  </section>
+
+  <section class="container" style="padding-bottom:clamp(64px,9vw,112px)">
+    <div class="stack" style="--stack:24px">
+      <div class="plan-toolbar" id="plan-toolbar"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+        <p class="result-count" id="plan-count" aria-live="polite"></p>
+        <p class="small" id="plan-basis"></p>
+      </div>
+      <div class="plan-grid" id="plan-grid"></div>
+    </div>
+  </section>
+
+  <section class="section section--cloud container">
+    <div class="banner banner--blue" style="background:#fff">
+      <div class="stack" style="--stack:6px">
+        <h2 class="h3">Too many options?</h2>
+        <p>Tell us your usage and we'll put them in order for you.</p>
+      </div>
+      <a class="btn" href="calculator.html">Check My Savings</a>
+    </div>
+  </section>
+</main>
+
+<div class="sheet" id="plan-sheet" aria-hidden="true">
+  <div class="sheet__scrim" data-close></div>
+  <div class="sheet__panel" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+    <button class="sheet__close" type="button" aria-label="Close" data-close>×</button>
+    <div id="sheet-body"></div>
+  </div>
+</div>
+</body>
+</html>

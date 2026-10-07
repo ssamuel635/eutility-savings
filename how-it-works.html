@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en-SG" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>How It Works — Eutility</title>
+  <meta name="description" content="Send a photo of your electricity bill on WhatsApp. Eutility checks it independently, shows your savings and handles the switch with your new retailer.">
+  <!-- social -->
+  <link rel="canonical" href="https://eutility-savings.vercel.app/how-it-works.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Eutility Singapore">
+  <meta property="og:locale" content="en_SG">
+  <meta property="og:title" content="How It Works — Eutility">
+  <meta property="og:description" content="Send a photo of your electricity bill on WhatsApp. Eutility checks it independently, shows your savings and handles the switch with your new retailer.">
+  <meta property="og:url" content="https://eutility-savings.vercel.app/how-it-works.html">
+  <meta property="og:image" content="https://eutility-savings.vercel.app/assets/img/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Eutility — Stop overpaying for electricity. Compare every Singapore home plan in a minute.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#26649B">
+  <link rel="icon" href="assets/img/favicon-64.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/newsreader-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/img/bg-blur-light.jpg" as="image" fetchpriority="high">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <!-- modulepreload -->
+  <link rel="modulepreload" href="assets/js/calc.js">
+  <link rel="modulepreload" href="assets/js/config.js">
+  <link rel="modulepreload" href="assets/js/data/plans.js">
+  <link rel="modulepreload" href="assets/js/fx.js">
+  <link rel="modulepreload" href="assets/js/icons.js">
+  <link rel="modulepreload" href="assets/js/layout.js">
+  <link rel="modulepreload" href="assets/js/services/customer.js">
+  <link rel="modulepreload" href="assets/js/services/store.js">
+  <!-- /modulepreload -->
+  <script type="module" src="assets/js/pages/how.js"></script>
+</head>
+<body data-page="how">
+<main id="main">
+  <section class="hero container">
+    <div class="stack" style="--stack:20px;max-width:820px">
+      <p class="eyebrow reveal">How it works</p>
+      <h1 class="display reveal reveal-delay-1">From bill to savings in about a minute.</h1>
+      <p class="lead reveal reveal-delay-2">No forms to print, no app to download. It all happens in a WhatsApp chat — or here on the calculator if you'd rather do it yourself.</p>
+      <p class="small reveal reveal-delay-3" aria-hidden="true">Scroll Down</p>
+    </div>
+  </section>
+
+  <section class="container" style="padding-bottom:clamp(64px,10vw,120px)">
+    <ol class="journey" style="list-style:none;padding:0;margin:0">
+
+      <li class="journey__item">
+        <div class="journey__copy reveal">
+          <p class="eyebrow">Step 1</p>
+          <h2 class="h1">Send your bill</h2>
+          <p class="lead">Message us on WhatsApp and send a photo of your latest SP bill. That’s all we need to start.</p>
+          <a class="btn" href="#" data-wa data-wa-message="Hi, I want to check my electricity savings. I'll send a photo of my bill.">Start on WhatsApp</a>
+        </div>
+        <div class="journey__visual" data-inview>
+          <div class="phone" aria-hidden="true">
+            <div class="phone__screen">
+              <div class="phone__bar"><span class="avatar" data-logo></span><span>Eutility<small>Typically replies instantly</small></span></div>
+              <div class="chat">
+                <div class="bubble bubble--me">Hi, I want to check my electricity savings</div>
+                <div class="bubble bubble--me bubble--photo"><div class="bill-thumb"></div></div>
+                <div class="bubble"><span class="progress-msg">Reading your bill… (1 of 3) <span class="dots"><i></i><i></i><i></i></span></span></div>
+                <div class="bubble"><span class="progress-msg">Comparing plans… (2 of 3) <span class="dots"><i></i><i></i><i></i></span></span></div>
+                <div class="bubble rich-card" style="padding:0">
+                  <div class="rich-card__head">Your savings estimate</div>
+                  <div class="rich-card__body">You could save<span class="num" data-chat-save>S$—</span>per year</div>
+                  <span class="rich-card__cta">See my plan</span>
+                  <div class="rich-card__foot">Reply YES to switch</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li class="journey__item">
+        <div class="journey__copy reveal">
+          <p class="eyebrow">Step 2</p>
+          <h2 class="h1">We analyse it</h2>
+          <p class="lead">We read your usage, current retailer and rate off the bill, the same kind of bill check Eutility runs for its business clients. Then we compare it against <span data-plan-count>all the</span> residential plans from Singapore’s retailers.</p>
+          <p class="small">Your bill is only used to prepare your estimate. We don&rsquo;t supply energy, so there&rsquo;s no plan we&rsquo;re trying to sell you.</p>
+        </div>
+        <div class="journey__visual" data-inview>
+          <div class="bill" aria-hidden="true">
+            <div class="bill__head"><span>SP GROUP</span><span>Example bill</span></div>
+            <div class="bill__line bill__line--w80"></div>
+            <div class="bill__line bill__line--w60"></div>
+            <div class="bill__hl"><span>Usage</span><span>450 kWh</span></div>
+            <div class="bill__line bill__line--w40"></div>
+            <div class="bill__hl"><span>Current plan</span><span>Regulated tariff</span></div>
+            <div class="bill__line bill__line--w80"></div>
+            <div class="bill__hl"><span>Rate</span><span data-tariff>—</span></div>
+            <div class="bill__line bill__line--w60"></div>
+            <div class="bill__scan"></div>
+          </div>
+        </div>
+      </li>
+
+      <li class="journey__item">
+        <div class="journey__copy reveal">
+          <p class="eyebrow">Step 3</p>
+          <h2 class="h1">You see your savings</h2>
+          <p class="lead">One clear yearly number, the plan behind it, and what you’d pay each month. Then it’s up to you.</p>
+          <a class="link-arrow" href="calculator.html">Try the calculator</a>
+        </div>
+        <div class="journey__visual" data-inview id="step3" style="background:#fff;border:1px solid var(--border)">
+          <div class="reveal-num text-center">
+            <span class="reveal-num__label">You save</span>
+            <span class="reveal-num__big">S$<span data-count>0</span><small>/year</small></span>
+            <span class="small" data-example></span>
+          </div>
+        </div>
+      </li>
+
+      <li class="journey__item">
+        <div class="journey__copy reveal">
+          <p class="eyebrow">Step 4</p>
+          <h2 class="h1">Switch in one click</h2>
+          <p class="lead">Say yes and we handle the switch with your new retailer. SP Group still delivers your power through the same wires and meter. Only the price changes.</p>
+          <div class="btn-row">
+            <a class="btn" href="calculator.html">Check My Savings</a>
+            <a class="btn btn--secondary" href="#" data-wa>Chat on WhatsApp</a>
+          </div>
+        </div>
+        <div class="journey__visual" data-inview id="step4" style="background:var(--blue-tint)">
+          <div class="text-center stack" style="--stack:12px">
+            <p class="h2">Switched.</p>
+            <p class="pill pill--green" style="margin-inline:auto">Savings confirmed</p>
+          </div>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section class="section section--cloud container">
+    <div class="banner banner--orange" style="background:#fff">
+      <div class="stack" style="--stack:6px">
+        <h2 class="h3">Want to help others save?</h2>
+        <p style="font-weight:600;color:var(--orange-aa)">Refer a friend → Earn rewards</p>
+      </div>
+      <a class="btn btn--orange" href="referrals.html">Get my referral link</a>
+    </div>
+  </section>
+</main>
+</body>
+</html>

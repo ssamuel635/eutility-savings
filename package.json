@@ -1,0 +1,16 @@
+{
+  "name": "eutility-savings-subsite",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Eutility Singapore \u2014 savings comparison & SME load aggregation subsite (static, zero-dependency prototype)",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test tests/calc.test.mjs tests/gate.test.mjs",
+    "data": "python3 tools/build_data.py",
+    "preload": "node tools/preload.mjs",
+    "og": "python3 tools/make_og_image.py"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

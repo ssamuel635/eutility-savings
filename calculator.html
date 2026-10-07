@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en-SG" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Savings Calculator — Eutility</title>
+  <meta name="description" content="Compare every Singapore residential electricity plan against your current one, or estimate aggregated savings across your business sites.">
+  <!-- social -->
+  <link rel="canonical" href="https://eutility-savings.vercel.app/calculator.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Eutility Singapore">
+  <meta property="og:locale" content="en_SG">
+  <meta property="og:title" content="Savings Calculator — Eutility">
+  <meta property="og:description" content="Compare every Singapore residential electricity plan against your current one, or estimate aggregated savings across your business sites.">
+  <meta property="og:url" content="https://eutility-savings.vercel.app/calculator.html">
+  <meta property="og:image" content="https://eutility-savings.vercel.app/assets/img/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Eutility — Stop overpaying for electricity. Compare every Singapore home plan in a minute.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#26649B">
+  <link rel="icon" href="assets/img/favicon-64.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/newsreader-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/img/bg-blur-light.jpg" as="image" fetchpriority="high">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <!-- modulepreload -->
+  <link rel="modulepreload" href="assets/js/calc.js">
+  <link rel="modulepreload" href="assets/js/config.js">
+  <link rel="modulepreload" href="assets/js/data/plans.js">
+  <link rel="modulepreload" href="assets/js/fx.js">
+  <link rel="modulepreload" href="assets/js/icons.js">
+  <link rel="modulepreload" href="assets/js/layout.js">
+  <link rel="modulepreload" href="assets/js/services/customer.js">
+  <link rel="modulepreload" href="assets/js/services/store.js">
+  <link rel="modulepreload" href="assets/js/widgets/residential.js">
+  <link rel="modulepreload" href="assets/js/widgets/sme.js">
+  <!-- /modulepreload -->
+  <script type="module" src="assets/js/pages/calculator.js"></script>
+</head>
+<body data-page="calculator">
+<main id="main">
+  <section class="container" style="padding-top:clamp(32px,5vw,72px);padding-bottom:24px">
+    <div class="stack" style="--stack:16px;max-width:760px">
+      <p class="eyebrow">Savings calculator</p>
+      <h1 class="h1">See exactly what you’d save.</h1>
+      <p class="lead" id="calc-lead">Compare your current plan against every residential plan in Singapore.</p>
+    </div>
+    <div class="segmented mode-toggle" role="radiogroup" aria-label="Account type" style="margin-top:28px">
+      <input type="radio" name="mode" id="mode-res" value="residential" checked><label for="mode-res">Residential</label>
+      <input type="radio" name="mode" id="mode-sme" value="sme"><label for="mode-sme">SME</label>
+    </div>
+  </section>
+
+  <section class="container" style="padding-bottom:clamp(48px,8vw,96px)">
+    <div id="panel-res" role="region" aria-label="Residential calculator">
+      <div class="calc-layout" id="res-mount"></div>
+    </div>
+    <div id="panel-sme" role="region" aria-label="SME calculator" hidden></div>
+  </section>
+
+  <section class="section section--cloud container">
+    <div class="banner banner--orange" style="background:#fff">
+      <div class="stack" style="--stack:6px">
+        <h2 class="h3">Rather just send your bill?</h2>
+        <p>Snap a photo on WhatsApp and we’ll do the maths for you.</p>
+      </div>
+      <a class="btn" href="#" data-wa data-wa-message="Hi, I want to check my electricity savings. I'll send a photo of my bill.">Send my bill on WhatsApp</a>
+    </div>
+  </section>
+</main>
+</body>
+</html>

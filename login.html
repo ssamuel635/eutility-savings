@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en-SG" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Log in — Eutility</title>
+  <meta name="description" content="Log in to your Eutility account to see your savings checks, bills and rewards.">
+  <!-- social -->
+  <link rel="canonical" href="https://eutility-savings.vercel.app/login.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Eutility Singapore">
+  <meta property="og:locale" content="en_SG">
+  <meta property="og:title" content="Log in — Eutility">
+  <meta property="og:description" content="Log in to your Eutility account to see your savings checks, bills and rewards.">
+  <meta property="og:url" content="https://eutility-savings.vercel.app/login.html">
+  <meta property="og:image" content="https://eutility-savings.vercel.app/assets/img/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Eutility — Stop overpaying for electricity. Compare every Singapore home plan in a minute.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#26649B">
+  <link rel="icon" href="assets/img/favicon-64.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/newsreader-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/img/bg-blur-light.jpg" as="image" fetchpriority="high">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <!-- modulepreload -->
+  <link rel="modulepreload" href="assets/js/config.js">
+  <link rel="modulepreload" href="assets/js/data/plans.js">
+  <link rel="modulepreload" href="assets/js/icons.js">
+  <link rel="modulepreload" href="assets/js/layout.js">
+  <link rel="modulepreload" href="assets/js/services/customer.js">
+  <link rel="modulepreload" href="assets/js/services/store.js">
+  <!-- /modulepreload -->
+  <script type="module" src="assets/js/pages/login.js"></script>
+</head>
+<body data-page="login">
+<main id="main">
+  <section class="container auth-wrap">
+    <div class="auth-copy">
+      <p class="eyebrow">Your account</p>
+      <h1 class="display">Welcome back.</h1>
+      <p class="lead">Your savings checks, your bills and your referral standing — all in one place.</p>
+      <div class="trust">
+        <span>Your past checks</span><span>Your bill on file</span><span>Your referrals</span>
+      </div>
+    </div>
+
+    <div class="card card--shadow auth-card">
+      <h2 class="h3">Log in</h2>
+      <form id="login-form" novalidate>
+        <div class="field">
+          <label for="li-email">Email</label>
+          <input class="input" id="li-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+          <p class="field__error" data-error="email"></p>
+        </div>
+        <div class="field">
+          <label for="li-pw">Password</label>
+          <input class="input" id="li-pw" name="password" type="password" autocomplete="current-password" required>
+          <p class="field__error" data-error="password"></p>
+        </div>
+        <p class="field__error" data-error="form" role="alert"></p>
+        <button class="btn btn--block" type="submit">Log in</button>
+      </form>
+
+      <div class="auth-demo">
+        <p class="small"><strong>Just looking around?</strong> Use the demo account — it comes with a saved savings check, a bill and referral activity already in it.</p>
+        <button class="btn btn--neutral btn--block" type="button" id="li-demo">Fill in the demo account</button>
+      </div>
+
+      <p class="small auth-alt">No account yet? <a href="signup.html">Create one</a> — it takes about a minute.</p>
+      <p class="small auth-alt">Rather just talk to someone? <a href="#" data-wa data-wa-message="Hi Eutility, I'd like help with my electricity plan.">WhatsApp us</a> or <a href="#" data-mail data-wa-message="Hi Eutility, I'd like help with my electricity plan.">email us</a>.</p>
+    </div>
+  </section>
+</main>
+</body>
+</html>

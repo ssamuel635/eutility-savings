@@ -1,0 +1,4 @@
+# Prototype / internal review build — not for indexing.
+# Remove this file (and the X-Robots-Tag header in vercel.json) when the site goes live.
+User-agent: *
+Disallow: /
