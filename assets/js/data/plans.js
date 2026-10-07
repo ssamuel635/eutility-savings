@@ -2,9 +2,12 @@
 // Source: price-comparison-sheet.xlsx
 export const META = {
   "source": "price-comparison-sheet.xlsx",
-  "generated": "2026-09-22",
-  "regulatedTariff": 34.78,
-  "planCount": 36
+  "generated": "2026-10-07",
+  "ratesAsAt": "2026-09-22",
+  "regulatedTariff": 31.16,
+  "tariffPeriod": "Oct–Dec 2026",
+  "planCount": 34,
+  "retailerCount": 6
 };
 
 export const PLANS = [
@@ -21,15 +24,15 @@ export const PLANS = [
     "dailyCharge": 0.0,
     "tou": null,
     "tiers": null,
-    "deposit": "HDB 1–2rm: $50; HDB 3–5rm/Exec: $90; Condo: $120; Terrace/Semi-D: $150; Bungalow: $220",
-    "etf": "Per remaining month: HDB1-2rm $10; HDB3-5rm/Exec $15; Condo $20; Terrace/Semi-D $40; Bungalow $75",
+    "deposit": "HDB 1–2rm: S$50; HDB 3–5rm/Exec: S$90; Condo: S$120; Terrace/Semi-D: S$150; Bungalow: S$220",
+    "etf": "Per remaining month: HDB1-2rm S$10; HDB3-5rm/Exec S$15; Condo S$20; Terrace/Semi-D S$40; Bungalow S$75",
     "source": "Geneco",
     "available": true,
     "promo": {
       "title": "Bill rebate for new sign-ups",
       "code": "GENECO200 / GENECO100",
       "conditions": "SP customers use GENECO200; all other customers use GENECO100",
-      "value": "$200 (SP customers) / $100 (others)",
+      "value": "S$200 (SP customers) / S$100 (others)",
       "expires": null
     },
     "notes": []
@@ -47,15 +50,15 @@ export const PLANS = [
     "dailyCharge": 0.0,
     "tou": null,
     "tiers": null,
-    "deposit": "HDB 1–2rm: $50; HDB 3–5rm/Exec: $90; Condo: $120; Terrace/Semi-D: $150; Bungalow: $220",
-    "etf": "Per remaining month: HDB1-2rm $10; HDB3-5rm/Exec $15; Condo $20; Terrace/Semi-D $40; Bungalow $75",
+    "deposit": "HDB 1–2rm: S$50; HDB 3–5rm/Exec: S$90; Condo: S$120; Terrace/Semi-D: S$150; Bungalow: S$220",
+    "etf": "Per remaining month: HDB1-2rm S$10; HDB3-5rm/Exec S$15; Condo S$20; Terrace/Semi-D S$40; Bungalow S$75",
     "source": "Geneco",
     "available": true,
     "promo": {
       "title": "Bill rebate",
-      "code": "Code required (not published)",
-      "conditions": "Limited sign-ups",
-      "value": "$15",
+      "code": null,
+      "conditions": "Limited sign-ups; promo code required (ask us for it)",
+      "value": "S$15",
       "expires": null
     },
     "notes": []
@@ -73,8 +76,8 @@ export const PLANS = [
     "dailyCharge": 0.0,
     "tou": null,
     "tiers": null,
-    "deposit": "HDB 1–2rm: $50; HDB 3–5rm/Exec: $90; Condo: $120; Terrace/Semi-D: $150; Bungalow: $220",
-    "etf": "Per remaining month: HDB1-2rm $10; HDB3-5rm/Exec $15; Condo $20; Terrace/Semi-D $40; Bungalow $75",
+    "deposit": "HDB 1–2rm: S$50; HDB 3–5rm/Exec: S$90; Condo: S$120; Terrace/Semi-D: S$150; Bungalow: S$220",
+    "etf": "Per remaining month: HDB1-2rm S$10; HDB3-5rm/Exec S$15; Condo S$20; Terrace/Semi-D S$40; Bungalow S$75",
     "source": "Geneco",
     "available": true,
     "promo": null,
@@ -102,13 +105,13 @@ export const PLANS = [
       }
     },
     "tiers": null,
-    "deposit": "HDB 1–2rm: $50; HDB 3–5rm/Exec: $90; Condo: $120; Terrace/Semi-D: $150; Bungalow: $220",
-    "etf": "Per remaining month: HDB1-2rm $10; HDB3-5rm/Exec $15; Condo $20; Terrace/Semi-D $40; Bungalow $75",
+    "deposit": "HDB 1–2rm: S$50; HDB 3–5rm/Exec: S$90; Condo: S$120; Terrace/Semi-D: S$150; Bungalow: S$220",
+    "etf": "Per remaining month: HDB1-2rm S$10; HDB3-5rm/Exec S$15; Condo S$20; Terrace/Semi-D S$40; Bungalow S$75",
     "source": "Geneco",
     "available": true,
     "promo": null,
     "notes": [
-      "Time-of-use — estimate depends on how much you use in off-peak hours."
+      "Time-of-use plan: the estimate depends on how much you use in off-peak hours."
     ]
   },
   {
@@ -125,14 +128,14 @@ export const PLANS = [
     "tou": null,
     "tiers": null,
     "deposit": "Waived for residential customers; may apply in cases of payment default",
-    "etf": "24-mth contract: Yr1 $545; Yr2 $327",
+    "etf": "24-mth contract: Yr1 S$545; Yr2 S$327",
     "source": "Senoko Energy",
     "available": true,
     "promo": {
       "title": "Gifts & bill rebates bundle",
       "code": "MBFC130 / TGBGN130",
-      "conditions": "Best cash-only rebate requires code above; total value includes gift options",
-      "value": "Up to $279 (gifts+rebates); $130 cash-only",
+      "conditions": "The S$130 cash-only rebate needs the promo code; the higher total includes gift options",
+      "value": "Up to S$279 (gifts+rebates); S$130 cash-only",
       "expires": null
     },
     "notes": []
@@ -151,14 +154,14 @@ export const PLANS = [
     "tou": null,
     "tiers": null,
     "deposit": "Waived for residential customers; may apply in cases of payment default",
-    "etf": "12-mth contract: Yr1 $327",
+    "etf": "12-mth contract: Yr1 S$327",
     "source": "Senoko Energy",
     "available": true,
     "promo": {
       "title": "Gifts & bill rebates bundle",
       "code": null,
       "conditions": null,
-      "value": "Up to $169",
+      "value": "Up to S$169",
       "expires": null
     },
     "notes": []
@@ -177,14 +180,14 @@ export const PLANS = [
     "tou": null,
     "tiers": null,
     "deposit": "Waived for residential customers; may apply in cases of payment default",
-    "etf": "36-mth contract: Yr1 $872; Yr2 $545; Yr3 $327",
+    "etf": "36-mth contract: Yr1 S$872; Yr2 S$545; Yr3 S$327",
     "source": "Senoko Energy",
     "available": true,
     "promo": {
       "title": "Luggage set + bill rebate",
       "code": null,
       "conditions": "Requires Trust card + GIRO recurring payment",
-      "value": "$680 luggage set + up to $50",
+      "value": "S$680 luggage set + up to S$50",
       "expires": null
     },
     "notes": []
@@ -203,14 +206,14 @@ export const PLANS = [
     "tou": null,
     "tiers": null,
     "deposit": "Waived for residential customers; may apply in cases of payment default",
-    "etf": "24-mth contract: Yr1 $545; Yr2 $327",
+    "etf": "24-mth contract: Yr1 S$545; Yr2 S$327",
     "source": "Senoko Energy",
     "available": true,
     "promo": {
       "title": "Gifts & bill rebates bundle",
       "code": null,
       "conditions": null,
-      "value": "Up to $279",
+      "value": "Up to S$279",
       "expires": null
     },
     "notes": []
@@ -232,18 +235,18 @@ export const PLANS = [
     "tou": null,
     "tiers": null,
     "deposit": "Waived for residential customers; may apply in cases of payment default",
-    "etf": "24-mth contract: Yr1 $545; Yr2 $327",
+    "etf": "24-mth contract: Yr1 S$545; Yr2 S$327",
     "source": "Senoko Energy",
     "available": true,
     "promo": {
       "title": "Gifts & bill rebates bundle",
       "code": null,
       "conditions": "See promotion terms on Senoko's site",
-      "value": "Up to $279",
+      "value": "Up to S$279",
       "expires": null
     },
     "notes": [
-      "Discount off SP tariff — price moves when the tariff is revised quarterly."
+      "Discount off SP Group’s tariff, so the price moves when SP Group revises its tariff each quarter."
     ]
   },
   {
@@ -263,18 +266,18 @@ export const PLANS = [
     "tou": null,
     "tiers": null,
     "deposit": "Waived for residential customers; may apply in cases of payment default",
-    "etf": "36-mth contract: Yr1 $872; Yr2 $545; Yr3 $327",
+    "etf": "36-mth contract: Yr1 S$872; Yr2 S$545; Yr3 S$327",
     "source": "Senoko Energy",
     "available": true,
     "promo": {
       "title": "Gifts & bill rebates bundle",
       "code": null,
-      "conditions": "Same structure as LifeSteady24",
-      "value": "Up to $279",
+      "conditions": "See promotion terms on Senoko Energy's site",
+      "value": "Up to S$279",
       "expires": null
     },
     "notes": [
-      "Discount off SP tariff — price moves when the tariff is revised quarterly."
+      "Discount off SP Group’s tariff, so the price moves when SP Group revises its tariff each quarter."
     ]
   },
   {
@@ -300,12 +303,12 @@ export const PLANS = [
     },
     "tiers": null,
     "deposit": "Waived for residential customers; may apply in cases of payment default",
-    "etf": "24-mth contract: Yr1 $545; Yr2 $327",
+    "etf": "24-mth contract: Yr1 S$545; Yr2 S$327",
     "source": "Senoko Energy",
     "available": true,
     "promo": null,
     "notes": [
-      "Time-of-use — estimate depends on how much you use in off-peak hours."
+      "Time-of-use plan: the estimate depends on how much you use in off-peak hours."
     ]
   },
   {
@@ -321,15 +324,15 @@ export const PLANS = [
     "dailyCharge": 0.0,
     "tou": null,
     "tiers": null,
-    "deposit": "Waived for SG Citizens/PRs; required for FIN/pass holders; amount not published",
-    "etf": "Formula-based: (days remaining in contract) x (avg. daily charge over past 12 months) - no fixed $ figure",
+    "deposit": "Waived for Singapore Citizens and PRs; required for pass holders (amount set by retailer)",
+    "etf": "Days left in contract × your average daily charge over the past 12 months",
     "source": "Keppel Electric",
     "available": true,
     "promo": {
       "title": "Bill + card rebate",
       "code": null,
       "conditions": null,
-      "value": "$125 + $20 card = up to $145",
+      "value": "S$125 + S$20 card = up to S$145",
       "expires": null
     },
     "notes": []
@@ -347,15 +350,15 @@ export const PLANS = [
     "dailyCharge": 0.0,
     "tou": null,
     "tiers": null,
-    "deposit": "Waived for SG Citizens/PRs; required for FIN/pass holders; amount not published",
-    "etf": "Formula-based: (days remaining in contract) x (avg. daily charge over past 12 months) - no fixed $ figure",
+    "deposit": "Waived for Singapore Citizens and PRs; required for pass holders (amount set by retailer)",
+    "etf": "Days left in contract × your average daily charge over the past 12 months",
     "source": "Keppel Electric",
     "available": true,
     "promo": {
       "title": "Card + referral rebate",
       "code": null,
       "conditions": "Referral-only plan; requires a referral code",
-      "value": "$20 card + $25 referral = up to $45",
+      "value": "S$20 card + S$25 referral = up to S$45",
       "expires": null
     },
     "notes": [
@@ -376,15 +379,15 @@ export const PLANS = [
     "dailyCharge": 0.0,
     "tou": null,
     "tiers": null,
-    "deposit": "Waived for SG Citizens/PRs; required for FIN/pass holders; amount not published",
-    "etf": "Formula-based: (days remaining in contract) x (avg. daily charge over past 12 months) - no fixed $ figure",
+    "deposit": "Waived for Singapore Citizens and PRs; required for pass holders (amount set by retailer)",
+    "etf": "Days left in contract × your average daily charge over the past 12 months",
     "source": "Keppel Electric",
     "available": true,
     "promo": {
       "title": "Bill + card rebate",
       "code": null,
       "conditions": null,
-      "value": "$100 + $20 card = up to $120",
+      "value": "S$100 + S$20 card = up to S$120",
       "expires": null
     },
     "notes": []
@@ -402,15 +405,15 @@ export const PLANS = [
     "dailyCharge": 0.0,
     "tou": null,
     "tiers": null,
-    "deposit": "Waived for SG Citizens/PRs; required for FIN/pass holders; amount not published",
-    "etf": "Formula-based: (days remaining in contract) x (avg. daily charge over past 12 months) - no fixed $ figure",
+    "deposit": "Waived for Singapore Citizens and PRs; required for pass holders (amount set by retailer)",
+    "etf": "Days left in contract × your average daily charge over the past 12 months",
     "source": "Keppel Electric",
     "available": true,
     "promo": {
       "title": "Bill rebate",
       "code": null,
       "conditions": null,
-      "value": "Up to $10",
+      "value": "Up to S$10",
       "expires": null
     },
     "notes": []
@@ -431,13 +434,13 @@ export const PLANS = [
     "dailyCharge": 0.0,
     "tou": null,
     "tiers": null,
-    "deposit": "Waived for SG Citizens/PRs; required for FIN/pass holders; amount not published",
-    "etf": "$0",
+    "deposit": "Waived for Singapore Citizens and PRs; required for pass holders (amount set by retailer)",
+    "etf": "None (no lock-in)",
     "source": "Keppel Electric",
     "available": true,
     "promo": null,
     "notes": [
-      "Discount off SP tariff — price moves when the tariff is revised quarterly."
+      "Discount off SP Group’s tariff, so the price moves when SP Group revises its tariff each quarter."
     ]
   },
   {
@@ -463,13 +466,13 @@ export const PLANS = [
       }
     },
     "tiers": null,
-    "deposit": "Waived for SG Citizens/PRs; required for FIN/pass holders; amount not published",
-    "etf": "Formula-based: (days remaining in contract) x (avg. daily charge over past 12 months) - no fixed $ figure",
+    "deposit": "Waived for Singapore Citizens and PRs; required for pass holders (amount set by retailer)",
+    "etf": "Days left in contract × your average daily charge over the past 12 months",
     "source": "Keppel Electric",
     "available": true,
     "promo": null,
     "notes": [
-      "Time-of-use — estimate depends on how much you use in off-peak hours."
+      "Time-of-use plan: the estimate depends on how much you use in off-peak hours."
     ]
   },
   {
@@ -485,8 +488,8 @@ export const PLANS = [
     "dailyCharge": 0.0,
     "tou": null,
     "tiers": null,
-    "deposit": "Waived for SG Citizens/PRs; required for FIN/pass holders; amount not published",
-    "etf": "Formula-based: (days remaining in contract) x (avg. daily charge over past 12 months) - no fixed $ figure",
+    "deposit": "Waived for Singapore Citizens and PRs; required for pass holders (amount set by retailer)",
+    "etf": "Days left in contract × your average daily charge over the past 12 months",
     "source": "Keppel Electric",
     "available": true,
     "promo": null,
@@ -506,14 +509,14 @@ export const PLANS = [
     "tou": null,
     "tiers": null,
     "deposit": "No separate deposit; existing SP Group deposit carries over",
-    "etf": "$200 flat (all Tuas Power residential plans)",
+    "etf": "S$200 flat (all Tuas Power residential plans)",
     "source": "Tuas Power",
     "available": true,
     "promo": {
       "title": "Bill rebate",
       "code": "ONLINE",
-      "conditions": "Rebate reduced from $120 to $100 in Sept 2026",
-      "value": "$100",
+      "conditions": "Use code ONLINE when you sign up online",
+      "value": "S$100",
       "expires": null
     },
     "notes": []
@@ -532,7 +535,7 @@ export const PLANS = [
     "tou": null,
     "tiers": null,
     "deposit": "No separate deposit; existing SP Group deposit carries over",
-    "etf": "$200 flat (all Tuas Power residential plans)",
+    "etf": "S$200 flat (all Tuas Power residential plans)",
     "source": "Tuas Power",
     "available": true,
     "promo": {
@@ -558,14 +561,14 @@ export const PLANS = [
     "tou": null,
     "tiers": null,
     "deposit": "No separate deposit; existing SP Group deposit carries over",
-    "etf": "$200 flat (all Tuas Power residential plans)",
+    "etf": "S$200 flat (all Tuas Power residential plans)",
     "source": "Tuas Power",
     "available": true,
     "promo": {
       "title": "Bill rebate",
       "code": null,
-      "conditions": "Rebate reduced from $200 to $160 in Sept 2026",
-      "value": "$160",
+      "conditions": null,
+      "value": "S$160",
       "expires": null
     },
     "notes": []
@@ -584,14 +587,14 @@ export const PLANS = [
     "tou": null,
     "tiers": null,
     "deposit": "No separate deposit; existing SP Group deposit carries over",
-    "etf": "$200 flat (all Tuas Power residential plans)",
+    "etf": "S$200 flat (all Tuas Power residential plans)",
     "source": "Tuas Power",
     "available": true,
     "promo": {
       "title": "Bill rebate",
       "code": "ONGREEN",
       "conditions": null,
-      "value": "$100",
+      "value": "S$100",
       "expires": null
     },
     "notes": []
@@ -613,12 +616,12 @@ export const PLANS = [
     "tou": null,
     "tiers": null,
     "deposit": "No separate deposit; existing SP Group deposit carries over",
-    "etf": "$200 flat (all Tuas Power residential plans)",
+    "etf": "S$200 flat (all Tuas Power residential plans)",
     "source": "Tuas Power",
     "available": true,
     "promo": null,
     "notes": [
-      "Discount off SP tariff — price moves when the tariff is revised quarterly."
+      "Discount off SP Group’s tariff, so the price moves when SP Group revises its tariff each quarter."
     ]
   },
   {
@@ -635,16 +638,10 @@ export const PLANS = [
     "tou": null,
     "tiers": null,
     "deposit": "Varies by residential dwelling type",
-    "etf": "HDB1-2rm $160; HDB3rm $220; HDB4rm $320; HDB5rm $380; HDB Exec/Jumbo/Multi-Gen $460; Condo/Apt/Shophouse $480; Terrace $720; Semi-D $1,000; Bungalow/Penthouse $2,000",
+    "etf": "HDB1-2rm S$160; HDB3rm S$220; HDB4rm S$320; HDB5rm S$380; HDB Exec/Jumbo/Multi-Gen S$460; Condo/Apt/Shophouse S$480; Terrace S$720; Semi-D S$1,000; Bungalow/Penthouse S$2,000",
     "source": "PacificLight",
     "available": true,
-    "promo": {
-      "title": "Bill rebate + referral bonus",
-      "code": "ATE24",
-      "conditions": "First 100 sign-ups; + $20 referral bonus",
-      "value": "$200 + $20 referral = up to $220",
-      "expires": "30 Sep 2026"
-    },
+    "promo": null,
     "notes": []
   },
   {
@@ -661,14 +658,14 @@ export const PLANS = [
     "tou": null,
     "tiers": null,
     "deposit": "Varies by residential dwelling type",
-    "etf": "HDB1-2rm $160; HDB3rm $220; HDB4rm $320; HDB5rm $380; HDB Exec/Jumbo/Multi-Gen $460; Condo/Apt/Shophouse $480; Terrace $720; Semi-D $1,000; Bungalow/Penthouse $2,000",
+    "etf": "HDB1-2rm S$160; HDB3rm S$220; HDB4rm S$320; HDB5rm S$380; HDB Exec/Jumbo/Multi-Gen S$460; Condo/Apt/Shophouse S$480; Terrace S$720; Semi-D S$1,000; Bungalow/Penthouse S$2,000",
     "source": "PacificLight",
     "available": true,
     "promo": {
       "title": "Bill rebate",
       "code": null,
       "conditions": null,
-      "value": "Up to $10",
+      "value": "Up to S$10",
       "expires": null
     },
     "notes": []
@@ -687,16 +684,10 @@ export const PLANS = [
     "tou": null,
     "tiers": null,
     "deposit": "Varies by residential dwelling type",
-    "etf": "HDB1-2rm $160; HDB3rm $220; HDB4rm $320; HDB5rm $380; HDB Exec/Jumbo/Multi-Gen $460; Condo/Apt/Shophouse $480; Terrace $720; Semi-D $1,000; Bungalow/Penthouse $2,000",
+    "etf": "HDB1-2rm S$160; HDB3rm S$220; HDB4rm S$320; HDB5rm S$380; HDB Exec/Jumbo/Multi-Gen S$460; Condo/Apt/Shophouse S$480; Terrace S$720; Semi-D S$1,000; Bungalow/Penthouse S$2,000",
     "source": "PacificLight",
     "available": true,
-    "promo": {
-      "title": "Bill rebate + referral bonus",
-      "code": "ATE36",
-      "conditions": "First 100 sign-ups; + $20 referral bonus",
-      "value": "$250 + $20 referral",
-      "expires": "30 Sep 2026"
-    },
+    "promo": null,
     "notes": []
   },
   {
@@ -713,14 +704,14 @@ export const PLANS = [
     "tou": null,
     "tiers": null,
     "deposit": "Varies by residential dwelling type",
-    "etf": "HDB1-2rm $160; HDB3rm $220; HDB4rm $320; HDB5rm $380; HDB Exec/Jumbo/Multi-Gen $460; Condo/Apt/Shophouse $480; Terrace $720; Semi-D $1,000; Bungalow/Penthouse $2,000",
+    "etf": "HDB1-2rm S$160; HDB3rm S$220; HDB4rm S$320; HDB5rm S$380; HDB Exec/Jumbo/Multi-Gen S$460; Condo/Apt/Shophouse S$480; Terrace S$720; Semi-D S$1,000; Bungalow/Penthouse S$2,000",
     "source": "PacificLight",
     "available": true,
     "promo": {
       "title": "Bill rebate",
       "code": null,
       "conditions": "REC-backed (renewable energy certificate) plan",
-      "value": "Up to $10",
+      "value": "Up to S$10",
       "expires": null
     },
     "notes": []
@@ -755,16 +746,10 @@ export const PLANS = [
       }
     ],
     "deposit": "Varies by residential dwelling type",
-    "etf": "HDB1-2rm $160; HDB3rm $220; HDB4rm $320; HDB5rm $380; HDB Exec/Jumbo/Multi-Gen $460; Condo/Apt/Shophouse $480; Terrace $720; Semi-D $1,000; Bungalow/Penthouse $2,000",
+    "etf": "HDB1-2rm S$160; HDB3rm S$220; HDB4rm S$320; HDB5rm S$380; HDB Exec/Jumbo/Multi-Gen S$460; Condo/Apt/Shophouse S$480; Terrace S$720; Semi-D S$1,000; Bungalow/Penthouse S$2,000",
     "source": "PacificLight",
     "available": true,
-    "promo": {
-      "title": "Bill rebate",
-      "code": "ATE24",
-      "conditions": "First 100 sign-ups",
-      "value": "$200",
-      "expires": "30 Sep 2026"
-    },
+    "promo": null,
     "notes": []
   },
   {
@@ -781,7 +766,7 @@ export const PLANS = [
     "tou": null,
     "tiers": null,
     "deposit": "Varies by residential dwelling type",
-    "etf": "$0 - no early termination charge (no lock-in contract)",
+    "etf": "None (no lock-in)",
     "source": "PacificLight",
     "available": true,
     "promo": null,
@@ -804,12 +789,12 @@ export const PLANS = [
     "tou": null,
     "tiers": null,
     "deposit": "Varies by residential dwelling type",
-    "etf": "$0 - no early termination charge (no lock-in contract)",
+    "etf": "None (no lock-in)",
     "source": "PacificLight",
     "available": true,
     "promo": null,
     "notes": [
-      "Discount off SP tariff — price moves when the tariff is revised quarterly."
+      "Discount off SP Group’s tariff, so the price moves when SP Group revises its tariff each quarter."
     ]
   },
   {
@@ -835,12 +820,12 @@ export const PLANS = [
     },
     "tiers": null,
     "deposit": "Varies by residential dwelling type",
-    "etf": "HDB1-2rm $160; HDB3rm $220; HDB4rm $320; HDB5rm $380; HDB Exec/Jumbo/Multi-Gen $460; Condo/Apt/Shophouse $480; Terrace $720; Semi-D $1,000; Bungalow/Penthouse $2,000",
+    "etf": "HDB1-2rm S$160; HDB3rm S$220; HDB4rm S$320; HDB5rm S$380; HDB Exec/Jumbo/Multi-Gen S$460; Condo/Apt/Shophouse S$480; Terrace S$720; Semi-D S$1,000; Bungalow/Penthouse S$2,000",
     "source": "PacificLight",
     "available": true,
     "promo": null,
     "notes": [
-      "Time-of-use — estimate depends on how much you use in off-peak hours."
+      "Time-of-use plan: the estimate depends on how much you use in off-peak hours."
     ]
   },
   {
@@ -866,12 +851,12 @@ export const PLANS = [
     },
     "tiers": null,
     "deposit": "Varies by residential dwelling type",
-    "etf": "$0 - no early termination charge (no lock-in contract)",
+    "etf": "None (no lock-in)",
     "source": "PacificLight",
     "available": true,
     "promo": null,
     "notes": [
-      "Time-of-use — estimate depends on how much you use in off-peak hours."
+      "Time-of-use plan: the estimate depends on how much you use in off-peak hours."
     ]
   },
   {
@@ -891,18 +876,18 @@ export const PLANS = [
     "tou": null,
     "tiers": null,
     "deposit": "Varies by residential dwelling type",
-    "etf": "HDB1-2rm $160; HDB3rm $220; HDB4rm $320; HDB5rm $380; HDB Exec/Jumbo/Multi-Gen $460; Condo/Apt/Shophouse $480; Terrace $720; Semi-D $1,000; Bungalow/Penthouse $2,000",
+    "etf": "HDB1-2rm S$160; HDB3rm S$220; HDB4rm S$320; HDB5rm S$380; HDB Exec/Jumbo/Multi-Gen S$460; Condo/Apt/Shophouse S$480; Terrace S$720; Semi-D S$1,000; Bungalow/Penthouse S$2,000",
     "source": "PacificLight",
     "available": true,
     "promo": {
       "title": "Bill rebate",
       "code": "ATE60",
       "conditions": "First 100 sign-ups; spread across 15th & 24th month bills",
-      "value": "$380",
+      "value": "S$380",
       "expires": null
     },
     "notes": [
-      "Discount off SP tariff — price moves when the tariff is revised quarterly."
+      "Discount off SP Group’s tariff, so the price moves when SP Group revises its tariff each quarter."
     ]
   },
   {
@@ -918,8 +903,8 @@ export const PLANS = [
     "dailyCharge": 0.0,
     "tou": null,
     "tiers": null,
-    "deposit": "$50–$200 depending on dwelling type",
-    "etf": "Formula-based: charged per unexpired month, amount varies by dwelling type - could not confirm current $/month rate",
+    "deposit": "S$50–S$200 depending on dwelling type",
+    "etf": "Charged per remaining month; amount depends on home type (see retailer terms)",
     "source": "Sembcorp Power",
     "available": true,
     "promo": null,
@@ -938,8 +923,8 @@ export const PLANS = [
     "dailyCharge": 0.0,
     "tou": null,
     "tiers": null,
-    "deposit": "$50–$200 depending on dwelling type",
-    "etf": "Formula-based: charged per unexpired month, amount varies by dwelling type - could not confirm current $/month rate",
+    "deposit": "S$50–S$200 depending on dwelling type",
+    "etf": "Charged per remaining month; amount depends on home type (see retailer terms)",
     "source": "Sembcorp Power",
     "available": true,
     "promo": null,
@@ -953,7 +938,7 @@ export const PLANS = [
     "pricingType": "regulated",
     "pricingLabel": "Regulated",
     "contractMonths": 0,
-    "rate": 34.78,
+    "rate": 31.16,
     "discount": null,
     "dailyCharge": 0.0,
     "tou": null,

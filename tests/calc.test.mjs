@@ -6,7 +6,9 @@ import { getPlan, monthlyCost, compare, smeEstimate, smeTierFor, TARIFF, energyC
 const close = (a, b, eps = 0.01) => assert.ok(Math.abs(a - b) <= eps, `${a} ≉ ${b}`);
 
 test('regulated tariff read from sheet', () => {
-  assert.equal(TARIFF, 34.78);
+  // Value changes every quarter; check it is wired from the sheet and plausible.
+  assert.equal(TARIFF, getPlan('sp-group-regulated-tariff').rate);
+  assert.ok(TARIFF > 15 && TARIFF < 60, `tariff ${TARIFF}¢/kWh looks wrong`);
 });
 
 test('fixed plan: kWh × rate', () => {
@@ -20,8 +22,8 @@ test('fixed + daily charge', () => {
 });
 
 test('discount off tariff: percent and cents', () => {
-  close(energyCents(getPlan('keppel-electric-suresave-dot'), 100) / 100, 34.78 * 0.88); // 12%
-  close(energyCents(getPlan('pacificlight-classic-60'), 100) / 100, 34.78 - 8); // 8¢ off
+  close(energyCents(getPlan('keppel-electric-suresave-dot'), 100) / 100, TARIFF * 0.88); // 12%
+  close(energyCents(getPlan('pacificlight-classic-60'), 100) / 100, TARIFF - 8); // 8¢ off
 });
 
 test('time of use uses off-peak share', () => {
@@ -71,4 +73,54 @@ test('SME tiers and aggregation', () => {
   assert.equal(est.totalKwh, 6200);
   assert.equal(est.tier.label, 'Bronze');
   assert.ok(est.savingYearly > 0);
+});
+
+test('getPlan ignores plans that are not on sale', () => {
+  assert.equal(getPlan('flo-energy-residential-not-yet-launched'), null);
+  assert.equal(getPlan('toString'), null);
+});
+
+test('compare: odd contract keys fall back safely', () => {
+  for (const contract of ['toString', '__proto__', 'constructor', 'nope']) {
+    const r = compare({ kwh: 400, contract });
+    assert.ok(r.results.length > 0);
+  }
+});
+
+test('compare: no matching plans is reported, not "already best"', () => {
+  const r = compare({ kwh: 400, contract: 'none', greenOnly: true });
+  if (r.results.length === 0) {
+    assert.equal(r.noMatches, true);
+    assert.equal(r.alreadyBest, false);
+  }
+});
+
+test('compare: ties are broken deterministically, not by sheet order', () => {
+  const r = compare({ kwh: 450, contract: 'any' });
+  for (let i = 1; i < r.results.length; i++) {
+    const a = r.results[i - 1], b = r.results[i];
+    assert.ok(a.total <= b.total);
+  }
+  assert.ok(Number.isInteger(r.tiedWith));
+});
+
+test('activePromo hides promotions after their end date', async () => {
+  const { activePromo } = await import('../assets/js/calc.js');
+  const plan = { promo: { title: 'x', expires: '2026-09-30' } };
+  assert.ok(activePromo(plan, new Date('2026-09-30T12:00:00+08:00')));
+  assert.equal(activePromo(plan, new Date('2026-10-01T00:00:01+08:00')), null);
+  assert.ok(activePromo({ promo: { title: 'y', expires: null } }));
+});
+
+test('SME estimate ignores bad input and stays finite', () => {
+  const r = smeEstimate([{ kwh: 1e308 }, { kwh: 'abc' }, { kwh: -5 }, { kwh: 2000 }]);
+  assert.ok(Number.isFinite(r.totalKwh) && Number.isFinite(r.savingYearly));
+  assert.equal(r.siteCount, 2);
+});
+
+test('fmtMoney formats negatives and non-numbers', async () => {
+  const { fmtMoney } = await import('../assets/js/calc.js');
+  assert.equal(fmtMoney(-194), '−S$194');
+  assert.equal(fmtMoney(Infinity), 'S$—');
+  assert.equal(fmtMoney(1234.5, 2), 'S$1,234.50');
 });

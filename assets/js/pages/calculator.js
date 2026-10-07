@@ -1,4 +1,5 @@
-import { initLayout } from '../layout.js';
+import { initLayout, pauseBarAction, resumeBarAction } from '../layout.js';
+import { PLAN_COUNT, RETAILER_COUNT } from '../calc.js';
 import { mountResidential } from '../widgets/residential.js';
 import { mountSme } from '../widgets/sme.js';
 
@@ -17,7 +18,7 @@ results.innerHTML = `
   <div class="results-empty">
     <div class="ghost-bars" aria-hidden="true"><span style="width:90%"></span><span style="width:70%"></span><span style="width:78%"></span><span style="width:55%"></span></div>
     <p class="h4" style="color:var(--text)">Your results will appear here</p>
-    <p class="small">Set your usage and current plan, then tap Calculate Savings.</p>
+    <p class="small">Set your usage and current plan, then tap Calculate my savings.</p>
   </div>`;
 
 const panelRes = document.getElementById('panel-res');
@@ -31,8 +32,10 @@ function setMode(mode, push) {
   panelRes.hidden = sme;
   panelSme.hidden = !sme;
   lead.textContent = sme
-    ? 'Add each of your business sites. We combine the usage and go to market for one better, aggregated rate.'
-    : 'Compare your current plan against every residential plan in Singapore.';
+    ? 'Add each of your business sites. We combine the usage and ask retailers for one aggregated rate.'
+    : `Compare your current plan against ${PLAN_COUNT} residential plans from ${RETAILER_COUNT} Singapore retailers.`;
+  // The phone bar's "Switch & save" belongs to the household result, not the SME tab.
+  if (sme) pauseBarAction(); else resumeBarAction();
   if (sme && !smeMounted) { mountSme(panelSme); smeMounted = true; }
   const shown = sme ? panelSme : panelRes;
   shown.classList.remove('panel-in'); void shown.offsetWidth; shown.classList.add('panel-in');

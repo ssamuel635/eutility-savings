@@ -66,8 +66,8 @@ for line in ['Stop overpaying', 'for electricity.']:
 
 # sub line
 sans = font('inter-var-500.ttf', 29)
-d.text((72, y + 22), 'Compare every Singapore home plan', font=sans, fill=INK_SOFT)
-d.text((72, y + 60), 'in a minute. Switch on WhatsApp.', font=sans, fill=INK_SOFT)
+d.text((72, y + 22), 'Compare Singapore home electricity plans', font=sans, fill=INK_SOFT)
+d.text((72, y + 60), 'in about a minute. Switch on WhatsApp.', font=sans, fill=INK_SOFT)
 
 # brand rule
 d.rounded_rectangle((72, H - 72, 72 + 96, H - 66), radius=3, fill=ORANGE)

@@ -18,7 +18,7 @@ export const CONFIG = {
     parentLine: 'Independent energy experts since 1979',
     // Eutility is a broker/agent and consultant, not an electricity retailer.
     role: 'independent energy and utility management company',
-    scale: 'more than 2,000 businesses across 19,000+ locations',
+    scale: 'more than 2,000 businesses across more than 19,000 locations',
   },
 
   // ── Links to Eutility's main site (eutility.com.sg) and business tools ──
@@ -45,14 +45,16 @@ export const CONFIG = {
   whatsappNumber: '6597908347',
 
   // Pre-filled message for the WhatsApp handoff (from the creative brief §6).
-  whatsappDefaultMessage: 'Hi, I want to check my electricity savings',
+  whatsappDefaultMessage: "Hi Eutility, I'd like to check my electricity savings.",
 
   // TODO: confirm public contact details.
   email: 'customerservice@eutility.com.sg',
-  phone: '+65 97908347',
+  phone: '+65 9790 8347',
 
-  // Base URL used for referral links shown to users.
-  referralBase: 'eutility.sg/r/',
+  // Base for referral links shown to users. Empty = this site's own address
+  // (eutility-savings.vercel.app/r/CODE, redirected by vercel.json). Set a host
+  // such as 'eutility.sg' only once that domain is owned and pointed at the site.
+  referralHost: '',
 
   // Calculator defaults
   defaultKwh: 450,

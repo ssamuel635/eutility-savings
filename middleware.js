@@ -23,8 +23,7 @@ const PBKDF2_ITERATIONS = 60000;
 // Served without signing in: only what the gate page itself needs.
 const PUBLIC = [
   /^\/assets\/fonts\/inter-var\.woff2$/,
-  /^\/assets\/img\/(eutility-logo\.(png|webp)|favicon-64\.png|apple-touch-icon\.png)$/,
-  /^\/favicon\.ico$/,
+  /^\/assets\/img\/(eutility-logo\.png|favicon-64\.png|apple-touch-icon\.png)$/,
   /^\/robots\.txt$/,
   /^\/site\.webmanifest$/, // browsers fetch this without cookies
 ];
@@ -75,7 +74,8 @@ async function hmacKey() {
 }
 
 export async function makeSession(user, now = Date.now()) {
-  const payload = b64url(enc.encode(JSON.stringify({ u: user.name, r: user.role, exp: now + SESSION_DAYS * 864e5 })));
+  // h ties the session to the current password: change it in GATE_USERS and old sessions stop working.
+  const payload = b64url(enc.encode(JSON.stringify({ u: user.name, r: user.role, h: user.hash.slice(0, 16), exp: now + SESSION_DAYS * 864e5 })));
   const sig = b64url(await crypto.subtle.sign('HMAC', await hmacKey(), enc.encode(payload)));
   return `${payload}.${sig}`;
 }
@@ -92,16 +92,39 @@ export async function readSession(request, now = Date.now()) {
     if (!data.exp || data.exp < now) return null;
     // The account must still exist with the same role (removing it from GATE_USERS locks it out).
     const user = parseUsers().get(String(data.u).toLowerCase());
-    return user && user.role === data.r ? { name: user.name, role: user.role, exp: data.exp } : null;
+    return user && user.role === data.r && data.h === user.hash.slice(0, 16) ? { name: user.name, role: user.role, exp: data.exp } : null;
   } catch {
     return null;
   }
 }
 
-/** Only same-site paths are allowed as the post-login destination. */
-function safeNext(v) {
+/**
+ * Only same-site paths are allowed as the post-login destination. Control
+ * characters and backslashes are refused outright (browsers drop tabs/newlines
+ * from Location, which can turn "/\t/evil.com" into "//evil.com"), and the result
+ * is re-parsed to make sure it stays on this origin.
+ */
+export function safeNext(v) {
   const s = String(v || '/');
-  return s.startsWith('/') && !s.startsWith('//') && !s.startsWith('/\\') && !s.startsWith('/__gate') ? s : '/';
+  if (!s.startsWith('/') || /[\u0000-\u001F\u007F\\]/.test(s)) return '/';
+  try {
+    const base = 'https://gate.invalid';
+    const u = new URL(s, base);
+    if (u.origin !== base) return '/';
+    if (u.pathname.startsWith('/__gate') && u.pathname !== '/__gate/admin') return '/';
+    return u.pathname + u.search + u.hash;
+  } catch {
+    return '/';
+  }
+}
+
+/** Sign-in posts must come from this site's own form (blocks cross-site login posts). */
+function sameOriginPost(request, url) {
+  const site = request.headers.get('sec-fetch-site');
+  if (site && site !== 'same-origin' && site !== 'none') return false;
+  const origin = request.headers.get('origin');
+  if (origin && origin !== 'null' && origin !== url.origin) return false;
+  return true;
 }
 
 const continueRequest = () => new Response(null, { headers: { 'x-middleware-next': '1' } });
@@ -155,7 +178,7 @@ function page(title, inner, wide = false) {
 function gatePage(next, { error = '', notConfigured = false } = {}) {
   if (notConfigured) {
     return page('Private preview — Eutility', `<p class="tag">Private preview</p><h1>Not available yet</h1>
-      <p>Access to this preview hasn't been set up. If you're the site owner, add the <code>GATE_SECRET</code> and <code>GATE_USERS</code> environment variables in Vercel and redeploy.</p>`);
+      <p>Access to this preview hasn’t been set up yet. Please check back soon.</p>`);
   }
   return page('Private preview — Eutility', `<p class="tag">Private preview</p><h1>Sign in to continue</h1>
     <p>This site is still in development and only open to the Eutility team.</p>
@@ -166,7 +189,7 @@ function gatePage(next, { error = '', notConfigured = false } = {}) {
       <label for="p">Password</label><input id="p" name="password" type="password" autocomplete="current-password" required>
       <button type="submit">Continue</button>
     </form>
-    <p class="small">Trouble signing in? Ask Ebin for access.</p>`);
+    <p class="small">Trouble signing in? Ask your Eutility contact for access.</p>`);
 }
 
 function adminPage(session) {
@@ -196,6 +219,7 @@ export default async function middleware(request) {
 
   if (path === '/__gate/login') {
     if (request.method !== 'POST') return new Response(null, { status: 303, headers: { location: '/' } });
+    if (!sameOriginPost(request, url)) return new Response('Forbidden', { status: 403, headers: { 'content-type': 'text/plain', 'cache-control': 'no-store' } });
     let form;
     try { form = await request.formData(); } catch { form = new FormData(); }
     const next = safeNext(form.get('next'));

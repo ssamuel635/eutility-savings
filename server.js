@@ -32,7 +32,8 @@ try {
 
 http.createServer((req, res) => {
   const url = new URL(req.url, 'http://localhost');
-  let p = decodeURIComponent(url.pathname);
+  let p;
+  try { p = decodeURIComponent(url.pathname); } catch { res.writeHead(400); return res.end('Bad request'); }
 
   const ref = p.match(/^\/r\/([A-Za-z0-9]{4,12})\/?$/);
   if (ref) { res.writeHead(302, { Location: `/?ref=${ref[1].toUpperCase()}` }); return res.end(); }

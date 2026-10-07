@@ -29,3 +29,7 @@
 *.zip
 /Claude outputs/
 /assets/img/sgimg2.jpg
+
+# Not referenced by any page (kept in the folder as source art).
+/assets/img/hero-hdb.svg
+/assets/img/eutility-logo.webp

@@ -112,3 +112,39 @@ test('fails closed when not configured', async () => {
   assert.ok(!passes(res));
   process.env.GATE_SECRET = saved;
 });
+
+test('control characters and backslashes in next cannot redirect off-site', async () => {
+  for (const next of ['/\t/evil.com', '/\n/evil.com', '/\r\n/x', '/\\evil.com', '/%09/evil.com']) {
+    const res = await login('kenneth', 'viewer-pass-123', next);
+    const loc = res.headers.get('location');
+    assert.ok(loc.startsWith('/') && !loc.startsWith('//'), `${JSON.stringify(next)} -> ${loc}`);
+    assert.ok(!/[\u0000-\u001F]/.test(loc));
+  }
+});
+
+test('admin can be sent back to the admin page after signing in', async () => {
+  const res = await login('ebin', 'admin-pass-456', '/__gate/admin');
+  assert.equal(res.headers.get('location'), '/__gate/admin');
+  const res2 = await login('ebin', 'admin-pass-456', '/__gate/login');
+  assert.equal(res2.headers.get('location'), '/');
+});
+
+test('cross-site sign-in posts are refused', async () => {
+  const body = new URLSearchParams({ username: 'kenneth', password: 'viewer-pass-123', next: '/' });
+  const res = await middleware(new Request(B + '/__gate/login', {
+    method: 'POST', body,
+    headers: { 'content-type': 'application/x-www-form-urlencoded', origin: 'https://evil.example', 'sec-fetch-site': 'cross-site' },
+  }));
+  assert.equal(res.status, 403);
+  assert.equal(res.headers.get('set-cookie'), null);
+});
+
+test('changing a password ends existing sessions', async () => {
+  const viewer = cookieFrom(await login('kenneth', 'viewer-pass-123'));
+  const saved = process.env.GATE_USERS;
+  const newSalt = randomBytes(16).toString('hex');
+  process.env.GATE_USERS = saved.split(',').map((e) => (e.startsWith('kenneth:')
+    ? `kenneth:viewer:${newSalt}:${'0'.repeat(64)}` : e)).join(',');
+  assert.equal((await middleware(page('/', { headers: { cookie: viewer } }))).status, 401);
+  process.env.GATE_USERS = saved;
+});

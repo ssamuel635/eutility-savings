@@ -8,10 +8,10 @@ import * as I from '../icons.js';
 
 initLayout();
 
-const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const status = rewards.myStatus();
 const link = rewards.myLink();
-const display = link.replace(/^https:\/\//, '');
+const display = link.replace(/^https?:\/\//, '');
 
 // ── Leaderboard ──
 const board = rewards.leaderboard();
@@ -28,7 +28,7 @@ document.getElementById('leaderboard').innerHTML = `
         <span class="lb-row__score">${r.switches} <small>switches</small></span>
       </div>`).join('')}
   </div>
-  <p class="small" style="color:#bbdefb">Sample standings — live once the programme launches.</p>`;
+  <p class="small" style="color:#bbdefb">Sample standings. Live once the programme launches.</p>`;
 
 // ── Your status, progress and link ──
 const name = customer.firstName();
@@ -36,8 +36,8 @@ document.getElementById('my-status').innerHTML = `
   <div class="grid-2 grid-2--top">
     <div class="card card--shadow stack" style="--stack:18px">
       <div>
-        <h2 class="calc-card__title">${name ? `Hey ${esc(name)}` : 'Your progress'}</h2>
-        <p class="small">${esc(CONFIG.rewards.programmeName)} · ${status.sample ? 'sample figures for now' : ''}</p>
+        <h2 class="calc-card__title">${name ? `Hi ${esc(name)}` : 'Your progress'}</h2>
+        <p class="small">${[esc(CONFIG.rewards.programmeName), status.sample ? 'sample figures for now' : ''].filter(Boolean).join(' · ')}</p>
       </div>
       <div class="stats">
         <div class="stat"><span class="stat__num" data-stat="${status.shared}">0</span><span class="stat__label">Friends referred</span></div>
@@ -48,17 +48,17 @@ document.getElementById('my-status').innerHTML = `
         <div style="display:flex;justify-content:space-between;font-size:14px"><span><strong>${status.switched}</strong> of ${status.target} switches</span><span class="small">Next reward</span></div>
         <div class="progress__track"><div class="progress__fill" id="prog"></div></div>
       </div>
-      ${customer.isSignedIn() ? '' : '<p class="small">Create an account to track this properly. <a href="signup.html">Sign up</a></p>'}
+      ${customer.isSignedIn() ? '' : '<p class="small"><a href="signup.html">Create an account</a> to track your progress.</p>'}
     </div>
 
     <div class="card card--shadow stack" style="--stack:16px">
       <h2 class="calc-card__title">Your link</h2>
       <div class="ref-link"><span id="ref-link-text">${esc(display)}</span></div>
       <div class="stack" style="--stack:12px">
-        <button class="btn btn--block" type="button" id="ref-copy">Copy Link</button>
+        <button class="btn btn--block" type="button" id="ref-copy">Copy link</button>
         <button class="btn btn--neutral btn--block" type="button" id="ref-share">Share on WhatsApp</button>
       </div>
-      <p class="small">Your friend lands on the savings calculator with your code already applied.</p>
+      <p class="small">Your friend lands on our home page, and your code is added when they message us.</p>
     </div>
   </div>`;
 
@@ -74,11 +74,11 @@ copyBtn.addEventListener('click', async () => {
   }
   copyBtn.textContent = 'Copied ✓';
   toast('Link copied');
-  setTimeout(() => { copyBtn.textContent = 'Copy Link'; }, 2000);
+  setTimeout(() => { copyBtn.textContent = 'Copy link'; }, 2000);
 });
 
 document.getElementById('ref-share').addEventListener('click', () => {
-  const text = `I switched my electricity plan with Eutility and it took a minute. Check what you'd save: ${link}`;
+  const text = `I checked my electricity plan with Eutility. See what you could save: ${link}`;
   window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
 });
 

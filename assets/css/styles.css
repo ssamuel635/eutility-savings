@@ -1263,3 +1263,122 @@ a, button, label, summary, select, input, .preset, .chip label { -webkit-tap-hig
 .site-footer .site-footer__legal-links { display: flex; flex-wrap: wrap; gap: 8px 24px; }
 .site-footer .site-footer__links { gap: 12px; font-size: 15px; margin-top: 8px; }
 .site-footer__legal { gap: 14px; }
+
+/* ══ v10 refinement pass ═══════════════════════════════════════ */
+
+/* Small utilities */
+.nowrap { white-space: nowrap; }
+.muted-note { color: var(--muted); }
+h1, h2, h3, .display, .h1, .h2, .h3, .h4 { text-wrap: balance; }
+
+/* While a drawer, modal or sheet is open, the page behind stays put. */
+html.is-locked, html.is-locked body { overflow: hidden; }
+
+/* Narrow desktops (1024–1279px): a 120px gutter left the hero copy ~170px wide
+   and pushed the SME rows out of their card. Match the header's 48px instead. */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  :root { --gutter: 48px; }
+  .grid-2 { gap: var(--s12); }
+  .grid-2--card { grid-template-columns: minmax(0, 1fr) minmax(360px, 460px); }
+}
+
+/* SME site rows: lay out by the form's own width, not the screen's. */
+.grid-sme .calc-card { container-type: inline-size; }
+@media (min-width: 768px) {
+  .site-row { grid-template-columns: minmax(0, 1fr); align-items: stretch; }
+  .site-row__head { display: flex; }
+}
+@container (min-width: 560px) {
+  .site-row { grid-template-columns: 72px minmax(0, 1fr) 160px auto; align-items: end; }
+  .site-row__head { display: contents; }
+}
+.site-row__remove { min-height: 44px; }
+
+/* Signed-in header on phones: the account chip plus the CTA pushed the menu
+   button off-screen around 380–430px. The drawer has the CTA anyway. */
+@media (max-width: 430px) {
+  .header-actions:has(.account-chip) .header-cta { display: none; }
+}
+.header-actions { min-width: 0; }
+
+/* Keyboard focus never lands underneath the fixed WhatsApp bar on phones. */
+html { scroll-padding-bottom: calc(var(--wa-bar-h) + 16px); scroll-padding-top: calc(var(--header-h) + 8px); }
+
+/* Mobile: the space kept for the bar now sits inside the navy footer instead
+   of showing as a white band below it. */
+@media (max-width: 1023px) {
+  body { padding-bottom: 0; }
+  .site-footer { padding-bottom: calc(var(--s10) + var(--wa-bar-h) + env(safe-area-inset-bottom)); }
+}
+
+/* Results chart: let long plan names wrap on phones instead of being cut off. */
+@media (max-width: 640px) {
+  .bar__label { white-space: normal; overflow: visible; text-overflow: clip; line-height: 1.35; }
+  .bar__label small { display: block; }
+  .plan-table .col-price { display: none; }
+}
+
+/* Cards in a row line up: content from the top, links pinned to the bottom. */
+.step, .reward { align-content: start; }
+.reward { display: flex; flex-direction: column; }
+.reward > .link-arrow { margin-top: auto; padding-top: var(--s2); }
+
+/* How it works, step 3: the big figure needs the full width of its panel. */
+#step3 .reveal-num { width: 100%; }
+
+/* Retailer strip: the duplicate set only exists for the scrolling loop. */
+.marquee__dup { display: contents; }
+@media (prefers-reduced-motion: reduce) {
+  .marquee__dup { display: none; }
+  .marquee { -webkit-mask-image: none; mask-image: none; }
+  .marquee__track { padding-right: 0; }
+}
+
+/* Plans filter strip on phones: only fade the right edge, so the selected
+   first chip isn't washed out. */
+@media (max-width: 767px) {
+  .plan-toolbar .chips, .plan-toolbar [role="radiogroup"] {
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+            mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+  }
+}
+
+/* Sign-up: an error under one field no longer pushes its neighbour down. */
+.field-row { align-items: start; }
+
+/* Drawer: fits a 740px-tall phone without scrolling. */
+.drawer__panel nav a { padding: 11px 4px; font-size: 18px; }
+.drawer__actions { display: grid; gap: var(--s2); margin-top: auto; padding-top: var(--s4); }
+.drawer__actions .btn { margin-top: 0; }
+
+/* Tap targets of at least 44px. */
+.chip label { min-height: 44px; }
+details.advanced summary { min-height: 44px; }
+.legal-toc a { min-height: 44px; }
+.tip { position: relative; }
+.tip::after { content: ''; position: absolute; inset: -13px; }
+.link-arrow { min-height: 44px; }
+
+/* FAQ: a proper two-column layout on desktop with a narrower side card. */
+@media (min-width: 1024px) {
+  .faq-layout { grid-template-columns: minmax(0, 1fr) 320px; gap: var(--s16); align-items: start; }
+}
+
+/* The switch button is the one action that matters on a result: make it orange
+   like the phone bar's switch state, with navy text for contrast. */
+.btn--urgent { --btn-bg: var(--orange); --btn-fg: var(--ink); }
+.btn--urgent:hover { --btn-bg: var(--orange-display); }
+
+/* Fieldsets line up with the other fields. */
+fieldset { margin: 0; min-width: 0; }
+legend { padding: 0; }
+
+/* Small layout details */
+.plan-card__bill span { white-space: nowrap; }
+.free-months { line-height: 1.35; }
+
+/* Follow-ups from the re-check */
+@media (max-height: 760px) { .drawer__panel nav a { padding: 9px 4px; font-size: 17px; } .drawer__top { margin-bottom: var(--s2); } }
+@media (min-width: 1024px) { .faq-search { max-width: 640px; } }
+.header-actions { gap: var(--s3); }
+@media (min-width: 1024px) { .hero .grid-2--card .display { font-size: clamp(44px, 5vw, 68px); } }

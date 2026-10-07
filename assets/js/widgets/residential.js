@@ -2,10 +2,10 @@
 //   mode 'compact' — homepage card: inputs → thinking → count-up reveal → link to full comparison
 //   mode 'full'    — calculator page: filters, reveal, plan-vs, animated bar chart, full plan table
 import { CONFIG } from '../config.js';
-import { META } from '../data/plans.js';
 import {
   AVAILABLE_PLANS, compare, getPlan, DEFAULT_CURRENT_ID, CONTRACT_FILTERS,
-  fmtMoney, contractLabel, rateLabel, monthlyCost,
+  fmtMoney, contractLabel, rateLabel, monthlyCost, activePromo, fmtDate,
+  PLAN_COUNT, RETAILER_COUNT, RATES_DATE, TARIFF, TARIFF_PERIOD,
 } from '../calc.js';
 import { countUp, confetti, ding, wait, soundEnabled, setSound, reducedMotion } from '../fx.js';
 import { openWhatsApp, openEmail, toast, setBarAction } from '../layout.js';
@@ -16,7 +16,8 @@ const RETAILERS = [...new Set(AVAILABLE_PLANS.map((p) => p.retailer))];
 // SP Group first — it's the default for households who have never switched.
 RETAILERS.sort((a, b) => (a === 'SP Group' ? -1 : b === 'SP Group' ? 1 : a.localeCompare(b)));
 const plansOf = (r) => AVAILABLE_PLANS.filter((p) => p.retailer === r);
-const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const ratesNote = `Estimate using retailers’ published rates as at <span class="nowrap">${RATES_DATE}</span>. Promotions not included.`;
 
 /** Pick the most likely plan when a user knows their retailer but not their plan. */
 function defaultPlanFor(retailer) {
@@ -32,7 +33,7 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
   const start = {
     kwh: clampKwh(Number(initial.kwh) || CONFIG.defaultKwh),
     currentId: getPlan(initial.plan)?.id || DEFAULT_CURRENT_ID,
-    contract: CONTRACT_FILTERS[initial.contract] ? initial.contract : '24',
+    contract: Object.hasOwn(CONTRACT_FILTERS, initial.contract || '') ? initial.contract : '24',
   };
   const startRetailer = getPlan(start.currentId).retailer;
 
@@ -45,7 +46,7 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
       <div class="presets" role="group" aria-label="Not sure? Pick your home type">
         ${CONFIG.homePresets.map((p) => `<button type="button" class="preset" data-kwh="${p.kwh}" aria-pressed="false">${p.label}</button>`).join('')}
       </div>
-      <div class="range-value"><output id="${id}-out" for="${id}-kwh">${start.kwh}</output><span>kWh / month</span></div>
+      <div class="range-value"><output id="${id}-out" for="${id}-kwh">${start.kwh}</output><span>kWh/month</span></div>
       <input class="range" type="range" id="${id}-kwh" min="${CONFIG.minKwh}" max="${CONFIG.maxKwh}" step="10" value="${start.kwh}"
         aria-describedby="${id}-kwh-help">
       <div class="range-scale" aria-hidden="true"><span>${CONFIG.minKwh}</span><span>${CONFIG.maxKwh.toLocaleString('en-SG')}</span></div>
@@ -71,7 +72,7 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
 
     ${full ? `
     <fieldset class="field" style="border:0;padding:0;margin-top:20px">
-      <legend class="field__label" style="margin-bottom:8px">Contract length you'd accept</legend>
+      <legend class="field__label" style="margin-bottom:8px">Contract length you’d accept</legend>
       <div class="chips">
         ${Object.entries(CONTRACT_FILTERS).map(([k, f]) => `
           <span class="chip"><input type="radio" name="${id}-contract" id="${id}-c-${k}" value="${k}"${k === start.contract ? ' checked' : ''}><label for="${id}-c-${k}">${f.label}</label></span>`).join('')}
@@ -90,9 +91,9 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
       </div>
     </details>` : ''}
 
-    <p class="live-bill" aria-live="polite"><span class="pulse-dot" aria-hidden="true"></span><span>Your bill today is about <strong data-live-bill>—</strong> a month</span></p>
-    <button class="btn btn--block" type="submit">Calculate Savings <span class="arrow" aria-hidden="true">→</span></button>
-    <p class="small text-center">No sign-up needed · Rates from ${META.planCount} plans, updated ${META.generated}</p>
+    <p class="live-bill" aria-live="polite"><span class="pulse-dot" aria-hidden="true"></span><span>Your electricity costs about <strong data-live-bill>—</strong> a month today</span></p>
+    <button class="btn btn--block" type="submit">Calculate my savings <span class="arrow" aria-hidden="true">→</span></button>
+    <p class="small text-center">No account needed · ${PLAN_COUNT} plans from ${RETAILER_COUNT} retailers · rates as at <span class="nowrap">${RATES_DATE}</span></p>
     ${full ? '' : `<div class="res-compact-out" aria-live="polite"></div>`}
   </form>
   ${full ? `<div class="res-results" id="${id}-results" aria-live="polite" tabindex="-1"></div>` : ''}`;
@@ -124,7 +125,12 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
     kwh = v;
     out.textContent = Number(v).toLocaleString('en-SG');
     if (from !== 'range') { range.value = Math.min(CONFIG.maxKwh, v); }
-    if (exact && from !== 'exact') exact.value = v;
+    if (exact && from !== 'exact') {
+      exact.value = v;
+      // A preset or the slider replaces a bad typed value, so clear its error too.
+      exact.setAttribute('aria-invalid', 'false');
+      if (exactErr) { exactErr.hidden = true; exactErr.textContent = ''; }
+    }
     paintRange(range);
     if (from !== 'preset') presets.forEach((b) => b.setAttribute('aria-pressed', 'false'));
     updateLive();
@@ -146,11 +152,11 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
   range.addEventListener('input', () => setKwh(Number(range.value), 'range'));
   exact?.addEventListener('input', () => {
     const v = Number(exact.value);
-    const ok = v >= CONFIG.minKwh && v <= 5000;
+    const ok = exact.value.trim() !== '' && Number.isFinite(v) && v >= CONFIG.minKwh && v <= 5000;
     exact.setAttribute('aria-invalid', String(!ok));
     exactErr.hidden = ok;
     exactErr.textContent = ok ? '' : `Enter a usage between ${CONFIG.minKwh} and 5,000 kWh.`;
-    if (ok) setKwh(v, 'exact');
+    if (ok) setKwh(Math.round(v), 'exact');
   });
   setKwh(kwh);
 
@@ -196,7 +202,7 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
     btn.textContent = 'Calculating…';
     const inputs = readInputs();
     const res = compare(inputs);
-    await thinking(resultsEl, full, res.results.length);
+    await thinking(resultsEl, full, res.results);
     if (full) {
       renderFull(resultsEl, res, inputs);
       const u = new URL(location.href);
@@ -209,18 +215,34 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
     }
     btn.disabled = false;
     btn.innerHTML = 'Recalculate <span class="arrow" aria-hidden="true">→</span>';
+    // Once there's a result, the switch button is the main action, not this one.
+    btn.classList.add('btn--secondary');
     running = false;
   });
 
-  return { run: () => form.requestSubmit() };
+  // requestSubmit() is missing on older Safari; dispatching submit runs the same handler.
+  const submit = () => (form.requestSubmit ? form.requestSubmit() : form.dispatchEvent(new Event('submit', { cancelable: true })));
+  const api = {
+    run: submit,
+    /** Widen the filters (any contract, all plans) and run again — used by the "no matches" state. */
+    widen: () => {
+      const any = form.querySelector(`input[name="${id}-contract"][value="any"]`);
+      if (any) any.checked = true;
+      const green = $(`#${id}-green`);
+      if (green) green.checked = false;
+      submit();
+    },
+  };
+  root.addEventListener('calc:widen', api.widen);
+  return api;
 }
 
 function clampKwh(v) { return Math.max(CONFIG.minKwh, Math.min(5000, Math.round(v))); }
 
 // ── "AI thinking" moment (brief page 2: pulsing dots / scanning line) ──
-async function thinking(el, full, planCount) {
-  const retailers = new Set(AVAILABLE_PLANS.map((p) => p.retailer)).size;
-  const steps = ['Reading your usage', `Comparing ${planCount} plans from ${retailers} retailers`, 'Calculating your savings'];
+async function thinking(el, full, results) {
+  const retailers = new Set(results.map((r) => r.plan.retailer)).size;
+  const steps = ['Reading your usage', `Comparing ${results.length} plan${results.length === 1 ? '' : 's'} from ${retailers} retailer${retailers === 1 ? '' : 's'}`, 'Working out your savings'];
   el.innerHTML = `
     <div class="${full ? 'card card--shadow ' : ''}thinking" role="status">
       <div class="thinking__scan" aria-hidden="true"></div>
@@ -255,13 +277,13 @@ function planWaMessage(res, inputs) {
   const b = res.best.plan;
   const c = res.current.plan;
   return `Hi Eutility, I'd like to switch from ${c.retailer} ${c.name} to ${b.retailer} ${b.name}.`
-    + ` I use about ${inputs.kwh} kWh a month, and your calculator says I'd save around ${fmtMoney(res.best.savingYearly)}/year`
-    + ` (${fmtMoney(res.best.savingMonthly)}/month). Can you take it from here?`;
+    + ` I use about ${inputs.kwh} kWh a month, and your calculator says I could save around ${fmtMoney(res.best.savingYearly)}/year`
+    + ` (${fmtMoney(res.best.savingMonthly)}/month). Can you help me switch?`;
 }
 
 /** On phones the bottom bar becomes this result's switch button (layout.js). */
 function barFor(res, inputs, el) {
-  if (!res.best || res.alreadyBest) { setBarAction(null); return; }
+  if (!res.best || res.alreadyBest || res.noMatches) { setBarAction(null); return; }
   setBarAction({
     label: `Switch & save ${fmtMoney(res.best.savingYearly)}/yr`,
     sub: `${res.best.plan.retailer} ${res.best.plan.name}`,
@@ -281,14 +303,26 @@ async function celebrate(numEl, yearly) {
   if (yearly > CONFIG.confettiThreshold) confetti();
 }
 
+/** Shown when nothing beats the current plan: still give the visitor somewhere to go. */
+function goodNewsActions(inputs, current, params) {
+  const msg = `Hi Eutility, your calculator says I'm already on one of the cheapest plans (${current.retailer} ${current.name}, about ${inputs.kwh} kWh a month). Are there any promotions I should know about?`;
+  return `
+    <div class="btn-row">
+      <a class="btn" href="#" data-wa data-wa-message="${esc(msg)}">${I.chat}<span>Ask about promotions</span></a>
+      ${params ? `<a class="btn btn--secondary" href="calculator.html?${params}">See the full comparison</a>`
+               : `<a class="btn btn--secondary" href="plans.html?kwh=${inputs.kwh}">Browse all plans</a>`}
+    </div>`;
+}
+
 // ── Compact result (homepage) ──
 async function renderCompact(el, res, inputs) {
   const params = new URLSearchParams({ kwh: inputs.kwh, plan: inputs.currentId, run: '1' });
-  if (res.alreadyBest) {
+  if (res.alreadyBest || res.noMatches) {
     el.innerHTML = `
-      <div class="stack" style="--stack:12px">
-        <p class="h4 text-green">Good news — you're already on one of the cheapest plans for your usage.</p>
-        <a class="link-arrow" href="calculator.html?${params}">See the full comparison</a>
+      <div class="stack enter" style="--stack:12px">
+        <p class="h4 text-green">Good news: you’re already on one of the cheapest plans for your usage.</p>
+        <p class="small">We’ll tell you if that changes. Retailer promotions can still be worth a look.</p>
+        ${goodNewsActions(inputs, res.current.plan, params)}
       </div>`;
     setBarAction(null);
     return;
@@ -296,16 +330,17 @@ async function renderCompact(el, res, inputs) {
   el.innerHTML = `
     <div class="stack enter" style="--stack:14px">
       <div class="reveal-num">
-        <span class="reveal-num__label">You save</span>
+        <span class="reveal-num__label">You could save</span>
         <span class="reveal-num__big">S$<span data-n>0</span><small>/year</small></span>
         <span class="reveal-num__sub">with ${esc(res.best.plan.retailer)} ${esc(res.best.plan.name)} · ${fmtMoney(res.best.savingMonthly)}/month</span>
-        ${freeMonths(res.best) ? `<span class="free-months">≈ ${freeMonths(res.best)} of electricity, on us</span>` : ''}
+        ${freeMonths(res.best) ? `<span class="free-months">That’s about ${freeMonths(res.best)} of electricity bills</span>` : ''}
       </div>
       <div class="btn-row">
         <button class="btn btn--urgent" type="button" data-switch data-wa-switch>${I.chat}<span>Switch on WhatsApp</span></button>
-        <a class="btn btn--secondary" href="calculator.html?${params}">See full comparison</a>
+        <a class="btn btn--secondary" href="calculator.html?${params}">See the full comparison</a>
       </div>
-      <p class="small">No account needed. <a href="signup.html?plan=${encodeURIComponent(res.best.plan.id)}&kwh=${inputs.kwh}">Save this result</a> if you'd like us to keep it.</p>
+      <p class="small">No account needed. <a href="signup.html?plan=${encodeURIComponent(res.best.plan.id)}&kwh=${inputs.kwh}">Save this result to an account</a> if you’d like to come back to it.</p>
+      <p class="small muted-note">${ratesNote}</p>
     </div>`;
   const r = el.getBoundingClientRect();
   if (r.bottom > innerHeight || r.top < 0) el.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'center' });
@@ -317,7 +352,7 @@ async function renderCompact(el, res, inputs) {
 
 // ── Full result (calculator page) ──
 function renderFull(el, res, inputs) {
-  const { current, best, results, alreadyBest } = res;
+  const { current, best, results, alreadyBest, noMatches, tiedWith } = res;
   const cur = current.plan;
   const sOn = soundEnabled();
   const top = results.slice(0, 5);
@@ -330,25 +365,35 @@ function renderFull(el, res, inputs) {
   const max = Math.max(...chartRows.map((r) => r.total));
 
   const b = best?.plan;
-  const promo = b?.promo;
+  const promo = activePromo(b);
   el.innerHTML = `
   <div class="stack" style="--stack:20px">
     <div class="card card--shadow stack enter res-card" style="--stack:20px">
       <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap">
-        <span class="pill pill--green">Based on ${inputs.kwh.toLocaleString('en-SG')} kWh / month</span>
+        <span class="pill pill--green">Based on ${inputs.kwh.toLocaleString('en-SG')} kWh/month</span>
         <button class="btn btn--ghost btn--sm" type="button" data-sound aria-pressed="${sOn}">${I.sound(sOn)}<span>Sound ${sOn ? 'on' : 'off'}</span></button>
       </div>
-      ${alreadyBest ? `
-        <div class="stack" style="--stack:8px">
-          <p class="eyebrow" style="color:var(--green-aa)">Nice</p>
-          <h2 class="h2">You're already on one of the cheapest plans for your usage.</h2>
-          <p class="lead">Nothing cheaper matches your filters. Try widening the contract length, or chat with us to check promotions.</p>
+      ${noMatches ? `
+        <div class="stack" style="--stack:12px">
+          <p class="eyebrow">No matches</p>
+          <h2 class="h2">No plans match these filters.</h2>
+          <p class="lead">Try a longer contract length or turn off “Green plans only”.</p>
+          <div class="btn-row">
+            <button class="btn" type="button" data-widen>Show all plans</button>
+            <a class="btn btn--secondary" href="#" data-wa data-wa-message="Hi Eutility, I'm looking for an electricity plan and have a question.">${I.chat}<span>Ask us on WhatsApp</span></a>
+          </div>
+        </div>` : alreadyBest ? `
+        <div class="stack" style="--stack:12px">
+          <p class="eyebrow" style="color:var(--green-aa)">Good news</p>
+          <h2 class="h2">You’re already on one of the cheapest plans for your usage.</h2>
+          <p class="lead">Nothing cheaper matches your filters. Try a longer contract length, or ask us about retailer promotions.</p>
+          ${goodNewsActions(inputs, cur, null)}
         </div>` : `
         <div class="reveal-num">
-          <span class="reveal-num__label">You save</span>
+          <span class="reveal-num__label">You could save</span>
           <span class="reveal-num__big">S$<span data-n>0</span><small>/year</small></span>
-          <span class="reveal-num__sub">That's <span class="num">${fmtMoney(best.savingMonthly, 2)}</span> a month</span>
-          ${freeMonths(best) ? `<span class="free-months">≈ ${freeMonths(best)} of electricity, on us</span>` : ''}
+          <span class="reveal-num__sub">That’s <span class="num">${fmtMoney(best.savingMonthly, 2)}</span> a month</span>
+          ${freeMonths(best) ? `<span class="free-months">That’s about ${freeMonths(best)} of electricity bills</span>` : ''}
         </div>
         <div class="plan-vs">
           <div class="plan-box">
@@ -359,25 +404,26 @@ function renderFull(el, res, inputs) {
           </div>
           <span class="plan-vs__arrow"><span aria-hidden="true">→</span><span class="plan-vs__delta">−${fmtMoney(best.savingMonthly, 2)}/mo</span></span>
           <div class="plan-box plan-box--rec">
-            <span class="plan-box__eyebrow">Recommended</span>
+            <span class="plan-box__eyebrow">Lowest estimate for you</span>
             <span class="plan-box__name">${esc(b.retailer)} · ${esc(b.name)}</span>
             <span class="plan-box__meta">${esc(rateLabel(b))} · ${contractLabel(b.contractMonths)}</span>
             <span class="plan-box__bill">${fmtMoney(best.total, 2)}<span class="small">/mo</span></span>
           </div>
         </div>
-        ${promo ? `<div class="promo"><span aria-hidden="true" style="width:22px;flex:none;color:var(--orange-aa)">${I.gift}</span><div><strong>Sign-up promotion:</strong> ${esc(promo.value)}${promo.code ? ` · code <strong>${esc(promo.code)}</strong>` : ''}${promo.conditions ? `<br><span class="small">${esc(promo.conditions)}</span>` : ''}<br><span class="small">Not included in the savings above.</span></div></div>` : ''}
+        ${tiedWith ? `<p class="small">${tiedWith} other plan${tiedWith === 1 ? ' costs' : 's cost'} the same at your usage. They’re all in the full list below.</p>` : ''}
+        ${promo ? `<div class="promo"><span aria-hidden="true" style="width:22px;flex:none;color:var(--orange-aa)">${I.gift}</span><div><strong>Retailer promotion:</strong> ${esc(promo.title ? `${promo.title}, ${promo.value}` : promo.value)}${promo.code ? ` · code <strong>${esc(promo.code)}</strong>` : ''}${promo.expires ? ` · ends ${esc(fmtDate(promo.expires))}` : ''}${promo.conditions ? `<br><span class="small">${esc(promo.conditions)}</span>` : ''}<br><span class="small">Set by the retailer; terms and availability may change. Not included in the savings above.</span></div></div>` : ''}
         <div class="btn-row">
           <button class="btn btn--urgent" type="button" data-switch data-wa-switch>${I.chat}<span>Switch on WhatsApp</span></button>
           <button class="btn btn--secondary" type="button" data-mail-switch>${I.mail}<span>Switch by email</span></button>
         </div>
-        <p class="small">No account needed — we'll take it from there. · <a href="plans.html?kwh=${inputs.kwh}">Browse all plans</a></p>
+        <p class="small">No account needed. We’ll reply to confirm the plan, then help you sign up with the retailer. Nothing is submitted without your OK. · <a href="plans.html?kwh=${inputs.kwh}">Browse all plans</a></p>
 
         ${customer.isSignedIn()
           ? `<p class="small">Saved to your account. <a href="account.html">See your checks</a></p>`
           : `<div class="save-offer">
                <div>
                  <p class="h4">Want us to remember this?</p>
-                 <p class="small">Keep this comparison, add your bill and your electricity details, and we'll re-check when rates move. Free, and about a minute.</p>
+                 <p class="small">Keep this comparison, your bill and your electricity details in one place. Free, and takes about 2 minutes.</p>
                </div>
                <a class="btn btn--secondary" href="signup.html?plan=${encodeURIComponent(b.id)}&kwh=${inputs.kwh}">Create my account</a>
              </div>`}
@@ -388,8 +434,8 @@ function renderFull(el, res, inputs) {
         </ul>`}
     </div>
 
-    <div class="card stack enter" style="--stack:16px;--d:.15s">
-      <h3 class="h3">How your plan compares</h3>
+    ${noMatches ? '' : `<div class="card stack enter" style="--stack:16px;--d:.15s">
+      <h2 class="h3">How your plan compares</h2>
       <p class="small">Estimated monthly bill at ${inputs.kwh.toLocaleString('en-SG')} kWh. Lower is better.</p>
       <ul class="bars">
         ${chartRows.map((r) => `
@@ -402,29 +448,29 @@ function renderFull(el, res, inputs) {
     </div>
 
     <details class="card enter" style="--d:.3s">
-      <summary class="h4" style="cursor:pointer">See all ${results.length} matching plans</summary>
+      <summary class="h4" style="cursor:pointer">See all ${results.length} matching plan${results.length === 1 ? '' : 's'}</summary>
       <div class="table-scroll" style="margin-top:16px">
         <table class="plan-table">
-          <thead><tr><th>Plan</th><th>Price</th><th class="num-cell">Est. bill /mo</th><th class="num-cell">Save /yr</th></tr></thead>
+          <thead><tr><th>Plan</th><th class="col-price">Price</th><th class="num-cell">Est. bill/mo</th><th class="num-cell">Save/yr</th></tr></thead>
           <tbody>
             ${results.map((r, i) => `
               <tr class="${i === 0 && !alreadyBest ? 'is-best' : ''}">
-                <td><strong>${esc(r.plan.retailer)}</strong> · ${esc(r.plan.name)}<span class="muted">${contractLabel(r.plan.contractMonths)}${r.plan.category === 'Green' ? ' · Green' : ''}${r.plan.promo ? ' · Promo' : ''}</span></td>
-                <td>${esc(rateLabel(r.plan))}</td>
+                <td><strong>${esc(r.plan.retailer)}</strong> · ${esc(r.plan.name)}<span class="muted">${contractLabel(r.plan.contractMonths)}${r.plan.category === 'Green' ? ' · Green' : ''}${activePromo(r.plan) ? ' · Promotion' : ''}</span></td>
+                <td class="col-price">${esc(rateLabel(r.plan))}</td>
                 <td class="num-cell">${fmtMoney(r.total, 2)}</td>
-                <td class="num-cell ${r.savingYearly >= 0 ? 'save-pos' : 'save-neg'}">${r.savingYearly >= 0 ? '' : '−'}${fmtMoney(Math.abs(r.savingYearly))}</td>
+                <td class="num-cell ${r.savingYearly >= 0 ? 'save-pos' : 'save-neg'}">${fmtMoney(r.savingYearly)}</td>
               </tr>`).join('')}
           </tbody>
         </table>
       </div>
-    </details>
+    </details>`}
 
-    <p class="small">How we estimate: usage × each plan's published rate (plus any daily charge), compared with your current plan. Discount-off-tariff plans use SP's current tariff of ${META.regulatedTariff}¢/kWh. Time-of-use plans assume ${Math.round(inputs.offPeakShare * 100)}% of usage is off-peak. Promotions are shown separately and not included. Your actual bill depends on your usage and the retailer's terms.</p>
+    <p class="small">How we estimate: your usage × each plan’s published rate (plus any daily charge), compared with your current plan. Retailer rates as at ${RATES_DATE}. Discount-off-tariff plans use SP Group’s regulated tariff of ${TARIFF}¢/kWh for ${TARIFF_PERIOD} (incl. GST). Time-of-use plans assume ${Math.round(inputs.offPeakShare * 100)}% of your usage is off-peak. Promotions are shown separately and not included. Your actual bill depends on your usage and the retailer’s terms.</p>
   </div>`;
 
   // Keep the result in the customer's account (mock storage) when signed in
-  if (!alreadyBest && customer.isSignedIn()) {
-    customer.saveCheck({
+  if (!alreadyBest && !noMatches && customer.isSignedIn()) {
+    const saved = customer.saveCheck({
       kwh: inputs.kwh,
       currentPlanId: cur.id,
       currentPlanName: `${cur.retailer} · ${cur.name}`,
@@ -433,7 +479,8 @@ function renderFull(el, res, inputs) {
       savingYearly: best.savingYearly,
       savingMonthly: best.savingMonthly,
     });
-    toast('Saved to your account');
+    if (saved === 'saved') toast('Saved to your account');
+    else if (saved === 'failed') toast('Couldn’t save this check in this browser');
   }
 
   // Wire actions — the switch handoff carries the plan and the numbers, so this
@@ -441,9 +488,7 @@ function renderFull(el, res, inputs) {
   el.querySelector('[data-wa-switch]')?.addEventListener('click', () => openWhatsApp(planWaMessage(res, inputs)));
   el.querySelector('[data-mail-switch]')?.addEventListener('click', () => openEmail(planWaMessage(res, inputs), planMailSubject(res)));
   barFor(res, inputs, el);
-  el.querySelector('[data-wa-chat]')?.addEventListener('click', () => openWhatsApp(
-    `Hi Eutility, I have a question about my savings estimate (${inputs.kwh} kWh/month, currently on ${cur.retailer} ${cur.name}).`,
-  ));
+  el.querySelector('[data-widen]')?.addEventListener('click', () => el.dispatchEvent(new CustomEvent('calc:widen', { bubbles: true })));
   const soundBtn = el.querySelector('[data-sound]');
   soundBtn.addEventListener('click', () => {
     const on = !soundEnabled();
@@ -459,7 +504,7 @@ function renderFull(el, res, inputs) {
     el.querySelectorAll('.bar__fill').forEach((f) => { f.style.width = f.dataset.w + '%'; });
     setTimeout(() => el.querySelector('.bars')?.classList.add('is-settled'), reducedMotion() ? 0 : 1100);
   });
-  if (!alreadyBest) {
+  if (!alreadyBest && !noMatches) {
     celebrate(el.querySelector('[data-n]'), best.savingYearly).then(() => {
       el.querySelector('[data-switch]')?.classList.add('btn--pulse');
     });

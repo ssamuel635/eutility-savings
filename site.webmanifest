@@ -1,7 +1,7 @@
 {
   "name": "Eutility Singapore — Electricity savings",
   "short_name": "Eutility",
-  "description": "Compare every Singapore home electricity plan and switch on WhatsApp.",
+  "description": "Compare Singapore home electricity plans and switch on WhatsApp.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

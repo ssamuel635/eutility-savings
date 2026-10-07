@@ -18,6 +18,16 @@ export const store = {
       return raw ? JSON.parse(raw) : fallback;
     }, fallback);
   },
+  /** read() that only ever returns an array (old or corrupted data can't break a page). */
+  readList(key) {
+    const v = this.read(key, []);
+    return Array.isArray(v) ? v.filter((x) => x && typeof x === 'object') : [];
+  },
+  /** read() that only ever returns a plain object, or the fallback. */
+  readObject(key, fallback = null) {
+    const v = this.read(key, fallback);
+    return v && typeof v === 'object' && !Array.isArray(v) ? v : fallback;
+  },
   write(key, value) {
     return safe(() => {
       localStorage.setItem(PREFIX + key, JSON.stringify(value));

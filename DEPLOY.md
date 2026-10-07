@@ -110,3 +110,39 @@ This is set to **Standard Protection**. The main address
 links and one-off deployment URLs (`eutility-savings-xxxx-….vercel.app`) still
 need your Vercel login. Don't set it to "All deployments": that puts a Vercel
 login in front of the main address too, and Kenneth has no Vercel account.
+
+## Keeping the numbers current (do this every quarter)
+
+SP Group changes the household tariff on 1 January, 1 April, 1 July and 1 October.
+Every saving on the site is measured against it, so update it the week it changes.
+
+1. Open `data/price-comparison-sheet.xlsx`, Plans tab, row **SP Group · Regulated Tariff**.
+   Put the new rate **including GST** in "Rate (¢/kWh)". For example, Oct–Dec 2026 is 31.16
+   (28.59 before GST).
+2. Re-check retailer rates and promotions in the sheet. Promotions with an Expiry Date
+   in the past are dropped automatically. The site also hides them the day after they end.
+3. Rebuild the data, giving the date you checked the retailer rates:
+   `python3 tools/build_data.py --rates-date YYYY-MM-DD`
+   The script prints the plan count, the tariff and its quarter. Check them.
+4. Run `npm test`, then `vercel deploy --prod --yes`.
+
+The site shows "rates as at <date>" and the tariff quarter wherever it gives an
+estimate, so a stale sheet is visible rather than silent.
+
+## Regenerating the link-preview image
+
+`tools/make_og_image.py` needs static fonts cut from the variable ones:
+
+```bash
+pip install fonttools brotli pillow
+python3 - <<'PY'
+from fontTools.ttLib import TTFont
+from fontTools.varLib import instancer
+for fam, ws in [('newsreader-var', [500]), ('inter-var', [500, 700])]:
+    for w in ws:
+        f = TTFont(f'assets/fonts/{fam}.woff2')
+        loc = {a.axisTag: (w if a.axisTag == 'wght' else a.defaultValue) for a in f['fvar'].axes}
+        i = instancer.instantiateVariableFont(f, loc); i.flavor = None; i.save(f'/tmp/{fam}-{w}.ttf')
+PY
+FONT_DIR=/tmp python3 tools/make_og_image.py
+```

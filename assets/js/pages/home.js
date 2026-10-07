@@ -1,9 +1,8 @@
-import { initLayout, observeReveals } from '../layout.js';
+import { initLayout, observeReveals, pauseBarAction, resumeBarAction } from '../layout.js';
 import { mountResidential } from '../widgets/residential.js';
 import { testimonialCard } from '../widgets/testimonial.js';
 import { TESTIMONIALS } from '../data/testimonials.js';
-import { META } from '../data/plans.js';
-import { AVAILABLE_PLANS, fmtMoney } from '../calc.js';
+import { MARKET_PLANS, fmtMoney, PLAN_COUNT, RETAILER_COUNT } from '../calc.js';
 import * as plans from '../services/plans-service.js';
 import * as I from '../icons.js';
 
@@ -19,16 +18,17 @@ document.querySelectorAll('input[name="home-mode"]').forEach((r) => r.addEventLi
   document.getElementById('home-calc').hidden = sme;
   document.getElementById('home-sme').hidden = !sme;
   show.classList.remove('panel-in'); void show.offsetWidth; show.classList.add('panel-in');
+  if (sme) pauseBarAction(); else resumeBarAction();
 }));
 
-document.querySelector('[data-plan-count]').textContent = `${META.planCount} plans compared`;
+document.querySelector('[data-plan-count]').textContent = `${PLAN_COUNT} plans compared`;
 
 // What Eutility does
 const VALUE = [
-  { icon: 'compare', title: 'Compare the whole market', text: `All ${META.planCount} home plans, priced for your usage and laid side by side, the way we compare offers for our business clients.`, href: 'plans.html', link: 'Have a look' },
-  { icon: 'shield', title: 'Independent advice', text: 'We don’t supply energy, so no retailer pays us to push their plan. If yours already wins, we say so.', href: 'about.html', link: 'About Eutility' },
-  { icon: 'bolt', title: 'Running a business?', text: 'Add your sites and we\'ll go to market for one better rate. We cover telecoms, bill checks and carbon reporting too.', href: 'calculator.html#sme', link: 'For businesses' },
-  { icon: 'gift', title: 'Tell your friends', text: 'They save, you collect rewards. Nothing to sign up for beyond your link.', href: 'referrals.html', link: 'Eutility Rewards' },
+  { icon: 'compare', title: 'Compare the market', text: `${PLAN_COUNT} home plans from ${RETAILER_COUNT} retailers, priced for your usage and laid side by side, the way we compare offers for our business clients.`, href: 'plans.html', link: 'Explore plans' },
+  { icon: 'shield', title: 'Independent advice', text: 'We don’t supply energy, so we have no plan of our own to sell. If yours already wins, we say so.', href: 'about.html', link: 'About Eutility' },
+  { icon: 'bolt', title: 'Running a business?', text: 'Add your sites and we’ll ask retailers for one aggregated rate. We cover telecoms, bill checks and carbon reporting too.', href: 'calculator.html#sme', link: 'For businesses' },
+  { icon: 'gift', title: 'Refer a friend', text: 'Share your link. When a friend switches, it counts towards your reward. Terms apply.', href: 'referrals.html', link: 'Eutility Rewards' },
 ];
 document.getElementById('value-grid').innerHTML = VALUE.map((v, i) => `
   <div class="reward reveal" style="--d:${i * 0.06}s">
@@ -43,23 +43,23 @@ const cheapest = plans.list({ sort: 'price' })[0];
 const noLock = plans.list({ type: 'nolock', sort: 'price' })[0];
 const green = plans.list({ type: 'green', sort: 'price' })[0];
 document.getElementById('plan-teaser').innerHTML = [
-  ['Cheapest right now', cheapest],
+  ['Lowest estimated bill', cheapest],
   ['No lock-in', noLock],
   ['Green energy', green],
 ].filter(([, r]) => r).map(([label, r], i) => `
   <article class="plan-card reveal" style="--d:${i * 0.06}s">
     <div class="plan-card__top">
       <div>
-        <p class="plan-card__retailer">${label}</p>
-        <p class="plan-card__name">${r.plan.retailer} · ${r.plan.name}</p>
+        <p class="plan-card__retailer">${esc(label)}</p>
+        <p class="plan-card__name">${esc(r.plan.retailer)} · ${esc(r.plan.name)}</p>
       </div>
-      <div class="plan-card__bill"><strong>${fmtMoney(r.monthly)}</strong><span>est. / month</span></div>
+      <div class="plan-card__bill"><strong>${fmtMoney(r.monthly)}</strong><span>est./month</span></div>
     </div>
-    <div class="plan-card__row"><span>Price</span><span>${r.priceLabel}</span></div>
-    <div class="plan-card__row"><span>Contract</span><span>${r.contract}</span></div>
+    <div class="plan-card__row"><span>Price</span><span>${esc(r.priceLabel)}</span></div>
+    <div class="plan-card__row"><span>Contract</span><span>${esc(r.contract)}</span></div>
     <div class="plan-card__actions">
-      <a class="btn btn--secondary btn--sm" href="plans.html?plan=${encodeURIComponent(r.id)}">Details</a>
-      <button class="btn btn--sm" type="button" data-wa data-wa-message="Hi Eutility, I'd like to switch to ${esc(r.plan.retailer)} ${esc(r.plan.name)}. Can you take it from here?">Switch</button>
+      <a class="btn btn--secondary btn--sm" href="plans.html?plan=${encodeURIComponent(r.id)}" aria-label="Details: ${esc(r.plan.retailer)} ${esc(r.plan.name)}">Details</a>
+      <button class="btn btn--sm" type="button" data-wa data-wa-message="Hi Eutility, I'm interested in switching to ${esc(r.plan.retailer)} ${esc(r.plan.name)}. Can you check if it suits my usage?" aria-label="Switch to ${esc(r.plan.retailer)} ${esc(r.plan.name)} on WhatsApp">Switch</button>
     </div>
   </article>`).join('');
 
@@ -67,10 +67,11 @@ document.getElementById('plan-teaser').innerHTML = [
 const t = document.getElementById('home-testimonials');
 t.innerHTML = TESTIMONIALS.slice(0, 3).map(testimonialCard).join('');
 
-// Retailer marquee (names only; duplicated once for a seamless loop)
-const names = [...new Set(AVAILABLE_PLANS.map((p) => p.retailer))];
-const item = (n) => `<span class="marquee__item">${n}</span>`;
+// Retailer marquee (names only; duplicated once for a seamless loop — the copy is
+// hidden from screen readers, and from everyone when motion is reduced).
+const names = [...new Set(MARKET_PLANS.map((p) => p.retailer))].sort();
+const item = (n) => `<span class="marquee__item">${esc(n)}</span>`;
 document.getElementById('marquee').innerHTML =
-  names.map(item).join('') + `<span aria-hidden="true" style="display:contents">${names.map(item).join('')}</span>`;
+  names.map(item).join('') + `<span class="marquee__dup" aria-hidden="true">${names.map(item).join('')}</span>`;
 
 observeReveals();

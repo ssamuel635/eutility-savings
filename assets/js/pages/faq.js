@@ -1,12 +1,11 @@
 import { initLayout } from '../layout.js';
 import { CONFIG } from '../config.js';
-import { AVAILABLE_PLANS, TARIFF } from '../calc.js';
-import { META } from '../data/plans.js';
+import { MARKET_PLANS, TARIFF, TARIFF_PERIOD, PLAN_COUNT, RATES_DATE } from '../calc.js';
 import * as I from '../icons.js';
 
 initLayout();
 
-const retailers = [...new Set(AVAILABLE_PLANS.map((p) => p.retailer))].filter((r) => r !== 'SP Group');
+const retailers = [...new Set(MARKET_PLANS.map((p) => p.retailer))].sort();
 
 // Draft answers — review with Eutility (esp. switching process, fees, how Eutility
 // is paid, and data handling) before launch. Company facts below are taken from
@@ -27,7 +26,7 @@ const FAQ = [
       },
       {
         q: 'Does it cost anything to use Eutility?',
-        a: '<p>Checking your savings is free, and there&rsquo;s no obligation to switch.</p><p class="small"><em>Draft — Eutility to confirm the full commercial arrangement before launch.</em></p>',
+        a: '<p>Checking your savings is free, and there&rsquo;s no obligation to switch. You always pay your retailer directly for your electricity.</p>',
       },
       {
         q: 'Are you actually based in Singapore?',
@@ -40,7 +39,7 @@ const FAQ = [
       },
       {
         q: 'What does &ldquo;Get control&rdquo; mean?',
-        a: '<p>It&rsquo;s been Eutility&rsquo;s promise to its clients for decades: don&rsquo;t overpay for energy, and know exactly what you&rsquo;re paying for. For a home, that means knowing whether your plan still makes sense for how much you use, and having someone independent to check it.</p>',
+        a: '<p>It&rsquo;s Eutility&rsquo;s promise to its clients: don&rsquo;t overpay for energy, and know exactly what you&rsquo;re paying for. For a home, that means knowing whether your plan still makes sense for how much you use, and having someone independent to check it.</p>',
       },
     ],
   },
@@ -50,14 +49,14 @@ const FAQ = [
       {
         q: 'How are my savings calculated?',
         a: `<p>We multiply your monthly usage (kWh) by each plan’s published rate, add any daily charge, and compare that with what you pay on your current plan. The difference × 12 is your yearly saving.</p>
-            <ul><li>Discount-off-tariff plans use SP Group’s current regulated tariff (${TARIFF}¢/kWh).</li>
-            <li>Time-of-use plans assume a share of your usage is at night (30% by default — you can change it under <em>Advanced assumptions</em>).</li>
+            <ul><li>Discount-off-tariff plans use SP Group’s regulated tariff for ${TARIFF_PERIOD} (${TARIFF}¢/kWh incl. GST).</li>
+            <li>Time-of-use plans assume a share of your usage is off-peak (30% by default; you can change it under <em>Advanced assumptions</em>).</li>
             <li>Sign-up promotions are shown separately and not added to your savings.</li></ul>
-            <p>It’s an estimate — your real bill depends on your actual usage and the retailer’s contract.</p>`,
+            <p>It’s an estimate. Your real bill depends on your actual usage and the retailer’s contract.</p>`,
       },
       {
         q: 'Which retailers can I compare?',
-        a: `<p>We currently compare ${META.planCount} residential plans from: ${retailers.join(', ')} — plus SP Group’s regulated tariff as the baseline.</p><p>Rates are refreshed from our price sheet (last updated ${META.generated}).</p>`,
+        a: `<p>We currently compare ${PLAN_COUNT} residential plans from ${retailers.join(', ')}, against SP Group’s regulated tariff as the baseline.</p><p>Retailer rates as at ${RATES_DATE}. SP Group revises its tariff every quarter, and we update it when it changes.</p>`,
       },
       {
         q: 'Where do I find my monthly usage?',
@@ -74,11 +73,11 @@ const FAQ = [
     items: [
       {
         q: 'How do I switch?',
-        a: `<p>Tap <strong>Switch to this plan</strong> on your results. That sends your details to the Singapore team — on WhatsApp, or by email to <a href="mailto:${CONFIG.email}">${CONFIG.email}</a> if you&rsquo;d rather not use WhatsApp. We confirm the plan with you, help you sign up with the retailer, and the retailer confirms your start date.</p><p>Nothing is submitted to a retailer without you agreeing to it first.</p>`,
+        a: `<p>Tap <strong>Switch on WhatsApp</strong> or <strong>Switch by email</strong> on your results. That sends your details to our Singapore office: on WhatsApp, or by email to <a href="mailto:${CONFIG.email}">${CONFIG.email}</a> if you&rsquo;d rather not use WhatsApp. We confirm the plan with you, help you sign up with the retailer, and the retailer confirms your start date.</p><p>Nothing is submitted to a retailer without you agreeing to it first.</p>`,
       },
       {
         q: 'Will my electricity supply be interrupted?',
-        a: '<p>No. SP Group continues to deliver electricity through the same grid and meter. Only the company you buy electricity from — and your price — changes.</p>',
+        a: '<p>No. SP Group continues to deliver electricity through the same grid and meter. Only the company you buy electricity from, and your price, changes.</p>',
       },
       {
         q: 'What if I’m still in a contract?',
@@ -95,15 +94,15 @@ const FAQ = [
     items: [
       {
         q: 'How does WhatsApp work?',
-        a: `<p>Tap any <strong>Chat on WhatsApp</strong> button. WhatsApp opens with a message already written. Send it with a photo of your bill and we&rsquo;ll reply with your savings.</p><p>On a computer without WhatsApp, scan the QR code with your phone instead.</p>`,
+        a: `<p>Tap any <strong>Chat on WhatsApp</strong> button. WhatsApp opens with a message already written. Send it with a photo of your bill and someone from our Singapore office replies with your savings, during business hours.</p><p>On a computer without WhatsApp, scan the QR code with your phone instead.</p>`,
       },
       {
         q: 'I don’t use WhatsApp. Can I email instead?',
-        a: `<p>Yes — every WhatsApp button has an email option beside it, and it sends the same details. Write to <a href="mailto:${CONFIG.email}">${CONFIG.email}</a> any time, or call ${CONFIG.phone}.</p>`,
+        a: `<p>Yes. Use <strong>Switch by email</strong> on your results, or <strong>Email us instead</strong> at the bottom of any page, and the same details are sent by email. You can also write to <a href="mailto:${CONFIG.email}">${CONFIG.email}</a> any time, or call <a href="tel:${CONFIG.phone.replace(/\s/g, '')}">${CONFIG.phone}</a>.</p>`,
       },
       {
         q: 'What happens to my bill photo?',
-        a: '<p>It&rsquo;s used to read your usage and current plan so we can prepare your estimate. See our <a href="legal.html#privacy">Privacy Statement</a> for how data is stored and protected.</p>',
+        a: '<p>We use it to read your usage and current plan so we can prepare your estimate and, if you ask, help you switch. See our <a href="legal.html#privacy">Privacy Statement</a> for how data is stored and protected.</p>',
       },
     ],
   },
@@ -112,11 +111,11 @@ const FAQ = [
     items: [
       {
         q: 'How does the referral programme work?',
-        a: '<p>Get your personal link on the <a href="referrals.html">Referrals</a> page and share it. When a friend checks their savings and switches through Eutility, the referral counts towards your rewards.</p>',
+        a: '<p>Get your personal link on the <a href="referrals.html">Rewards</a> page and share it. When a friend checks their savings and switches through Eutility, the referral counts towards your rewards.</p>',
       },
       {
         q: 'What rewards are available?',
-        a: '<p>Rewards and campaigns may include product gifts, vouchers or special prizes. Current campaign details are announced on the Referrals page and on WhatsApp.</p>',
+        a: '<p>Rewards and campaigns may include product gifts, vouchers or special prizes. Current campaign details are announced on the Rewards page and on WhatsApp. Terms apply.</p>',
       },
     ],
   },
@@ -133,7 +132,7 @@ const FAQ = [
             <ul><li><strong>SmartProcure</strong>: compares multi-year price offers and runs market tenders for competitive retail contracts.</li>
             <li><strong>SmartValidation</strong>: batches, audits and processes multi-site utility invoices to catch errors.</li>
             <li><strong>SmartView</strong>: a 24/7 online portal for live consumption, billing data and financial forecasts.</li>
-            <li><strong>Trading services</strong>: wholesale energy, risk management and power purchase agreements (PPAs) for large users.</li>
+            <li><strong>Trading Services</strong>: wholesale energy, risk management and power purchase agreements (PPAs) for large users.</li>
             <li><strong>Sustainability</strong>: carbon tracking, solar asset management and planning towards net zero.</li></ul>
             <p>Telecommunications costs are covered too. If any of this is relevant to your business, say so when you message us.</p>`,
       },
@@ -145,11 +144,15 @@ const list = document.getElementById('faq-list');
 document.querySelector('[data-icon-search]').outerHTML = I.search;
 
 function render(filter = '') {
-  const f = filter.trim().toLowerCase();
-  const strip = (h) => h.replace(/<[^>]+>/g, ' ').toLowerCase();
+  const f = filter.trim().toLowerCase().replace(/[’‘]/g, "'");
+  // Compare against the text people actually read: tags removed, entities decoded,
+  // curly apostrophes treated like straight ones.
+  const scratch = document.createElement('div');
+  const plain = (h) => { scratch.innerHTML = h; return (scratch.textContent || '').toLowerCase().replace(/[’‘]/g, "'"); };
+  const strip = plain;
   let firstOpen = !f;
   const html = FAQ.map((g) => {
-    const items = g.items.filter((it) => !f || it.q.toLowerCase().includes(f) || strip(it.a).includes(f));
+    const items = g.items.filter((it) => !f || plain(it.q).includes(f) || strip(it.a).includes(f));
     if (!items.length) return '';
     return `<div class="faq-group"><h2>${g.group}</h2><div class="acc">${items.map((it) => {
       const open = firstOpen || !!f;

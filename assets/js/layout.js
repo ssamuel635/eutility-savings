@@ -1,23 +1,23 @@
 // Shared shell: header, mobile drawer, footer, sticky WhatsApp bar,
 // WhatsApp handoff (+ desktop QR fallback), referral capture, scroll reveals, toast.
 import { CONFIG, waLink, mailLink, extLink } from './config.js';
-import { META } from './data/plans.js';
+import { RATES_DATE, TARIFF, TARIFF_PERIOD } from './calc.js';
 import * as I from './icons.js';
 import * as customer from './services/customer.js';
 
-const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-function initials() {
-  const n = (customer.get()?.fullName || '').trim();
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+export function initials(name = customer.get()?.fullName) {
+  const n = String(name || '').trim();
   if (!n) return 'E';
   const parts = n.split(/\s+/);
   return ((parts[0][0] || '') + (parts.length > 1 ? parts[parts.length - 1][0] : '')).toUpperCase();
 }
 
 const NAV = [
-  { href: 'calculator.html', label: 'Savings Calculator', key: 'calculator' },
-  { href: 'plans.html', label: 'Explore Plans', key: 'plans' },
+  { href: 'calculator.html', label: 'Savings calculator', key: 'calculator' },
+  { href: 'plans.html', label: 'Explore plans', key: 'plans' },
   { href: 'referrals.html', label: 'Rewards', key: 'referrals' },
-  { href: 'how-it-works.html', label: 'How It Works', key: 'how' },
+  { href: 'how-it-works.html', label: 'How it works', key: 'how' },
   { href: 'faq.html', label: 'FAQ', key: 'faq' },
 ];
 
@@ -51,9 +51,9 @@ function header(page) {
       <nav class="site-nav" aria-label="Main">${links}</nav>
       <div class="header-actions">
         ${customer.isSignedIn()
-          ? `<a class="account-chip" href="account.html" aria-label="Your account"><span class="account-chip__avatar">${initials()}</span><span class="account-chip__name">${esc(customer.firstName() || 'Account')}</span></a>`
+          ? `<a class="account-chip" href="account.html" aria-label="Your account"><span class="account-chip__avatar">${esc(initials())}</span><span class="account-chip__name">${esc(customer.firstName() || 'Account')}</span></a>`
           : `<a class="btn btn--ghost btn--sm header-account" href="login.html">Log in</a>`}
-        <a class="btn btn--sm header-cta" href="calculator.html">Check My Savings</a>
+        <a class="btn btn--sm header-cta" href="calculator.html">Check my savings</a>
         <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">${I.menu}</button>
       </div>
     </div>
@@ -69,13 +69,14 @@ function header(page) {
         <a href="index.html"${page === 'home' ? ' aria-current="page"' : ''}>Home</a>
         ${links}
         <a href="${customer.isSignedIn() ? 'account.html' : 'login.html'}"${page === 'account' || page === 'login' ? ' aria-current="page"' : ''}>${customer.isSignedIn() ? 'My account' : 'Log in'}</a>
-        ${customer.isSignedIn() ? '' : `<a href="signup.html"${page === 'signup' ? ' aria-current="page"' : ''}>Sign up</a>`}
+        ${customer.isSignedIn() ? '' : `<a href="signup.html"${page === 'signup' ? ' aria-current="page"' : ''}>Create an account</a>`}
         <a href="testimonials.html"${page === 'testimonials' ? ' aria-current="page"' : ''}>Testimonials</a>
-        <a href="about.html"${page === 'about' ? ' aria-current="page"' : ''}>About &amp; Contact</a>
+        <a href="about.html"${page === 'about' ? ' aria-current="page"' : ''}>About &amp; contact</a>
       </nav>
-      <a class="btn btn--block" href="calculator.html">Check My Savings</a>
-      <a class="btn btn--secondary btn--block" href="${customer.isSignedIn() ? 'account.html' : 'signup.html'}">${customer.isSignedIn() ? 'My account' : 'Create an account'}</a>
-      <a class="btn btn--neutral btn--block" href="${waLink()}" data-wa>${I.chat}<span>Chat on WhatsApp</span></a>
+      <div class="drawer__actions">
+        <a class="btn btn--block" href="calculator.html">Check my savings</a>
+        <a class="btn btn--neutral btn--block" href="${waLink()}" data-wa>${I.chat}<span>Chat on WhatsApp</span></a>
+      </div>
     </div>
   </div>`;
 }
@@ -98,10 +99,10 @@ function footer() {
         <div>
           <h3>Product</h3>
           <ul>
-            <li><a href="calculator.html">Savings Calculator</a></li>
-            <li><a href="calculator.html#sme">For Businesses (SME)</a></li>
-            <li><a href="how-it-works.html">How It Works</a></li>
-            <li><a href="plans.html">Explore Plans</a></li>
+            <li><a href="calculator.html">Savings calculator</a></li>
+            <li><a href="calculator.html#sme">For businesses (SME)</a></li>
+            <li><a href="how-it-works.html">How it works</a></li>
+            <li><a href="plans.html">Explore plans</a></li>
             <li><a href="referrals.html">${CONFIG.rewards.programmeName}</a></li>
             <li><a href="testimonials.html">Testimonials</a></li>
           </ul>
@@ -122,7 +123,7 @@ function footer() {
           <p>Got a question? Message us and someone from our Singapore office replies.</p>
           <a class="btn btn--white" href="${waLink()}" data-wa>${I.chat}<span>Chat on WhatsApp</span></a>
           <a class="btn btn--ghost-light" href="${mailLink()}" data-mail>${I.mail}<span>Email us instead</span></a>
-          <p><a href="mailto:${CONFIG.email}">${CONFIG.email}</a><br>${CONFIG.phone}</p>
+          <p><a href="mailto:${CONFIG.email}">${CONFIG.email}</a><br><a href="tel:${CONFIG.phone.replace(/\s/g, '')}">${CONFIG.phone}</a></p>
         </div>
       </div>
       <div class="site-footer__legal">
@@ -132,8 +133,8 @@ function footer() {
           <li><a href="legal.html#privacy">Privacy Statement</a></li>
         </ul>
         <div class="site-footer__legal-text">
-          <span>© ${year} ${CONFIG.company.sgEntity} · UEN ${CONFIG.company.sgUen}. Part of Eutility, ${CONFIG.company.parentLine.toLowerCase()}.</span>
-          <span>Eutility is an independent energy management company and broker, not an electricity retailer. Savings are estimates based on published retailer rates (data updated ${META.generated}).</span>
+          <span>© ${year} ${CONFIG.company.sgEntity} · UEN ${CONFIG.company.sgUen} · ${CONFIG.company.sgAddress.replace('#05-08', '<span class="nowrap">#05-08</span>')}. Part of Eutility, ${CONFIG.company.parentLine.toLowerCase()}.</span>
+          <span>Eutility is an independent energy management company and broker, not an electricity retailer. Savings are estimates based on retailers’ published rates as at ${RATES_DATE} and SP Group’s regulated tariff for ${TARIFF_PERIOD} (${TARIFF}¢/kWh incl. GST). Promotions are not included. Your actual bill depends on your usage and the retailer’s contract.</span>
         </div>
       </div>
     </div>
@@ -147,7 +148,7 @@ function footer() {
     <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="wa-modal-title">
       <button class="modal__close" type="button" aria-label="Close" data-close>×</button>
       <h2 class="h3" id="wa-modal-title">Send this to Eutility</h2>
-      <p class="small">Scan with your phone camera to open the chat with your message ready to send — or email the same details instead.</p>
+      <p class="small">Scan with your phone camera to open the chat with your message ready to send, or email the same details instead.</p>
       <div class="qr" id="wa-qr" role="img" aria-label="QR code linking to Eutility on WhatsApp"></div>
       <a class="btn btn--block" id="wa-open" href="#" target="_blank" rel="noopener">${I.chat}<span>Open WhatsApp on this computer</span></a>
       <a class="btn btn--neutral btn--block" id="wa-mail" href="#">${I.mail}<span>Email us instead</span></a>
@@ -155,6 +156,13 @@ function footer() {
     </div>
   </div>
   <div class="toast" role="status" aria-live="polite" id="toast"></div>`;
+}
+
+/** After signing up on this page, swap "Log in" for the account chip without a reload. */
+export function refreshAccountChip() {
+  const btn = document.querySelector('.header-account');
+  if (!btn || !customer.isSignedIn()) return;
+  btn.outerHTML = `<a class="account-chip" href="account.html" aria-label="Your account"><span class="account-chip__avatar">${esc(initials())}</span><span class="account-chip__name">${esc(customer.firstName() || 'Account')}</span></a>`;
 }
 
 // ── Toast ──
@@ -231,18 +239,37 @@ function loadQr() {
   return qrPromise;
 }
 
+// While a drawer, modal or sheet is open the page behind it can't scroll and
+// can't be reached with Tab: everything else in <body> is made inert.
+let lockedBy = null;
+export function lockBackground(layer) {
+  lockedBy = layer;
+  document.documentElement.classList.add('is-locked');
+  [...document.body.children].forEach((c) => {
+    if (c === layer || c.contains(layer) || c.id === 'toast' || c.tagName === 'SCRIPT') return;
+    if (!c.inert) { c.inert = true; c.dataset.lockInert = '1'; }
+  });
+}
+export function unlockBackground(layer) {
+  if (layer && lockedBy && layer !== lockedBy) return;
+  lockedBy = null;
+  document.documentElement.classList.remove('is-locked');
+  document.querySelectorAll('[data-lock-inert]').forEach((c) => { c.inert = false; delete c.dataset.lockInert; });
+}
+
 function openLayer(el, trigger) {
   el.classList.add('is-open');
   el.setAttribute('aria-hidden', 'false');
   el._trigger = trigger || document.activeElement;
-  document.body.style.overflow = 'hidden';
+  lockBackground(el);
   const focusable = el.querySelector('a, button');
   setTimeout(() => focusable?.focus(), 50);
 }
 function closeLayer(el) {
+  if (!el || !el.classList.contains('is-open')) return;
   el.classList.remove('is-open');
   el.setAttribute('aria-hidden', 'true');
-  document.body.style.overflow = '';
+  unlockBackground(el);
   el._trigger?.focus?.();
 }
 
@@ -379,10 +406,18 @@ let inlineSwitchObserver;
  * after a calculation. Pass null to go back to "Chat on WhatsApp".
  * `watch` is the on-page button doing the same job; the bar hides while it's visible.
  */
+let savedBar = null;
+/** Park the bar's current action (e.g. while the SME tab is showing) and bring it back later. */
+export function pauseBarAction() { if (barAction) { savedBar = savedBar || { action: barAction, watch: barWatch }; setBarAction(null); } }
+export function resumeBarAction() { if (savedBar) { const { action, watch } = savedBar; savedBar = null; setBarAction(action, watch); } }
+
+let barWatch = null;
 export function setBarAction(action, watch) {
   const bar = document.getElementById('wa-bar');
   if (!bar) return;
   barAction = action;
+  barWatch = watch || null;
+  if (action) savedBar = null;
   const label = bar.querySelector('.wa-bar__label');
   const sub = bar.querySelector('.wa-bar__sub');
   label.textContent = action ? action.label : 'Chat on WhatsApp';
@@ -504,8 +539,9 @@ export function initLayout() {
   const drawer = document.getElementById('drawer');
   const menuBtn = document.querySelector('.header-actions .menu-btn');
   menuBtn.addEventListener('click', () => { openLayer(drawer, menuBtn); menuBtn.setAttribute('aria-expanded', 'true'); });
-  document.querySelectorAll('[data-close]').forEach((b) => b.addEventListener('click', () => {
+  document.querySelectorAll('.drawer [data-close], .modal [data-close]').forEach((b) => b.addEventListener('click', () => {
     const layer = b.closest('.drawer, .modal');
+    if (!layer) return;
     closeLayer(layer);
     if (layer === drawer) menuBtn.setAttribute('aria-expanded', 'false');
   }));

@@ -17,11 +17,17 @@ export function myCode() {
   return code;
 }
 
-export function myLink() { return `https://${CONFIG.referralBase}${myCode()}`; }
+export function myLink() {
+  const host = CONFIG.referralHost || (typeof location !== 'undefined' ? location.host : 'eutility-savings.vercel.app');
+  const scheme = CONFIG.referralHost || (typeof location !== 'undefined' && location.protocol === 'https:') ? 'https' : 'http';
+  return `${scheme}://${host}/r/${myCode()}`;
+}
 
 /** SAMPLE: what the signed-in member has done so far. */
 export function myStatus() {
-  const s = store.read('referral-status', { shared: 5, switched: 3 });
+  const raw = store.read('referral-status', null);
+  const n = (v, d) => (Number.isFinite(Number(v)) && Number(v) >= 0 ? Math.floor(Number(v)) : d);
+  const s = { shared: n(raw?.shared, 5), switched: n(raw?.switched, 3) };
   const target = CONFIG.rewards.nextRewardAt;
   return {
     ...s,
@@ -51,11 +57,11 @@ export function leaderboard() {
 export function activity() {
   return [
     { at: '2 days ago', text: 'Your friend checked their savings', icon: 'chat' },
-    { at: '1 week ago', text: 'A referral switched — counted towards your next reward', icon: 'trophy' },
+    { at: '1 week ago', text: 'A referral switched and counted towards your next reward', icon: 'trophy' },
     { at: '2 weeks ago', text: 'You shared your link on WhatsApp', icon: 'gift' },
   ];
 }
 
 export function monthLabel() {
-  return new Date().toLocaleDateString('en-SG', { month: 'long', year: 'numeric' });
+  return new Date().toLocaleDateString('en-GB', { month: 'long', year: 'numeric', timeZone: 'Asia/Singapore' });
 }

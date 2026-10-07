@@ -1,11 +1,12 @@
 // SME multi-site load aggregation widget.
 import { CONFIG } from '../config.js';
-import { smeEstimate, fmtMoney, TARIFF } from '../calc.js';
+import { smeEstimate, fmtMoney, TARIFF, TARIFF_PERIOD } from '../calc.js';
 import { openWhatsApp, openEmail, toast } from '../layout.js';
 import { countUp } from '../fx.js';
 import * as I from '../icons.js';
 
-const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const usage = (v) => { const n = Number(v); return Number.isFinite(n) && n > 0 ? n : 0; };
 
 export function mountSme(root) {
   let sites = [{ name: '', kwh: '' }, { name: '', kwh: '' }];
@@ -19,15 +20,15 @@ export function mountSme(root) {
       <div class="field">
         <label class="field__label" for="sme-company">Company name</label>
         <input class="input" id="sme-company" autocomplete="organization" placeholder="e.g. Tan &amp; Co Pte Ltd">
-        <p class="field__error" id="sme-company-err" hidden>Please enter your company name.</p>
+        <p class="field__error" id="sme-company-err" hidden>Enter your company name.</p>
       </div>
       <div class="stack" style="--stack:12px">
         <div>
           <p class="h4">Sites</p>
-          <p class="field__help">Add each location with its own electricity account. We combine them for a better rate.</p>
+          <p class="field__help">Add each location with its own electricity account. We combine them to ask retailers for one better rate.</p>
         </div>
         <div class="stack" style="--stack:12px" id="sme-sites"></div>
-        <button class="btn btn--dashed" type="button" id="sme-add">+ Add Site</button>
+        <button class="btn btn--dashed" type="button" id="sme-add">+ Add site</button>
       </div>
     </form>
 
@@ -45,13 +46,13 @@ export function mountSme(root) {
         </div>
         <hr class="rule rule--blue">
         <div class="reveal-num reveal-num--sm">
-          <p style="color:var(--slate)">Estimated savings</p>
+          <p style="color:var(--slate)">Illustrative savings</p>
           <p class="reveal-num__big">S$<span id="sme-save">0</span><small>/year</small></p>
           <p class="small" id="sme-rate"></p>
         </div>
         <button class="btn btn--block" type="button" id="sme-talk">${I.chat}<span>Get my quote on WhatsApp</span></button>
-        <button class="btn btn--secondary btn--block" type="button" id="sme-mail">${I.mail}<span>Email it instead</span></button>
-        <p class="small">No account needed. Your sites and usage go straight to an Eutility consultant. This is an indicative figure; we confirm a firm quote, usually within 1 business day.</p>
+        <button class="btn btn--secondary btn--block" type="button" id="sme-mail">${I.mail}<span>Email us instead</span></button>
+        <p class="small">No account needed. Your sites and usage go straight to a Eutility consultant. This figure is illustrative only: a consultant confirms a firm quote with you, and business clients get a dedicated account manager.</p>
       </div>
     </aside>
   </div>`;
@@ -73,7 +74,7 @@ export function mountSme(root) {
         </div>
         <div class="field">
           <label class="field__label" for="sme-u-${i}">Monthly usage</label>
-          <div class="input-suffix"><input class="input" id="sme-u-${i}" data-k="kwh" type="number" inputmode="numeric" min="0" value="${esc(s.kwh)}" placeholder="e.g. 2,000"><span>kWh</span></div>
+          <div class="input-suffix"><input class="input" id="sme-u-${i}" data-k="kwh" type="number" inputmode="numeric" min="1" max="10000000" value="${esc(s.kwh)}" placeholder="e.g. 2000"><span>kWh</span></div>
         </div>
       </div>`).join('');
     addBtn.disabled = sites.length >= CONFIG.smeMaxSites;
@@ -112,17 +113,15 @@ export function mountSme(root) {
     root.querySelector('#sme-sum-company').textContent = company || '—';
     root.querySelector('#sme-sum-sites').textContent = est.siteCount;
     root.querySelector('#sme-sum-kwh').textContent = est.totalKwh.toLocaleString('en-SG') + ' kWh';
-    root.querySelector('#sme-tier').textContent = `${est.tier.label}${est.tier.discountPct ? ` · ${est.tier.discountPct}% off` : ''}`;
+    root.querySelector('#sme-tier').textContent = est.tier.label;
     const tiers = CONFIG.smeTiers;
     const idx = tiers.indexOf(est.tier);
     const seg = 100 / (tiers.length - 1);
     const within = est.next ? (est.totalKwh - est.tier.minKwh) / (est.next.minKwh - est.tier.minKwh) : 0;
     root.querySelector('#sme-meter').style.width = Math.min(100, idx * seg + within * seg) + '%';
-    root.querySelector('#sme-nudge').textContent = est.next
-      ? `Add ${est.toNext.toLocaleString('en-SG')} kWh more across your sites to unlock ${est.next.label} (${est.next.discountPct}% off).`
-      : 'You’re in our top volume tier.';
+    root.querySelector('#sme-nudge').textContent = 'Larger combined usage can qualify for better rates. A consultant confirms what’s available.';
     root.querySelector('#sme-rate').textContent = est.totalKwh
-      ? `Indicative aggregated rate ${est.aggRate}¢/kWh vs SP tariff ${TARIFF}¢/kWh`
+      ? `Illustrative rate ${est.aggRate}¢/kWh vs SP Group’s regulated tariff ${TARIFF}¢/kWh (${TARIFF_PERIOD}). Assumes all sites are on the regulated tariff today.`
       : 'Enter monthly usage for at least one site.';
     clearTimeout(debounce);
     debounce = setTimeout(() => {
@@ -147,12 +146,13 @@ export function mountSme(root) {
     }
     if (!est.totalKwh) {
       list.querySelector('[data-k="kwh"]')?.focus();
-      toast('Add monthly usage for at least one site');
+      toast('Add monthly usage for at least one site.');
       return null;
     }
-    const lines = sites.filter((s) => Number(s.kwh) > 0)
-      .map((s, i) => `• ${s.name || `Site ${i + 1}`}: ${Number(s.kwh).toLocaleString('en-SG')} kWh`).join('\n');
-    return `Hi Eutility, I'd like a business electricity quote.\nCompany: ${company}\n${lines}\nTotal: ${est.totalKwh.toLocaleString('en-SG')} kWh/month (est. saving ${fmtMoney(est.savingYearly)}/year)`;
+    // Number sites as the person sees them on screen, even if some are blank.
+    const lines = sites.map((s, i) => [s, i]).filter(([s]) => usage(s.kwh) > 0)
+      .map(([s, i]) => `• ${s.name.trim() || `Site ${i + 1}`}: ${usage(s.kwh).toLocaleString('en-SG')} kWh`).join('\n');
+    return `Hi Eutility, I'd like a business electricity quote.\nCompany: ${company}\n${lines}\nTotal: ${est.totalKwh.toLocaleString('en-SG')} kWh/month (illustrative saving ${fmtMoney(est.savingYearly)}/year)`;
   }
   root.querySelector('#sme-talk').addEventListener('click', () => {
     const msg = quoteMessage();

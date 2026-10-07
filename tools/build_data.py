@@ -5,8 +5,18 @@ used by the site: assets/js/data/plans.js
 
 Usage:
     pip install openpyxl
-    python3 tools/build_data.py                       # uses data/price-comparison-sheet.xlsx
-    python3 tools/build_data.py path/to/sheet.xlsx    # or a newer copy
+    python3 tools/build_data.py --rates-date 2026-09-22                 # uses data/price-comparison-sheet.xlsx
+    python3 tools/build_data.py path/to/sheet.xlsx --rates-date YYYY-MM-DD
+
+  --rates-date  the date the retailer rates in the sheet were checked (shown on the
+                site as "rates as at ..."). Defaults to today.
+  --as-of       the date used to drop promotions that have already ended and to
+                label the SP Group tariff quarter. Defaults to today.
+
+Every quarter: update the SP Group "Regulated Tariff" row (rate INCLUDING GST) when
+SP Group announces the new tariff, then re-run this script.
+Promotions whose Expiry Date has passed are left out automatically (the site also
+hides them at runtime once they end).
 
 Sheet contract (same as the file supplied Sep 2026):
   Plans tab       : Retailer | Plan Name | Product Category | Pricing Type | Contract (Months) |
@@ -16,17 +26,56 @@ Sheet contract (same as the file supplied Sep 2026):
                     Promo Value | Start Date | Expiry Date | Source | Last Updated
 Rows sharing Retailer + Plan Name are merged (Time-of-Use and Tiered plans use one row per band).
 """
+import argparse
 import json
 import re
-import sys
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 
 import openpyxl
 
 ROOT = Path(__file__).resolve().parent.parent
-SRC = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "data" / "price-comparison-sheet.xlsx"
+ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+ap.add_argument("sheet", nargs="?", default=str(ROOT / "data" / "price-comparison-sheet.xlsx"))
+ap.add_argument("--rates-date", default=None, help="YYYY-MM-DD the rates were checked (default: today)")
+ap.add_argument("--as-of", default=None, help="YYYY-MM-DD for promo expiry and tariff quarter (default: today)")
+ARGS = ap.parse_args()
+SRC = Path(ARGS.sheet)
 OUT = ROOT / "assets" / "js" / "data" / "plans.js"
+AS_OF = date.fromisoformat(ARGS.as_of) if ARGS.as_of else date.today()
+RATES_DATE = date.fromisoformat(ARGS.rates_date) if ARGS.rates_date else date.today()
+
+MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
+
+def parse_date(v):
+    """Expiry dates arrive as Excel dates or text like '30 Sep 2026' / '2026-09-30'.
+    Returns a date, or None if the cell is blank or not a full date."""
+    if v is None:
+        return None
+    if hasattr(v, "date") and not isinstance(v, date):
+        return v.date()
+    if isinstance(v, date):
+        return v
+    s = str(v).strip()
+    for fmt in ("%d %b %Y", "%d %B %Y", "%Y-%m-%d", "%d/%m/%Y", "%d-%b-%Y"):
+        try:
+            return datetime.strptime(s, fmt).date()
+        except ValueError:
+            pass
+    return None
+
+
+def sgd(v):
+    """Show retailer money in the site's style: '$200' -> 'S$200'."""
+    if not isinstance(v, str):
+        return v
+    return re.sub(r"(?<![A-Za-z])\$(?=\d)", "S$", v)
+
+
+def tariff_period(d):
+    q = (d.month - 1) // 3
+    return f"{MONTHS[q * 3]}–{MONTHS[q * 3 + 2]} {d.year}"
 
 DASHES = {"—", "-", "–", "", None}
 
@@ -124,9 +173,9 @@ def main():
                 "dailyCharge": daily,
                 "tou": None,
                 "tiers": None,
-                "deposit": clean(r[9]),
-                "etf": clean(r[10]) if not isinstance(r[10], (int, float)) else (
-                    "$0" if r[10] == 0 else f"${r[10]}"),
+                "deposit": sgd(clean(r[9])),
+                "etf": sgd(clean(r[10])) if not isinstance(r[10], (int, float)) else (
+                    "None" if r[10] == 0 else f"S${r[10]}"),
                 "source": clean(r[11]),
                 "available": available,
                 "promo": None,
@@ -161,12 +210,16 @@ def main():
             retailer, name = clean(r[0]), clean(r[1])
             if not retailer or not name or (retailer, name) not in plans:
                 continue
+            ends = parse_date(clean(r[7]))
+            if ends and ends < AS_OF:
+                print(f"  skipped expired promotion: {retailer} {name} (ended {ends.isoformat()})")
+                continue
             promos[(retailer, name)] = {
                 "title": clean(r[2]),
                 "code": clean(r[3]),
-                "conditions": clean(r[4]),
-                "value": clean(r[5]),
-                "expires": clean(r[7]) if not hasattr(r[7], "isoformat") else r[7].isoformat(),
+                "conditions": sgd(clean(r[4])),
+                "value": sgd(clean(r[5])),
+                "expires": ends.isoformat() if ends else None,
             }
     for key, pr in promos.items():
         plans[key]["promo"] = pr
@@ -181,17 +234,21 @@ def main():
         if p["tiers"]:
             p["tiers"].sort(key=lambda t: t["from"] or 0)
         if p["pricingType"] == "dot":
-            p["notes"].append("Discount off SP tariff — price moves when the tariff is revised quarterly.")
+            p["notes"].append("Discount off SP Group’s tariff, so the price moves when SP Group revises its tariff each quarter.")
         if p["pricingType"] == "tou":
-            p["notes"].append("Time-of-use — estimate depends on how much you use in off-peak hours.")
+            p["notes"].append("Time-of-use plan: the estimate depends on how much you use in off-peak hours.")
         out.append(p)
 
     tariff = next((p["rate"] for p in out if p["pricingType"] == "regulated"), None)
+    market = [p for p in out if p["available"] and p["pricingType"] != "regulated" and not p.get("referralOnly")]
     meta = {
         "source": SRC.name,
         "generated": date.today().isoformat(),
-        "regulatedTariff": tariff,
-        "planCount": sum(1 for p in out if p["available"]),
+        "ratesAsAt": RATES_DATE.isoformat(),
+        "regulatedTariff": tariff,           # SP Group household tariff, cents/kWh incl. GST
+        "tariffPeriod": tariff_period(AS_OF),
+        "planCount": len(market),             # plans a customer can actually pick
+        "retailerCount": len({p["retailer"] for p in market}),
     }
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
@@ -202,7 +259,8 @@ def main():
         f"export const PLANS = {json.dumps(out, ensure_ascii=False, indent=2)};\n",
         encoding="utf-8",
     )
-    print(f"Wrote {OUT.relative_to(ROOT)} — {meta['planCount']} available plans, tariff {tariff}¢/kWh")
+    print(f"Wrote {OUT.relative_to(ROOT)} — {meta['planCount']} plans from {meta['retailerCount']} retailers, "
+          f"SP tariff {tariff}¢/kWh ({meta['tariffPeriod']}), rates as at {meta['ratesAsAt']}")
 
 
 if __name__ == "__main__":
