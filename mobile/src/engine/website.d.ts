@@ -72,6 +72,7 @@ declare module 'eutility-web/config.js' {
   export const CONFIG: {
     brand: string;
     whatsappNumber: string;
+    chatbotTrigger: string;
     email: string;
     phone: string;
     defaultKwh: number;

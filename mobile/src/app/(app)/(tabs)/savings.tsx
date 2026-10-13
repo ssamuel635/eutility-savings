@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Button, Card, ChipGroup, ErrorNote, Pill, Screen, Section, Text, Toggle } from '@/components';
 import { UsageSlider } from '@/components/UsageSlider';
@@ -27,7 +27,11 @@ export default function Savings() {
   const customer = useCustomer();
   const { refresh: refreshCustomer } = useSession();
   const [catalogue, setCatalogue] = useState<PlanCatalogue | null>(null);
-  const [kwh, setKwh] = useState(Math.min(CONFIG.maxKwh, Math.max(CONFIG.minKwh, customer.monthlyKwh ?? CONFIG.defaultKwh)));
+  const clampKwh = (v: number) => Math.min(CONFIG.maxKwh, Math.max(CONFIG.minKwh, v));
+  const [kwh, setKwh] = useState(clampKwh(customer.monthlyKwh ?? CONFIG.defaultKwh));
+  // Opened from a "Homes like yours" card: start from that home's usage.
+  const { kwh: kwhParam } = useLocalSearchParams<{ kwh?: string }>();
+  useEffect(() => { const v = Number(kwhParam); if (v) setKwh(clampKwh(v)); }, [kwhParam]);
   // Presets are tracked by label: two homes can share a kWh figure (Executive, Condo).
   const [preset, setPreset] = useState('');
   const [currentId, setCurrentId] = useState(customer.currentPlanId ?? 'sp-group-regulated-tariff');

@@ -5,6 +5,7 @@ import { Share, StyleSheet, View } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 import { Button, Card, ListRow, LoadFailed, Loading, Pill, Screen, Section, Stat, Text } from '@/components';
 import { ProgressBar } from '@/components/Motion';
+import { FadedPhoto } from '@/components/Photo';
 import { api, type ReferralStatus } from '@/api';
 import { CONFIG } from '@/engine';
 import { useQuery } from '@/hooks/useQuery';
@@ -45,6 +46,8 @@ export default function Rewards() {
         <Text variant="h1">{CONFIG.rewards.programmeName}</Text>
         <Text variant="body">Got a friend still overpaying? Send them your code.</Text>
       </View>
+
+      <FadedPhoto name="neighbours" ratio={16 / 9} fadeTo={null} style={s.photo} />
 
       <Card tone="navy">
         <Text variant="eyebrow" color="#CFE0F2">Your referral code</Text>
@@ -101,6 +104,7 @@ export default function Rewards() {
 }
 
 const s = StyleSheet.create({
+  photo: { borderRadius: radius.card },
   track: { height: 8, borderRadius: 2, backgroundColor: colors.cloud, overflow: 'hidden' },
   fill: { height: '100%', borderRadius: 2, backgroundColor: colors.orange },
   ref: { flexDirection: 'row', alignItems: 'center', gap: space.md, paddingVertical: space.md },

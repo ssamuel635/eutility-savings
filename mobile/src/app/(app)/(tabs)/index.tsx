@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Button, Card, ListRow, Pill, Screen, Text } from '@/components';
 import { CountUp } from '@/components/Motion';
+import { HomeStories } from '@/components/HomeStories';
 import { api, type Application, type Notice, type SavingsQuote } from '@/api';
 import { useQuery } from '@/hooks/useQuery';
 import { firstName, greeting, money } from '@/lib/format';
@@ -60,6 +61,8 @@ export default function Home() {
         <ListRow icon="gift-outline" label="Refer a friend" onPress={() => router.navigate('/rewards')} />
         <ListRow icon="logo-whatsapp" label="Chat with us on WhatsApp" onPress={() => openWhatsApp(generalMessage())} last />
       </Card>
+
+      <HomeStories />
 
       <Card tone="orange">
         <Text variant="h3">Got a friend still overpaying?</Text>

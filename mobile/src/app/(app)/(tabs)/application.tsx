@@ -8,6 +8,7 @@ import { useQuery } from '@/hooks/useQuery';
 import { longDate, monthLabel, money } from '@/lib/format';
 import { applicationMessage, openWhatsApp } from '@/lib/whatsapp';
 import { colors, space } from '@/theme';
+import { FadedPhoto } from '@/components/Photo';
 
 const INVOICE_STATUS: Record<InvoiceStatus, { label: string; tone: 'blue' | 'green' | 'orange' | 'red' }> = {
   received: { label: 'Received', tone: 'blue' },
@@ -31,11 +32,14 @@ export default function Track() {
     return (
       <Screen tabs refreshing={refreshing} onRefresh={refresh}>
         <Text variant="h1">Track your switch</Text>
-        <Card>
+        <Card style={{ padding: 0, overflow: 'hidden' }}>
+          <FadedPhoto name="hdb" ratio={16 / 9} />
+          <View style={{ padding: space.xl, paddingTop: 0, gap: space.md }}>
           <Text variant="h3">No switch in progress yet</Text>
           <Text variant="small">Check your savings and send us your latest bill. We’ll show every step here until your new plan starts.</Text>
           <Button label="Check my savings" onPress={() => router.navigate('/savings')} />
           <Button label="I already have my bill" variant="secondary" icon="camera-outline" onPress={() => router.push('/invoice')} />
+          </View>
         </Card>
       </Screen>
     );

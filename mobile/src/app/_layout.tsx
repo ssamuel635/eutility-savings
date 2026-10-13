@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { ActivityIndicator, Image, StyleSheet, View } from 'react-native';
 import { SplashScreen, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
@@ -41,11 +42,11 @@ function RootNavigator({ ready }: { ready: boolean }) {
   const { status } = useSession();
   const loading = !ready || status === 'loading';
 
-  useEffect(() => {
-    if (!loading) SplashScreen.hideAsync().catch(() => {});
-  }, [loading]);
+  // Swap the system splash for our own as soon as we can draw, so the full
+  // Eutility logo (not just the symbol) is what people see while it loads.
+  useEffect(() => { SplashScreen.hideAsync().catch(() => {}); }, []);
 
-  if (loading) return null;
+  if (loading) return <BrandLoading />;
 
   return (
     <Stack screenOptions={{ headerShown: false }}>
@@ -58,3 +59,17 @@ function RootNavigator({ ready }: { ready: boolean }) {
     </Stack>
   );
 }
+
+function BrandLoading() {
+  return (
+    <View style={s.loading} accessibilityLabel="Eutility is loading">
+      <Image source={require('../../assets/eutility-logo.png')} style={s.logo} resizeMode="contain" />
+      <ActivityIndicator color="#007BB8" />
+    </View>
+  );
+}
+
+const s = StyleSheet.create({
+  loading: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 28, backgroundColor: '#FFFFFF' },
+  logo: { width: 220, height: 220 * (112 / 314) },
+});
