@@ -24,8 +24,13 @@ const MAX_OUTBOX = 30;
 export const crmEnabled = !!BASE;
 
 /** What the CRM holds about a person. Matches server/crm/schema.js. */
+export type CrmAction = 'account_created' | 'profile_updated' | 'savings_check' | 'switch_app' | 'bill_uploaded';
+
 export interface CrmContact {
   source: 'mobile_app' | 'referral';
+  leadType: 'Residential';
+  sourcePage: string;
+  lastAction?: CrmAction;
   fullName: string;
   email: string;
   phone: string;
@@ -36,7 +41,23 @@ export interface CrmContact {
   currentPlan: string;
   referralCode: string;
   referredBy?: string;
-  marketingConsent?: boolean;
+  /** Registration is where they accept the terms. */
+  termsAcceptedAt: string;
+  /** The app's "WhatsApp updates" setting: yes/no (no timestamp is kept for it). */
+  contactConsent: boolean;
+}
+
+/** A comparison result (matches "Comparison result" in our email to FXMedia). */
+export interface CrmComparison {
+  kwh: number;
+  currentPlan: string;
+  bestPlan: string;
+  savingMonthly: number;
+  savingYearly: number;
+  contractFilter: string;
+  greenOnly: boolean;
+  ratesDate: string;
+  tariffPeriod: string;
 }
 
 export interface CrmApplication {
@@ -47,9 +68,12 @@ export interface CrmApplication {
   staffNote: string;
 }
 
-export function toCrmContact(c: Customer, currentPlan = '', referredBy?: string): CrmContact {
+export function toCrmContact(c: Customer, currentPlan = '', referredBy?: string, lastAction?: CrmAction): CrmContact {
   return {
     source: c.source === 'referral' ? 'referral' : 'mobile_app',
+    leadType: 'Residential',
+    sourcePage: 'app',
+    lastAction,
     fullName: c.fullName,
     email: c.email,
     phone: c.phone,
@@ -60,7 +84,8 @@ export function toCrmContact(c: Customer, currentPlan = '', referredBy?: string)
     currentPlan,
     referralCode: c.referralCode,
     referredBy,
-    marketingConsent: c.preferences.whatsappUpdates,
+    termsAcceptedAt: c.createdAt,
+    contactConsent: c.preferences.whatsappUpdates,
   };
 }
 
@@ -115,8 +140,8 @@ type Ids = { contactId: string };
 export const crm = {
   syncContact: (contact: CrmContact) => send<Ids>('/contacts', { contact }),
 
-  logSavingsCheck: (contact: CrmContact, check: { kwh: number; currentPlan: string; bestPlan: string; savingYearly: number }) =>
-    send<Ids>('/savings-checks', { contact, check: { channel: 'mobile_app', ...check } }),
+  logSavingsCheck: (contact: CrmContact, check: CrmComparison) =>
+    send<Ids>('/savings-checks', { contact, check: { channel: 'mobile_app', sourcePage: 'app', action: 'savings_check', ...check } }),
 
   createApplication: (contact: CrmContact, application: { reference: string; plan: string; estimatedSavingYearly: number }) =>
     send<Ids & { reference: string }>('/applications', { contact, application: { channel: 'mobile_app', ...application } }),

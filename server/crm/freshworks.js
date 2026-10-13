@@ -57,14 +57,15 @@ function createFreshworksCrm({ domain = process.env.FRESHWORKS_DOMAIN, apiKey = 
           ...splitName(c.fullName),
           emails: c.email ? [{ value: c.email, is_primary: true }] : undefined,
           mobile_number: c.phone || undefined,
-          address: c.address || undefined,
+          address: [c.address, c.unit].filter(Boolean).join(', ') || undefined,
           zipcode: c.postal || undefined,
           country: 'Singapore',
           // VERIFY: custom fields must exist on your Contact form.
           custom_field: {
-            cf_source: c.source, cf_home_type: c.dwelling, cf_monthly_kwh: c.monthlyKwh,
-            cf_current_plan: c.currentPlan, cf_referral_code: c.referralCode, cf_referred_by: c.referredBy,
-            cf_marketing_consent: c.marketingConsent,
+            cf_source: c.source, cf_lead_type: c.leadType, cf_source_page: c.sourcePage, cf_last_action: c.lastAction,
+            cf_home_type: c.dwelling, cf_monthly_kwh: c.monthlyKwh, cf_current_plan: c.currentPlan, cf_sp_account: c.spAccount,
+            cf_referral_code: c.referralCode, cf_referred_by: c.referredBy,
+            cf_terms_accepted_at: c.termsAcceptedAt, cf_contact_consent: c.contactConsent,
           },
         },
       });
@@ -104,15 +105,35 @@ function createFreshworksCrm({ domain = process.env.FRESHWORKS_DOMAIN, apiKey = 
     },
 
     async logSavingsCheck(contactId, c) {
+      // Someone who tapped Switch without an account has no contact yet: the
+      // reference in their WhatsApp message links it once they write in.
+      if (!contactId) return { id: c.reference || '' };
       // VERIFY: note body shape.
-      const d = await call('POST', '/notes', {
+      await call('POST', '/notes', {
         note: {
-          description: `Savings check (${c.channel}): ${c.kwh} kWh/month on ${c.currentPlan} → ${c.bestPlan}, about S$${c.savingYearly}/yr`,
+          description: [
+            `${c.action} (${c.channel}${c.sourcePage ? `, ${c.sourcePage}` : ''})${c.reference ? ` · ref ${c.reference}` : ''}`,
+            `${c.kwh} kWh/month on ${c.currentPlan} → ${c.bestPlan}`,
+            `Saving about S$${c.savingMonthly}/month, S$${c.savingYearly}/year`,
+            `Filters: ${c.contractFilter || 'default'}${c.greenOnly === 'Yes' ? ', green only' : ''} · rates as at ${c.ratesDate}, SP tariff ${c.tariffPeriod}`,
+          ].join('\n'),
           targetable_type: 'Contact',
           targetable_id: Number(contactId),
         },
       });
-      return { id: String(d.note?.id) };
+      return { id: c.reference || '' };
+    },
+
+    async logBusinessEnquiry(contactId, contact, e) {
+      const d = await call('POST', '/deals', {
+        deal: {
+          name: `${e.companyName || 'Business enquiry'} · ${e.siteCount} site${e.siteCount === 1 ? '' : 's'}`,
+          amount: Math.max(0, e.savingYearly || 0),
+          contacts_added_list: contactId ? [Number(contactId)] : undefined,
+          custom_field: { cf_reference: e.reference, cf_lead_type: 'Business', cf_sites: e.sites, cf_total_kwh: e.totalKwh, cf_tier: e.tier, cf_channel: e.channel }, // VERIFY
+        },
+      });
+      return { id: e.reference || String(d.deal?.id) };
     },
 
     async saveBill(contactId, b) {

@@ -4,8 +4,8 @@
 // (the Excel workbook for now), and application stages staff set there are
 // read back, so the Track tab follows what Eutility does.
 
-import { CONFIG } from '@/engine';
-import { crm, flushOutbox, toCrmContact } from '../crm';
+import { CONFIG, CONTRACT_FILTERS, TARIFF_PERIOD } from '@/engine';
+import { crm, flushOutbox, toCrmContact, type CrmAction } from '../crm';
 import { ApiError, type Api, type Customer, type Invoice, type Notice } from '../types';
 import { advance, applyCrmStage, toApplication } from './applications';
 import { db, delay, normEmail, normPhone, nowISO, reset, save, uid, type Db } from './db';
@@ -34,7 +34,7 @@ const toInvoice = ({ customerId: _c, ...row }: Db['invoices'][number]): Invoice 
 
 // ── CRM copy ─────────────────────────────────────────────────
 const planLabel = (id: string | null | undefined) => { const p = planById(id); return p ? `${p.retailer} · ${p.name}` : ''; };
-const contactOf = (c: Customer, referredBy?: string) => toCrmContact(c, planLabel(c.currentPlanId), referredBy);
+const contactOf = (c: Customer, action?: CrmAction, referredBy?: string) => toCrmContact(c, planLabel(c.currentPlanId), referredBy, action);
 
 /** Remember the CRM's id for this customer once it answers (needed to read stages back). */
 function remember(customerId: string) {
@@ -122,7 +122,7 @@ export const mockApi: Api = {
       notify(d, id, { title: 'Welcome to Eutility', body: 'Check your savings, then send us a bill and we’ll handle the switch.' });
       const session = startSession(d, id);
       await save();
-      crm.syncContact(contactOf(customer, details.referredBy)).then(remember(id));
+      crm.syncContact(contactOf(customer, 'account_created', details.referredBy)).then(remember(id));
       return session;
     },
     async signInWithEmail(email, password) {
@@ -161,7 +161,7 @@ export const mockApi: Api = {
       const next = { ...c, ...patch, preferences: { ...c.preferences, ...patch.preferences } };
       d.customers[c.id] = next;
       await save();
-      crm.syncContact(contactOf(next)).then(remember(c.id));
+      crm.syncContact(contactOf(next, 'profile_updated')).then(remember(c.id));
       return next;
     },
   },
@@ -184,11 +184,16 @@ export const mockApi: Api = {
         const next = { ...c, monthlyKwh: input.kwh, currentPlanId: q.input.currentPlanId };
         d.customers[c.id] = next;
         await save();
-        crm.logSavingsCheck(contactOf(next), {
+        crm.logSavingsCheck(contactOf(next, 'savings_check'), {
           kwh: input.kwh,
           currentPlan: `${q.current.plan.retailer} · ${q.current.plan.name}`,
           bestPlan: q.recommended ? `${q.recommended.plan.retailer} · ${q.recommended.plan.name}` : 'Already on one of the cheapest',
+          savingMonthly: q.recommended?.savingMonthly ?? 0,
           savingYearly: q.recommended?.savingYearly ?? 0,
+          contractFilter: CONTRACT_FILTERS[input.contract]?.label ?? '',
+          greenOnly: input.greenOnly,
+          ratesDate: q.ratesAsAt,
+          tariffPeriod: TARIFF_PERIOD,
         }).then(remember(c.id));
       }
       return q;
@@ -210,7 +215,7 @@ export const mockApi: Api = {
       };
       d.invoices.unshift(row);
       await save();
-      crm.sendBill(contactOf(c), file, billingMonth).then(remember(c.id));
+      crm.sendBill(contactOf(c, 'bill_uploaded'), file, billingMonth).then(remember(c.id));
       return toInvoice(row);
     },
     async list() {
@@ -236,7 +241,7 @@ export const mockApi: Api = {
         ? `We’ve started your switch to ${plan.retailer} ${plan.name}. Reference ${row.reference}.`
         : `We’ve got your bill and will recommend the best plan for you. Reference ${row.reference}.`, link: '/application' });
       await save();
-      crm.createApplication(contactOf(c), {
+      crm.createApplication(contactOf(c, 'switch_app'), {
         reference: row.reference,
         plan: plan ? `${plan.retailer} · ${plan.name}` : 'Eutility to recommend',
         estimatedSavingYearly: row.estimatedSavingYearly,

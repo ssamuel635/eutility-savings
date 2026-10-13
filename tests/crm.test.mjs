@@ -37,7 +37,7 @@ test('a contact is upserted by email, not duplicated', async () => {
   await wb.xlsx.readFile(file);
   const ws = wb.getWorksheet('Customers');
   assert.equal(ws.actualRowCount, 2, 'header + one customer');
-  assert.equal(ws.getRow(2).getCell(5).value, 'Alex Tan', 'partial update keeps the name');
+  assert.equal(ws.getRow(2).getCell(ws.getRow(1).values.indexOf('Name')).value, 'Alex Tan', 'partial update keeps the name');
   crm.close();
 });
 
@@ -90,5 +90,56 @@ test('while Excel has the file locked, writes queue and land later', async () =>
   const wb = new ExcelJS.Workbook();
   await wb.xlsx.readFile(file);
   assert.equal(wb.getWorksheet('Customers').actualRowCount, 3);
+  crm.close();
+});
+
+test('contacts carry lead type, page, action, unit, SP account and consent times', () => {
+  const c = validate.contact({
+    email: 'a@b.co', leadType: 'Residential', sourcePage: '/signup.html', lastAction: 'account_created', unit: '#08-45',
+    spAccount: '93-1234-5678', termsAcceptedAt: '2026-10-13T01:00:00Z', contactConsentAt: '2026-10-13T01:00:05Z',
+  });
+  assert.equal(c.lastAction, 'Account created');
+  assert.equal(c.unit, '#08-45');
+  assert.equal(c.spAccount, '93-1234-5678');
+  assert.equal(c.termsAcceptedAt, '2026-10-13 09:00:00', 'stored in Singapore time');
+  assert.equal(c.contactConsent, '2026-10-13 09:00:05');
+  assert.equal(validate.contact({ email: 'a@b.co', contactConsentAt: false }).contactConsent, 'No');
+  assert.equal(validate.contact({ email: 'a@b.co', sourcePage: '<script>' }).sourcePage, '', 'odd page values are dropped');
+});
+
+test('a comparison can be saved without an account, under its own reference', async () => {
+  const { crm, file } = tmpCrm();
+  const check = validate.savingsCheck({
+    reference: 'EC-7K3Q9P', action: 'switch_whatsapp', kwh: 450, currentPlan: 'SP Group · Regulated Tariff', bestPlan: 'Geneco · Get It Fixed 24',
+    savingMonthly: 9.72, savingYearly: 116.64, contractFilter: 'Up to 24 months', greenOnly: false, ratesDate: '12 October 2026', tariffPeriod: 'Oct–Dec 2026',
+  });
+  const r = await crm.logSavingsCheck('', check);
+  assert.equal(r.id, 'EC-7K3Q9P');
+  const wb = new ExcelJS.Workbook();
+  await wb.xlsx.readFile(file);
+  const ws = wb.getWorksheet('Savings checks');
+  const h = ws.getRow(1).values;
+  const row = ws.getRow(2);
+  assert.equal(row.getCell(h.indexOf('Reference')).value, 'EC-7K3Q9P');
+  assert.equal(row.getCell(h.indexOf('Action')).value, 'Switch request (WhatsApp)');
+  assert.equal(row.getCell(h.indexOf('Green only')).value, 'No');
+  assert.equal(row.getCell(h.indexOf('Customer ID')).value, null);
+  assert.equal(validate.savingsCheck({ reference: 'DROP TABLE' }).reference, '', 'only EC-XXXXXX references are kept');
+  crm.close();
+});
+
+test('business enquiries list each site and the total', async () => {
+  const { crm, file } = tmpCrm();
+  const e = validate.businessEnquiry({ reference: 'EB-4M8W2Q', companyName: 'Kopi & Co', sites: [{ name: 'Tampines', kwh: 2000 }, { name: 'Bedok', kwh: 1500 }, { name: 'Empty', kwh: 0 }], savingYearly: 900, tier: 'Bronze' });
+  assert.equal(e.siteCount, 2);
+  assert.equal(e.totalKwh, 3500);
+  await crm.logBusinessEnquiry('', null, e);
+  const wb = new ExcelJS.Workbook();
+  await wb.xlsx.readFile(file);
+  const ws = wb.getWorksheet('Business enquiries');
+  const h = ws.getRow(1).values;
+  assert.equal(ws.getRow(2).getCell(h.indexOf('Sites and usage')).value, 'Tampines: 2,000 kWh; Bedok: 1,500 kWh');
+  assert.equal(ws.getRow(2).getCell(h.indexOf('Status')).value, 'New');
+  assert.throws(() => validate.businessEnquiry({ sites: [] }), /at least one site/);
   crm.close();
 });

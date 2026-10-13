@@ -158,7 +158,17 @@ function createExcelCrm({ file, billsDir } = {}) {
     },
     logSavingsCheck(wb, { id, contactId, check }) {
       if (readRows(wb, 'savingsChecks').some((r) => r.id === id)) return { id };
-      writeRow(wb, 'savingsChecks', { id, at: now(), contactId, ...check });
+      const { reference: _r, ...rest } = check;
+      writeRow(wb, 'savingsChecks', { id, at: now(), contactId: contactId || '', ...rest });
+      return { id };
+    },
+    logBusinessEnquiry(wb, { id, contactId, contact, enquiry }) {
+      if (readRows(wb, 'businessEnquiries').some((r) => r.id === id)) return { id };
+      const { reference: _r, ...rest } = enquiry;
+      writeRow(wb, 'businessEnquiries', {
+        id, at: now(), contactId: contactId || '', ...rest,
+        contactName: contact?.fullName || '', email: contact?.email || '', phone: contact?.phone || '', status: 'New',
+      });
       return { id };
     },
     saveBill(wb, { id, contactId, meta }) {
@@ -199,7 +209,7 @@ function createExcelCrm({ file, billsDir } = {}) {
   }
 
   /** What an op will return once applied (used when it has to wait in the journal). */
-  const previewResult = (op, args) => ({ upsertContact: { id: args.id }, createApplication: { reference: args.reference }, logSavingsCheck: { id: args.id }, saveBill: { id: args.id } }[op]);
+  const previewResult = (op, args) => ({ upsertContact: { id: args.id }, createApplication: { reference: args.reference }, logSavingsCheck: { id: args.id }, logBusinessEnquiry: { id: args.id }, saveBill: { id: args.id } }[op]);
 
   // Retry the journal now and then, so queued writes land soon after Excel closes the file.
   const timer = setInterval(() => { if (readJournal().length) flush().catch(() => {}); }, 30_000);
@@ -238,8 +248,13 @@ function createExcelCrm({ file, billsDir } = {}) {
         .map(({ _row, ...r }) => ({ ...r, estimatedSavingYearly: Number(r.estimatedSavingYearly) || 0 }));
     },
 
+    /** A comparison result. contactId may be empty (someone who tapped Switch without an account). */
     async logSavingsCheck(contactId, check) {
-      return run('logSavingsCheck', { id: uid('CHK-', 6), contactId, check });
+      return run('logSavingsCheck', { id: check.reference || uid('EC-', 6), contactId, check });
+    },
+
+    async logBusinessEnquiry(contactId, contact, enquiry) {
+      return run('logBusinessEnquiry', { id: enquiry.reference || uid('EB-', 6), contactId, contact, enquiry });
     },
 
     async saveBill(contactId, bill) {
