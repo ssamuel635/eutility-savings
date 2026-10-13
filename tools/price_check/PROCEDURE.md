@@ -1,0 +1,94 @@
+# Weekly retailer price check
+
+An agent checks every retailer's official site, a script compares the findings
+with the data the website uses, and a person approves the changes.
+**Nothing is changed on the website or in the price sheet without approval.**
+
+Run folder: `price-checks/<YYYY-MM-DD>/` (today's date, Singapore time).
+
+## Step 1: collect (agent)
+
+For each retailer below, read the **official** sources and write
+`price-checks/<date>/raw/<key>.json` in the format further down.
+
+| Key | Retailer | Where the reliable numbers are (from past runs) |
+|---|---|---|
+| geneco | Geneco | geneco.sg/residential/electricity-plans: **open in a real browser**; the plan cards (name, months, ¢/kWh incl. GST, promo) only render there. Promo T&C PDFs on get.geneco.sg |
+| senoko | Senoko Energy | senokoenergy.com/households/price-plans and the plan fact sheets (`/custom/document/FS?plancode=…`), which show incl. and excl. GST |
+| keppel | Keppel Electric | keppelelectric.com/residential-price-plan in a browser. The page loads Keppel's own plan list from `/api/AccountPlan/GetAllPlans` (name, rate with/without GST, fact sheet version): the most reliable read. Promos: /promotions |
+| tuas | Tuas Power | **savewithtuas.com/our-electricity-plans/** (Tuas Power Supply's consumer site, not tuaspower.com.sg) and the fact sheet PDFs linked there |
+| pacificlight | PacificLight | pacificlight.com.sg/support/factsheet (EMA fact sheets, one per plan); plan cards are images |
+| sembcorp | Sembcorp Power | **sembcorppower.com/price-plan** in a real browser (the home page shows “undefined Month” until loaded). Each card shows ¢/kWh with and without GST and links its fact sheet |
+| sp-group | SP Group tariff | spgroup.com.sg tariff page / quarterly press release (rate **with** 9% GST) |
+
+Rules:
+- Official retailer pages, fact sheets and T&C PDFs only. Third-party comparison sites
+  may be used to find pages, never as the source of a number.
+- Record prices **with GST** (`rate_incl_gst`), and without GST too when shown.
+- If a page can't be read (images, scripts, mid-update), leave the price `null`,
+  set `confidence: "low"` and say why in `notes`/`issues`. Never guess.
+- `matches_id` is our plan id (see `assets/js/data/plans.js`); `null` for a new plan.
+  Put our ids that are no longer offered in `not_found`. If you simply couldn't
+  check a plan, leave it out of both (it will show as "couldn't verify").
+- Promotions: title, value, code, and end date (`YYYY-MM-DD`) from the T&Cs where possible.
+- **Copy the exact source text** that shows each price into `evidence` (e.g.
+  `"24M Fixed Price Plan 24 Month 29.00c/kWh -(w/ GST)- 26.61cents/kWh (w/o GST)"`).
+  The compare script rejects any number that isn't in that text.
+- Discounts that depend on a condition (prompt payment, GIRO, card) are **not** part of
+  `discount`; put them in `notes`. We list what every customer is guaranteed.
+
+JSON format (one file per retailer):
+
+```json
+{"retailer":"Senoko Energy","checked_at":"YYYY-MM-DD","gst_basis_on_site":"both|incl|excl|unknown",
+ "sources":[{"url":"…","what":"…"}],
+ "plans":[{"name":"…","matches_id":"senoko-energy-lifepower24 or null","type":"fixed|dot|tou|tiered|regulated|other",
+   "contractMonths":24,"rate_incl_gst":29.0,"rate_excl_gst":26.61,
+   "discount":{"value":1.64,"kind":"percent|cents"} or null,"dailyCharge_incl_gst":null,
+   "tou":{"offPeak":{"window":"23:00–07:00","rate_incl_gst":20.05},"peak":{"window":"07:00–23:00","rate_incl_gst":36.95}} or null,
+   "tiers":[{"from":0,"to":300,"rate_incl_gst":29.2}] or null,"category":"Standard|Green",
+   "promo":{"title":"…","value":"…","code":"…","expires":"YYYY-MM-DD"} or null,
+   "source_url":"…","evidence":"exact text copied from the source","confidence":"high|medium|low","notes":"…"}],
+ "not_found":["our ids no longer offered"],"issues":"…"}
+```
+
+## Step 1b: second read (separate pass)
+
+Run `compare.py` once. Every row marked **high impact** (it would change the top 3
+recommendations, move a typical bill by S$5+/month, or withdraw a plan) is blocked until
+it is read a second time. A separate pass re-reads just those plans **by a different route**
+(the fact sheet instead of the plan page, or the retailer's data feed), without looking at
+the first answer, and writes `price-checks/<date>/verify/<key>.json` in the same format,
+plus `"method"`. If the two reads disagree, the item stays blocked.
+
+## Step 2: compare (script)
+
+```bash
+python3 tools/price_check/compare.py price-checks/<date>
+```
+
+This writes `report.html` (for review) and `changes.json` (proposed edits). It
+also shows what the calculator would recommend at 450 kWh before and after.
+
+Accuracy guards (an item that fails any of them is **blocked** and can't be approved):
+
+| Guard | Catches |
+|---|---|
+| Number must appear in the copied `evidence` text | invented or mistyped numbers |
+| With-GST = without-GST × 1.09 (±0.015) | reading the wrong column |
+| Rate between 15¢ and 45¢; discount ≤ 25% / 8¢ | decimal slips, misreads |
+| Move of more than 15% in one week | misreads (real moves this big are rare) |
+| High-impact items need a second read that agrees | a single wrong read reaching the top recommendation |
+
+Gaps: a plan that can't be read keeps its current price and shows **when it was last
+confirmed**. After 21 days unconfirmed it is marked **stale**; check it by hand or hide it.
+The report's coverage card shows how many plans were confirmed this week.
+
+Test the guards: `python3 tools/price_check/test_compare.py`
+
+## Step 3: approve (person)
+
+Open `report.html`, tick what's right, and ask Claude to apply the approved changes.
+Applying means: update `data/price-comparison-sheet.xlsx` (Plans and Promotions tabs),
+run `python3 tools/build_data.py --rates-date <date>`, run `npm test`, then deploy.
+Plans marked "couldn't verify" stay as they are until someone checks them by hand.

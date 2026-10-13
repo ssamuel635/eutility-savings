@@ -2,11 +2,11 @@
 // Source: price-comparison-sheet.xlsx
 export const META = {
   "source": "price-comparison-sheet.xlsx",
-  "generated": "2026-10-07",
-  "ratesAsAt": "2026-09-22",
+  "generated": "2026-10-12",
+  "ratesAsAt": "2026-10-12",
   "regulatedTariff": 31.16,
   "tariffPeriod": "Oct–Dec 2026",
-  "planCount": 34,
+  "planCount": 32,
   "retailerCount": 6
 };
 
@@ -19,7 +19,7 @@ export const PLANS = [
     "pricingType": "fixed",
     "pricingLabel": "Fixed",
     "contractMonths": 24,
-    "rate": 29.8,
+    "rate": 29.0,
     "discount": null,
     "dailyCharge": 0.0,
     "tou": null,
@@ -31,9 +31,9 @@ export const PLANS = [
     "promo": {
       "title": "Bill rebate for new sign-ups",
       "code": "GENECO200 / GENECO100",
-      "conditions": "SP customers use GENECO200; all other customers use GENECO100",
+      "conditions": "Sign up online. Current SP Group customers use GENECO200; everyone else GENECO100. The 29.00¢ rate is for the first 1,000 sign-ups",
       "value": "S$200 (SP customers) / S$100 (others)",
-      "expires": null
+      "expires": "2026-10-16"
     },
     "notes": []
   },
@@ -45,7 +45,7 @@ export const PLANS = [
     "pricingType": "fixed",
     "pricingLabel": "Fixed",
     "contractMonths": 12,
-    "rate": 31.0,
+    "rate": 30.5,
     "discount": null,
     "dailyCharge": 0.0,
     "tou": null,
@@ -56,10 +56,10 @@ export const PLANS = [
     "available": true,
     "promo": {
       "title": "Bill rebate",
-      "code": null,
-      "conditions": "Limited sign-ups; promo code required (ask us for it)",
+      "code": "GENECO15",
+      "conditions": "Sign up online; first 250 customers",
       "value": "S$15",
-      "expires": null
+      "expires": "2026-10-31"
     },
     "notes": []
   },
@@ -122,7 +122,7 @@ export const PLANS = [
     "pricingType": "fixed",
     "pricingLabel": "Fixed",
     "contractMonths": 24,
-    "rate": 29.8,
+    "rate": 29.0,
     "discount": null,
     "dailyCharge": 0.0,
     "tou": null,
@@ -132,11 +132,11 @@ export const PLANS = [
     "source": "Senoko Energy",
     "available": true,
     "promo": {
-      "title": "Gifts & bill rebates bundle",
-      "code": "MBFC130 / TGBGN130",
-      "conditions": "The S$130 cash-only rebate needs the promo code; the higher total includes gift options",
-      "value": "Up to S$279 (gifts+rebates); S$130 cash-only",
-      "expires": null
+      "title": "Gifts & bill rebates",
+      "code": "GIROBCRC / MBBC130 / TGBGN130 / GIROBC100 / BC60",
+      "conditions": "Gift options need GIRO; cash-only rebates use the codes listed",
+      "value": "Up to S$279 in gifts & rebates (cash-only up to S$150)",
+      "expires": "2026-12-31"
     },
     "notes": []
   },
@@ -148,7 +148,7 @@ export const PLANS = [
     "pricingType": "fixed",
     "pricingLabel": "Fixed",
     "contractMonths": 12,
-    "rate": 31.0,
+    "rate": 30.5,
     "discount": null,
     "dailyCharge": 0.0,
     "tou": null,
@@ -158,11 +158,11 @@ export const PLANS = [
     "source": "Senoko Energy",
     "available": true,
     "promo": {
-      "title": "Gifts & bill rebates bundle",
-      "code": null,
-      "conditions": null,
-      "value": "Up to S$169",
-      "expires": null
+      "title": "Gifts & bill rebates",
+      "code": "GIROBCLC / GIROBC30 / MBBC20 / BC10",
+      "conditions": "Gift options need GIRO",
+      "value": "Up to S$169 in gifts & rebates",
+      "expires": "2027-01-05"
     },
     "notes": []
   },
@@ -174,7 +174,7 @@ export const PLANS = [
     "pricingType": "fixed",
     "pricingLabel": "Fixed",
     "contractMonths": 36,
-    "rate": 29.4,
+    "rate": 28.9,
     "discount": null,
     "dailyCharge": 0.0,
     "tou": null,
@@ -184,11 +184,11 @@ export const PLANS = [
     "source": "Senoko Energy",
     "available": true,
     "promo": {
-      "title": "Luggage set + bill rebate",
-      "code": null,
-      "conditions": "Requires Trust card + GIRO recurring payment",
-      "value": "S$680 luggage set + up to S$50",
-      "expires": null
+      "title": "Samsonite luggage set + bill rebate",
+      "code": "TBBCSB30B",
+      "conditions": "Trust card on recurring payment; first 1,000 sign-ups",
+      "value": "S$680 luggage set + S$30 rebate",
+      "expires": "2026-12-31"
     },
     "notes": []
   },
@@ -200,7 +200,7 @@ export const PLANS = [
     "pricingType": "fixed",
     "pricingLabel": "Fixed",
     "contractMonths": 24,
-    "rate": 30.18,
+    "rate": 29.68,
     "discount": null,
     "dailyCharge": 0.0,
     "tou": null,
@@ -210,11 +210,11 @@ export const PLANS = [
     "source": "Senoko Energy",
     "available": true,
     "promo": {
-      "title": "Gifts & bill rebates bundle",
-      "code": null,
-      "conditions": null,
-      "value": "Up to S$279",
-      "expires": null
+      "title": "Bill rebates",
+      "code": "MBBC130 / TGBGN130 / GIROBC100 / BC60",
+      "conditions": "Amount depends on the code and payment method",
+      "value": "Up to S$150",
+      "expires": "2026-12-31"
     },
     "notes": []
   },
@@ -239,11 +239,11 @@ export const PLANS = [
     "source": "Senoko Energy",
     "available": true,
     "promo": {
-      "title": "Gifts & bill rebates bundle",
-      "code": null,
-      "conditions": "See promotion terms on Senoko's site",
-      "value": "Up to S$279",
-      "expires": null
+      "title": "Gifts & bill rebates",
+      "code": "GIROBCRC / MBBC130 / TGBGN130 / GIROBC100 / BC60",
+      "conditions": "Gift options need GIRO",
+      "value": "Up to S$279 in gifts & rebates (cash up to S$150)",
+      "expires": "2026-12-31"
     },
     "notes": [
       "Discount off SP Group’s tariff, so the price moves when SP Group revises its tariff each quarter."
@@ -270,11 +270,11 @@ export const PLANS = [
     "source": "Senoko Energy",
     "available": true,
     "promo": {
-      "title": "Gifts & bill rebates bundle",
-      "code": null,
-      "conditions": "See promotion terms on Senoko Energy's site",
-      "value": "Up to S$279",
-      "expires": null
+      "title": "Luggage set or bill rebates",
+      "code": "TBBCSB30B / MBBC180 / GIROBC150",
+      "conditions": "Luggage set needs a Trust card on recurring payment",
+      "value": "S$680 luggage set + S$30 rebate, or up to S$180 in rebates",
+      "expires": "2026-12-31"
     },
     "notes": [
       "Discount off SP Group’s tariff, so the price moves when SP Group revises its tariff each quarter."
@@ -306,7 +306,13 @@ export const PLANS = [
     "etf": "24-mth contract: Yr1 S$545; Yr2 S$327",
     "source": "Senoko Energy",
     "available": true,
-    "promo": null,
+    "promo": {
+      "title": "Gifts & bill rebates",
+      "code": "GIROBCRC / MBBC130 / TGBGN130 / GIROBC100 / BC60",
+      "conditions": "Gift options need GIRO",
+      "value": "Up to S$279 in gifts & rebates (cash up to S$150)",
+      "expires": "2026-12-31"
+    },
     "notes": [
       "Time-of-use plan: the estimate depends on how much you use in off-peak hours."
     ]
@@ -319,7 +325,7 @@ export const PLANS = [
     "pricingType": "fixed",
     "pricingLabel": "Fixed",
     "contractMonths": 24,
-    "rate": 29.8,
+    "rate": 29.0,
     "discount": null,
     "dailyCharge": 0.0,
     "tou": null,
@@ -329,10 +335,10 @@ export const PLANS = [
     "source": "Keppel Electric",
     "available": true,
     "promo": {
-      "title": "Bill + card rebate",
-      "code": null,
-      "conditions": null,
-      "value": "S$125 + S$20 card = up to S$145",
+      "title": "Bill rebate + Maybank card rebate",
+      "code": "NEW125",
+      "conditions": "S$20 card rebate needs a Maybank card on recurring payment",
+      "value": "Up to S$145 (S$125 bill + S$20 card)",
       "expires": null
     },
     "notes": []
@@ -345,7 +351,7 @@ export const PLANS = [
     "pricingType": "fixed",
     "pricingLabel": "Fixed",
     "contractMonths": 24,
-    "rate": 29.3,
+    "rate": 28.5,
     "discount": null,
     "dailyCharge": 0.0,
     "tou": null,
@@ -374,7 +380,7 @@ export const PLANS = [
     "pricingType": "fixed",
     "pricingLabel": "Fixed",
     "contractMonths": 36,
-    "rate": 29.4,
+    "rate": 28.9,
     "discount": null,
     "dailyCharge": 0.0,
     "tou": null,
@@ -384,10 +390,10 @@ export const PLANS = [
     "source": "Keppel Electric",
     "available": true,
     "promo": {
-      "title": "Bill + card rebate",
-      "code": null,
-      "conditions": null,
-      "value": "S$100 + S$20 card = up to S$120",
+      "title": "Bill rebate + Maybank card rebate",
+      "code": "NEW100",
+      "conditions": "S$20 card rebate needs a Maybank card on recurring payment",
+      "value": "Up to S$120 (S$100 bill + S$20 card)",
       "expires": null
     },
     "notes": []
@@ -400,7 +406,7 @@ export const PLANS = [
     "pricingType": "fixed",
     "pricingLabel": "Fixed",
     "contractMonths": 12,
-    "rate": 34.77,
+    "rate": 31.15,
     "discount": null,
     "dailyCharge": 0.0,
     "tou": null,
@@ -410,38 +416,13 @@ export const PLANS = [
     "source": "Keppel Electric",
     "available": true,
     "promo": {
-      "title": "Bill rebate",
+      "title": "Card payment rebate",
       "code": null,
-      "conditions": null,
-      "value": "Up to S$10",
-      "expires": null
+      "conditions": "Maybank card on recurring payment; first 125 customers",
+      "value": "S$10",
+      "expires": "2026-12-31"
     },
     "notes": []
-  },
-  {
-    "id": "keppel-electric-suresave-dot",
-    "retailer": "Keppel Electric",
-    "name": "SURESAVE DOT",
-    "category": "Standard",
-    "pricingType": "dot",
-    "pricingLabel": "Discount off Tariff",
-    "contractMonths": 0,
-    "rate": null,
-    "discount": {
-      "value": 12.0,
-      "kind": "percent"
-    },
-    "dailyCharge": 0.0,
-    "tou": null,
-    "tiers": null,
-    "deposit": "Waived for Singapore Citizens and PRs; required for pass holders (amount set by retailer)",
-    "etf": "None (no lock-in)",
-    "source": "Keppel Electric",
-    "available": true,
-    "promo": null,
-    "notes": [
-      "Discount off SP Group’s tariff, so the price moves when SP Group revises its tariff each quarter."
-    ]
   },
   {
     "id": "keppel-electric-weekend-saver",
@@ -470,7 +451,13 @@ export const PLANS = [
     "etf": "Days left in contract × your average daily charge over the past 12 months",
     "source": "Keppel Electric",
     "available": true,
-    "promo": null,
+    "promo": {
+      "title": "Card payment rebate",
+      "code": null,
+      "conditions": "Maybank card on recurring payment",
+      "value": "Up to S$20",
+      "expires": "2026-12-31"
+    },
     "notes": [
       "Time-of-use plan: the estimate depends on how much you use in off-peak hours."
     ]
@@ -492,7 +479,13 @@ export const PLANS = [
     "etf": "Days left in contract × your average daily charge over the past 12 months",
     "source": "Keppel Electric",
     "available": true,
-    "promo": null,
+    "promo": {
+      "title": "Bill rebate + Maybank card rebate",
+      "code": "NEW100",
+      "conditions": "First 1,000 sign-ups; S$20 card rebate needs a Maybank card on recurring payment",
+      "value": "Up to S$120 (S$100 bill + S$20 card)",
+      "expires": null
+    },
     "notes": []
   },
   {
@@ -503,7 +496,7 @@ export const PLANS = [
     "pricingType": "fixed",
     "pricingLabel": "Fixed",
     "contractMonths": 24,
-    "rate": 29.8,
+    "rate": 30.9,
     "discount": null,
     "dailyCharge": 0.0,
     "tou": null,
@@ -515,7 +508,7 @@ export const PLANS = [
     "promo": {
       "title": "Bill rebate",
       "code": "ONLINE",
-      "conditions": "Use code ONLINE when you sign up online",
+      "conditions": "Sign up online with code ONLINE",
       "value": "S$100",
       "expires": null
     },
@@ -529,7 +522,7 @@ export const PLANS = [
     "pricingType": "fixed",
     "pricingLabel": "Fixed",
     "contractMonths": 12,
-    "rate": 31.0,
+    "rate": 31.15,
     "discount": null,
     "dailyCharge": 0.0,
     "tou": null,
@@ -541,8 +534,8 @@ export const PLANS = [
     "promo": {
       "title": "Free insurance cover",
       "code": null,
-      "conditions": "Applies to customers on same SP bill",
-      "value": "12-month Singlife cover (non-cash)",
+      "conditions": "Choose Home, Travel or Personal Accident cover",
+      "value": "12 months of Singlife cover (non-cash)",
       "expires": null
     },
     "notes": []
@@ -555,7 +548,7 @@ export const PLANS = [
     "pricingType": "fixed",
     "pricingLabel": "Fixed",
     "contractMonths": 36,
-    "rate": 29.4,
+    "rate": 30.63,
     "discount": null,
     "dailyCharge": 0.0,
     "tou": null,
@@ -566,8 +559,8 @@ export const PLANS = [
     "available": true,
     "promo": {
       "title": "Bill rebate",
-      "code": null,
-      "conditions": null,
+      "code": "ONLINE",
+      "conditions": "Sign up online with code ONLINE",
       "value": "S$160",
       "expires": null
     },
@@ -593,36 +586,11 @@ export const PLANS = [
     "promo": {
       "title": "Bill rebate",
       "code": "ONGREEN",
-      "conditions": null,
+      "conditions": "Sign up online with code ONGREEN",
       "value": "S$100",
       "expires": null
     },
     "notes": []
-  },
-  {
-    "id": "tuas-power-powerdot-6",
-    "retailer": "Tuas Power",
-    "name": "PowerDOT 6",
-    "category": "Standard",
-    "pricingType": "dot",
-    "pricingLabel": "Discount off Tariff",
-    "contractMonths": 6,
-    "rate": null,
-    "discount": {
-      "value": 10.0,
-      "kind": "percent"
-    },
-    "dailyCharge": 0.0,
-    "tou": null,
-    "tiers": null,
-    "deposit": "No separate deposit; existing SP Group deposit carries over",
-    "etf": "S$200 flat (all Tuas Power residential plans)",
-    "source": "Tuas Power",
-    "available": true,
-    "promo": null,
-    "notes": [
-      "Discount off SP Group’s tariff, so the price moves when SP Group revises its tariff each quarter."
-    ]
   },
   {
     "id": "pacificlight-savvy-saver-24",
@@ -632,7 +600,7 @@ export const PLANS = [
     "pricingType": "fixed",
     "pricingLabel": "Fixed",
     "contractMonths": 24,
-    "rate": 29.8,
+    "rate": 29.0,
     "discount": null,
     "dailyCharge": 0.0,
     "tou": null,
@@ -641,7 +609,13 @@ export const PLANS = [
     "etf": "HDB1-2rm S$160; HDB3rm S$220; HDB4rm S$320; HDB5rm S$380; HDB Exec/Jumbo/Multi-Gen S$460; Condo/Apt/Shophouse S$480; Terrace S$720; Semi-D S$1,000; Bungalow/Penthouse S$2,000",
     "source": "PacificLight",
     "available": true,
-    "promo": null,
+    "promo": {
+      "title": "yuu promotion",
+      "code": "YUU24",
+      "conditions": "First 500 sign-ups",
+      "value": "S$50 rebate + 10,000 yuu Points",
+      "expires": "2026-10-26"
+    },
     "notes": []
   },
   {
@@ -649,6 +623,58 @@ export const PLANS = [
     "retailer": "PacificLight",
     "name": "Savvy Saver 12",
     "category": "Standard",
+    "pricingType": "fixed",
+    "pricingLabel": "Fixed",
+    "contractMonths": 12,
+    "rate": 30.5,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "deposit": "Varies by residential dwelling type",
+    "etf": "HDB1-2rm S$160; HDB3rm S$220; HDB4rm S$320; HDB5rm S$380; HDB Exec/Jumbo/Multi-Gen S$460; Condo/Apt/Shophouse S$480; Terrace S$720; Semi-D S$1,000; Bungalow/Penthouse S$2,000",
+    "source": "PacificLight",
+    "available": true,
+    "promo": {
+      "title": "yuu promotion",
+      "code": "YUU12",
+      "conditions": "First 500 sign-ups",
+      "value": "500 yuu Points",
+      "expires": "2026-10-26"
+    },
+    "notes": []
+  },
+  {
+    "id": "pacificlight-savvy-saver-36",
+    "retailer": "PacificLight",
+    "name": "Savvy Saver 36",
+    "category": "Standard",
+    "pricingType": "fixed",
+    "pricingLabel": "Fixed",
+    "contractMonths": 36,
+    "rate": 28.9,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "deposit": "Varies by residential dwelling type",
+    "etf": "HDB1-2rm S$160; HDB3rm S$220; HDB4rm S$320; HDB5rm S$380; HDB Exec/Jumbo/Multi-Gen S$460; Condo/Apt/Shophouse S$480; Terrace S$720; Semi-D S$1,000; Bungalow/Penthouse S$2,000",
+    "source": "PacificLight",
+    "available": true,
+    "promo": {
+      "title": "yuu promotion",
+      "code": "YUU36",
+      "conditions": "First 500 sign-ups",
+      "value": "S$50 rebate + 15,000 yuu Points",
+      "expires": "2026-10-26"
+    },
+    "notes": []
+  },
+  {
+    "id": "pacificlight-sunny-side-up-12",
+    "retailer": "PacificLight",
+    "name": "Sunny Side-Up 12",
+    "category": "Green",
     "pricingType": "fixed",
     "pricingLabel": "Fixed",
     "contractMonths": 12,
@@ -662,57 +688,11 @@ export const PLANS = [
     "source": "PacificLight",
     "available": true,
     "promo": {
-      "title": "Bill rebate",
-      "code": null,
-      "conditions": null,
-      "value": "Up to S$10",
-      "expires": null
-    },
-    "notes": []
-  },
-  {
-    "id": "pacificlight-savvy-saver-36",
-    "retailer": "PacificLight",
-    "name": "Savvy Saver 36",
-    "category": "Standard",
-    "pricingType": "fixed",
-    "pricingLabel": "Fixed",
-    "contractMonths": 36,
-    "rate": 29.4,
-    "discount": null,
-    "dailyCharge": 0.0,
-    "tou": null,
-    "tiers": null,
-    "deposit": "Varies by residential dwelling type",
-    "etf": "HDB1-2rm S$160; HDB3rm S$220; HDB4rm S$320; HDB5rm S$380; HDB Exec/Jumbo/Multi-Gen S$460; Condo/Apt/Shophouse S$480; Terrace S$720; Semi-D S$1,000; Bungalow/Penthouse S$2,000",
-    "source": "PacificLight",
-    "available": true,
-    "promo": null,
-    "notes": []
-  },
-  {
-    "id": "pacificlight-sunny-side-up-12",
-    "retailer": "PacificLight",
-    "name": "Sunny Side-Up 12",
-    "category": "Green",
-    "pricingType": "fixed",
-    "pricingLabel": "Fixed",
-    "contractMonths": 12,
-    "rate": 31.5,
-    "discount": null,
-    "dailyCharge": 0.0,
-    "tou": null,
-    "tiers": null,
-    "deposit": "Varies by residential dwelling type",
-    "etf": "HDB1-2rm S$160; HDB3rm S$220; HDB4rm S$320; HDB5rm S$380; HDB Exec/Jumbo/Multi-Gen S$460; Condo/Apt/Shophouse S$480; Terrace S$720; Semi-D S$1,000; Bungalow/Penthouse S$2,000",
-    "source": "PacificLight",
-    "available": true,
-    "promo": {
-      "title": "Bill rebate",
-      "code": null,
-      "conditions": "REC-backed (renewable energy certificate) plan",
-      "value": "Up to S$10",
-      "expires": null
+      "title": "yuu promotion",
+      "code": "YUU12",
+      "conditions": "First 500 sign-ups",
+      "value": "500 yuu Points",
+      "expires": "2026-10-26"
     },
     "notes": []
   },
@@ -732,24 +712,30 @@ export const PLANS = [
       {
         "from": 0.0,
         "to": 300.0,
-        "rate": 30.0
+        "rate": 29.2
       },
       {
         "from": 300.0,
         "to": 600.0,
-        "rate": 29.4
+        "rate": 28.6
       },
       {
         "from": 600.0,
         "to": null,
-        "rate": 28.0
+        "rate": 27.6
       }
     ],
     "deposit": "Varies by residential dwelling type",
     "etf": "HDB1-2rm S$160; HDB3rm S$220; HDB4rm S$320; HDB5rm S$380; HDB Exec/Jumbo/Multi-Gen S$460; Condo/Apt/Shophouse S$480; Terrace S$720; Semi-D S$1,000; Bungalow/Penthouse S$2,000",
     "source": "PacificLight",
     "available": true,
-    "promo": null,
+    "promo": {
+      "title": "Maybank card rebate",
+      "code": "MBBON140",
+      "conditions": "First 30 sign-ups paying by Maybank card on recurring payment",
+      "value": "S$140",
+      "expires": "2026-12-31"
+    },
     "notes": []
   },
   {
@@ -760,7 +746,7 @@ export const PLANS = [
     "pricingType": "fixed",
     "pricingLabel": "Fixed + Daily Charge",
     "contractMonths": 0,
-    "rate": 26.0,
+    "rate": 27.0,
     "discount": null,
     "dailyCharge": 0.55,
     "tou": null,
@@ -811,11 +797,11 @@ export const PLANS = [
     "tou": {
       "offPeak": {
         "window": "23:00–07:00",
-        "rate": 22.5
+        "rate": 23.0
       },
       "peak": {
         "window": "07:00–23:00",
-        "rate": 34.5
+        "rate": 33.0
       }
     },
     "tiers": null,
@@ -823,7 +809,13 @@ export const PLANS = [
     "etf": "HDB1-2rm S$160; HDB3rm S$220; HDB4rm S$320; HDB5rm S$380; HDB Exec/Jumbo/Multi-Gen S$460; Condo/Apt/Shophouse S$480; Terrace S$720; Semi-D S$1,000; Bungalow/Penthouse S$2,000",
     "source": "PacificLight",
     "available": true,
-    "promo": null,
+    "promo": {
+      "title": "yuu promotion",
+      "code": "YUU24",
+      "conditions": "First 500 sign-ups",
+      "value": "S$50 rebate + 10,000 yuu Points",
+      "expires": "2026-10-26"
+    },
     "notes": [
       "Time-of-use plan: the estimate depends on how much you use in off-peak hours."
     ]
@@ -842,11 +834,11 @@ export const PLANS = [
     "tou": {
       "offPeak": {
         "window": "21:00–09:00",
-        "rate": 18.5
+        "rate": 20.05
       },
       "peak": {
         "window": "09:00–21:00",
-        "rate": 38.0
+        "rate": 36.95
       }
     },
     "tiers": null,
@@ -869,8 +861,8 @@ export const PLANS = [
     "contractMonths": 60,
     "rate": null,
     "discount": {
-      "value": 8.0,
-      "kind": "cents"
+      "value": 3.0,
+      "kind": "percent"
     },
     "dailyCharge": 0.0,
     "tou": null,
@@ -880,10 +872,10 @@ export const PLANS = [
     "source": "PacificLight",
     "available": true,
     "promo": {
-      "title": "Bill rebate",
-      "code": "ATE60",
-      "conditions": "First 100 sign-ups; spread across 15th & 24th month bills",
-      "value": "S$380",
+      "title": "Prompt payment discount",
+      "code": null,
+      "conditions": "Pay each bill in full by the due date (GIRO). On top of the 3% off the tariff, so up to 8% off in total",
+      "value": "Extra 5% off electricity charges",
       "expires": null
     },
     "notes": [
@@ -898,7 +890,7 @@ export const PLANS = [
     "pricingType": "fixed",
     "pricingLabel": "Fixed",
     "contractMonths": 24,
-    "rate": 29.8,
+    "rate": 29.0,
     "discount": null,
     "dailyCharge": 0.0,
     "tou": null,
