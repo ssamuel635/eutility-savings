@@ -1638,3 +1638,35 @@ main > section:first-of-type::before, main > section:first-of-type::after { cont
 .site-footer__legal { border-top-color: rgba(255, 255, 255, .25); }
 .site-footer h3 { color: #bbdefb; }          /* 7:1 on navy */
 .rewards-panel .progress__fill { background: var(--orange); }
+
+/* v13 QA fixes ─ contrast and legibility found in the customer-side check */
+/* Star Command Blue passes on white (4.6:1) but not on light grey (4.3:1), so grey
+   surfaces that hold blue text become white with a border, and the selected
+   toggle label uses the deeper Star Command. */
+.card--cloud { background: #fff; border: 1px solid var(--border); }
+.segmented input:checked + label { color: var(--deep); }
+/* Unit labels inside big figures ("¢/kWh", "/year") never shrink below 14px */
+.rate-vs__num small, .reveal-num__big small { font-size: max(.38em, 14px); }
+
+/* Homepage hero on desktop: the photo is a visible band across the top right,
+   fading into white towards the headline and at its foot; the calculator card
+   starts lower and overlaps the bottom of the photo, so the family shows above it. */
+@media (min-width: 1024px) {
+  .hero--photo { padding-top: var(--s10); }
+  .hero__photo { top: 0; right: 0; bottom: auto; width: 66%; height: 480px; }
+  .hero__photo img { object-position: center 28%; }
+  .hero__photo::after {
+    background:
+      linear-gradient(90deg, #fff 0%, rgba(255,255,255,.75) 18%, rgba(255,255,255,0) 45%),
+      linear-gradient(180deg, rgba(255,255,255,0) 62%, #fff 100%);
+  }
+  .hero--photo .hero-calc { margin-top: 250px; }
+}
+
+/* Phones: keep "28.90¢ vs 31.16¢" on one line instead of wrapping around "vs" */
+@media (max-width: 639px) {
+  .rate-vs { flex-wrap: nowrap; gap: 4px 12px; }
+  .rate-vs__num { font-size: 34px; }
+  .rate-vs__item--tariff .rate-vs__num { font-size: 26px; }
+  .rate-vs__label { font-size: 12.5px; line-height: 1.3; }
+}
