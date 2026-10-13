@@ -1,1 +1,10 @@
 .vercel
+node_modules/
+
+# Customer records (names, phones, addresses, bills). Never commit these.
+/data/crm/
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc

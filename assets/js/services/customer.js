@@ -1,10 +1,12 @@
 // Customer service — sign-up, profile, electricity details, bill uploads and
-// saved savings checks. Mock only: everything lives in this browser (see store.js).
-// Replace the store calls with API calls when the backend exists; the page code
-// below the service does not change.
+// saved savings checks. Sign-in is still mock (this browser only, see
+// store.js); the records themselves are also sent to Eutility's CRM through
+// crm.js (an Excel workbook for now, Freshworks later). Replace the store
+// calls with API calls when the backend exists; page code does not change.
 
 import { store, uid, nowISO, MOCK } from './store.js';
 import { compare } from '../calc.js';
+import * as crm from './crm.js';
 
 const KEY = 'customer';
 const CHECKS = 'savings-checks';
@@ -117,6 +119,9 @@ export function signUp(profile) {
     ...profile,
   };
   store.write(KEY, customer);
+  crm.syncContact(customer);
+  // A bill chosen earlier in the sign-up steps can go now that we know whose it is.
+  if (pendingBill) { crm.sendBill(pendingBill, customer); pendingBill = null; }
   // Keep the account list in step so the person can sign back in later.
   if (customer.email) {
     const all = accounts();
@@ -132,6 +137,7 @@ export function update(patch) {
   if (!c) return null;
   const next = { ...c, ...patch, updatedAt: nowISO() };
   store.write(KEY, next);
+  crm.syncContact(next);
   return next;
 }
 
@@ -161,6 +167,8 @@ export function saveCheck({ kwh, currentPlanId, currentPlanName, bestPlanId, bes
     at: nowISO(),
     type, kwh, currentPlanId, currentPlanName, bestPlanId, bestPlanName, savingYearly, savingMonthly,
   };
+  const c = get();
+  if (c) crm.logSavingsCheck(record, c);
   return store.write(CHECKS, [record, ...checks].slice(0, 20)) ? 'saved' : 'failed';
 }
 export function listChecks() { return store.readList(CHECKS); }
@@ -171,8 +179,12 @@ export function latestCheck() { return listChecks()[0] || null; }
  * Store a bill. In the prototype the file is kept as a data URL in this browser
  * (images/PDFs under ~2 MB). A real build uploads to storage and keeps only the URL.
  */
+let pendingBill = null; // a bill picked during sign-up, before the account exists
+
 export async function addBill(file) {
   const meta = { id: 'BILL-' + uid(6), name: file.name, size: file.size, type: file.type, at: nowISO() };
+  const c = get();
+  if (c) crm.sendBill(file, c); else pendingBill = file;
   // Browser storage is small (~5 MB). Keep a preview only for small images, and
   // keep at most 3 bills; if the browser still refuses, keep the details without the preview.
   if (MOCK && file.size <= 700 * 1024 && file.type.startsWith('image/')) {

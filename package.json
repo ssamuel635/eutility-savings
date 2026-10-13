@@ -2,15 +2,19 @@
   "name": "eutility-savings-subsite",
   "version": "0.1.0",
   "private": true,
-  "description": "Eutility Singapore \u2014 savings comparison & SME load aggregation subsite (static, zero-dependency prototype)",
+  "description": "Eutility Singapore — savings comparison & SME load aggregation subsite (static site; local server adds the Excel CRM)",
   "scripts": {
     "start": "node server.js",
-    "test": "node --test tests/calc.test.mjs tests/gate.test.mjs",
+    "test": "node --test tests/calc.test.mjs tests/gate.test.mjs tests/crm.test.mjs",
     "data": "python3 tools/build_data.py",
     "preload": "node tools/preload.mjs",
-    "og": "python3 tools/make_og_image.py"
+    "og": "python3 tools/make_og_image.py",
+    "tunnel": "node tools/tunnel.mjs"
   },
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+    "exceljs": "^4.4.0"
   }
 }

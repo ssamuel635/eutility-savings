@@ -42,6 +42,52 @@ When a backend does arrive, only the four files in `assets/js/services/` change 
 in `store.js` and swap the read/write bodies for `fetch()` calls. No page code
 moves.
 
+## Customer records: Excel now, Freshworks later
+
+Sign-ups, profile changes, savings checks, bills and app switch requests are
+sent to a CRM. For now the CRM is an Excel workbook; later it's Freshworks,
+and nothing in the website or app changes when it does.
+
+```
+Website  assets/js/services/crm.js ─┐
+                                    ├─► /api/crm/*  server.js ─► server/crm ─┬─ excel.js       (now)
+App      mobile/src/api/crm.ts ─────┘                                        └─ freshworks.js  (later)
+```
+
+- **Where:** `data/crm/eutility-customers.xlsx`, with sheets *Customers*,
+  *Applications*, *Savings checks* and *Bills*. Bill files sit in
+  `data/crm/bills/`. The folder is git-ignored and never deployed, because
+  it holds personal data. Run `npm install` once, then `npm start`.
+- **Staff use it directly:** change an application's **Stage** (a dropdown)
+  or write a **Note to customer**, then save. The app's Track tab picks it up
+  the next time it's opened. "Needs attention" plus a note asks the customer
+  for something, such as a clearer bill photo.
+- **Excel open while the server runs** is fine. Windows locks the file, so
+  new records wait in `pending.jsonl` and are written once it's closed.
+  Edits staff save are never overwritten.
+- **The app on a phone:** copy `mobile/.env.example` to `mobile/.env` and set
+  `EXPO_PUBLIC_CRM_URL` to this computer's Wi-Fi address (e.g.
+  `http://192.168.1.20:5173`). The web preview uses `localhost:5173`.
+- **Remote tests:** `npm start`, then `npm run tunnel` in a second terminal.
+  It opens a free Cloudflare quick tunnel and prints a public `https://…`
+  address for the website and the `EXPO_PUBLIC_CRM_URL` line for the app
+  (put it in `mobile/.env`, restart Expo). Testers anywhere then write into
+  the workbook on your PC. One-time install:
+  `winget install --id Cloudflare.cloudflared`. The address changes each run
+  and works only while your laptop and both commands are running. Anyone with
+  it can open the site, so share it with testers only.
+- **Always-on testing** (no laptop): host `server.js` on Railway/Render with a
+  persistent volume for `data/crm/`, or switch to Freshworks.
+- **On Vercel:** the static site has no server, so records wait in each
+  visitor's browser (an outbox) and nothing reaches the workbook.
+- **Switching to Freshworks:** set `CRM_PROVIDER=freshworks`,
+  `FRESHWORKS_DOMAIN` and `FRESHWORKS_API_KEY`. Field mapping is in
+  `server/crm/freshworks.js`; create the `cf_…` custom fields first and test
+  in a sandbox (the note and file calls are marked "verify").
+- **Not production security:** the API has input checks, a rate limit and an
+  origin allowlist, but no customer sign-in yet. That arrives with the real
+  backend.
+
 ## Accounts and login
 
 `login.html` signs in against accounts created by the sign-up wizard in the same
@@ -262,8 +308,8 @@ Keep the same column layout. Rows with the same Retailer + Plan Name are merged 
 | Logo is in (314×112 PNG). A larger or SVG export would look sharper on high-resolution screens | `assets/img/eutility-logo.png`, symbol + favicons in `assets/img/` |
 | Home-type usage presets are rounded estimates | `assets/js/config.js` → `homePresets`. Confirm against EMA's latest statistics |
 | Hero illustration → real Singapore photography or cinemagraph | `assets/img/hero-hdb.svg` (made by `tools/make_hero_svg.py`) |
-| **Testimonials are samples.** Each card has a visible "Sample" label | `assets/js/data/testimonials.js`. Use real, permission-cleared quotes only |
-| Rewards: leaderboard, counters, activity and the "next reward at 7 switches" target are samples | `assets/js/services/rewards.js`, `assets/js/config.js` → `rewards`. Reward values and qualifying rules deliberately left blank until Eutility confirms them |
+| Customer stories: the site shows "Homes like yours" (estimates worked out from the price sheet) instead of testimonials. Add real stories only with the customer's permission | `assets/js/widgets/home-story.js` |
+| Rewards: counts start at zero and there is no leaderboard until the referral backend reports real switches. Reward values, qualifying rules and the "next reward at 7" target still need Eutility to confirm | `assets/js/services/rewards.js`, `assets/js/config.js` → `rewards` |
 | Customer accounts, bills and saved checks live in the browser only — no login, no database | `assets/js/services/customer.js` + `store.js` |
 | Team photos and bios | `about.html` |
 | Privacy Policy and Terms text | `legal.html` |

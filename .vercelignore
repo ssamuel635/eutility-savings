@@ -9,6 +9,7 @@
 /package.json
 /package-lock.json
 /server.js
+/server/
 /tests/
 /tools/
 /data/
@@ -33,3 +34,10 @@
 # Not referenced by any page (kept in the folder as source art).
 /assets/img/hero-hdb.svg
 /assets/img/eutility-logo.webp
+
+# The Expo customer app (mobile/) is a separate project — never part of the website deploy.
+/mobile/
+/.claude/
+
+# Weekly price-check reports: internal only, never published.
+/price-checks/

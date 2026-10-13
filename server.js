@@ -2,6 +2,7 @@
 // - Serves the site from this folder
 // - Clean URLs: /calculator → calculator.html
 // - Referral links: /r/ABC123 → /?ref=ABC123
+// - Customer data API: /api/crm/* → the CRM in server/crm (Excel by default)
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
@@ -14,7 +15,19 @@ const TYPES = {
   '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.ico': 'image/x-icon', '.woff2': 'font/woff2', '.pdf': 'application/pdf',
   '.webmanifest': 'application/manifest+json', '.txt': 'text/plain; charset=utf-8',
 };
-const BLOCKED = /^\/(node_modules|tests|tools|data|\.git|\.vercel)(\/|$)|^\/(server\.js|package\.json|\.env.*)$/;
+const BLOCKED = /^\/(node_modules|tests|tools|data|server|mobile|price-checks|\.git|\.vercel|\.claude)(\/|$)|^\/(server\.js|package(-lock)?\.json|\.env.*)$/;
+
+// Customer records go to the CRM chosen by CRM_PROVIDER (server/crm/index.js).
+let crmRoutes = null;
+try {
+  const { createCrm } = require('./server/crm');
+  const { createCrmRoutes } = require('./server/crm/routes');
+  const crm = createCrm();
+  crmRoutes = createCrmRoutes(crm);
+  console.log(`  CRM: ${crm.provider} → ${crm.where}`);
+} catch (e) {
+  console.warn(`  CRM disabled: ${e.message}${e.code === 'MODULE_NOT_FOUND' ? ' (run npm install)' : ''}`);
+}
 
 // Send the same security headers as production (read from vercel.json), so a
 // Content-Security-Policy violation shows up here first, not after deploying.
@@ -34,6 +47,12 @@ http.createServer((req, res) => {
   const url = new URL(req.url, 'http://localhost');
   let p;
   try { p = decodeURIComponent(url.pathname); } catch { res.writeHead(400); return res.end('Bad request'); }
+
+  if (p.startsWith('/api/crm/')) {
+    if (crmRoutes) return crmRoutes(req, res, url);
+    res.writeHead(503, { 'Content-Type': 'application/json' });
+    return res.end(JSON.stringify({ error: 'CRM is not set up on this server' }));
+  }
 
   const ref = p.match(/^\/r\/([A-Za-z0-9]{4,12})\/?$/);
   if (ref) { res.writeHead(302, { Location: `/?ref=${ref[1].toUpperCase()}` }); return res.end(); }
