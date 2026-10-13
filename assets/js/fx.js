@@ -25,6 +25,8 @@ export function countUp(el, target, { duration = 1500, format = (n) => Math.roun
 
 /** Confetti burst in Eutility Blue, Energy Orange and Signal Red. */
 export function confetti({ count = 160, duration = 2600 } = {}) {
+  // Budget phones get a lighter burst (see isLite in layout.js).
+  if (document.documentElement.classList.contains('lite')) { count = Math.min(count, 50); duration = Math.min(duration, 1800); }
   if (reducedMotion()) return;
   const canvas = document.createElement('canvas');
   canvas.className = 'confetti-canvas';

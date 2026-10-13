@@ -1,4 +1,4 @@
-// Eutility Rewards: leaderboard first, then the member's own status, link and activity.
+// Eutility Rewards: the member's progress, their link, then what's happened on it.
 import { initLayout, toast, observeReveals } from '../layout.js';
 import { CONFIG } from '../config.js';
 import { countUp } from '../fx.js';
@@ -13,22 +13,16 @@ const status = rewards.myStatus();
 const link = rewards.myLink();
 const display = link.replace(/^https?:\/\//, '');
 
-// ── Leaderboard ──
-const board = rewards.leaderboard();
+// ── Your progress (replaces the sample leaderboard) ──
 document.getElementById('leaderboard').innerHTML = `
   <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
-    <h2 class="h3" style="display:flex;align-items:center;gap:10px"><span style="width:26px;color:#ffb300">${I.trophy}</span>Top referrers</h2>
-    <span class="small" style="color:#bbdefb">${esc(rewards.monthLabel())}</span>
+    <h2 class="h3" style="display:flex;align-items:center;gap:10px"><span style="width:26px;color:#fff">${I.trophy}</span>${customer.firstName() ? `${esc(customer.firstName())}, your progress` : 'Your progress'}</h2>
+    <span class="small" style="color:#fff">${esc(rewards.monthLabel())}</span>
   </div>
-  <div>
-    ${board.slice(0, 6).map((r) => `
-      <div class="lb-row${r.isMe ? ' lb-row--me' : ''}${r.rank === 1 ? ' lb-row--1' : ''}">
-        <span class="lb-row__rank">${r.rank}</span>
-        <span class="lb-row__name">${esc(r.name)}${r.isMe ? ' <span class="small">(you)</span>' : ''}</span>
-        <span class="lb-row__score">${r.switches} <small>switches</small></span>
-      </div>`).join('')}
-  </div>
-  <p class="small" style="color:#bbdefb">Sample standings. Live once the programme launches.</p>`;
+  <p style="font-size:44px;font-weight:800;line-height:1;letter-spacing:-0.03em">${status.switched}<span style="font-size:18px;font-weight:600"> of ${status.target} switches</span></p>
+  <div class="progress"><div class="progress__track"><div class="progress__fill" id="prog-hero"></div></div></div>
+  <p class="small" style="color:#fff">${status.toNext} more switch${status.toNext === 1 ? '' : 'es'} to your next reward. Each friend who switches through your link counts.</p>`;
+document.getElementById('leaderboard').classList.replace('board-hero', 'rewards-panel');
 
 // ── Your status, progress and link ──
 const name = customer.firstName();
@@ -37,7 +31,7 @@ document.getElementById('my-status').innerHTML = `
     <div class="card card--shadow stack" style="--stack:18px">
       <div>
         <h2 class="calc-card__title">${name ? `Hi ${esc(name)}` : 'Your progress'}</h2>
-        <p class="small">${[esc(CONFIG.rewards.programmeName), status.sample ? 'sample figures for now' : ''].filter(Boolean).join(' · ')}</p>
+        <p class="small">${esc(CONFIG.rewards.programmeName)}</p>
       </div>
       <div class="stats">
         <div class="stat"><span class="stat__num" data-stat="${status.shared}">0</span><span class="stat__label">Friends referred</span></div>
@@ -63,6 +57,7 @@ document.getElementById('my-status').innerHTML = `
   </div>`;
 
 document.getElementById('prog').style.width = status.progressPct + '%';
+document.getElementById('prog-hero').style.width = status.progressPct + '%';
 
 const copyBtn = document.getElementById('ref-copy');
 copyBtn.addEventListener('click', async () => {
@@ -83,12 +78,12 @@ document.getElementById('ref-share').addEventListener('click', () => {
 });
 
 // ── Activity + reward icons ──
-document.getElementById('activity').innerHTML = rewards.activity().map((a) => `
+// Nothing is invented: until the referral backend reports activity, say so plainly.
+document.getElementById('activity').innerHTML = `
   <div class="activity-row">
-    <span class="activity-row__icon">${I[a.icon] || I.gift}</span>
-    <span>${esc(a.text)}</span>
-    <time>${esc(a.at)}</time>
-  </div>`).join('');
+    <span class="activity-row__icon">${I.gift}</span>
+    <span>Nothing yet. Share your link and you’ll see each friend’s switch here.</span>
+  </div>`;
 
 document.querySelectorAll('[data-icon]').forEach((e) => { e.innerHTML = I[e.dataset.icon]; });
 

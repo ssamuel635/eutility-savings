@@ -29,16 +29,17 @@
   <!-- modulepreload -->
   <link rel="modulepreload" href="assets/js/calc.js">
   <link rel="modulepreload" href="assets/js/config.js">
+  <link rel="modulepreload" href="assets/js/data/photos.js">
   <link rel="modulepreload" href="assets/js/data/plans.js">
-  <link rel="modulepreload" href="assets/js/data/testimonials.js">
   <link rel="modulepreload" href="assets/js/fx.js">
   <link rel="modulepreload" href="assets/js/icons.js">
   <link rel="modulepreload" href="assets/js/layout.js">
+  <link rel="modulepreload" href="assets/js/services/crm.js">
   <link rel="modulepreload" href="assets/js/services/customer.js">
   <link rel="modulepreload" href="assets/js/services/plans-service.js">
   <link rel="modulepreload" href="assets/js/services/store.js">
+  <link rel="modulepreload" href="assets/js/widgets/home-story.js">
   <link rel="modulepreload" href="assets/js/widgets/residential.js">
-  <link rel="modulepreload" href="assets/js/widgets/testimonial.js">
   <!-- /modulepreload -->
   <script type="module" src="assets/js/pages/home.js"></script>
 </head>
@@ -46,12 +47,14 @@
 <main id="main">
 
   <!-- Hero + calculator card (Figma D01 / 01) -->
-  <section class="hero container">
+  <section class="hero hero--photo container">
+    <div class="hero__photo photo-frame" id="hero-photo"></div>
     <div class="grid-2 grid-2--card grid-2--top">
       <div class="hero__copy hero__copy--top">
         <p class="eyebrow reveal">Electricity, minus the homework</p>
         <h1 class="display"><span class="rise"><span>Stop overpaying</span></span><span class="rise"><span style="--d:.15s">for electricity.</span></span></h1>
-        <p class="lead reveal reveal-delay-2">Since 1979, Eutility has helped businesses stop paying more than they should for energy. Now that same independent check is here for your home. Tell us what you use and see what it should cost.</p>
+        <div class="rate-vs reveal reveal-delay-1" id="rate-vs"></div>
+        <p class="lead reveal reveal-delay-2">Independent energy experts since 1979. Tell us what you use, we show you what you should be paying, and we handle the switch.</p>
         <div class="trust reveal reveal-delay-3"><span>Free</span><span>No obligation</span><span data-plan-count>Plans compared</span></div>
         <p class="reveal reveal-delay-3"><a class="link-arrow" href="#" data-wa data-wa-message="Hi Eutility, I'd like to check my electricity savings. I'll send a photo of my bill.">Or send your bill on WhatsApp</a></p>
       </div>
@@ -83,48 +86,39 @@
 
   <!-- What Eutility does -->
   <section class="section container">
-    <div class="section-head">
-      <p class="eyebrow">What we actually do</p>
-      <h2 class="h2">We check, you decide, we handle the rest.</h2>
-      <p class="lead">Eutility is an independent energy and utility management company. We don&rsquo;t supply energy: we analyse what you use, compare the market and help you move when it&rsquo;s worth it. It&rsquo;s the work we do for more than 2,000 businesses across more than 19,000 locations, now made simple for Singapore homes.</p>
-    </div>
-    <div class="grid-3" id="value-grid"></div>
-  </section>
-
-  <!-- Imagery -->
-  <section class="container" style="padding-bottom:clamp(48px,7vw,80px)">
-    <div class="hero__art hero__art--wide reveal">
-      <img src="assets/img/sgimg.jpg" alt="Singapore skyline at dusk" width="1440" height="660" loading="lazy">
-      <span class="art-caption">Eutility: Get control</span>
+    <div class="why">
+      <div class="photo-frame reveal" id="why-photo"></div>
+      <div>
+        <h2 class="h2">We check, you decide, we handle the rest.</h2>
+        <p class="lead" style="margin-top:14px">We don&rsquo;t sell electricity. We compare the market for you, the way we have for more than 2,000 businesses, and help you move when it&rsquo;s worth it.</p>
+        <ul class="why-list" id="why-list"></ul>
+      </div>
     </div>
   </section>
 
   <!-- Explore plans teaser -->
   <section class="section section--cloud container">
     <div class="section-head">
-      <p class="eyebrow">Have a look around</p>
-      <h2 class="h2">Rather browse first?</h2>
-      <p class="lead">Fixed price, no lock-in, green or cheaper at night. See what each one would cost your home before you decide anything, compared side by side on the same terms.</p>
+      <h2 class="h2">Our picks for Singapore homes.</h2>
+      <p class="lead">Picked from every plan we track, priced for a typical home. Check yours above for your own numbers.</p>
     </div>
-    <div class="plan-grid" id="plan-teaser"></div>
+    <div class="picks" id="plan-teaser"></div>
     <p style="margin-top:24px"><a class="link-arrow" href="plans.html">See all plans</a></p>
   </section>
 
   <!-- Testimonials -->
   <section class="section container">
     <div class="section-head">
-      <p class="eyebrow">From the neighbourhood</p>
-      <h2 class="h2">Customer stories.</h2>
-      <p class="pill pill--sample" style="width:max-content">Sample layout — real stories coming soon</p>
+      <h2 class="h2">Homes like yours.</h2>
+      <p class="lead">What switching could look like for a typical Singapore home, worked out from today&rsquo;s rates.</p>
     </div>
     <div class="grid-3" id="home-testimonials"></div>
-    <p style="margin-top:24px"><a class="link-arrow" href="testimonials.html">Read more stories</a></p>
+    <p style="margin-top:24px"><a class="link-arrow" href="testimonials.html">See every type of home</a></p>
   </section>
 
   <!-- How it works -->
   <section class="section section--cloud container">
     <div class="section-head">
-      <p class="eyebrow">How it goes</p>
       <h2 class="h2">Three simple steps.</h2>
     </div>
     <ol class="steps steps--row">
@@ -139,14 +133,12 @@
   <section class="section container">
     <div class="grid-2">
       <div class="stack" style="--stack:18px">
-        <p class="eyebrow">Optional extra</p>
         <h2 class="h2">Keep it all in one place.</h2>
         <p class="lead">You never need an account to check your savings or to switch: send a message and we take it from there. Our business clients track their bills and contracts around the clock in SmartView, Eutility&rsquo;s online portal. Your account keeps your bill, your past checks and your plan details in one place.</p>
         <div class="btn-row">
           <a class="btn" href="signup.html">Create my account</a>
           <a class="btn btn--secondary" href="login.html">I already have one</a>
         </div>
-        <p class="small">Prototype: accounts are stored in your browser for now.</p>
       </div>
       <div class="card card--cloud stack" style="--stack:14px">
         <div class="review-list" style="background:#fff">
@@ -164,7 +156,7 @@
     <div class="banner banner--orange">
       <div class="stack" style="--stack:6px">
         <h2 class="h3">Got a friend still overpaying?</h2>
-        <p style="font-weight:600;color:var(--orange-aa)">Refer a friend → earn rewards. Terms apply.</p>
+        <p>Share your link. When a friend switches with Eutility, it counts towards your next reward. Terms apply.</p>
       </div>
       <a class="btn btn--orange" href="referrals.html">See Eutility Rewards</a>
     </div>

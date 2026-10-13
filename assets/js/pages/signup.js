@@ -1,5 +1,6 @@
 // Sign-up wizard: your details → your home → electricity → bill → review.
-// Everything is saved through the customer service (mock: this browser only).
+// Everything is saved through the customer service (sign-in is mock, this browser only;
+// the details also go to Eutility's CRM through services/crm.js).
 import { initLayout, openWhatsApp, toast, refreshAccountChip } from '../layout.js';
 import { CONFIG } from '../config.js';
 import { AVAILABLE_PLANS, getPlan, compare, fmtMoney, rateLabel, DEFAULT_CURRENT_ID } from '../calc.js';
@@ -114,7 +115,7 @@ function panel() {
         </div>
         <div id="su-file-out"></div>
         <p class="small">Haven’t got it handy? Skip it. You can add it from your account any time.</p>
-        <p class="small">Prototype: files stay in this browser and are not uploaded anywhere.</p>`;
+        <p class="small">A photo or PDF of your latest SP bill. It’s only used to arrange your switch.</p>`;
     default: {
       const cur = getPlan(form.currentPlanId);
       return `
@@ -200,7 +201,7 @@ async function handleFile(file) {
   try {
     bill = await customer.addBill(file);
     showFile();
-    toast(bill.dataUrl || file.type === 'application/pdf' ? 'Bill added' : 'Bill added (no preview in this prototype)');
+    toast('Bill added');
   } catch {
     toast('Couldn’t keep that file in this browser. Try a smaller photo.');
   }
@@ -317,7 +318,6 @@ function finish() {
         <a class="btn btn--secondary btn--block" href="account.html">Go to my account</a>
       </div>
       <p class="small">Next: send us your details on WhatsApp. We check your bill, confirm the plan with you, then help you sign up with the retailer. Your supply is never interrupted.</p>
-      <p class="small">Prototype: your account is saved in this browser only. Nothing reaches Eutility until you send it.</p>
     </div>`;
   card.querySelector('[data-wa-finish]').addEventListener('click', () => openWhatsApp(
     `Hi Eutility, I'd like help switching my electricity plan.\nName: ${saved.fullName}\nAddress: ${[saved.address, saved.unit, saved.postal].filter(Boolean).join(', ')}\nUsage: ${saved.monthlyKwh} kWh/month${target ? `\nInterested in: ${target.retailer} ${target.name}` : ''}`,

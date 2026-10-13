@@ -27,13 +27,6 @@ const next = /^[a-z0-9-]+\.html$/i.test(params.get('next') || '') ? params.get('
 // Already signed in? No reason to show this page.
 if (customer.isSignedIn()) location.replace(next);
 
-document.getElementById('li-demo').addEventListener('click', () => {
-  emailEl.value = customer.DEMO.email;
-  pwEl.value = customer.DEMO.password;
-  setError('form', '');
-  pwEl.focus();
-});
-
 form.addEventListener('submit', (e) => {
   e.preventDefault();
   setError('form', '');

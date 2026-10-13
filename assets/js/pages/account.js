@@ -29,7 +29,6 @@ function signedOut() {
         <a class="btn btn--secondary btn--block" href="signup.html">Create my account</a>
         <a class="btn btn--neutral btn--block" href="calculator.html">Check my savings first</a>
       </div>
-      <p class="small">Prototype: accounts live in this browser only, so nothing you enter reaches Eutility yet.</p>
     </div>`;
 }
 
@@ -76,7 +75,7 @@ function dashboard() {
               <div style="display:flex;justify-content:space-between;font-size:14px"><span>${st.switched} of ${st.target} switches</span><span class="small">${st.toNext} to next reward</span></div>
               <div class="progress__track"><div class="progress__fill" style="width:${st.progressPct}%"></div></div>
             </div>
-            <p class="small">${esc(CONFIG.rewards.programmeName)} · sample figures until the programme goes live.</p>
+            <p class="small">${esc(CONFIG.rewards.programmeName)}</p>
             <a class="btn btn--secondary btn--block btn--sm" href="referrals.html">See the leaderboard</a>
           </div>
         </div>
@@ -118,7 +117,7 @@ function dashboard() {
                 <span class="file-chip__meta"><strong>${esc(b.name || 'Bill')}</strong><span class="small">${isNum(b.size) ? `${Math.max(1, Math.round(b.size / 1024))} KB · ` : ''}${fmtDate(b.at)}${b.sample ? ' · sample' : ''}</span></span>
               </div>`).join('')
             : `<div class="empty"><p>No bill uploaded yet</p><a class="btn btn--sm btn--secondary" href="signup.html">Upload a bill</a></div>`}
-            <p class="small">Prototype: bills are kept in this browser only and are not sent to Eutility.</p>
+            <p class="small">Bills you add are sent to Eutility to arrange your switch.</p>
           </div>
 
           <div class="dash-card">
@@ -129,12 +128,8 @@ function dashboard() {
         </div>
       </div>
 
-      <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between;border-top:1px solid var(--border);padding-top:20px">
-        <p class="small" style="max-width:520px">This prototype keeps everything in this browser. “Clear demo data” removes your profile, checks and bills from it.</p>
-        <div style="display:flex;gap:12px">
-          <button class="btn btn--neutral btn--sm" type="button" data-signout>Log out</button>
-          <button class="btn btn--neutral btn--sm" type="button" data-clear style="color:var(--red-aa)">Clear demo data</button>
-        </div>
+      <div style="display:flex;justify-content:flex-end;border-top:1px solid var(--border);padding-top:20px">
+        <button class="btn btn--neutral btn--sm" type="button" data-signout>Log out</button>
       </div>
     </div>`;
 
@@ -142,11 +137,6 @@ function dashboard() {
     `Hi Eutility, this is ${c.fullName}. I have a question about my electricity plan.`,
   ));
   root.querySelector('[data-signout]').addEventListener('click', () => { customer.signOut(); location.reload(); });
-  root.querySelector('[data-clear]').addEventListener('click', () => {
-    customer.clearDemoData();
-    toast('Demo data cleared');
-    setTimeout(() => location.reload(), 600);
-  });
 }
 
 customer.isSignedIn() ? dashboard() : signedOut();

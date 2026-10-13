@@ -303,6 +303,11 @@ async function celebrate(numEl, yearly) {
   if (yearly > CONFIG.confettiThreshold) confetti();
 }
 
+/** The method, in one place — shown in the fine-print panel. */
+function howWeEstimate(inputs) {
+  return `How we estimate: your usage × each plan’s published rate (plus any daily charge), compared with your current plan. Retailer rates as at ${RATES_DATE}. Discount-off-tariff plans use SP Group’s regulated tariff of ${TARIFF}¢/kWh for ${TARIFF_PERIOD} (incl. GST). Time-of-use plans assume ${Math.round(inputs.offPeakShare * 100)}% of your usage is off-peak. Promotions are shown separately and not included. Your actual bill depends on your usage and the retailer’s terms.`;
+}
+
 /** Shown when nothing beats the current plan: still give the visitor somewhere to go. */
 function goodNewsActions(inputs, current, params) {
   const msg = `Hi Eutility, your calculator says I'm already on one of the cheapest plans (${current.retailer} ${current.name}, about ${inputs.kwh} kWh a month). Are there any promotions I should know about?`;
@@ -393,7 +398,6 @@ function renderFull(el, res, inputs) {
           <span class="reveal-num__label">You could save</span>
           <span class="reveal-num__big">S$<span data-n>0</span><small>/year</small></span>
           <span class="reveal-num__sub">That’s <span class="num">${fmtMoney(best.savingMonthly, 2)}</span> a month</span>
-          ${freeMonths(best) ? `<span class="free-months">That’s about ${freeMonths(best)} of electricity bills</span>` : ''}
         </div>
         <div class="plan-vs">
           <div class="plan-box">
@@ -408,30 +412,27 @@ function renderFull(el, res, inputs) {
             <span class="plan-box__name">${esc(b.retailer)} · ${esc(b.name)}</span>
             <span class="plan-box__meta">${esc(rateLabel(b))} · ${contractLabel(b.contractMonths)}</span>
             <span class="plan-box__bill">${fmtMoney(best.total, 2)}<span class="small">/mo</span></span>
+            ${promo ? '<span class="tag tag--promo" style="justify-self:start;margin-top:4px">+ retailer promotion</span>' : ''}
           </div>
         </div>
-        ${tiedWith ? `<p class="small">${tiedWith} other plan${tiedWith === 1 ? ' costs' : 's cost'} the same at your usage. They’re all in the full list below.</p>` : ''}
-        ${promo ? `<div class="promo"><span aria-hidden="true" style="width:22px;flex:none;color:var(--orange-aa)">${I.gift}</span><div><strong>Retailer promotion:</strong> ${esc(promo.title ? `${promo.title}, ${promo.value}` : promo.value)}${promo.code ? ` · code <strong>${esc(promo.code)}</strong>` : ''}${promo.expires ? ` · ends ${esc(fmtDate(promo.expires))}` : ''}${promo.conditions ? `<br><span class="small">${esc(promo.conditions)}</span>` : ''}<br><span class="small">Set by the retailer; terms and availability may change. Not included in the savings above.</span></div></div>` : ''}
         <div class="btn-row">
           <button class="btn btn--urgent" type="button" data-switch data-wa-switch>${I.chat}<span>Switch on WhatsApp</span></button>
           <button class="btn btn--secondary" type="button" data-mail-switch>${I.mail}<span>Switch by email</span></button>
         </div>
-        <p class="small">No account needed. We’ll reply to confirm the plan, then help you sign up with the retailer. Nothing is submitted without your OK. · <a href="plans.html?kwh=${inputs.kwh}">Browse all plans</a></p>
-
-        ${customer.isSignedIn()
-          ? `<p class="small">Saved to your account. <a href="account.html">See your checks</a></p>`
-          : `<div class="save-offer">
-               <div>
-                 <p class="h4">Want us to remember this?</p>
-                 <p class="small">Keep this comparison, your bill and your electricity details in one place. Free, and takes about 2 minutes.</p>
-               </div>
-               <a class="btn btn--secondary" href="signup.html?plan=${encodeURIComponent(b.id)}&kwh=${inputs.kwh}">Create my account</a>
-             </div>`}
+        <p class="res-actions-note">No account needed. We confirm the plan with you before anything is submitted. · <a href="plans.html?kwh=${inputs.kwh}">Browse all plans</a>${customer.isSignedIn() ? ' · Saved to <a href="account.html">your account</a>' : ` · <a href="signup.html?plan=${encodeURIComponent(b.id)}&kwh=${inputs.kwh}">Save this to an account</a>`}</p>
+        <details class="disclosure">
+          <summary>Plan details and fine print</summary>
+          <div class="disclosure__body">
+        ${tiedWith ? `<p class="small">${tiedWith} other plan${tiedWith === 1 ? ' costs' : 's cost'} the same at your usage. They’re all in the full list below.</p>` : ''}
+        ${promo ? `<div class="promo"><span aria-hidden="true" style="width:22px;flex:none;color:var(--orange-aa)">${I.gift}</span><div><strong>Retailer promotion:</strong> ${esc(promo.title ? `${promo.title}, ${promo.value}` : promo.value)}${promo.code ? ` · code <strong>${esc(promo.code)}</strong>` : ''}${promo.expires ? ` · ends ${esc(fmtDate(promo.expires))}` : ''}${promo.conditions ? `<br><span class="small">${esc(promo.conditions)}</span>` : ''}<br><span class="small">Set by the retailer; terms and availability may change. Not included in the savings above.</span></div></div>` : ''}
         <ul class="note-list">
           ${b.notes.map((n) => `<li>${esc(n)}</li>`).join('')}
           ${b.contractMonths ? `<li>Early termination: ${esc(b.etf || 'see retailer terms')}</li>` : ''}
           ${b.deposit ? `<li>Deposit: ${esc(b.deposit)}</li>` : ''}
-        </ul>`}
+        </ul>
+            <p class="small">${howWeEstimate(inputs)}</p>
+          </div>
+        </details>`}
     </div>
 
     ${noMatches ? '' : `<div class="card stack enter" style="--stack:16px;--d:.15s">
@@ -465,7 +466,7 @@ function renderFull(el, res, inputs) {
       </div>
     </details>`}
 
-    <p class="small">How we estimate: your usage × each plan’s published rate (plus any daily charge), compared with your current plan. Retailer rates as at ${RATES_DATE}. Discount-off-tariff plans use SP Group’s regulated tariff of ${TARIFF}¢/kWh for ${TARIFF_PERIOD} (incl. GST). Time-of-use plans assume ${Math.round(inputs.offPeakShare * 100)}% of your usage is off-peak. Promotions are shown separately and not included. Your actual bill depends on your usage and the retailer’s terms.</p>
+    ${alreadyBest || noMatches ? `<p class="small">${howWeEstimate(inputs)}</p>` : `<p class="small muted-note">Estimates use retailer rates as at ${RATES_DATE}.</p>`}
   </div>`;
 
   // Keep the result in the customer's account (mock storage) when signed in

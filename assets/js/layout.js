@@ -70,7 +70,7 @@ function header(page) {
         ${links}
         <a href="${customer.isSignedIn() ? 'account.html' : 'login.html'}"${page === 'account' || page === 'login' ? ' aria-current="page"' : ''}>${customer.isSignedIn() ? 'My account' : 'Log in'}</a>
         ${customer.isSignedIn() ? '' : `<a href="signup.html"${page === 'signup' ? ' aria-current="page"' : ''}>Create an account</a>`}
-        <a href="testimonials.html"${page === 'testimonials' ? ' aria-current="page"' : ''}>Testimonials</a>
+        <a href="testimonials.html"${page === 'testimonials' ? ' aria-current="page"' : ''}>Homes like yours</a>
         <a href="about.html"${page === 'about' ? ' aria-current="page"' : ''}>About &amp; contact</a>
       </nav>
       <div class="drawer__actions">
@@ -104,7 +104,7 @@ function footer() {
             <li><a href="how-it-works.html">How it works</a></li>
             <li><a href="plans.html">Explore plans</a></li>
             <li><a href="referrals.html">${CONFIG.rewards.programmeName}</a></li>
-            <li><a href="testimonials.html">Testimonials</a></li>
+            <li><a href="testimonials.html">Homes like yours</a></li>
           </ul>
         </div>
         <div>
@@ -455,7 +455,9 @@ function prefetchLinks() {
 // the new one loads, which reads as the page hanging.
 addEventListener('pagereveal', (e) => {
   const nav = performance.getEntriesByType('navigation')[0];
-  if (e.viewTransition && nav && nav.type === 'reload') e.viewTransition.skipTransition();
+  if (!e.viewTransition || !nav || nav.type !== 'reload') return;
+  e.viewTransition.ready.catch(() => {}); // skipping rejects this promise; that's expected
+  e.viewTransition.skipTransition();
 });
 
 // ── Page-load choreography ──────────────────────────────────
@@ -517,8 +519,30 @@ function fadeInPhotos() {
   });
 }
 
+// ── Lite mode ───────────────────────────────────────────────
+// Budget phones (≤4 GB memory or ≤4 cores) and data-saver get the same
+// animations without the costly parts: blur filters, frosted glass, the slow
+// photo zoom and heavy confetti. styles.css keys off html.lite.
+export const isLite = (() => {
+  try {
+    const n = navigator;
+    return (n.deviceMemory && n.deviceMemory <= 4) || (n.hardwareConcurrency && n.hardwareConcurrency <= 4) || n.connection?.saveData === true;
+  } catch { return false; }
+})();
+
+// ── Photos that aren't there yet become a tinted panel, never a broken image ──
+function photoFallbacks(root = document) {
+  root.querySelectorAll('img[data-photo]').forEach((img) => {
+    const miss = () => img.closest('.photo-frame')?.classList.add('is-missing');
+    if (img.complete && !img.naturalWidth) miss();
+    else img.addEventListener('error', miss, { once: true });
+  });
+}
+export { photoFallbacks };
+
 export function initLayout() {
   document.documentElement.classList.remove('no-js');
+  if (isLite) document.documentElement.classList.add('lite');
   const page = document.body.dataset.page;
   document.body.insertAdjacentHTML('afterbegin', header(page));
   document.body.insertAdjacentHTML('beforeend', footer());
@@ -572,4 +596,5 @@ export function initLayout() {
   bootSequence();
   routeBar();
   fadeInPhotos();
+  photoFallbacks();
 }
