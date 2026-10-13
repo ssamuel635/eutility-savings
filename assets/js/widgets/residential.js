@@ -276,9 +276,17 @@ function freeMonths(best) {
 function planWaMessage(res, inputs) {
   const b = res.best.plan;
   const c = res.current.plan;
-  return `Hi Eutility, I'd like to switch from ${c.retailer} ${c.name} to ${b.retailer} ${b.name}.`
-    + ` I use about ${inputs.kwh} kWh a month, and your calculator says I could save around ${fmtMoney(res.best.savingYearly)}/year`
-    + ` (${fmtMoney(res.best.savingMonthly)}/month). Can you help me switch?`;
+  // Same line-by-line format as the app, so the chatbot reads one format from every channel.
+  return [
+    "Hi Eutility, I'd like to switch my electricity plan.",
+    '',
+    `Usage: ${inputs.kwh} kWh/month`,
+    `Current plan: ${c.retailer} – ${c.name}`,
+    `Selected plan: ${b.retailer} – ${b.name}`,
+    `Estimated savings: ${fmtMoney(res.best.savingYearly)}/year`,
+    '(sent from the Eutility website)',
+  ].join('
+');
 }
 
 /** On phones the bottom bar becomes this result's switch button (layout.js). */

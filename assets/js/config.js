@@ -47,6 +47,14 @@ export const CONFIG = {
   // Pre-filled message for the WhatsApp handoff (from the creative brief §6).
   whatsappDefaultMessage: "Hi Eutility, I'd like to check my electricity savings.",
 
+  // Chatbot hand-off. WhatsApp only lets the customer send the first message,
+  // so the pre-filled text from the website/app IS the conversation opener.
+  // If FXMedia's bot only starts on a particular word or phrase (e.g. "Hi" or
+  // "SWITCH"), put it here: it's added as the first line of every hand-off
+  // message, from the website and the app. Leave empty if any message works.
+  // TODO: confirm with FXMedia.
+  chatbotTrigger: '',
+
   // TODO: confirm public contact details.
   email: 'customerservice@eutility.com.sg',
   phone: '+65 9790 8347',
@@ -104,7 +112,10 @@ export function extLink(href, label, cls = '') {
 }
 
 export function waLink(message = CONFIG.whatsappDefaultMessage) {
-  return `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
+  const t = CONFIG.chatbotTrigger;
+  const text = t && !message.startsWith(t) ? `${t}
+${message}` : message;
+  return `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(text)}`;
 }
 
 /**
