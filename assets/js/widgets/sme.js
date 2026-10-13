@@ -4,6 +4,8 @@ import { smeEstimate, fmtMoney, TARIFF, TARIFF_PERIOD } from '../calc.js';
 import { openWhatsApp, openEmail, toast } from '../layout.js';
 import { countUp } from '../fx.js';
 import * as I from '../icons.js';
+import * as crm from '../services/crm.js';
+import * as customer from '../services/customer.js';
 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const usage = (v) => { const n = Number(v); return Number.isFinite(n) && n > 0 ? n : 0; };
@@ -154,14 +156,26 @@ export function mountSme(root) {
       .map(([s, i]) => `• ${s.name.trim() || `Site ${i + 1}`}: ${usage(s.kwh).toLocaleString('en-SG')} kWh`).join('\n');
     return `Hi Eutility, I'd like a business electricity quote.\nCompany: ${company}\n${lines}\nTotal: ${est.totalKwh.toLocaleString('en-SG')} kWh/month (illustrative saving ${fmtMoney(est.savingYearly)}/year)`;
   }
-  root.querySelector('#sme-talk').addEventListener('click', () => {
+  // One reference per enquiry: it goes in the message and on the CRM row, so a
+  // consultant (or the chatbot) can pull up the sites without asking again.
+  let ref = '';
+  function sendQuote(channel) {
     const msg = quoteMessage();
-    if (msg) openWhatsApp(msg);
-  });
-  root.querySelector('#sme-mail').addEventListener('click', () => {
-    const msg = quoteMessage();
-    if (msg) openEmail(msg, `Business electricity quote — ${company}`);
-  });
+    if (!msg) return;
+    ref ||= crm.newReference('EB');
+    const est = update();
+    crm.logBusinessEnquiry(ref, {
+      companyName: company,
+      sites: sites.map((s, i) => ({ name: s.name.trim() || `Site ${i + 1}`, kwh: usage(s.kwh) })).filter((s) => s.kwh > 0),
+      savingYearly: est.savingYearly,
+      tier: est.tier?.label,
+    }, customer.get());
+    const text = `${msg}\nReference: ${ref}`;
+    if (channel === 'email') openEmail(text, `Business electricity quote — ${company}`);
+    else openWhatsApp(text);
+  }
+  root.querySelector('#sme-talk').addEventListener('click', () => sendQuote('whatsapp'));
+  root.querySelector('#sme-mail').addEventListener('click', () => sendQuote('email'));
 
   renderSites();
   update();

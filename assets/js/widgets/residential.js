@@ -10,6 +10,7 @@ import {
 import { countUp, confetti, ding, wait, soundEnabled, setSound, reducedMotion } from '../fx.js';
 import { openWhatsApp, openEmail, toast, setBarAction } from '../layout.js';
 import * as customer from '../services/customer.js';
+import * as crm from '../services/crm.js';
 import * as I from '../icons.js';
 
 const RETAILERS = [...new Set(AVAILABLE_PLANS.map((p) => p.retailer))];
@@ -273,7 +274,7 @@ function freeMonths(best) {
  * switch, which is why nobody has to make an account first — the fast path is
  * calculator → results → WhatsApp, and this message is what makes that work.
  */
-function planWaMessage(res, inputs) {
+function planWaMessage(res, inputs, reference) {
   const b = res.best.plan;
   const c = res.current.plan;
   // Same line-by-line format as the app, so the chatbot reads one format from every channel.
@@ -284,20 +285,35 @@ function planWaMessage(res, inputs) {
     `Current plan: ${c.retailer} – ${c.name}`,
     `Selected plan: ${b.retailer} – ${b.name}`,
     `Estimated savings: ${fmtMoney(res.best.savingYearly)}/year`,
+    // The chatbot (and staff) look the comparison up by this code.
+    ...(reference ? [`Reference: ${reference}`] : []),
     '(sent from the Eutility website)',
-  ].join('
-');
+  ].join('\n');
 }
 
 /** On phones the bottom bar becomes this result's switch button (layout.js). */
-function barFor(res, inputs, el) {
+function barFor(res, inputs, el, reference) {
   if (!res.best || res.alreadyBest || res.noMatches) { setBarAction(null); return; }
   setBarAction({
     label: `Switch & save ${fmtMoney(res.best.savingYearly)}/yr`,
     sub: `${res.best.plan.retailer} ${res.best.plan.name}`,
-    message: planWaMessage(res, inputs),
+    message: planWaMessage(res, inputs, reference),
     subject: planMailSubject(res),
+    onSend: (channel) => logSwitch(res, inputs, reference, channel),
   }, el.querySelector('[data-wa-switch]'));
+}
+
+/** Record the comparison in the CRM when someone taps Switch (no account needed). */
+function logSwitch(res, inputs, reference, channel) {
+  crm.logComparison(reference, channel === 'email' ? 'switch_email' : 'switch_whatsapp', {
+    kwh: inputs.kwh,
+    currentPlanName: `${res.current.plan.retailer} · ${res.current.plan.name}`,
+    bestPlanName: `${res.best.plan.retailer} · ${res.best.plan.name}`,
+    savingMonthly: res.best.savingMonthly,
+    savingYearly: res.best.savingYearly,
+    contract: inputs.contract,
+    greenOnly: inputs.greenOnly,
+  }, customer.get());
 }
 
 /** The same thing, as an email subject. */
@@ -357,8 +373,9 @@ async function renderCompact(el, res, inputs) {
     </div>`;
   const r = el.getBoundingClientRect();
   if (r.bottom > innerHeight || r.top < 0) el.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'center' });
-  el.querySelector('[data-wa-switch]')?.addEventListener('click', () => openWhatsApp(planWaMessage(res, inputs)));
-  barFor(res, inputs, el);
+  const ref = crm.newReference('EC');
+  el.querySelector('[data-wa-switch]')?.addEventListener('click', () => { logSwitch(res, inputs, ref, 'whatsapp'); openWhatsApp(planWaMessage(res, inputs, ref)); });
+  barFor(res, inputs, el, ref);
   await celebrate(el.querySelector('[data-n]'), res.best.savingYearly);
   el.querySelector('[data-switch]').classList.add('btn--pulse');
 }
@@ -494,9 +511,10 @@ function renderFull(el, res, inputs) {
 
   // Wire actions — the switch handoff carries the plan and the numbers, so this
   // alone is a complete request. The account offer sits beside it, never in front.
-  el.querySelector('[data-wa-switch]')?.addEventListener('click', () => openWhatsApp(planWaMessage(res, inputs)));
-  el.querySelector('[data-mail-switch]')?.addEventListener('click', () => openEmail(planWaMessage(res, inputs), planMailSubject(res)));
-  barFor(res, inputs, el);
+  const ref = best ? crm.newReference('EC') : '';
+  el.querySelector('[data-wa-switch]')?.addEventListener('click', () => { logSwitch(res, inputs, ref, 'whatsapp'); openWhatsApp(planWaMessage(res, inputs, ref)); });
+  el.querySelector('[data-mail-switch]')?.addEventListener('click', () => { logSwitch(res, inputs, ref, 'email'); openEmail(planWaMessage(res, inputs, ref), planMailSubject(res)); });
+  barFor(res, inputs, el, ref);
   el.querySelector('[data-widen]')?.addEventListener('click', () => el.dispatchEvent(new CustomEvent('calc:widen', { bubbles: true })));
   const soundBtn = el.querySelector('[data-sound]');
   soundBtn.addEventListener('click', () => {

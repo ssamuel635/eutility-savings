@@ -391,11 +391,13 @@ function mobileBar(bar) {
   main.addEventListener('click', (e) => {
     if (!barAction) return;                      // default: generic chat (data-wa handler)
     e.preventDefault(); e.stopImmediatePropagation();
+    barAction.onSend?.('whatsapp');
     openWhatsApp(barAction.message);
   }, true);
   alt.addEventListener('click', (e) => {
     if (!barAction) return;
     e.preventDefault(); e.stopImmediatePropagation();
+    barAction.onSend?.('email');
     openEmail(barAction.message, barAction.subject);
   }, true);
 }
