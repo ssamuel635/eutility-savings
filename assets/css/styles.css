@@ -1931,3 +1931,11 @@ body { line-height: 1.65; }
 .report > .small { padding: 0 14px; }
 #step4 .phone__screen { height: 380px; }
 .dash-card .ico-tile { margin-bottom: 4px; }
+
+/* Plans page: "Every plan at a glance" (written into the HTML by tools/prerender.mjs) */
+.plan-glance { margin-top: calc(-1 * clamp(40px, 6vw, 72px)); padding-bottom: clamp(48px, 7vw, 88px); }
+.plan-glance summary > span { display: grid; gap: 2px; }
+.plan-glance summary h2 { margin: 0; }
+.plan-glance details, .plan-glance .acc__body { min-width: 0; }   /* let the table scroll instead of widening the page */
+.plan-glance .table-scroll { max-height: none; }
+.plan-glance .plan-table td { white-space: nowrap; }

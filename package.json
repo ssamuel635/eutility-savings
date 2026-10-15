@@ -8,7 +8,7 @@
     "test": "node --test tests/calc.test.mjs tests/gate.test.mjs tests/crm.test.mjs tests/auth.test.mjs",
     "data": "python3 tools/build_data.py",
     "preload": "node tools/preload.mjs",
-    "seo": "node tools/seo.mjs",
+    "seo": "node tools/seo.mjs && node tools/prerender.mjs",
     "og": "python3 tools/make_og_image.py",
     "tunnel": "node tools/tunnel.mjs"
   },
