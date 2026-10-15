@@ -4,6 +4,8 @@ import { homeStories, storyCard } from '../widgets/home-story.js';
 import { MARKET_PLANS, fmtMoney, PLAN_COUNT, RETAILER_COUNT, TARIFF, TARIFF_PERIOD } from '../calc.js';
 import { CONFIG } from '../config.js';
 import { photo } from '../data/photos.js';
+import { TESTIMONIALS, quoteCard } from '../data/testimonials.js';
+import * as rewards from '../services/rewards.js';
 import * as plans from '../services/plans-service.js';
 import * as I from '../icons.js';
 
@@ -77,8 +79,18 @@ document.getElementById('plan-teaser').innerHTML = picks.map(([label, r, img], i
 const tip = document.querySelector('#plan-teaser')?.closest('section')?.querySelector('.section-head .lead');
 if (tip) tip.textContent = `Picked from every plan we track, priced for a home using ${kwh} kWh a month. Check yours above for your own numbers.`;
 
-// Homes like yours: real estimates for typical homes (no sample quotes)
+// What switching could save: real estimates for typical homes
 document.getElementById('home-testimonials').innerHTML = homeStories(['HDB 3-room', 'HDB 5-room', 'Condo']).map(storyCard).join('');
+
+// Testimonials: three of Eutility's published client quotes
+document.getElementById('home-quotes').innerHTML = TESTIMONIALS.slice(0, 3).map(quoteCard).join('');
+
+// Rewards teaser: four things points can buy
+document.getElementById('home-rewards').innerHTML = rewards.catalogue().filter((r) => ['air-fryer', 'rice-cooker', 'ps5', 'robot-vacuum'].includes(r.id)).map((r) => `
+  <figure class="reward-mini"><img src="${r.src}" alt="" loading="lazy" decoding="async" width="600" height="600"><figcaption>${esc(r.name)}<span>${rewards.fmtPts(r.points)}</span></figcaption></figure>`).join('');
+
+// Photos in the lower sections (steps, account, the closing band)
+document.querySelectorAll('[data-photo-slot]').forEach((el) => { el.innerHTML = photo(el.dataset.photoSlot, { sizes: '(min-width: 1024px) 33vw, 100vw' }); });
 
 // Retailer marquee (names only; duplicated once for a seamless loop — the copy is
 // hidden from screen readers, and from everyone when motion is reduced).

@@ -21,6 +21,18 @@ const NAV = [
   { href: 'faq.html', label: 'FAQ', key: 'faq' },
 ];
 
+// The phone menu: every page as a big tile with a coloured icon and a hint.
+const DRAWER = [
+  { href: 'index.html', label: 'Home', hint: 'Start here', key: 'home', icon: 'home', tone: 'blue' },
+  { href: 'calculator.html', label: 'Savings calculator', hint: 'In 30 seconds', key: 'calculator', icon: 'calc', tone: 'blue' },
+  { href: 'plans.html', label: 'Explore plans', hint: 'Every retailer', key: 'plans', icon: 'list', tone: 'navy' },
+  { href: 'referrals.html', label: 'Rewards', hint: 'Points for referrals', key: 'referrals', icon: 'gift', tone: 'red' },
+  { href: 'how-it-works.html', label: 'How it works', hint: 'Three steps', key: 'how', icon: 'bolt', tone: 'teal' },
+  { href: 'testimonials.html', label: 'Testimonials', hint: 'What clients say', key: 'testimonials', icon: 'quote', tone: 'orange' },
+  { href: 'faq.html', label: 'FAQ', hint: 'Quick answers', key: 'faq', icon: 'help', tone: 'green' },
+  { href: 'about.html', label: 'About & contact', hint: 'Since 1979', key: 'about', icon: 'info', tone: 'navy' },
+];
+
 export const store = {
   get(k) { try { return localStorage.getItem(k); } catch { return null; } },
   set(k, v) { try { localStorage.setItem(k, v); } catch { /* private mode */ } },
@@ -65,16 +77,19 @@ function header(page) {
         <a class="logo" href="index.html" aria-label="Eutility home">${logo()}</a>
         <button class="menu-btn" type="button" aria-label="Close menu" data-close>${I.close}</button>
       </div>
-      <nav aria-label="Mobile">
-        <a href="index.html"${page === 'home' ? ' aria-current="page"' : ''}>Home</a>
-        ${links}
-        <a href="${customer.isSignedIn() ? 'account.html' : 'login.html'}"${page === 'account' || page === 'login' ? ' aria-current="page"' : ''}>${customer.isSignedIn() ? 'My account' : 'Log in'}</a>
-        ${customer.isSignedIn() ? '' : `<a href="signup.html"${page === 'signup' ? ' aria-current="page"' : ''}>Create an account</a>`}
-        <a href="testimonials.html"${page === 'testimonials' ? ' aria-current="page"' : ''}>Homes like yours</a>
-        <a href="about.html"${page === 'about' ? ' aria-current="page"' : ''}>About &amp; contact</a>
+      <a class="drawer-promo" href="calculator.html">
+        <img src="assets/img/people/hdb-blocks.jpg" alt="" width="1200" height="800" loading="lazy" decoding="async" data-photo>
+        <span><strong>What could you save?</strong>Compare every plan in 30 seconds ${I.chevron}</span>
+      </a>
+      <nav class="drawer-grid" aria-label="Mobile">
+        ${DRAWER.map((d) => `<a href="${d.href}"${d.key === page ? ' aria-current="page"' : ''}><span class="ico-tile ico-tile--${d.tone}">${I[d.icon]}</span><span><strong>${d.label}</strong><small>${d.hint}</small></span></a>`).join('')}
       </nav>
+      <div class="drawer-account">
+        ${customer.isSignedIn()
+          ? `<a href="account.html"${page === 'account' ? ' aria-current="page"' : ''}><span class="account-chip__avatar">${esc(initials())}</span><span><strong>My account</strong><small>Checks, bills and points</small></span>${I.chevron}</a>`
+          : `<a href="login.html"${page === 'login' ? ' aria-current="page"' : ''}><span class="ico-tile ico-tile--blue">${I.login}</span><span><strong>Log in</strong></span></a><a href="signup.html"${page === 'signup' ? ' aria-current="page"' : ''}><span class="ico-tile ico-tile--green">${I.userPlus}</span><span><strong>Sign up</strong></span></a>`}
+      </div>
       <div class="drawer__actions">
-        <a class="btn btn--block" href="calculator.html">Check my savings</a>
         <a class="btn btn--neutral btn--block" href="${waLink()}" data-wa>${I.chat}<span>Chat on WhatsApp</span></a>
       </div>
     </div>
@@ -104,7 +119,7 @@ function footer() {
             <li><a href="how-it-works.html">How it works</a></li>
             <li><a href="plans.html">Explore plans</a></li>
             <li><a href="referrals.html">${CONFIG.rewards.programmeName}</a></li>
-            <li><a href="testimonials.html">Homes like yours</a></li>
+            <li><a href="testimonials.html">Testimonials</a></li>
           </ul>
         </div>
         <div>
@@ -241,21 +256,34 @@ function loadQr() {
 
 // While a drawer, modal or sheet is open the page behind it can't scroll and
 // can't be reached with Tab: everything else in <body> is made inert.
-let lockedBy = null;
-export function lockBackground(layer) {
-  lockedBy = layer;
-  document.documentElement.classList.add('is-locked');
+// Layers stack: a modal opened over a sheet (e.g. "Ask about this plan" on the
+// plans page) becomes the live layer and the sheet goes inert under it; when
+// the modal closes, the sheet is live again. Only the top layer is ever usable.
+const layers = [];
+function applyLock() {
+  const top = layers[layers.length - 1];
+  document.documentElement.classList.toggle('is-locked', !!top);
   [...document.body.children].forEach((c) => {
-    if (c === layer || c.contains(layer) || c.id === 'toast' || c.tagName === 'SCRIPT') return;
-    if (!c.inert) { c.inert = true; c.dataset.lockInert = '1'; }
+    if (c.id === 'toast' || c.tagName === 'SCRIPT') return;
+    const shouldLock = !!top && c !== top && !c.contains(top);
+    if (shouldLock && !c.inert) { c.inert = true; c.dataset.lockInert = '1'; }
+    // Only undo what we set: something made inert elsewhere stays inert.
+    if (!shouldLock && c.dataset.lockInert) { c.inert = false; delete c.dataset.lockInert; }
   });
 }
-export function unlockBackground(layer) {
-  if (layer && lockedBy && layer !== lockedBy) return;
-  lockedBy = null;
-  document.documentElement.classList.remove('is-locked');
-  document.querySelectorAll('[data-lock-inert]').forEach((c) => { c.inert = false; delete c.dataset.lockInert; });
+export function lockBackground(layer) {
+  const i = layers.indexOf(layer);
+  if (i !== -1) layers.splice(i, 1);
+  layers.push(layer);
+  applyLock();
 }
+export function unlockBackground(layer) {
+  const i = layer ? layers.indexOf(layer) : layers.length - 1;
+  if (i !== -1) layers.splice(i, 1);
+  applyLock();
+}
+/** The layer on top, if any (Escape closes only this one). */
+export const topLayer = () => layers[layers.length - 1] || null;
 
 function openLayer(el, trigger) {
   el.classList.add('is-open');
@@ -573,8 +601,12 @@ export function initLayout() {
   }));
   addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
-    document.querySelectorAll('.drawer.is-open, .modal.is-open').forEach(closeLayer);
-    menuBtn.setAttribute('aria-expanded', 'false');
+    // Close only the top layer; a sheet underneath stays open.
+    const top = topLayer();
+    if (!top || !top.matches('.drawer, .modal')) return;
+    closeLayer(top);
+    if (top === drawer) menuBtn.setAttribute('aria-expanded', 'false');
+    e.stopImmediatePropagation();
   });
 
   // Any element with data-wa opens WhatsApp; data-wa-message overrides the text.

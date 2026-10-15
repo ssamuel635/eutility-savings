@@ -8,6 +8,7 @@ import { Button, ChipGroup, ErrorNote, Field, Screen, Text } from '@/components'
 import { api, ApiError, type Dwelling } from '@/api';
 import { useSession } from '@/state/session';
 import { space } from '@/theme';
+import { displayPhone } from '@/lib/format';
 
 const DWELLINGS: Dwelling[] = ['HDB 1- or 2-room', 'HDB 3-room', 'HDB 4-room', 'HDB 5-room', 'HDB Executive', 'Condominium / Apartment', 'Landed property'];
 
@@ -70,11 +71,11 @@ export default function Register() {
     >
       <View style={{ gap: space.sm }}>
         <Text variant="h1">A few details</Text>
-        <Text variant="body">+65 {phone} is verified. Tell us who you are and where you live.</Text>
+        <Text variant="body">+65 {displayPhone(String(phone ?? ''))} is verified. Tell us who you are and where you live.</Text>
       </View>
       <Field label="Full name" value={form.fullName} onChangeText={set('fullName')} autoComplete="name" textContentType="name" error={err('fullName')} />
       <Field label="Email" value={form.email} onChangeText={set('email')} keyboardType="email-address" autoCapitalize="none" autoComplete="email" error={err('email')} hint="For your switch confirmation and contract." />
-      <Field label="Address" value={form.address} onChangeText={set('address')} autoComplete="street-address" placeholder="Blk 123 Sample St 11, #08-45" error={err('address')} />
+      <Field label="Address" value={form.address} onChangeText={set('address')} autoComplete="street-address" placeholder="Blk 123 Ang Mo Kio Ave 4, #08-45" error={err('address')} />
       <Field label="Postal code" value={form.postal} onChangeText={(t) => set('postal')(t.replace(/\D/g, '').slice(0, 6))} keyboardType="number-pad" autoComplete="postal-code" error={err('postal')} />
       <ChipGroup label="Home type" options={DWELLINGS.map((d) => ({ value: d, label: d }))} value={dwelling} onChange={setDwelling} />
       <Field label="Password (optional)" value={form.password} onChangeText={set('password')} secureTextEntry autoComplete="new-password" error={err('password')} hint="Lets you sign in by email if you can’t get an SMS." />

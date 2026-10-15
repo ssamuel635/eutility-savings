@@ -5,6 +5,7 @@ import { Button, ErrorNote, Field, Screen, Text } from '@/components';
 import { api, ApiError } from '@/api';
 import { useSession } from '@/state/session';
 import { colors, space } from '@/theme';
+import { displayPhone } from '@/lib/format';
 
 const RESEND_AFTER = 60;
 
@@ -48,7 +49,7 @@ export default function Otp() {
     <Screen edges={['bottom']} footer={<Button label="Verify" loading={busy} disabled={code.length !== 6} onPress={() => verify()} />}>
       <View style={{ gap: space.sm }}>
         <Text variant="h1">Enter your code</Text>
-        <Text variant="body">We sent a 6-digit code to +65 {phone}.</Text>
+        <Text variant="body">We sent a 6-digit code to +65 {displayPhone(String(phone ?? ''))}.</Text>
       </View>
       <Field
         label="6-digit code"

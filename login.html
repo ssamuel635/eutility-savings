@@ -22,8 +22,7 @@
   <meta name="theme-color" content="#26649B">
   <link rel="icon" href="assets/img/favicon-64.png" type="image/png">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-  <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="assets/fonts/newsreader-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/montserrat-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/img/bg-blur-light.jpg" as="image" fetchpriority="high">
   <link rel="stylesheet" href="assets/css/styles.css">
   <!-- modulepreload -->
@@ -40,34 +39,43 @@
 </head>
 <body data-page="login">
 <main id="main">
-  <section class="container auth-wrap">
-    <div class="auth-copy">
-      <p class="eyebrow">Your account</p>
-      <h1 class="display">Welcome back.</h1>
-      <p class="lead">Your savings checks, your bills and your referral standing — all in one place.</p>
-      <div class="trust">
-        <span>Your past checks</span><span>Your bill on file</span><span>Your referrals</span>
+  <section class="container auth-split">
+    <aside class="auth-side">
+      <img class="auth-side__photo" src="assets/img/people/family-meal.jpg" alt="" width="1200" height="800" fetchpriority="high" decoding="async" data-photo>
+      <div class="auth-side__text">
+        <p class="eyebrow">Your account</p>
+        <h1 class="h1">Welcome back.</h1>
+        <ul class="auth-perks">
+          <li><span class="ico-tile ico-tile--blue" data-icon="calc"></span><span><strong>Your savings checks</strong>Compare against today&rsquo;s rates any time.</span></li>
+          <li><span class="ico-tile ico-tile--orange" data-icon="file"></span><span><strong>Your bill on file</strong>No digging it out again when you switch.</span></li>
+          <li><span class="ico-tile ico-tile--red" data-icon="gift"></span><span><strong>Your reward points</strong>Earn points when friends switch.</span></li>
+        </ul>
       </div>
-    </div>
+    </aside>
 
-    <div class="card card--shadow auth-card">
-      <h2 class="h3">Log in</h2>
-      <form id="login-form" novalidate>
-        <div class="field">
-          <label class="field__label" for="li-email">Email</label>
-          <input class="input" id="li-email" name="email" type="email" autocomplete="email" inputmode="email" required>
-          <p class="field__error" data-error="email"></p>
-        </div>
-        <div class="field">
-          <label class="field__label" for="li-pw">Password</label>
-          <input class="input" id="li-pw" name="password" type="password" autocomplete="current-password" required>
-          <p class="field__error" data-error="password"></p>
-        </div>
-        <p class="field__error" data-error="form" role="alert"></p>
-        <button class="btn btn--block" type="submit">Log in</button>
-      </form>
+    <div class="auth-main">
+      <div class="card auth-card">
+        <div class="auth-card__head"><span class="ico-tile ico-tile--blue" data-icon="login"></span><h2 class="h3">Log in to Eutility</h2></div>
+        <form id="login-form" novalidate>
+          <div class="field">
+            <label class="field__label" for="li-email">Email</label>
+            <input class="input" id="li-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+            <p class="field__error" data-error="email"></p>
+          </div>
+          <div class="field">
+            <label class="field__label" for="li-pw">Password</label>
+            <input class="input" id="li-pw" name="password" type="password" autocomplete="current-password" required>
+            <p class="field__error" data-error="password"></p>
+          </div>
+          <p class="field__error" data-error="form" role="alert"></p>
+          <button class="btn btn--block" type="submit">Log in</button>
+        </form>
+      </div>
 
-      <p class="small auth-alt">No account yet? <a href="signup.html">Create one</a>. It takes about 2 minutes.</p>
+      <div class="auth-box">
+        <span class="ico-tile ico-tile--green" data-icon="userPlus"></span>
+        <p>New to Eutility? <a href="signup.html">Create an account</a>. It takes about 2 minutes.</p>
+      </div>
       <p class="small auth-alt">Rather just talk to someone? <a href="#" data-wa data-wa-message="Hi Eutility, I'd like help with my electricity plan.">WhatsApp us</a> or <a href="#" data-mail data-wa-message="Hi Eutility, I'd like help with my electricity plan.">email us</a>.</p>
     </div>
   </section>

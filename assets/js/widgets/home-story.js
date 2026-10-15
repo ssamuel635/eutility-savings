@@ -1,4 +1,4 @@
-// "Homes like yours": photo cards with a real estimate for each type of home,
+// Savings by home type: photo cards with a real estimate for each type of home,
 // worked out from the price sheet. These replace sample testimonials, so
 // nothing on the site is a made-up quote. Real, permission-cleared customer
 // stories can sit alongside these later.
@@ -12,7 +12,7 @@ const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<
 /** Which photo goes with which home type (labels match CONFIG.homePresets). */
 const STORY_PHOTOS = {
   'HDB 3-room': 'voidDeck',
-  'HDB 4-room': 'dinner',
+  'HDB 4-room': 'familyMeal',
   'HDB 5-room': 'hdb',
   Executive: 'livingRoom',
   Condo: 'neighbours',

@@ -75,7 +75,7 @@ const s = StyleSheet.create({
   base: { minHeight: TOUCH + 6, borderRadius: radius.round, borderWidth: 1, paddingHorizontal: 24, justifyContent: 'center' },
   small: { minHeight: 44, paddingHorizontal: 18 },
   row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 },
-  label: { fontFamily: fonts.bold, letterSpacing: 0.1 },
+  label: { fontFamily: fonts.head, letterSpacing: 0 },
   off: { opacity: 0.5 },
   raised: {},
 });

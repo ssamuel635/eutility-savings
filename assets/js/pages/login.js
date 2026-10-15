@@ -1,10 +1,13 @@
 // Log in — mock authentication against accounts held in this browser.
 // See services/customer.js: there is no server yet, so "sign in" means
 // "match the account this browser created at sign-up (or the demo account)".
-import { initLayout, toast } from '../layout.js';
+import { initLayout, toast, photoFallbacks } from '../layout.js';
+import * as I from '../icons.js';
 import * as customer from '../services/customer.js';
 
 initLayout();
+document.querySelectorAll('[data-icon]').forEach((e) => { e.innerHTML = I[e.dataset.icon] || ''; });
+photoFallbacks();
 
 const form = document.getElementById('login-form');
 const emailEl = document.getElementById('li-email');

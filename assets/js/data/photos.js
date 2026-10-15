@@ -14,6 +14,15 @@ export const PHOTOS = {
   dinner: { src: DIR + 'family-dinner.jpg', alt: 'A family having dinner together at home', credit: 'National Cancer Institute', page: 'https://unsplash.com/photos/BQPi8F_UON0' },
   neighbours: { src: DIR + 'neighbours-outdoors.jpg', alt: 'Two friends chatting outdoors in the neighbourhood', credit: 'Yusron El Jihan', page: 'https://unsplash.com/photos/9rzI0FuCS_s' },
   voidDeck: { src: DIR + 'void-deck-chess.jpg', alt: 'Neighbours playing a game of chess outside', credit: 'Singapore Stock Photos', page: 'https://unsplash.com/photos/ZJpIE96cQxw' },
+  hawker: { src: DIR + 'hawker-centre.jpg', alt: 'People walking through a busy hawker centre', credit: 'Scribbling Geek', page: 'https://unsplash.com/photos/RRC9KMMMneY' },
+  mrtPlatform: { src: DIR + 'mrt-platform.jpg', alt: 'Commuters waiting on an MRT platform at sunset', credit: 'Singapore Stock Photos', page: 'https://unsplash.com/photos/hPc9MDk9kaA' },
+  mrtPark: { src: DIR + 'mrt-park.jpg', alt: 'An MRT train crossing a bridge over a green park', credit: 'Manh Hung Ngo', page: 'https://unsplash.com/photos/XmJI8vMRXNk' },
+  hdbBlocks: { src: DIR + 'hdb-blocks.jpg', alt: 'HDB blocks in red, white and brown against the sky', credit: 'nic chi', page: 'https://unsplash.com/photos/-O_iAF6E3xI' },
+  estate: { src: DIR + 'estate-view.jpg', alt: 'A housing estate with trees in front', credit: 'Danist Soh', page: 'https://unsplash.com/photos/JDijlM_OENI' },
+  familyMeal: { src: DIR + 'family-meal.jpg', alt: 'A father, mother and child eating together at the table', credit: 'National Cancer Institute', page: 'https://unsplash.com/photos/2hOoIAEQfFs' },
+  shopkeeper: { src: DIR + 'shopkeeper.jpg', alt: 'A shopkeeper smiling in her neighbourhood shop', credit: 'Chua Zi Hui', page: 'https://unsplash.com/photos/v62iYUFdz1Q' },
+  parkBench: { src: DIR + 'park-bench.jpg', alt: 'A couple resting on a park bench beside their bicycles', credit: 'Nguyen Thu Hoai', page: 'https://unsplash.com/photos/RcjeWcr_KZ4' },
+  corridor: { src: DIR + 'hdb-corridor.jpg', alt: 'Neighbours walking along an HDB corridor', credit: 'Within Studios by The Majurity Trust', page: 'https://unsplash.com/photos/ezzi9yJKESw' },
 };
 
 /**

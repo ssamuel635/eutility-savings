@@ -1,5 +1,5 @@
 // Eutility Rewards: the member's progress, their link, then what's happened on it.
-import { initLayout, toast, observeReveals } from '../layout.js';
+import { initLayout, toast, observeReveals, openWhatsApp } from '../layout.js';
 import { CONFIG } from '../config.js';
 import { countUp } from '../fx.js';
 import * as rewards from '../services/rewards.js';
@@ -12,16 +12,18 @@ const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '
 const status = rewards.myStatus();
 const link = rewards.myLink();
 const display = link.replace(/^https?:\/\//, '');
+const pts = rewards.fmtPts;
 
-// ── Your progress (replaces the sample leaderboard) ──
+// ── Your points, and how far to the next item ──
+const next = status.next;
 document.getElementById('leaderboard').innerHTML = `
   <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
-    <h2 class="h3" style="display:flex;align-items:center;gap:10px"><span style="width:26px;color:#fff">${I.trophy}</span>${customer.firstName() ? `${esc(customer.firstName())}, your progress` : 'Your progress'}</h2>
-    <span class="small" style="color:#fff">${esc(rewards.monthLabel())}</span>
+    <h2 class="h3" style="display:flex;align-items:center;gap:10px"><span style="width:26px;color:#fff">${I.trophy}</span>${customer.firstName() ? `${esc(customer.firstName())}, your points` : 'Your points'}</h2>
+    <span class="small" style="color:#fff">${status.switched} friend${status.switched === 1 ? '' : 's'} switched</span>
   </div>
-  <p style="font-size:44px;font-weight:800;line-height:1;letter-spacing:-0.03em">${status.switched}<span style="font-size:18px;font-weight:600"> of ${status.target} switches</span></p>
+  <p class="rewards-panel__pts">${status.points.toLocaleString('en-SG')}<span> pts</span></p>
   <div class="progress"><div class="progress__track"><div class="progress__fill" id="prog-hero"></div></div></div>
-  <p class="small" style="color:#fff">${status.toNext} more switch${status.toNext === 1 ? '' : 'es'} to your next reward. Each friend who switches through your link counts.</p>`;
+  <p class="small" style="color:#fff">${next ? `Next up: ${esc(next.name)}, ${pts(next.points - status.points)} to go. Each friend who switches earns you ${pts(CONFIG.rewards.pointsPerSwitch)}.` : 'You can redeem anything in the catalogue.'}</p>`;
 document.getElementById('leaderboard').classList.replace('board-hero', 'rewards-panel');
 
 // ── Your status, progress and link ──
@@ -36,10 +38,10 @@ document.getElementById('my-status').innerHTML = `
       <div class="stats">
         <div class="stat"><span class="stat__num" data-stat="${status.shared}">0</span><span class="stat__label">Friends referred</span></div>
         <div class="stat"><span class="stat__num" data-stat="${status.switched}" style="color:var(--green-aa)">0</span><span class="stat__label">Switched &amp; counted</span></div>
-        <div class="stat"><span class="stat__num" data-stat="${status.toNext}" style="color:var(--orange-display)">0</span><span class="stat__label">To your next reward</span></div>
+        <div class="stat"><span class="stat__num" data-stat="${status.points}" style="color:var(--orange-display)">0</span><span class="stat__label">Points</span></div>
       </div>
       <div class="lb-light progress">
-        <div style="display:flex;justify-content:space-between;font-size:14px"><span><strong>${status.switched}</strong> of ${status.target} switches</span><span class="small">Next reward</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:14px"><span><strong>${pts(status.points)}</strong>${next ? ` of ${pts(next.points)}` : ''}</span><span class="small">${next ? esc(next.name) : 'Everything unlocked'}</span></div>
         <div class="progress__track"><div class="progress__fill" id="prog"></div></div>
       </div>
       ${customer.isSignedIn() ? '' : '<p class="small"><a href="signup.html">Create an account</a> to track your progress.</p>'}
@@ -56,8 +58,33 @@ document.getElementById('my-status').innerHTML = `
     </div>
   </div>`;
 
-document.getElementById('prog').style.width = status.progressPct + '%';
-document.getElementById('prog-hero').style.width = status.progressPct + '%';
+document.getElementById('prog').style.width = status.nextPct + '%';
+document.getElementById('prog-hero').style.width = status.nextPct + '%';
+
+// ── The catalogue: a photo per item, its points and how close you are ──
+document.getElementById('catalogue-lead').textContent = `Every friend who switches earns you ${pts(CONFIG.rewards.pointsPerSwitch)}. Swap them for vouchers and things for the home.`;
+document.getElementById('catalogue').innerHTML = rewards.catalogue().map((r, i) => {
+  const ready = status.points >= r.points;
+  const pct = Math.min(100, Math.round((status.points / r.points) * 100));
+  return `
+  <article class="reward-item reveal" style="--d:${(i % 4) * 0.05}s">
+    <div class="reward-item__img"><img src="${r.src}" alt="" loading="lazy" decoding="async" width="600" height="600" data-photo>${ready ? '<span class="reward-item__tag">Ready to redeem</span>' : ''}</div>
+    <div class="reward-item__body">
+      <h3 class="reward-item__name">${esc(r.name)}</h3>
+      <p class="reward-item__pts">${pts(r.points)}</p>
+      <div class="progress__track" aria-hidden="true"><div class="progress__fill" style="width:${pct}%"></div></div>
+      ${ready
+        ? `<button class="btn btn--sm btn--block" type="button" data-redeem="${esc(r.id)}">Redeem</button>`
+        : `<p class="small">${pts(r.points - status.points)} to go</p>`}
+    </div>
+  </article>`;
+}).join('');
+document.querySelectorAll('[data-redeem]').forEach((b) => b.addEventListener('click', () => {
+  const r = rewards.catalogue().find((x) => x.id === b.dataset.redeem);
+  openWhatsApp(`Hi Eutility, I'd like to redeem ${pts(r.points)} for: ${r.name}.
+Referral code: ${rewards.myCode()}
+(sent from the Eutility website)`);
+}));
 
 const copyBtn = document.getElementById('ref-copy');
 copyBtn.addEventListener('click', async () => {

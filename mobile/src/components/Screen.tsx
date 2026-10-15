@@ -30,7 +30,7 @@ export function Screen({ children, footer, refreshing, onRefresh, edges = ['top'
           refreshControl={onRefresh ? <RefreshControl refreshing={!!refreshing} onRefresh={onRefresh} tintColor={colors.blue} /> : undefined}
         >
           {Children.toArray(children).map((child, i) => (
-            <FadeIn key={(child as { key?: string }).key ?? i} delay={40 + Math.min(i, 6) * 60}>{child}</FadeIn>
+            <FadeIn key={(child as { key?: string }).key ?? i} delay={30 + Math.min(i, 5) * 45}>{child}</FadeIn>
           ))}
         </ScrollView>
         {footer ? <View style={s.footer}>{footer}</View> : null}

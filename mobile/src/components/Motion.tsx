@@ -7,7 +7,9 @@ import { AccessibilityInfo, Animated, Easing, Platform, type StyleProp, type Vie
 import { Text } from './Text';
 
 const native = Platform.OS !== 'web';
-const easeOut = Easing.out(Easing.cubic);
+// A long, soft ease-out (the "expo out" curve most native apps use): things
+// arrive quickly and settle gently, with no visible stop.
+const easeOut = Easing.bezier(0.16, 1, 0.3, 1);
 
 export function useReducedMotion() {
   const [reduce, setReduce] = useState(false);
@@ -24,14 +26,14 @@ export function FadeIn({ children, delay = 0, style }: { children: ReactNode; de
   const reduce = useReducedMotion();
   const t = useRef(new Animated.Value(0)).current;
   useEffect(() => {
-    Animated.timing(t, { toValue: 1, duration: 480, delay, easing: easeOut, useNativeDriver: native }).start();
+    Animated.timing(t, { toValue: 1, duration: 560, delay, easing: easeOut, useNativeDriver: native }).start();
   }, [t, delay]);
   if (reduce) return <Animated.View style={style}>{children}</Animated.View>;
   return (
     <Animated.View
       style={[style, {
         opacity: t,
-        transform: [{ translateY: t.interpolate({ inputRange: [0, 1], outputRange: [14, 0] }) }],
+        transform: [{ translateY: t.interpolate({ inputRange: [0, 1], outputRange: [8, 0] }) }],
       }]}
     >
       {children}

@@ -1,4 +1,4 @@
-// "Homes like yours", as on the website: a photo per type of home and a real
+// Savings by home type, as on the website's Testimonials page: a photo per type of home and a real
 // estimate from the price sheet (no made-up testimonials).
 
 import { useMemo } from 'react';
@@ -6,7 +6,7 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
 import { compare, CONFIG, RATES_DATE } from '@/engine';
 import { money } from '@/lib/format';
-import { colors, fonts, radius, space } from '@/theme';
+import { colors, elevate, fonts, radius, space } from '@/theme';
 import { FadedPhoto, type PhotoKey } from './Photo';
 import { Text } from './Text';
 
@@ -29,18 +29,19 @@ export function HomeStories() {
   return (
     <View style={{ gap: space.md }}>
       <View style={{ gap: 4 }}>
-        <Text variant="h2">Homes like yours</Text>
+        <Text variant="h2">Savings by home type</Text>
         <Text variant="small">What switching could look like, on today’s rates.</Text>
       </View>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.row} decelerationRate="fast" snapToInterval={CARD + space.md}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.row} decelerationRate="fast" snapToInterval={CARD + space.md} snapToAlignment="start" disableIntervalMomentum>
         {stories.map((st) => (
           <Pressable
             key={st.label}
             accessibilityRole="button"
             accessibilityLabel={`${st.name}: could save ${money(st.best.savingYearly)} a year. Check your own home.`}
             onPress={() => router.navigate({ pathname: '/savings', params: { kwh: String(st.kwh) } })}
-            style={({ pressed }) => [s.card, pressed && { borderColor: colors.blue }]}
+            style={({ pressed }) => [s.card, pressed && s.pressed]}
           >
+            <View style={s.clip}>
             <FadedPhoto name={st.photo} ratio={3 / 2}>
               <Text style={s.home}>{st.name}</Text>
             </FadedPhoto>
@@ -49,6 +50,7 @@ export function HomeStories() {
               <Text variant="small">{st.sentence} using about {st.kwh} kWh a month, moving from SP Group’s tariff to {st.best.plan.retailer} {st.best.plan.name}.</Text>
               <Text variant="caption">Example estimate, rates as at {RATES_DATE}.</Text>
               <Text variant="bodyStrong" color={colors.blue} style={{ fontSize: 14 }}>Check your own home →</Text>
+            </View>
             </View>
           </Pressable>
         ))}
@@ -60,8 +62,11 @@ export function HomeStories() {
 const CARD = 264;
 const s = StyleSheet.create({
   // Bleed to the screen edges so cards scroll past the padding.
-  row: { gap: space.md, paddingHorizontal: space.xl, marginHorizontal: -space.xl },
-  card: { width: CARD, backgroundColor: colors.white, borderWidth: 1, borderColor: colors.border, borderRadius: radius.card, overflow: 'hidden' },
+  // Vertical padding leaves room for the cards' shadows inside the scroller.
+  row: { gap: space.md, paddingHorizontal: space.xl, marginHorizontal: -space.xl, paddingTop: 4, paddingBottom: 18 },
+  card: { width: CARD, borderRadius: radius.item, backgroundColor: colors.white, ...elevate.item },
+  clip: { borderRadius: radius.item, overflow: 'hidden' },
+  pressed: { transform: [{ scale: 0.98 }], opacity: 0.92 },
   home: { position: 'absolute', left: 14, bottom: 10, fontFamily: fonts.bold, fontSize: 15, color: colors.ink },
   body: { padding: space.lg, paddingTop: space.xs, gap: 6 },
   save: { fontFamily: fonts.bold, fontSize: 28, lineHeight: 32, color: colors.orangeDisplay, letterSpacing: -0.5 },

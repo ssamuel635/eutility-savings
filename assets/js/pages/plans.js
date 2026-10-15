@@ -1,4 +1,4 @@
-import { initLayout, openWhatsApp, observeReveals, lockBackground, unlockBackground } from '../layout.js';
+import { initLayout, openWhatsApp, observeReveals, lockBackground, unlockBackground, topLayer } from '../layout.js';
 import { CONFIG } from '../config.js';
 import { fmtMoney, fmtDate, activePromo, RATES_DATE } from '../calc.js';
 import * as plans from '../services/plans-service.js';
@@ -229,7 +229,7 @@ document.addEventListener('click', (e) => {
   if (b) openSheet(b.dataset.detail);
 });
 sheet.querySelectorAll('[data-close]').forEach((b) => b.addEventListener('click', closeSheet));
-addEventListener('keydown', (e) => { if (e.key === 'Escape' && sheet.classList.contains('is-open')) closeSheet(); });
+addEventListener('keydown', (e) => { if (e.key === 'Escape' && sheet.classList.contains('is-open') && topLayer() === sheet) closeSheet(); });
 
 render();
 if (q.get('plan')) openSheet(q.get('plan'));

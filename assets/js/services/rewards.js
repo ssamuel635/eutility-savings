@@ -29,8 +29,13 @@ export function myStatus() {
   const n = (v, d) => (Number.isFinite(Number(v)) && Number(v) >= 0 ? Math.floor(Number(v)) : d);
   const s = { shared: n(raw?.shared, 0), switched: n(raw?.switched, 0) };
   const target = CONFIG.rewards.nextRewardAt;
+  const points = s.switched * CONFIG.rewards.pointsPerSwitch;
+  const next = catalogue().find((r) => r.points > points) || null;
   return {
     ...s,
+    points,
+    next,
+    nextPct: next ? Math.min(100, Math.round((points / next.points) * 100)) : 100,
     target,
     toNext: Math.max(0, target - s.switched),
     progressPct: Math.min(100, Math.round((s.switched / target) * 100)),
@@ -40,3 +45,10 @@ export function myStatus() {
 export function monthLabel() {
   return new Date().toLocaleDateString('en-GB', { month: 'long', year: 'numeric', timeZone: 'Asia/Singapore' });
 }
+
+/** The rewards catalogue (items and points from config), with each photo's path. */
+export function catalogue() {
+  return CONFIG.rewards.catalogue.map((r) => ({ ...r, src: `assets/img/rewards/${r.img}.jpg` }));
+}
+
+export const fmtPts = (n) => `${Number(n).toLocaleString('en-SG')} pts`;

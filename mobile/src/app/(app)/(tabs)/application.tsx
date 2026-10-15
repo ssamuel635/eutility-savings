@@ -8,7 +8,7 @@ import { useQuery } from '@/hooks/useQuery';
 import { longDate, monthLabel, money } from '@/lib/format';
 import { applicationMessage, openWhatsApp } from '@/lib/whatsapp';
 import { colors, space } from '@/theme';
-import { FadedPhoto } from '@/components/Photo';
+import { PhotoHeader } from '@/components/PhotoHeader';
 
 const INVOICE_STATUS: Record<InvoiceStatus, { label: string; tone: 'blue' | 'green' | 'orange' | 'red' }> = {
   received: { label: 'Received', tone: 'blue' },
@@ -30,11 +30,10 @@ export default function Track() {
 
   if (!app) {
     return (
-      <Screen tabs refreshing={refreshing} onRefresh={refresh}>
-        <Text variant="h1">Track your switch</Text>
-        <Card style={{ padding: 0, overflow: 'hidden' }}>
-          <FadedPhoto name="hdb" ratio={16 / 9} />
-          <View style={{ padding: space.xl, paddingTop: 0, gap: space.md }}>
+      <Screen tabs edges={[]} refreshing={refreshing} onRefresh={refresh}>
+        <PhotoHeader photo="mrtPark" title="Track your switch" subtitle="Every step, from your bill to your new plan." />
+        <Card>
+          <View style={{ gap: space.md }}>
           <Text variant="h3">No switch in progress yet</Text>
           <Text variant="small">Check your savings and send us your latest bill. We’ll show every step here until your new plan starts.</Text>
           <Button label="Check my savings" onPress={() => router.navigate('/savings')} />
@@ -48,8 +47,8 @@ export default function Track() {
   const invoice = data.invoices.find((i) => i.id === app.invoiceId) ?? null;
 
   return (
-    <Screen tabs refreshing={refreshing} onRefresh={refresh}>
-      <Text variant="h1">Track your switch</Text>
+    <Screen tabs edges={[]} refreshing={refreshing} onRefresh={refresh}>
+      <PhotoHeader photo="mrtPark" title="Track your switch" ratio={16 / 9} />
 
       <Card>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>

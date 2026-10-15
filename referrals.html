@@ -22,8 +22,7 @@
   <meta name="theme-color" content="#26649B">
   <link rel="icon" href="assets/img/favicon-64.png" type="image/png">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-  <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="assets/fonts/newsreader-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/montserrat-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/img/bg-blur-light.jpg" as="image" fetchpriority="high">
   <link rel="stylesheet" href="assets/css/styles.css">
   <!-- modulepreload -->
@@ -48,7 +47,7 @@
       <div class="stack" style="--stack:18px">
         <p class="eyebrow eyebrow--orange">Eutility Rewards</p>
         <h1 class="display">Share it. Get rewarded.</h1>
-        <p class="lead">Send your link to whoever’s still overpaying — family group chat, neighbours, the office. Every friend who switches counts towards your rewards.</p>
+        <p class="lead">Send your link to whoever’s still overpaying — family group chat, neighbours, the office. Every friend who switches earns you points for vouchers, appliances and more.</p>
         <div class="trust"><span>Free to join</span><span>Share with anyone</span><span>Terms apply</span></div>
       </div>
       <div class="board-hero" id="leaderboard"></div>
@@ -60,19 +59,15 @@
     <div id="my-status"></div>
   </section>
 
-  <!-- 3. Rewards -->
+  <!-- 3. The catalogue: what points buy -->
   <section class="section section--cloud container">
     <div class="section-head">
-      <p class="eyebrow">Rewards</p>
-      <h2 class="h2">What you can get.</h2>
-      <p class="lead">Campaigns change through the year. Here’s the kind of reward to expect.</p>
+      <p class="eyebrow">Redeem your points</p>
+      <h2 class="h2">What your points can get you.</h2>
+      <p class="lead" id="catalogue-lead">Every friend who switches earns you points. Swap them for vouchers and things for the home.</p>
     </div>
-    <div class="grid-3">
-      <div class="reward"><span class="reward__icon" data-icon="gift"></span><h3 class="h4">Product gifts</h3><p class="small">Everyday essentials for your home.</p></div>
-      <div class="reward"><span class="reward__icon" data-icon="ticket"></span><h3 class="h4">Vouchers</h3><p class="small">Shopping and dining vouchers.</p></div>
-      <div class="reward"><span class="reward__icon" data-icon="trophy"></span><h3 class="h4">Campaign prizes</h3><p class="small">Seasonal prizes for the top of the board.</p></div>
-    </div>
-    <p class="small" style="margin-top:20px">Rewards are confirmed at the start of each campaign. Terms apply.</p>
+    <div class="catalogue" id="catalogue"></div>
+    <p class="small" style="margin-top:20px">Points are awarded once a friend&rsquo;s new plan starts. Items are subject to availability and may be swapped for one of similar value. Terms apply.</p>
   </section>
 
   <!-- 4. Activity + 5. How it works -->
@@ -88,7 +83,7 @@
         <ol class="steps">
           <li class="step"><span class="step__num">1</span><h3 class="h4">Share your link</h3><p>Send it on WhatsApp or copy it anywhere.</p></li>
           <li class="step"><span class="step__num">2</span><h3 class="h4">Your friend switches</h3><p>They check their bill, like the number, and move over.</p></li>
-          <li class="step"><span class="step__num">3</span><h3 class="h4">You earn towards a reward</h3><p>Once their switch goes through, it counts towards your next reward.</p></li>
+          <li class="step"><span class="step__num">3</span><h3 class="h4">You earn points</h3><p>Once their switch goes through, the points are yours to spend on anything in the catalogue.</p></li>
         </ol>
       </div>
     </div>

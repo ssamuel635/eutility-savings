@@ -22,8 +22,7 @@
   <meta name="theme-color" content="#26649B">
   <link rel="icon" href="assets/img/favicon-64.png" type="image/png">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-  <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="assets/fonts/newsreader-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/montserrat-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/img/bg-blur-light.jpg" as="image" fetchpriority="high">
   <link rel="stylesheet" href="assets/css/styles.css">
   <!-- modulepreload -->
@@ -31,12 +30,14 @@
   <link rel="modulepreload" href="assets/js/config.js">
   <link rel="modulepreload" href="assets/js/data/photos.js">
   <link rel="modulepreload" href="assets/js/data/plans.js">
+  <link rel="modulepreload" href="assets/js/data/testimonials.js">
   <link rel="modulepreload" href="assets/js/fx.js">
   <link rel="modulepreload" href="assets/js/icons.js">
   <link rel="modulepreload" href="assets/js/layout.js">
   <link rel="modulepreload" href="assets/js/services/crm.js">
   <link rel="modulepreload" href="assets/js/services/customer.js">
   <link rel="modulepreload" href="assets/js/services/plans-service.js">
+  <link rel="modulepreload" href="assets/js/services/rewards.js">
   <link rel="modulepreload" href="assets/js/services/store.js">
   <link rel="modulepreload" href="assets/js/widgets/home-story.js">
   <link rel="modulepreload" href="assets/js/widgets/residential.js">
@@ -106,14 +107,23 @@
     <p style="margin-top:24px"><a class="link-arrow" href="plans.html">See all plans</a></p>
   </section>
 
-  <!-- Testimonials -->
+  <!-- What switching could save: real estimates per home type, with photos -->
   <section class="section container">
     <div class="section-head">
-      <h2 class="h2">Homes like yours.</h2>
-      <p class="lead">What switching could look like for a typical Singapore home, worked out from today&rsquo;s rates.</p>
+      <h2 class="h2">What switching could save.</h2>
+      <p class="lead">A typical Singapore home of each type, worked out from today&rsquo;s rates.</p>
     </div>
     <div class="grid-3" id="home-testimonials"></div>
-    <p style="margin-top:24px"><a class="link-arrow" href="testimonials.html">See every type of home</a></p>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section section--navy container">
+    <div class="section-head">
+      <p class="eyebrow">Testimonials</p>
+      <h2 class="h2">Trusted by businesses since 1979.</h2>
+    </div>
+    <div class="t-grid" id="home-quotes"></div>
+    <p style="margin-top:24px"><a class="link-arrow" href="testimonials.html">Read more testimonials</a></p>
   </section>
 
   <!-- How it works -->
@@ -121,10 +131,10 @@
     <div class="section-head">
       <h2 class="h2">Three simple steps.</h2>
     </div>
-    <ol class="steps steps--row">
-      <li class="step reveal"><span class="step__num">1</span><h3 class="h4">Send your bill</h3><p>Snap your SP bill on WhatsApp, or just type your usage here.</p></li>
-      <li class="step reveal reveal-delay-1"><span class="step__num">2</span><h3 class="h4">We compare everything</h3><p>Singapore home plans from every retailer we track, priced for how much you use. We rank them on price for your usage, nothing else.</p></li>
-      <li class="step reveal reveal-delay-2"><span class="step__num">3</span><h3 class="h4">We help you switch</h3><p>If you decide to switch, we help you sign up with your new retailer. SP Group still delivers your power through the same wires.</p></li>
+    <ol class="steps steps--row steps--photos">
+      <li class="step reveal"><div class="photo-frame step__photo" data-photo-slot="corridor"></div><span class="step__num">1</span><h3 class="h4">Send your bill</h3><p>Snap your SP bill on WhatsApp, or just type your usage here.</p></li>
+      <li class="step reveal reveal-delay-1"><div class="photo-frame step__photo" data-photo-slot="hawker"></div><span class="step__num">2</span><h3 class="h4">We compare everything</h3><p>Singapore home plans from every retailer we track, priced for how much you use. We rank them on price for your usage, nothing else.</p></li>
+      <li class="step reveal reveal-delay-2"><div class="photo-frame step__photo" data-photo-slot="mrtPark"></div><span class="step__num">3</span><h3 class="h4">We help you switch</h3><p>If you decide to switch, we help you sign up with your new retailer. SP Group still delivers your power through the same wires.</p></li>
     </ol>
     <p style="margin-top:24px"><a class="link-arrow" href="how-it-works.html">See the full journey</a></p>
   </section>
@@ -140,25 +150,43 @@
           <a class="btn btn--secondary" href="login.html">I already have one</a>
         </div>
       </div>
-      <div class="card card--cloud stack" style="--stack:14px">
-        <div class="review-list" style="background:#fff">
+      <div class="account-teaser">
+        <div class="photo-frame" data-photo-slot="shopkeeper"></div>
+        <div class="review-list">
           <div><span>Upload your bill</span><span>We note your usage</span></div>
           <div><span>Saved savings checks</span><span>Compare over time</span></div>
           <div><span>Your electricity details</span><span>Plan, contract, usage</span></div>
-          <div><span>Rewards</span><span>Referrals &amp; leaderboard</span></div>
+          <div><span>Rewards</span><span>Points for every referral</span></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Rewards teaser -->
+  <!-- Rewards teaser: real things points can buy -->
   <section class="section section--cloud container">
-    <div class="banner banner--orange">
-      <div class="stack" style="--stack:6px">
-        <h2 class="h3">Got a friend still overpaying?</h2>
-        <p>Share your link. When a friend switches with Eutility, it counts towards your next reward. Terms apply.</p>
+    <div class="rewards-teaser">
+      <div class="stack" style="--stack:12px">
+        <p class="eyebrow eyebrow--orange">Eutility Rewards</p>
+        <h2 class="h2">Got a friend still overpaying?</h2>
+        <p class="lead">Share your link. Every friend who switches earns you points for an air fryer, a rice cooker, a PS5 and more. Terms apply.</p>
+        <div class="btn-row"><a class="btn btn--orange" href="referrals.html">See the rewards</a></div>
       </div>
-      <a class="btn btn--orange" href="referrals.html">See Eutility Rewards</a>
+      <div class="rewards-teaser__items" id="home-rewards"></div>
+    </div>
+  </section>
+
+  <!-- Local photo band: the same wires, a better price -->
+  <section class="container photo-band-wrap">
+    <div class="photo-band">
+      <div class="photo-frame" data-photo-slot="hdbBlocks"></div>
+      <div class="photo-frame" data-photo-slot="mrtPlatform"></div>
+      <div class="photo-frame" data-photo-slot="familyMeal"></div>
+      <div class="photo-frame" data-photo-slot="parkBench"></div>
+      <div class="photo-band__text">
+        <h2 class="h2">Same wires. Same power. A better price.</h2>
+        <p>Whichever retailer you choose, SP Group still delivers your electricity to your home. Only the price on your bill changes.</p>
+        <a class="btn btn--white" href="calculator.html">Check my savings</a>
+      </div>
     </div>
   </section>
 

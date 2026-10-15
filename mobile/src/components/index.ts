@@ -4,3 +4,4 @@ export { Card, Pill, PrototypeNote, ErrorNote, ListRow, Stat, Section } from './
 export { Field, Chip, ChipGroup, Toggle } from './Form';
 export { Screen, Loading, LoadFailed, Logo } from './Screen';
 export { Timeline } from './Timeline';
+export { IconTile, QuickActions, type QuickAction } from './Tiles';

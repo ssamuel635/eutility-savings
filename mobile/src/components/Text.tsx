@@ -4,16 +4,16 @@ import { colors, fonts } from '@/theme';
 type Variant = 'display' | 'h1' | 'h2' | 'h3' | 'body' | 'bodyStrong' | 'small' | 'caption' | 'eyebrow' | 'figure';
 
 const styles: Record<Variant, TextStyle> = {
-  display: { fontFamily: fonts.serif, fontSize: 34, lineHeight: 40, color: colors.ink, letterSpacing: -0.4 },
-  h1: { fontFamily: fonts.serif, fontSize: 28, lineHeight: 34, color: colors.ink, letterSpacing: -0.3 },
-  h2: { fontFamily: fonts.serif, fontSize: 22, lineHeight: 28, color: colors.ink },
-  h3: { fontFamily: fonts.semibold, fontSize: 17, lineHeight: 23, color: colors.ink },
-  body: { fontFamily: fonts.regular, fontSize: 16, lineHeight: 24, color: colors.inkSoft },
+  display: { fontFamily: fonts.headSemi, fontSize: 30, lineHeight: 37, color: colors.ink, letterSpacing: -0.6 },
+  h1: { fontFamily: fonts.headSemi, fontSize: 25, lineHeight: 32, color: colors.ink, letterSpacing: -0.4 },
+  h2: { fontFamily: fonts.headSemi, fontSize: 20, lineHeight: 26, color: colors.ink, letterSpacing: -0.2 },
+  h3: { fontFamily: fonts.headSemi, fontSize: 16, lineHeight: 22, color: colors.ink },
+  body: { fontFamily: fonts.regular, fontSize: 16, lineHeight: 25, color: colors.inkSoft },
   bodyStrong: { fontFamily: fonts.semibold, fontSize: 16, lineHeight: 24, color: colors.ink },
-  small: { fontFamily: fonts.regular, fontSize: 14, lineHeight: 20, color: colors.inkSoft },
+  small: { fontFamily: fonts.regular, fontSize: 14, lineHeight: 21, color: colors.inkSoft },
   caption: { fontFamily: fonts.regular, fontSize: 13, lineHeight: 18, color: colors.inkMuted },
   eyebrow: { fontFamily: fonts.semibold, fontSize: 13, lineHeight: 18, color: colors.inkSoft },
-  figure: { fontFamily: fonts.bold, fontSize: 40, lineHeight: 46, color: colors.orangeDisplay, letterSpacing: -0.8 },
+  figure: { fontFamily: fonts.head, fontSize: 38, lineHeight: 44, color: colors.orangeDisplay, letterSpacing: -1 },
 };
 
 export function Text({ variant = 'body', color, center, style, ...rest }: TextProps & { variant?: Variant; color?: string; center?: boolean }) {
