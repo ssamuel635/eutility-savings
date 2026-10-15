@@ -78,7 +78,7 @@ function header(page) {
         <button class="menu-btn" type="button" aria-label="Close menu" data-close>${I.close}</button>
       </div>
       <a class="drawer-promo" href="calculator.html">
-        <img src="assets/img/people/hdb-blocks.jpg" alt="" width="1200" height="800" loading="lazy" decoding="async" data-photo>
+        <img src="assets/img/people/hdb-blocks.jpg" srcset="assets/img/people/hdb-blocks-720.webp 720w, assets/img/people/hdb-blocks-960.webp 960w, assets/img/people/hdb-blocks-1200.webp 1200w" sizes="100vw" alt="" width="1200" height="800" loading="lazy" decoding="async" data-photo>
         <span><strong>What could you save?</strong>Compare every plan in 30 seconds ${I.chevron}</span>
       </a>
       <nav class="drawer-grid" aria-label="Mobile">

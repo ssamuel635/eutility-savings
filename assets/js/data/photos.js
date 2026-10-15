@@ -1,7 +1,8 @@
 // Photography used across the site. Each entry: the file, its alt text, and
 // who took it. These are stock photos, free for commercial use under the
 // Unsplash License (no credit required; given here anyway). To use Eutility's
-// own photos, replace the files in assets/img/people/ keeping the same names.
+// own photos, replace the files in assets/img/people/ keeping the same names,
+// then run `python tools/optimize_images.py` to remake the WebP copies.
 
 const DIR = 'assets/img/people/';
 
@@ -26,11 +27,14 @@ export const PHOTOS = {
 };
 
 /**
- * <img> markup for a photo. If the file isn't there yet, layout.js swaps it
- * for a tinted panel, so a missing photo never shows a broken image.
+ * <img> markup for a photo. The browser picks the WebP copy that fits `sizes`
+ * (720, 960 or 1200px wide), made by tools/optimize_images.py; the JPG
+ * is the fallback. If the file isn't there yet, layout.js swaps it for a
+ * tinted panel, so a missing photo never shows a broken image.
  */
 export function photo(key, { cls = '', eager = false, sizes = '100vw' } = {}) {
   const p = PHOTOS[key];
   if (!p) return '';
-  return `<img class="photo ${cls}" src="${p.src}" alt="${p.alt}" sizes="${sizes}" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async" width="1200" height="800" data-photo>`;
+  const base = p.src.replace(/\.jpg$/, '');
+  return `<img class="photo ${cls}" src="${p.src}" srcset="${base}-720.webp 720w, ${base}-960.webp 960w, ${base}-1200.webp 1200w" sizes="${sizes}" alt="${p.alt}" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async" width="1200" height="800" data-photo>`;
 }
