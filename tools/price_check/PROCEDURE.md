@@ -96,7 +96,8 @@ Applying means:
 1. `python3 tools/price_check/apply.py price-checks/<date>`. It applies only what was ticked,
    refuses to run without an approvals file, and keeps a copy of the file in the run folder.
    Add `--dry-run` first to see what will change.
-2. `python3 tools/build_data.py --rates-date <date>`, then `npm test`, then deploy.
+2. `python3 tools/build_data.py --rates-date <date>`, then `npm run seo` (page titles carry the
+   plan count and rates month), then `npm test`, then deploy.
 
 Plans marked "couldn't verify" stay as they are until someone checks them by hand. New plans
 are added to the sheet by hand.
