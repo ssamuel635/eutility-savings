@@ -6,11 +6,18 @@ Reads price-checks/<date>/changes.json and writes the approved plan and promotio
 changes into data/price-comparison-sheet.xlsx. Blocked items (failed an accuracy
 check) are never applied. "Couldn't verify" plans are left exactly as they are.
 
+What counts as approved comes from approved-<date>.json, saved by the "Save
+approvals" button in report.html. It is looked for in the run folder, then in
+Downloads, and a copy is kept in the run folder as the record.
+
 Usage:
-  python3 tools/price_check/apply.py price-checks/2026-10-12                 # everything not blocked
-  python3 tools/price_check/apply.py price-checks/2026-10-12 --skip id1,id2  # leave some out
-  python3 tools/price_check/apply.py price-checks/2026-10-12 --only id1,id2  # just these
-  python3 tools/price_check/apply.py ... --no-promos                         # prices only
+  python3 tools/price_check/apply.py price-checks/2026-10-12                  # what the approver ticked
+  python3 tools/price_check/apply.py price-checks/2026-10-12 --approved FILE  # a specific approvals file
+  python3 tools/price_check/apply.py price-checks/2026-10-12 --dry-run        # show what would change, save nothing
+  Without an approvals file (by hand, approval given some other way):
+  python3 tools/price_check/apply.py price-checks/2026-10-12 --all            # everything not blocked
+  python3 tools/price_check/apply.py price-checks/2026-10-12 --only id1,id2   # just these (--skip to leave some out)
+  python3 tools/price_check/apply.py ... --no-promos                          # prices only
 
 Then: python3 tools/build_data.py --rates-date <date>  &&  npm test
 """
@@ -22,6 +29,8 @@ from datetime import date
 from pathlib import Path
 
 import openpyxl
+
+from runlog import record
 
 ROOT = Path(__file__).resolve().parents[2]
 SHEET = ROOT / "data" / "price-comparison-sheet.xlsx"
@@ -52,18 +61,49 @@ def fmt_date(iso):
     return f"{d.day} {d.strftime('%b %Y')}"
 
 
+def find_approvals(run, given):
+    """The approvals file for this run: the one given, else the run folder, else Downloads (newest)."""
+    if given:
+        return Path(given)
+    for name in (f"approved-{run.name}.json", "approved.json"):
+        if (run / name).exists():
+            return run / name
+    hits = sorted((Path.home() / "Downloads").glob(f"approved-{run.name}*.json"), key=lambda f: f.stat().st_mtime)
+    return hits[-1] if hits else None
+
+
 def main():
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")  # Windows consoles default to cp1252
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("run_dir")
     ap.add_argument("--only", default="")
     ap.add_argument("--skip", default="")
     ap.add_argument("--no-promos", action="store_true")
+    ap.add_argument("--approved", default="", help="approvals file (default: approved-<date>.json in the run folder or Downloads)")
+    ap.add_argument("--all", action="store_true", help="no approvals file: apply everything not blocked")
+    ap.add_argument("--dry-run", action="store_true", help="print what would change; save nothing")
     a = ap.parse_args()
     run = (ROOT / a.run_dir) if not Path(a.run_dir).is_absolute() else Path(a.run_dir)
     ch = json.loads((run / "changes.json").read_text(encoding="utf-8"))
     only = {s for s in a.only.split(",") if s}
     skip = {s for s in a.skip.split(",") if s}
-    ok = lambda pid: pid and (not only or pid in only) and pid not in skip
+
+    approval = None
+    by_hand = a.all or only or skip
+    src = None if (by_hand and not a.approved) else find_approvals(run, a.approved)
+    if src:
+        approval = json.loads(src.read_text(encoding="utf-8"))
+        if approval.get("run") != run.name:
+            sys.exit(f"{src.name} is for the {approval.get('run')} run, not {run.name}. Nothing applied.")
+        print(f"Approved by {approval.get('approved_by')} at {approval.get('approved_at')} ({src})")
+    elif not by_hand:
+        sys.exit(f"No approvals found for {run.name}. Open {run / 'report.html'}, tick what's right and press "
+                 "Save approvals (or use --all / --only if approval was given another way). Nothing applied.")
+    plans_ok = set(approval["plans"]) if approval else None
+    promos_ok = set(approval["promotions"]) if approval else None
+    in_scope = lambda pid: pid and (not only or pid in only) and pid not in skip
+    ok = lambda pid: in_scope(pid) and (plans_ok is None or pid in plans_ok)
+    promo_ok = lambda pid: in_scope(pid) and (promos_ok is None or pid in promos_ok)
 
     wb = openpyxl.load_workbook(SHEET)
     ws = wb["Plans"]
@@ -125,7 +165,7 @@ def main():
         last = max([i for i in prow.values()] or [1])
         for pr in ch["promotions"]:
             pid = pr["id"]
-            if not ok(pid) or pid in removed:
+            if not promo_ok(pid) or pid in removed:
                 continue
             new = pr["new"]
             if not new:
@@ -148,8 +188,19 @@ def main():
         for i in sorted(set(pdel), reverse=True):
             pw.delete_rows(i)
 
+    print("\n".join(log) or "Nothing to apply.")
+    if a.dry_run:
+        print("\nDry run: nothing saved.")
+        return
     wb.save(SHEET)
-    print("\n".join(log))
+    if src and src.parent.resolve() != run.resolve():
+        (run / f"approved-{run.name}.json").write_text(src.read_text(encoding="utf-8"), encoding="utf-8")
+    record(run.parent, run.name,
+           approved_by=approval.get("approved_by") if approval else "by hand (--all/--only)",
+           approved_at=approval.get("approved_at") if approval else "",
+           plans_approved=sum(1 for l in log if l.startswith(("updated:", "removed:"))),
+           promos_approved=sum(1 for l in log if l.startswith(("promotion:", "promotion ended:"))),
+           applied_at=date.today().isoformat())
     print(f"\nSaved {SHEET.relative_to(ROOT)}. Next: python3 tools/build_data.py --rates-date {run.name} && npm test")
 
 

@@ -88,7 +88,29 @@ Test the guards: `python3 tools/price_check/test_compare.py`
 
 ## Step 3: approve (person)
 
-Open `report.html`, tick what's right, and ask Claude to apply the approved changes.
-Applying means: update `data/price-comparison-sheet.xlsx` (Plans and Promotions tabs),
-run `python3 tools/build_data.py --rates-date <date>`, run `npm test`, then deploy.
-Plans marked "couldn't verify" stay as they are until someone checks them by hand.
+Open `report.html`, tick what's right, type your name in the bar at the bottom and press
+**Save approvals**. That saves `approved-<date>.json`. Save it in the run folder or leave it in
+Downloads. Then ask Claude to "apply the approved changes for <date>".
+
+Applying means:
+1. `python3 tools/price_check/apply.py price-checks/<date>`. It applies only what was ticked,
+   refuses to run without an approvals file, and keeps a copy of the file in the run folder.
+   Add `--dry-run` first to see what will change.
+2. `python3 tools/build_data.py --rates-date <date>`, then `npm test`, then deploy.
+
+Plans marked "couldn't verify" stay as they are until someone checks them by hand. New plans
+are added to the sheet by hand.
+
+## Run log
+
+`price-checks/runs.csv` has one row per week. compare.py writes what the agent found
+(coverage, changes, blocked, double-checked). apply.py adds who approved, how much, and when it
+went live. Together they show how reliable the agent is over time.
+
+Tests: `python3 tools/price_check/test_compare.py` and `python3 tools/price_check/test_runlog.py`
+
+## Weekly schedule
+
+A scheduled Claude task runs Steps 1, 1b and 2 every Monday at 9:00am Singapore time. It runs on
+the PC where the task was set up, so it only fires while that PC is on and the Claude app is open.
+It never applies anything. It ends by giving the report's location and a short summary.
