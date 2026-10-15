@@ -11,42 +11,23 @@
 //   POST /api/crm/applications         { contact, application }
 //   GET  /api/crm/applications?contactId=CUST-…
 //
-// PROTOTYPE: there is no customer sign-in on the server yet, so these are
-// protected only by input checks, a rate limit and an origin allowlist.
-// Real authentication arrives with the production backend.
+// PROTOTYPE: these routes are not tied to customer sign-in (server/auth) yet,
+// so they are protected only by input checks, a rate limit and an origin
+// allowlist.
 
 const { validate, ValidationError, hasContact } = require('./schema');
+const { makeOriginGuard, makeRateLimit, clientIp, readJson, json } = require('../http');
 
 const SMALL = 64 * 1024;
 const LARGE = 12 * 1024 * 1024; // a base64 bill up to 8 MB
 
 function createCrmRoutes(crm, env = process.env) {
-  const allowed = new Set((env.CRM_ALLOWED_ORIGINS || 'http://localhost:5173,http://127.0.0.1:5173,http://localhost:8081,http://127.0.0.1:8081')
-    .split(',').map((s) => s.trim()).filter(Boolean));
-
+  const guard = makeOriginGuard(env);
   // 60 writes a minute per address is plenty for a person, too few for a script.
-  const hits = new Map();
-  const limited = (ip) => {
-    const t = Date.now();
-    const recent = (hits.get(ip) || []).filter((x) => t - x < 60_000);
-    recent.push(t);
-    hits.set(ip, recent);
-    return recent.length > 60;
-  };
+  const limited = makeRateLimit(60, 60_000);
 
   return async function handle(req, res, url) {
-    const origin = req.headers.origin;
-    // Native apps send no Origin. Browsers must be on the allowlist, or be the
-    // site itself (e.g. served through a tunnel at https://….trycloudflare.com).
-    const sameSite = origin && (() => { try { return new URL(origin).host === (req.headers['x-forwarded-host'] || req.headers.host); } catch { return false; } })();
-    if (origin && !sameSite && !allowed.has(origin)) return json(res, 403, { error: 'Origin not allowed' });
-    if (origin) {
-      res.setHeader('Access-Control-Allow-Origin', origin);
-      res.setHeader('Vary', 'Origin');
-      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-      res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    }
-    if (req.method === 'OPTIONS') { res.writeHead(204); return res.end(); }
+    if (guard(req, res)) return;
 
     const route = `${req.method} ${url.pathname.replace(/\/+$/, '')}`;
     try {
@@ -97,35 +78,6 @@ function createCrmRoutes(crm, env = process.env) {
       return json(res, status, { error: status >= 500 ? 'The CRM could not save this. Please try again.' : e.message });
     }
   };
-}
-
-/** Behind a tunnel every request arrives from 127.0.0.1; the visitor is in the forwarded header. */
-function clientIp(req) {
-  const local = /^(::1|127\.0\.0\.1|::ffff:127\.0\.0\.1)$/.test(req.socket.remoteAddress || '');
-  const fwd = local && (req.headers['cf-connecting-ip'] || String(req.headers['x-forwarded-for'] || '').split(',')[0].trim());
-  return fwd || req.socket.remoteAddress || '?';
-}
-
-function readJson(req, limit) {
-  return new Promise((resolve, reject) => {
-    if (!/^application\/json\b/i.test(req.headers['content-type'] || '')) return reject(new ValidationError('Send JSON'));
-    let size = 0;
-    const chunks = [];
-    req.on('data', (c) => {
-      size += c.length;
-      if (size > limit) { reject(Object.assign(new ValidationError('Request too large'), { status: 413 })); req.destroy(); return; }
-      chunks.push(c);
-    });
-    req.on('end', () => {
-      try { resolve(JSON.parse(Buffer.concat(chunks).toString('utf8') || '{}')); } catch { reject(new ValidationError('Invalid JSON')); }
-    });
-    req.on('error', reject);
-  });
-}
-
-function json(res, status, body) {
-  res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
-  res.end(JSON.stringify(body));
 }
 
 module.exports = { createCrmRoutes };

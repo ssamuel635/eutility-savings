@@ -15,7 +15,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const ExcelJS = require('exceljs');
-const { SHEETS, STAGE_CHOICES, STAGES } = require('./schema');
+const { SHEETS, STAGE_CHOICES, STAGES, findMatch } = require('./schema');
 
 const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 const uid = (prefix, n = 8) => prefix + Array.from(crypto.randomBytes(n), (b) => ALPHABET[b % ALPHABET.length]).join('');
@@ -136,7 +136,7 @@ function createExcelCrm({ file, billsDir } = {}) {
   const OPS = {
     upsertContact(wb, { id, contact }) {
       const rows = readRows(wb, 'contacts');
-      const hit = rows.find((r) => (contact.email && r.email.toLowerCase() === contact.email) || (contact.phone && r.phone === contact.phone));
+      const hit = findMatch(rows, contact);
       if (hit) {
         // Don't blank out what we already know with empty fields from a partial update.
         const patch = Object.fromEntries(Object.entries(contact).filter(([, v]) => v !== '' && v !== null));
@@ -278,8 +278,7 @@ function createExcelCrm({ file, billsDir } = {}) {
   async function findContact(contact) {
     const wb = await serial(load);
     const fromJournal = readJournal().filter((p) => p.op === 'upsertContact').map((p) => ({ id: p.args.id, ...p.args.contact }));
-    return [...readRows(wb, 'contacts'), ...fromJournal]
-      .find((r) => (contact.email && String(r.email).toLowerCase() === contact.email) || (contact.phone && r.phone === contact.phone));
+    return findMatch([...readRows(wb, 'contacts'), ...fromJournal], contact);
   }
 }
 

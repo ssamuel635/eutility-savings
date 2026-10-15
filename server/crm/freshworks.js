@@ -50,7 +50,9 @@ function createFreshworksCrm({ domain = process.env.FRESHWORKS_DOMAIN, apiKey = 
     where: domain,
 
     async upsertContact(c) {
-      const unique = c.email ? { emails: c.email } : { mobile_number: c.phone };
+      // The mobile number is the customer ID everywhere (agreed with FXMedia,
+      // stored as +6591234567); email only for website contacts without one.
+      const unique = c.phone ? { mobile_number: c.phone } : { emails: c.email };
       const d = await call('POST', '/contacts/upsert', {
         unique_identifier: unique,
         contact: {

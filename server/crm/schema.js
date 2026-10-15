@@ -129,6 +129,17 @@ const reference = (v, prefix) => { const r = str(v, 16).toUpperCase(); return ne
 /** True if the body names a person we can file it under (email or mobile). */
 const hasContact = (c) => !!(c && (str(c.email) || str(c.phone)));
 
+/**
+ * The existing record for this contact. The mobile number is the customer's ID
+ * everywhere (agreed with FXMedia, Oct 2026), so it wins; email is the fallback
+ * for website contacts who never gave a number.
+ */
+function findMatch(rows, c) {
+  return (c.phone && rows.find((r) => r.phone === c.phone))
+    || (c.email && rows.find((r) => String(r.email || '').toLowerCase() === c.email))
+    || undefined;
+}
+
 function contact(input) {
   // Consent to be contacted: the time they ticked it, "No" if they declined.
   // (The app sends a plain yes/no from its settings.)
@@ -229,6 +240,6 @@ function bill(input) {
 }
 
 module.exports = {
-  SOURCES, LEAD_TYPES, ACTIONS, STAGES, NEEDS_ATTENTION, STAGE_CHOICES, SHEETS, BILL_TYPES, MAX_BILL_BYTES,
-  ValidationError, validate: { contact, application, savingsCheck, businessEnquiry, bill }, hasContact, normEmail, normPhone, sgTime,
+  SOURCES, LEAD_TYPES, ACTIONS, STAGES, NEEDS_ATTENTION, STAGE_CHOICES, DWELLINGS, SHEETS, BILL_TYPES, MAX_BILL_BYTES,
+  ValidationError, validate: { contact, application, savingsCheck, businessEnquiry, bill }, hasContact, findMatch, normEmail, normPhone, sgTime,
 };

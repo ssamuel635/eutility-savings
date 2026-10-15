@@ -3,6 +3,7 @@
 // - Clean URLs: /calculator → calculator.html
 // - Referral links: /r/ABC123 → /?ref=ABC123
 // - Customer data API: /api/crm/* → the CRM in server/crm (Excel by default)
+// - Customer sign-in: /api/auth/*, /api/customers/me → server/auth
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
@@ -18,15 +19,26 @@ const TYPES = {
 const BLOCKED = /^\/(node_modules|tests|tools|data|server|mobile|price-checks|\.git|\.vercel|\.claude)(\/|$)|^\/(server\.js|package(-lock)?\.json|\.env.*)$/;
 
 // Customer records go to the CRM chosen by CRM_PROVIDER (server/crm/index.js).
+let crm = null;
 let crmRoutes = null;
 try {
   const { createCrm } = require('./server/crm');
   const { createCrmRoutes } = require('./server/crm/routes');
-  const crm = createCrm();
+  crm = createCrm();
   crmRoutes = createCrmRoutes(crm);
   console.log(`  CRM: ${crm.provider} → ${crm.where}`);
 } catch (e) {
   console.warn(`  CRM disabled: ${e.message}${e.code === 'MODULE_NOT_FOUND' ? ' (run npm install)' : ''}`);
+}
+
+// Sign-in by mobile number + SMS code (server/auth). New accounts are copied to the CRM.
+let authRoutes = null;
+try {
+  const auth = require('./server/auth').createAuth({ crm });
+  authRoutes = auth.routes;
+  console.log(`  Sign-in: SMS via ${auth.sms}; customers in ${auth.customers}`);
+} catch (e) {
+  console.warn(`  Sign-in disabled: ${e.message}`);
 }
 
 // Send the same security headers as production (read from vercel.json), so a
@@ -52,6 +64,11 @@ http.createServer((req, res) => {
     if (crmRoutes) return crmRoutes(req, res, url);
     res.writeHead(503, { 'Content-Type': 'application/json' });
     return res.end(JSON.stringify({ error: 'CRM is not set up on this server' }));
+  }
+  if (p.startsWith('/api/auth/') || p === '/api/customers/me') {
+    if (authRoutes) return authRoutes(req, res, url);
+    res.writeHead(503, { 'Content-Type': 'application/json' });
+    return res.end(JSON.stringify({ error: 'Sign-in is not set up on this server' }));
   }
 
   const ref = p.match(/^\/r\/([A-Za-z0-9]{4,12})\/?$/);
