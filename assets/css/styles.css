@@ -962,8 +962,9 @@ html, body { overflow-x: clip; }
    reads as atmosphere rather than an image competing with the content.
    ========================================================================== */
 :root {
-  --bg-photo: url('../img/bg-blur-light.jpg');
-  --bg-photo-dark: url('../img/bg-blur-dark.jpg');
+  /* The blurred skyline photo was removed (source unconfirmed); gradients only. */
+  --bg-photo: none;
+  --bg-photo-dark: none;
 }
 
 /* Every page's opening section gets the same quiet treatment */

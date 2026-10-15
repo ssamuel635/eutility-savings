@@ -131,11 +131,7 @@ function block(file, p) {
     `<meta property="og:title" content="${esc(p.title)}">`,
     `<meta property="og:description" content="${esc(p.description)}">`,
     `<meta property="og:url" content="${urlOf(file)}">`,
-    `<meta property="og:image" content="${SITE_URL}/assets/img/og-image.jpg">`,
-    '<meta property="og:image:width" content="1200">',
-    '<meta property="og:image:height" content="630">',
-    '<meta property="og:image:alt" content="Eutility: Stop overpaying for electricity. Compare Singapore home electricity plans in about a minute.">',
-    '<meta name="twitter:card" content="summary_large_image">',
+    '<meta name="twitter:card" content="summary">',
     ...structuredData(file),
   );
   return ['<!-- social -->', ...tags, '<!-- /social -->'].join('\n  ');

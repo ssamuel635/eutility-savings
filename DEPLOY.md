@@ -58,9 +58,9 @@ JS in parallel instead of five round trips deep.
 - **Content-Security-Policy** in `vercel.json`: scripts, fonts, images and
   connections are same-origin only. `server.js` sends the same headers locally,
   so a violation shows up in dev before it ships.
-- **Link previews**: every page has Open Graph tags and `assets/img/og-image.jpg`
-  (1200×630), so pasting the URL into WhatsApp shows a proper card. Rebuild the
-  image with `npm run og`.
+- **Link previews**: every page has Open Graph title and description tags. There is
+  no preview image for now (Removed 15 Oct 2026: the blurred skyline backdrop, the link-preview image and the unused hero illustration came from a photo whose source couldn't be confirmed.) Add a licensed 1200×630 image and an
+  `og:image` tag (in `tools/seo.mjs`) when one is chosen.
 - **No layout shift**: `<main>` isn't painted until the page script has rendered
   into it (with a CSS failsafe at 1.2 s). Measured CLS is ≤ 0.001 on every page.
 - **Lazy QR code**: the 57 KB QR library only loads when the desktop WhatsApp
@@ -129,20 +129,3 @@ Every saving on the site is measured against it, so update it the week it change
 The site shows "rates as at <date>" and the tariff quarter wherever it gives an
 estimate, so a stale sheet is visible rather than silent.
 
-## Regenerating the link-preview image
-
-`tools/make_og_image.py` needs static fonts cut from the variable ones:
-
-```bash
-pip install fonttools brotli pillow
-python3 - <<'PY'
-from fontTools.ttLib import TTFont
-from fontTools.varLib import instancer
-for fam, ws in [('newsreader-var', [500]), ('inter-var', [500, 700])]:
-    for w in ws:
-        f = TTFont(f'assets/fonts/{fam}.woff2')
-        loc = {a.axisTag: (w if a.axisTag == 'wght' else a.defaultValue) for a in f['fvar'].axes}
-        i = instancer.instantiateVariableFont(f, loc); i.flavor = None; i.save(f'/tmp/{fam}-{w}.ttf')
-PY
-FONT_DIR=/tmp python3 tools/make_og_image.py
-```

@@ -202,7 +202,7 @@ Visitor → Calculator ────┘                     ↓
 ## Look & tone (v5)
 
 - **Warmer surfaces:** alternating sections use a warm sand (`--sand #FAF7F2`) instead of grey, with a soft orange/blue wash behind the hero. Less boardroom, more living room.
-- **Singapore cues:** a heavily blurred skyline photo (`assets/img/bg-blur-light.jpg` / `-dark.jpg`, made by `tools/make_blur_bg.py`) sits under a near-opaque wash behind every page's opening section, the navy footer and the rewards board; an HDB-and-shophouse silhouette (`assets/img/skyline.svg`, from `tools/make_skyline.py`) runs along the top of the footer; the Marina Bay photo anchors the homepage; the office photo is on About; testimonials use Singapore names and neighbourhoods.
+- **Singapore cues:** a heavily blurred skyline photo (`assets/img/bg-blur-light.jpg` / `-dark.jpg`, made by `tools/make_blur_bg.py` (removed 15 Oct 2026, photo source unconfirmed)) sits under a near-opaque wash behind every page's opening section, the navy footer and the rewards board; an HDB-and-shophouse silhouette (`assets/img/skyline.svg`, from `tools/make_skyline.py`) runs along the top of the footer; the Marina Bay photo anchors the homepage; the office photo is on About; testimonials use Singapore names and neighbourhoods.
 - **Header:** nav stays on one line from 1024 px up, the logo never gets squeezed, and the account chip truncates long names.
 - **Copy:** plain, everyday wording — "We check, you decide, we handle the rest", "We do the switching", "Got a friend still overpaying?" — instead of corporate phrasing.
 
@@ -307,7 +307,7 @@ Keep the same column layout. Rows with the same Retailer + Plan Name are merged 
 | **SME aggregation tiers and discounts (made up)** | `assets/js/config.js` → `smeTiers`. The baseline is the best ≤24-month fixed residential rate in the sheet, which is also an assumption |
 | Logo is in (314×112 PNG). A larger or SVG export would look sharper on high-resolution screens | `assets/img/eutility-logo.png`, symbol + favicons in `assets/img/` |
 | Home-type usage presets are rounded estimates | `assets/js/config.js` → `homePresets`. Confirm against EMA's latest statistics |
-| Hero illustration → real Singapore photography or cinemagraph | `assets/img/hero-hdb.svg` (made by `tools/make_hero_svg.py`) |
+| Hero illustration → real Singapore photography or cinemagraph | `assets/img/hero-hdb.svg` (made by `tools/make_hero_svg.py`) (removed 15 Oct 2026, photo source unconfirmed) |
 | Customer stories: the site shows "Homes like yours" (estimates worked out from the price sheet) instead of testimonials. Add real stories only with the customer's permission | `assets/js/widgets/home-story.js` |
 | Rewards: counts start at zero and there is no leaderboard until the referral backend reports real switches. Reward values, qualifying rules and the "next reward at 7" target still need Eutility to confirm | `assets/js/services/rewards.js`, `assets/js/config.js` → `rewards` |
 | Customer accounts, bills and saved checks live in the browser only — no login, no database | `assets/js/services/customer.js` + `store.js` |
