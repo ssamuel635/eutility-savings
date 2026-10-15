@@ -2,15 +2,20 @@
 //
 //   node tools/seo.mjs            (or: npm run seo)
 //
-// Writes each page's <title>, meta description, robots, canonical link and
-// social-share (Open Graph) tags. Titles are what Google shows as the blue
-// link, so they lead with what people search for; the on-page headings keep
-// the brand's voice and are not touched.
+// Writes each page's <title>, meta description, robots, canonical link,
+// social-share (Open Graph) tags and structured data (schema.org JSON-LD:
+// the company on the home and About pages, the questions on the FAQ), plus
+// sitemap.xml. Titles are what Google shows as the blue link, so they lead
+// with what people search for; the on-page headings keep the brand's voice.
 //
-// Counts and the rates month come from assets/js/data/plans.js, so re-run this
-// after the weekly price check is applied (build_data.py) to keep them current.
+// Counts and the rates month come from assets/js/data/plans.js and company
+// facts from config.js, so re-run after the weekly price check is applied.
 //
-// LAUNCH DAY: set SITE_URL to the real domain (or run with SITE_URL=...).
+// LAUNCH DAY (the site is hidden from search until then):
+//   1. Set SITE_URL below to the real domain and run `npm run seo`.
+//   2. robots.txt: replace with  User-agent: *  /  Allow: /  /  Sitemap: <SITE_URL>/sitemap.xml
+//   3. vercel.json: remove the X-Robots-Tag "noindex, nofollow" header.
+//   4. Submit the sitemap in Google Search Console and Bing Webmaster Tools.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -18,7 +23,10 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const SITE_URL = (process.env.SITE_URL || 'https://eutility-savings.vercel.app').replace(/\/$/, '');
 
-const { META } = await import(pathToFileURL(path.join(ROOT, 'assets/js/data/plans.js')).href);
+const load = (rel) => import(pathToFileURL(path.join(ROOT, rel)).href);
+const { META } = await load('assets/js/data/plans.js');
+const { CONFIG } = await load('assets/js/config.js');
+const { FAQ } = await load('assets/js/data/faq.js');
 const rates = new Date(`${META.ratesAsAt}T00:00:00+08:00`);
 const month = rates.toLocaleDateString('en-SG', { month: 'short', year: 'numeric', timeZone: 'Asia/Singapore' });
 const day = rates.toLocaleDateString('en-SG', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Singapore' });
@@ -68,6 +76,47 @@ const PAGES = {
   '404.html': { title: 'Page not found — Eutility', description: 'Page not found.', index: false, canonical: false },
 };
 
+// ── Structured data (schema.org) ──────────────────────────────────────────────
+const ENTITIES = { amp: '&', nbsp: ' ', rsquo: '’', lsquo: '‘', rdquo: '”', ldquo: '“', mdash: '—', ndash: '–', hellip: '…', quot: '"', lt: '<', gt: '>' };
+const plainText = (html) => html.replace(/<[^>]+>/g, ' ')
+  .replace(/&(#\d+|[a-z]+);/g, (m, e) => (e[0] === '#' ? String.fromCharCode(+e.slice(1)) : ENTITIES[e] ?? m))
+  .replace(/\s+/g, ' ').trim();
+
+function organization() {
+  const c = CONFIG.company;
+  const [, street, postal] = c.sgAddress.match(/^(.*), Singapore (\d{6})$/) || [];
+  return {
+    '@type': 'Organization', '@id': `${SITE_URL}/#organization`,
+    name: 'Eutility Singapore', legalName: c.sgEntity, url: `${SITE_URL}/`,
+    logo: `${SITE_URL}/assets/img/eutility-logo.png`, slogan: c.tagline,
+    description: `Eutility is an ${c.role}, founded in Australia in ${c.foundedAu}, with an office in Singapore since ${c.sgIncorporated}.`,
+    identifier: { '@type': 'PropertyValue', propertyID: 'UEN', value: c.sgUen },
+    address: { '@type': 'PostalAddress', streetAddress: street || c.sgAddress, postalCode: postal, addressLocality: 'Singapore', addressCountry: 'SG' },
+    contactPoint: { '@type': 'ContactPoint', contactType: 'customer service', telephone: CONFIG.phone.replace(/ /g, '-'), email: CONFIG.email, areaServed: 'SG', availableLanguage: 'English' },
+    sameAs: [CONFIG.links.website],
+  };
+}
+
+function structuredData(file) {
+  const graph = [];
+  if (file === 'index.html' || file === 'about.html') graph.push(organization());
+  if (file === 'index.html') {
+    graph.push({ '@type': 'WebSite', '@id': `${SITE_URL}/#website`, url: `${SITE_URL}/`, name: 'Eutility', inLanguage: 'en-SG', publisher: { '@id': `${SITE_URL}/#organization` } });
+  }
+  if (file === 'faq.html') {
+    graph.push({
+      '@type': 'FAQPage', url: urlOf(file),
+      mainEntity: FAQ.flatMap((g) => g.items).map((it) => ({
+        '@type': 'Question', name: plainText(it.q), acceptedAnswer: { '@type': 'Answer', text: plainText(it.a) },
+      })),
+    });
+  }
+  if (!graph.length) return [];
+  // < is escaped so text inside the JSON can never close the script tag.
+  const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c');
+  return [`<script type="application/ld+json">${json}</script>`];
+}
+
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 const urlOf = (file) => `${SITE_URL}/${file === 'index.html' ? '' : file}`;
 
@@ -87,6 +136,7 @@ function block(file, p) {
     '<meta property="og:image:height" content="630">',
     '<meta property="og:image:alt" content="Eutility: Stop overpaying for electricity. Compare Singapore home electricity plans in about a minute.">',
     '<meta name="twitter:card" content="summary_large_image">',
+    ...structuredData(file),
   );
   return ['<!-- social -->', ...tags, '<!-- /social -->'].join('\n  ');
 }
@@ -108,6 +158,15 @@ for (const [file, p] of Object.entries(PAGES)) {
   if (s !== before) fs.writeFileSync(full, s);
   console.log(`${file.padEnd(18)} ${p.index === false ? 'noindex ' : ''}${p.title}`);
 }
+
+// sitemap.xml: the pages search engines may list. Only the price-driven pages
+// carry a date, because a lastmod that changes on every build gets ignored.
+const PRICE_PAGES = new Set(['index.html', 'plans.html', 'calculator.html']);
+const urls = Object.entries(PAGES).filter(([, p]) => p.index !== false).map(([file]) =>
+  `  <url><loc>${urlOf(file)}</loc>${PRICE_PAGES.has(file) ? `<lastmod>${META.ratesAsAt}</lastmod>` : ''}</url>`);
+fs.writeFileSync(path.join(ROOT, 'sitemap.xml'),
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>\n`);
+console.log(`sitemap.xml        ${urls.length} pages`);
 
 const missing = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html') && !PAGES[f]);
 if (missing.length) problems.push(`not in the table: ${missing.join(', ')}`);
