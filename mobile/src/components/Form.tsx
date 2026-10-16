@@ -80,6 +80,8 @@ export function Toggle({ label, hint, value, onChange }: { label: string; hint?:
         onValueChange={onChange}
         trackColor={{ true: colors.blue, false: colors.border }}
         thumbColor={colors.white}
+        // On the web the "on" knob has its own colour (teal by default)
+        {...({ activeThumbColor: colors.white } as object)}
       />
     </View>
   );

@@ -11,7 +11,8 @@ type Variant = 'primary' | 'secondary' | 'whatsapp' | 'ghost' | 'danger' | 'ligh
 const look: Record<Variant, { bg: string; fg: string; bd: string; pressed: string }> = {
   primary: { bg: colors.blue, fg: colors.white, bd: colors.blue, pressed: colors.deep },
   secondary: { bg: colors.blueSoft, fg: colors.deep, bd: colors.blueSoft, pressed: '#C6DBF1' },
-  whatsapp: { bg: '#DCF5E4', fg: '#14723B', bd: '#DCF5E4', pressed: '#C6EDD3' },
+  // Brand blue, like the website's WhatsApp buttons: only the logo's colours, no WhatsApp green.
+  whatsapp: { bg: colors.blue, fg: colors.white, bd: colors.blue, pressed: colors.deep },
   ghost: { bg: 'transparent', fg: colors.blue, bd: 'transparent', pressed: colors.blueSoft },
   danger: { bg: colors.redTint, fg: colors.red, bd: colors.redTint, pressed: '#F9D6D2' },
   light: { bg: colors.white, fg: colors.deep, bd: colors.white, pressed: colors.blueSoft },

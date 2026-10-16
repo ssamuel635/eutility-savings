@@ -113,7 +113,7 @@ function PlanOption({ option, best, selected, onPress }: { option: PricedPlan; b
       </View>
       <View style={s.optionNums}>
         <View><Text variant="caption">Est. monthly</Text><Text variant="bodyStrong">{money(option.monthly, 2)}</Text></View>
-        <View><Text variant="caption">You save</Text><Text variant="bodyStrong" color={option.savingYearly > 0 ? colors.green : colors.inkSoft}>{money(option.savingYearly)}/yr</Text></View>
+        <View><Text variant="caption">You save</Text><Text variant="bodyStrong" color={option.savingYearly > 0 ? colors.orangeAA : colors.inkSoft}>{money(option.savingYearly)}/yr</Text></View>
       </View>
       <Text variant="caption">{plan.priceLabel} · {plan.contractLabel}</Text>
       <View style={s.tags}>

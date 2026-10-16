@@ -70,7 +70,7 @@ export default function Profile() {
         </Card>
       </Section>
 
-      <Button label="Sign out" variant="danger" icon="log-out-outline" onPress={() => confirmThen('Sign out?', 'You can sign back in with your phone number.', 'Sign out', signOut)} />
+      <Button label="Sign out" variant="secondary" icon="log-out-outline" onPress={() => confirmThen('Sign out?', 'You can sign back in with your phone number.', 'Sign out', signOut)} />
 
 
       <Text variant="caption" center>Eutility app v{Constants.expoConfig?.version ?? '1.0.0'}</Text>

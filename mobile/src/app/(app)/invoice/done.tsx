@@ -54,5 +54,5 @@ export default function InvoiceDone() {
 
 const s = StyleSheet.create({
   hero: { alignItems: 'center', gap: space.md, paddingTop: space.x3 },
-  tick: { width: 80, height: 80, borderRadius: 40, backgroundColor: colors.green, alignItems: 'center', justifyContent: 'center' },
+  tick: { width: 80, height: 80, borderRadius: 40, backgroundColor: colors.blue, alignItems: 'center', justifyContent: 'center' },
 });

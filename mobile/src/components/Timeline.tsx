@@ -22,7 +22,7 @@ export function Timeline({ stages, compact }: { stages: Stage[]; compact?: boole
           >
             <View style={s.rail}>
               <Dot state={st.state} />
-              {!last ? <View style={[s.line, st.state === 'done' && { backgroundColor: colors.green }]} /> : null}
+              {!last ? <View style={[s.line, st.state === 'done' && { backgroundColor: colors.blue }]} /> : null}
             </View>
             <View style={[s.body, last && { paddingBottom: 0 }]}>
               <Text variant="bodyStrong" color={st.state === 'upcoming' ? colors.inkMuted : colors.ink}>{st.label}</Text>
@@ -37,7 +37,7 @@ export function Timeline({ stages, compact }: { stages: Stage[]; compact?: boole
 }
 
 function Dot({ state }: { state: Stage['state'] }) {
-  if (state === 'done') return <View style={[s.dot, { backgroundColor: colors.green }]}><Ionicons name="checkmark" size={14} color={colors.white} /></View>;
+  if (state === 'done') return <View style={[s.dot, { backgroundColor: colors.blue }]}><Ionicons name="checkmark" size={14} color={colors.white} /></View>;
   if (state === 'current') return <View style={[s.dot, s.current]}><View style={s.inner} /></View>;
   return <View style={[s.dot, s.upcoming]} />;
 }

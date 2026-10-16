@@ -47,7 +47,7 @@ export default function Welcome() {
           <Text variant="caption">Fixed plans from</Text>
         </View>
         <Text variant="bodyStrong" color={colors.inkMuted} style={{ paddingBottom: 20 }}>vs</Text>
-        <View>
+        <View style={{ flexShrink: 1 }}>
           <Text style={[s.rate, s.tariff]}>{TARIFF.toFixed(2)}<Text style={s.unit}>¢/kWh</Text></Text>
           <Text variant="caption">SP Group tariff, {TARIFF_PERIOD}</Text>
         </View>
