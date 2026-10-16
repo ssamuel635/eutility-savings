@@ -32,7 +32,7 @@ test('headlines are escaped and only https links are used', () => {
 
 test('no news: the page says so and the homepage shows nothing', () => {
   assert.match(newsPageMarkup([]), /No market news yet/);
-  assert.equal(homeNewsMarkup([]), '');
+  assert.match(homeNewsMarkup([]), /No market news yet/);
   assert.equal((homeNewsMarkup(SAMPLE).match(/class="news-card"/g) || []).length, 3);
 });
 

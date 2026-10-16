@@ -48,19 +48,21 @@ export function newsPageMarkup(items = NEWS) {
       </section>`).join('');
 }
 
-/** The homepage section: the latest three, or nothing at all while there's no news. */
+/** The homepage section: the latest three, or a short note while there's no news yet. */
 export function homeNewsMarkup(items = NEWS) {
   const top = latest(3, items);
-  if (!top.length) return '';
+  const body = top.length
+    ? `<ul class="news-cards">
+        ${top.map((it) => itemMarkup(it, 'news-card')).join('\n        ')}
+    </ul>`
+    : `<div class="news-empty card"><p class="h4">No market news yet.</p><p>We check SP Group, the Open Electricity Market and Singapore&rsquo;s news sites every day. Tariff changes and retailer news will appear here.</p></div>`;
   return `
   <section class="section container" aria-labelledby="home-news-h">
     <div class="section-head">
       <h2 class="h2" id="home-news-h">Electricity market news.</h2>
       <p class="lead">The latest on tariffs and retailers, from official sources and Singapore&rsquo;s news sites.</p>
     </div>
-    <ul class="news-cards">
-        ${top.map((it) => itemMarkup(it, 'news-card')).join('\n        ')}
-    </ul>
+    ${body}
     <p style="margin-top:24px"><a class="link-arrow" href="news.html">All market news</a></p>
   </section>
   `;

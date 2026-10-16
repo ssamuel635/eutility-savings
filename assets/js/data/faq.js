@@ -61,10 +61,6 @@ export const FAQ = [
         q: 'Where do I find my monthly usage?',
         a: '<p>On your electricity bill, look for the electricity usage in kWh for the month. If not, just send a photo of the bill to us via WhatsApp and we’ll read it for you!</p>',
       },
-      {
-        q: 'What if switching won’t save me anything?',
-        a: '<p>Then we tell you that. If your current plan already beats everything else at your usage, the result says so and there&rsquo;s nothing to do. We&rsquo;d rather you came back next time rates move than switched for no reason.</p>',
-      },
     ],
   },
   {

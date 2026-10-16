@@ -172,8 +172,17 @@
     </div>
   </section>
 
-  <!-- Market news: the latest three headlines (written by tools/prerender.mjs; nothing while there's no news) -->
-  <!-- prerender:news --><!-- /prerender:news -->
+  <!-- Market news: the latest three headlines (written by tools/prerender.mjs; a short note while there's no news) -->
+  <!-- prerender:news -->
+  <section class="section container" aria-labelledby="home-news-h">
+    <div class="section-head">
+      <h2 class="h2" id="home-news-h">Electricity market news.</h2>
+      <p class="lead">The latest on tariffs and retailers, from official sources and Singapore&rsquo;s news sites.</p>
+    </div>
+    <div class="news-empty card"><p class="h4">No market news yet.</p><p>We check SP Group, the Open Electricity Market and Singapore&rsquo;s news sites every day. Tariff changes and retailer news will appear here.</p></div>
+    <p style="margin-top:24px"><a class="link-arrow" href="news.html">All market news</a></p>
+  </section>
+  <!-- /prerender:news -->
 
   <!-- Local photo band: the same wires, a better price -->
   <section class="container photo-band-wrap">
