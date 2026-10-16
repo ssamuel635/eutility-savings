@@ -3,10 +3,9 @@
 //   node tools/prerender.mjs      (npm run seo runs it too)
 //
 // Search engines, AI tools and link previews often read a page without running its
-// scripts, and budget phones show it sooner. This fills two spots, each between
+// scripts, and budget phones show it sooner. This fills these spots, each between
 // <!-- prerender:NAME --> and <!-- /prerender:NAME --> markers:
 //   faq.html    every question and answer (the page's search re-renders the same markup)
-//   plans.html  "Every plan at a glance": one row per plan at the default usage
 //   news.html   every market news headline; index.html the latest three
 // They come from the same data the pages use, so re-run after a price update.
 // tools/news/apply.py runs it after publishing news.
@@ -18,42 +17,10 @@ const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const load = (rel) => import(pathToFileURL(path.join(ROOT, rel)).href);
 
 const { FAQ, faqMarkup } = await load('assets/js/data/faq.js');
-const { CONFIG } = await load('assets/js/config.js');
-const { fmtMoney, RATES_DATE } = await load('assets/js/calc.js');
-const plans = await load('assets/js/services/plans-service.js');
 const { newsPageMarkup, homeNewsMarkup } = await load('assets/js/services/news-service.js');
-
-const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-
-function planGlance() {
-  const kwh = CONFIG.defaultKwh;
-  const rows = plans.list({ kwh, sort: 'price' });
-  const body = rows.map((r) => `
-          <tr><td><strong>${esc(r.plan.retailer)}</strong><span class="muted">${esc(r.plan.name)}</span></td>
-            <td>${esc(r.plan.pricingLabel)}${r.plan.category === 'Green' ? '<span class="muted">Green</span>' : ''}</td>
-            <td>${esc(r.contract)}</td><td>${esc(r.priceLabel)}</td><td class="num-cell">${fmtMoney(r.monthly)}</td></tr>`).join('');
-  return `
-  <section class="container plan-glance acc" aria-labelledby="glance-h">
-    <details>
-      <summary><span><h2 class="h4" id="glance-h">Every plan at a glance</h2><span class="small">${rows.length} plans, cheapest first at ${kwh.toLocaleString('en-SG')} kWh a month</span></span></summary>
-      <div class="acc__body stack" style="--stack:12px">
-      <div class="table-scroll">
-        <table class="plan-table">
-          <thead><tr><th>Plan</th><th>Type</th><th>Contract</th><th>Price</th><th class="num-cell">Est./month</th></tr></thead>
-          <tbody>${body}
-          </tbody>
-        </table>
-      </div>
-      <p class="small">Prices include GST. SP Group tariff ${plans.TARIFF}¢/kWh (${esc(plans.TARIFF_PERIOD)}). Rates as at ${RATES_DATE}, checked against each retailer’s official site.</p>
-      </div>
-    </details>
-  </section>
-  `;
-}
 
 const SPOTS = [
   { file: 'faq.html', name: 'faq', html: () => faqMarkup(FAQ), after: /<div id="faq-list"[^>]*>/ },
-  { file: 'plans.html', name: 'plans', html: planGlance, after: /<div class="plan-grid" id="plan-grid"><\/div>\s*<\/div>\s*<\/section>/ },
   { file: 'news.html', name: 'news', html: () => newsPageMarkup(), after: /<div class="news-feed" id="news-feed">/ },
   { file: 'index.html', name: 'news', html: () => homeNewsMarkup(), after: /<!-- Market news[^>]*-->/ },
 ];

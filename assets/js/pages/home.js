@@ -37,7 +37,7 @@ document.getElementById('rate-vs').innerHTML = `
 // What Eutility does: a photo beside a short list
 document.getElementById('why-photo').innerHTML = photo('dinner', { sizes: '(min-width: 1024px) 50vw, 100vw' });
 const VALUE = [
-  { icon: 'compare', title: 'Every plan, side by side', text: `${PLAN_COUNT} home plans from ${RETAILER_COUNT} retailers, priced for your usage.`, href: 'plans.html', link: 'Explore plans' },
+  { icon: 'compare', title: 'Every plan, side by side', text: `${PLAN_COUNT} home plans from ${RETAILER_COUNT} retailers, priced for your usage.`, href: 'calculator.html', link: 'Check my savings' },
   { icon: 'shield', title: 'Independent, not a retailer', text: 'We have no plan of our own to sell. If yours already wins, we say so.', href: 'about.html', link: 'About Eutility' },
   { icon: 'chat', title: 'We do the switching', text: 'Send your bill on WhatsApp. We confirm the plan with you and sign you up.', href: 'how-it-works.html', link: 'How it works' },
   { icon: 'bolt', title: 'Running a business?', text: 'Add your sites and we ask retailers for one aggregated rate.', href: 'calculator.html#sme', link: 'For businesses' },
@@ -73,7 +73,7 @@ document.getElementById('plan-teaser').innerHTML = picks.map(([label, r, img], i
     </div>
     <div class="pick-card__actions">
       <button class="btn btn--block" type="button" data-wa data-wa-message="Hi Eutility, I'm interested in switching to ${esc(r.plan.retailer)} ${esc(r.plan.name)}. Can you check if it suits my usage?" aria-label="Switch to ${esc(r.plan.retailer)} ${esc(r.plan.name)}">Switch with Eutility</button>
-      <a class="link-arrow" href="plans.html?plan=${encodeURIComponent(r.id)}" aria-label="Plan details: ${esc(r.plan.retailer)} ${esc(r.plan.name)}">Plan details</a>
+      <a class="link-arrow" href="calculator.html?kwh=${kwh}&run=1">Compare for my usage</a>
     </div>
   </article>`).join('');
 const tip = document.querySelector('#plan-teaser')?.closest('section')?.querySelector('.section-head .lead');

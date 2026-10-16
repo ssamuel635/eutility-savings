@@ -15,7 +15,7 @@ export function initials(name = customer.get()?.fullName) {
 
 const NAV = [
   { href: 'calculator.html', label: 'Savings calculator', key: 'calculator' },
-  { href: 'plans.html', label: 'Explore plans', key: 'plans' },
+  { href: 'news.html', label: 'Market news', key: 'news' },
   { href: 'referrals.html', label: 'Rewards', key: 'referrals' },
   { href: 'how-it-works.html', label: 'How it works', key: 'how' },
   { href: 'faq.html', label: 'FAQ', key: 'faq' },
@@ -25,7 +25,6 @@ const NAV = [
 const DRAWER = [
   { href: 'index.html', label: 'Home', hint: 'Start here', key: 'home', icon: 'home', tone: 'blue' },
   { href: 'calculator.html', label: 'Savings calculator', hint: 'In 30 seconds', key: 'calculator', icon: 'calc', tone: 'blue' },
-  { href: 'plans.html', label: 'Explore plans', hint: 'Every retailer', key: 'plans', icon: 'list', tone: 'navy' },
   { href: 'referrals.html', label: 'Rewards', hint: 'Points for referrals', key: 'referrals', icon: 'gift', tone: 'red' },
   { href: 'how-it-works.html', label: 'How it works', hint: 'Three steps', key: 'how', icon: 'bolt', tone: 'teal' },
   { href: 'testimonials.html', label: 'Testimonials', hint: 'What clients say', key: 'testimonials', icon: 'quote', tone: 'orange' },
@@ -112,7 +111,6 @@ function footer() {
             <li><a href="calculator.html">Savings calculator</a></li>
             <li><a href="calculator.html#sme">For businesses (SME)</a></li>
             <li><a href="how-it-works.html">How it works</a></li>
-            <li><a href="plans.html">Explore plans</a></li>
             <li><a href="referrals.html">${CONFIG.rewards.programmeName}</a></li>
             <li><a href="testimonials.html">Testimonials</a></li>
           </ul>

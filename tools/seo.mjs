@@ -8,7 +8,7 @@
 // sitemap.xml. Titles are what Google shows as the blue link, so they lead
 // with what people search for; the on-page headings keep the brand's voice.
 //
-// Counts and the rates month come from assets/js/data/plans.js and company
+// Plan and retailer counts come from assets/js/data/plans.js and company
 // facts from config.js, so re-run after the weekly price check is applied.
 //
 // LAUNCH DAY (the site is hidden from search until then):
@@ -27,9 +27,6 @@ const load = (rel) => import(pathToFileURL(path.join(ROOT, rel)).href);
 const { META } = await load('assets/js/data/plans.js');
 const { CONFIG } = await load('assets/js/config.js');
 const { FAQ } = await load('assets/js/data/faq.js');
-const rates = new Date(`${META.ratesAsAt}T00:00:00+08:00`);
-const month = rates.toLocaleDateString('en-SG', { month: 'short', year: 'numeric', timeZone: 'Asia/Singapore' });
-const day = rates.toLocaleDateString('en-SG', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Singapore' });
 const { planCount: plans, retailerCount: retailers } = META;
 
 // index: false keeps a page out of search results (account pages, errors).
@@ -37,10 +34,6 @@ const PAGES = {
   'index.html': {
     title: 'Compare Singapore Electricity Plans — Eutility',
     description: `Compare all ${plans} home electricity plans from Singapore’s ${retailers} retailers for your usage, or send us your bill on WhatsApp and we’ll handle the switch. Free.`,
-  },
-  'plans.html': {
-    title: `Singapore Electricity Plans & Prices, ${month} — Eutility`,
-    description: `Every home electricity plan in Singapore, priced for your usage: fixed, discount, no lock-in and green plans from ${retailers} retailers. Rates as at ${day}.`,
   },
   'calculator.html': {
     title: 'Singapore Electricity Savings Calculator — Eutility',
@@ -161,7 +154,7 @@ for (const [file, p] of Object.entries(PAGES)) {
 
 // sitemap.xml: the pages search engines may list. Only the price-driven pages
 // carry a date, because a lastmod that changes on every build gets ignored.
-const PRICE_PAGES = new Set(['index.html', 'plans.html', 'calculator.html']);
+const PRICE_PAGES = new Set(['index.html', 'calculator.html']);
 const urls = Object.entries(PAGES).filter(([, p]) => p.index !== false).map(([file]) =>
   `  <url><loc>${urlOf(file)}</loc>${PRICE_PAGES.has(file) ? `<lastmod>${META.ratesAsAt}</lastmod>` : ''}</url>`);
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'),

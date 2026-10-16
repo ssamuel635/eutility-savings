@@ -52,12 +52,12 @@ test('wrong password is refused', async () => {
 });
 
 test('correct password signs in and returns to the page', async () => {
-  const res = await login('Kenneth', 'viewer-pass-123', '/plans.html?kwh=500');
+  const res = await login('Kenneth', 'viewer-pass-123', '/calculator.html?kwh=500');
   assert.equal(res.status, 303);
-  assert.equal(res.headers.get('location'), '/plans.html?kwh=500');
+  assert.equal(res.headers.get('location'), '/calculator.html?kwh=500');
   const c = res.headers.get('set-cookie');
   assert.match(c, /HttpOnly/); assert.match(c, /Secure/); assert.match(c, /SameSite=Lax/);
-  const after = await middleware(page('/plans.html', { headers: { cookie: cookieFrom(res) } }));
+  const after = await middleware(page('/calculator.html', { headers: { cookie: cookieFrom(res) } }));
   assert.ok(passes(after));
 });
 

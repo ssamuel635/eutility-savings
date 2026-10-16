@@ -3,7 +3,7 @@
 // engines and AI tools can read it without running JavaScript.
 
 import { CONFIG } from '../config.js';
-import { MARKET_PLANS, TARIFF, TARIFF_PERIOD, PLAN_COUNT, RATES_DATE } from '../calc.js';
+import { MARKET_PLANS, PLAN_COUNT } from '../calc.js';
 
 const retailers = [...new Set(MARKET_PLANS.map((p) => p.retailer))].sort();
 
@@ -21,7 +21,7 @@ export const FAQ = [
       },
       {
         q: 'Are you an electricity retailer?',
-        a: `<p>No, and that&rsquo;s the point. Eutility doesn&rsquo;t generate or supply energy. We&rsquo;re registered here as a broker and agent for electric power, and our job is independent advice: compare what the retailers are offering, backed by our own data analysis, and tell you which one suits you.</p>
+        a: `<p>No, and that&rsquo;s the point. Eutility doesn&rsquo;t generate or supply energy. Our job is independent advice: compare what the retailers are offering, backed by our own data analysis, and tell you which one suits you.</p>
             <p>If your current plan is already the best one for your usage, we&rsquo;ll say so. You stay with SP Group or whoever you&rsquo;re with, and nothing changes. You always pay your retailer directly, never through us.</p>`,
       },
       {
@@ -48,18 +48,18 @@ export const FAQ = [
       {
         q: 'How are my savings calculated?',
         a: `<p>We multiply your monthly usage (kWh) by each plan’s published rate, add any daily charge, and compare that with what you pay on your current plan. The difference × 12 is your yearly saving.</p>
-            <ul><li>Discount-off-tariff plans use SP Group’s regulated tariff for ${TARIFF_PERIOD} (${TARIFF}¢/kWh incl. GST).</li>
+            <ul><li>Discount-off-tariff plans use SP Group’s regulated tariff.</li>
             <li>Time-of-use plans assume a share of your usage is off-peak (30% by default; you can change it under <em>Advanced assumptions</em>).</li>
             <li>Sign-up promotions are shown separately and not added to your savings.</li></ul>
             <p>It’s an estimate. Your real bill depends on your actual usage and the retailer’s contract.</p>`,
       },
       {
         q: 'Which retailers can I compare?',
-        a: `<p>We currently compare ${PLAN_COUNT} residential plans from ${retailers.join(', ')}, against SP Group’s regulated tariff as the baseline.</p><p>Retailer rates as at ${RATES_DATE}. SP Group revises its tariff every quarter, and we update it when it changes.</p>`,
+        a: `<p>We currently compare ${PLAN_COUNT} residential plans from ${retailers.join(', ')}, against SP Group’s regulated tariff as the baseline.</p><p>SP Group revises its tariff every quarter, and we update it when it changes.</p>`,
       },
       {
         q: 'Where do I find my monthly usage?',
-        a: '<p>On your SP Group bill, look for the electricity usage in kWh for the month. If you’d rather not look it up, just send a photo of the bill on WhatsApp and we’ll read it for you.</p>',
+        a: '<p>On your electricity bill, look for the electricity usage in kWh for the month. If not, just send a photo of the bill to us via WhatsApp and we’ll read it for you!</p>',
       },
       {
         q: 'What if switching won’t save me anything?',

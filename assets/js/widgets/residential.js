@@ -338,8 +338,7 @@ function goodNewsActions(inputs, current, params) {
   return `
     <div class="btn-row">
       <a class="btn" href="#" data-wa data-wa-message="${esc(msg)}">${I.chat}<span>Ask about promotions</span></a>
-      ${params ? `<a class="btn btn--secondary" href="calculator.html?${params}">See the full comparison</a>`
-               : `<a class="btn btn--secondary" href="plans.html?kwh=${inputs.kwh}">Browse all plans</a>`}
+      ${params ? `<a class="btn btn--secondary" href="calculator.html?${params}">See the full comparison</a>` : ''}
     </div>`;
 }
 
@@ -444,7 +443,7 @@ function renderFull(el, res, inputs) {
           <button class="btn btn--urgent" type="button" data-switch data-wa-switch>${I.chat}<span>Switch on WhatsApp</span></button>
           <button class="btn btn--secondary" type="button" data-mail-switch>${I.mail}<span>Switch by email</span></button>
         </div>
-        <p class="res-actions-note">No account needed. We confirm the plan with you before anything is submitted. · <a href="plans.html?kwh=${inputs.kwh}">Browse all plans</a>${customer.isSignedIn() ? ' · Saved to <a href="account.html">your account</a>' : ` · <a href="signup.html?plan=${encodeURIComponent(b.id)}&kwh=${inputs.kwh}">Save this to an account</a>`}</p>
+        <p class="res-actions-note">No account needed. We confirm the plan with you before anything is submitted.${customer.isSignedIn() ? ' · Saved to <a href="account.html">your account</a>' : ` · <a href="signup.html?plan=${encodeURIComponent(b.id)}&kwh=${inputs.kwh}">Save this to an account</a>`}</p>
         <details class="disclosure">
           <summary>Plan details and fine print</summary>
           <div class="disclosure__body">
