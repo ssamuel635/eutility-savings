@@ -6,7 +6,7 @@
 
 import { CONFIG, CONTRACT_FILTERS, TARIFF_PERIOD } from '@/engine';
 import { crm, flushOutbox, toCrmContact, type CrmAction } from '../crm';
-import { ApiError, type Api, type Customer, type Invoice, type Notice } from '../types';
+import { ApiError, type Api, type Customer, type Invoice, type Notice, type Session } from '../types';
 import { advance, applyCrmStage, toApplication } from './applications';
 import { db, delay, normEmail, normPhone, nowISO, reset, save, uid, type Db } from './db';
 import { catalogue, planById, quote } from './pricing';
@@ -63,6 +63,37 @@ async function syncStages(d: Db, c: Customer) {
     changed ||= before !== JSON.stringify([row.reached, row.staffNote, row.needsAttention]);
   }
   if (changed) await save();
+}
+
+/**
+ * Live sign-in (../http.ts): hold the server's session and a copy of its
+ * customer here, so the parts still served by this mock (bills, switches,
+ * rewards, notices, savings) work for that customer. The mobile number is
+ * the customer ID, so anything this device already holds for the same
+ * number (e.g. the demo account) moves to the server's customer id.
+ */
+export async function linkCustomer(customer: Customer, session?: Session, opts: { welcome?: boolean } = {}) {
+  const d = await db();
+  const old = d.byPhone[customer.phone];
+  if (old && old !== customer.id) {
+    const move = <T extends { customerId: string }>(rows: T[]) => rows.forEach((r) => { if (r.customerId === old) r.customerId = customer.id; });
+    move(d.invoices);
+    move(d.applications);
+    d.referrals.forEach((r) => { if (r.referrerId === old) r.referrerId = customer.id; });
+    for (const map of [d.quotes, d.notices, d.crmIds] as Record<string, unknown>[]) {
+      if (old in map && !(customer.id in map)) map[customer.id] = map[old];
+      delete map[old];
+    }
+    for (const login of Object.values(d.byEmail)) if (login.id === old) login.id = customer.id;
+    delete d.customers[old];
+  }
+  d.customers[customer.id] = customer;
+  d.byPhone[customer.phone] = customer.id;
+  if (session) d.session = session;
+  if (opts.welcome && !d.notices[customer.id]?.length) {
+    notify(d, customer.id, { title: 'Welcome to Eutility', body: 'Check your savings, then send us a bill and we’ll handle the switch.' });
+  }
+  await save();
 }
 
 // Send anything left over from last time.
@@ -276,7 +307,7 @@ export const mockApi: Api = {
         rewardsEarned: null,
         nextRewardAt: CONFIG.rewards.nextRewardAt,
         referrals: mine.map(({ referrerId: _r, ...r }) => r),
-        sample: c.id === 'CUST-DEMO01',
+        sample: c.phone === DEMO.phone,
       };
     },
   },
