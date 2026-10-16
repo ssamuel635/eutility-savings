@@ -1,26 +1,23 @@
-// Client testimonials, shortened from the ones Eutility publishes at
-// https://eutility.com.sg/testimonials/ (roles and companies as given there).
-// They're from Eutility's business clients, so the page says so. Add home
-// customers' stories here once they've agreed to be quoted.
+// Home customers in their own words. Add one only once the customer has agreed
+// to be quoted on this site and in the app: nothing here is ever made up.
+// While the list is empty, the quote sections on the home and Testimonials
+// pages stay hidden and the pages show savings by home type instead.
+//
+// One entry looks like this (savedYearly in dollars, optional):
+//   { quote: 'Switching took one WhatsApp chat…', name: 'Mei Ling', home: '4-room HDB flat', area: 'Tampines', plan: 'Geneco Get It Fixed 24', savedYearly: 180 },
 
-export const TESTIMONIALS = [
-  { quote: 'Eutility have proved invaluable in the minefield that is energy procurement, with advice that has continually proven itself to be knowledge based and completely sound.', role: 'ManpowerGroup', org: '' },
-  { quote: 'They go above and beyond to proactively introduce cost reductions and billing optimisation opportunities.', role: 'National Procurement Manager', org: 'Interactive' },
-  { quote: 'We were most impressed with the detailed analysis, professionalism and market knowledge, not to mention the big cost savings achieved.', role: 'Head of Information Technology', org: 'Miele Australia' },
-  { quote: 'Their tendering service is comprehensive and takes away all the hassle of procurement. Their advice on the market is always timely and commercial.', role: 'Chief Financial Officer and Company Secretary', org: 'ProTen' },
-  { quote: 'They have been responsible for ensuring our energy costs have remained neutral when other management firms predicted steep increases.', role: 'Commercial Strategy & Property', org: 'Vodafone' },
-  { quote: 'Delivered in a highly professional manner, securing the group extremely competitive metering and retail rates.', role: 'Supply Chain Manager, Sustainability', org: 'KFC' },
-  { quote: 'The overall benefit was significant, cutting our overall IT spend by more than 40%.', role: 'Global IT Support Manager', org: 'Michael Hill Jewellers' },
-  { quote: 'A very impressive tool for engineers who are concerned about electricity use.', role: 'Chief Engineer', org: 'Richmond Dairies' },
-];
+import { fmtMoney } from '../calc.js';
+
+export const TESTIMONIALS = [];
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
 export function quoteCard(t, i = 0) {
+  const where = [t.home, t.area].filter(Boolean).join(', ');
   return `
   <figure class="t-quote reveal" style="--d:${(i % 3) * 0.06}s">
     <svg class="t-quote__mark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9.6 6C6.5 7.3 4.6 9.9 4.6 13.4V18h5.6v-5.6H7.4c0-2 1-3.5 3-4.4zm9 0c-3.1 1.3-5 3.9-5 7.4V18h5.6v-5.6h-2.8c0-2 1-3.5 3-4.4z"/></svg>
     <blockquote>${esc(t.quote)}</blockquote>
-    <figcaption><strong>${esc(t.org || t.role)}</strong>${t.org ? `<span>${esc(t.role)}</span>` : ''}</figcaption>
+    <figcaption><strong>${esc(t.name)}</strong>${where ? `<span>${esc(where)}</span>` : ''}${t.savedYearly ? `<span>Saves ${fmtMoney(t.savedYearly)} a year${t.plan ? ` on ${esc(t.plan)}` : ''}</span>` : ''}</figcaption>
   </figure>`;
 }

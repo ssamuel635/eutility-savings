@@ -8,16 +8,16 @@ import { MARKET_PLANS, TARIFF, TARIFF_PERIOD, PLAN_COUNT, RATES_DATE } from '../
 const retailers = [...new Set(MARKET_PLANS.map((p) => p.retailer))].sort();
 
 // Draft answers — review with Eutility (esp. switching process, fees, how Eutility
-// is paid, and data handling) before launch. Company facts below are taken from
-// eutility.com.au, eutility.com.sg (About, FAQs, Procurement pages) and the ACRA record for UEN 201624008N.
+// is paid, and data handling) before launch. Written for Singapore homes; company
+// facts (founding year, UEN, address) are from the ACRA record for UEN 201624008N.
 export const FAQ = [
   {
     group: 'About Eutility',
     items: [
       {
         q: 'Who is Eutility?',
-        a: `<p>Eutility is an independent energy and utility management company. It was founded in Australia in ${CONFIG.company.foundedAu}, is still family owned, and helps businesses lower their utility, carbon and telecommunications costs. Today that&rsquo;s ${CONFIG.company.scale}.</p>
-            <p>${CONFIG.company.sgEntity} (UEN ${CONFIG.company.sgUen}) has had an office here since ${CONFIG.company.sgIncorporated}, at ${CONFIG.company.sgAddress}. This site brings the same independent advice to Singapore homes and small businesses.</p>`,
+        a: `<p>Eutility is an independent energy company. It was founded in Australia in ${CONFIG.company.foundedAu} and is still family owned. We don&rsquo;t sell electricity: we compare what the retailers offer and help Singapore homes switch to a plan that suits them.</p>
+            <p>${CONFIG.company.sgEntity} (UEN ${CONFIG.company.sgUen}) has had an office here since ${CONFIG.company.sgIncorporated}, at ${CONFIG.company.sgAddress}.</p>`,
       },
       {
         q: 'Are you an electricity retailer?',
@@ -34,8 +34,7 @@ export const FAQ = [
       },
       {
         q: 'Where can I read Eutility&rsquo;s terms and privacy statement?',
-        a: `<p>On our <a href="legal.html">Legal page</a>: the <a href="legal.html#privacy">Privacy Statement</a>, the <a href="legal.html#terms">Website Terms and Conditions</a>, and the <a href="legal.html#msa">Master Services Agreement</a> terms that apply to business services.</p>
-            <p>For energy terms such as MSS account, contestability or tariff, see Eutility&rsquo;s <a href="${CONFIG.links.glossary}" target="_blank" rel="noopener">glossary of terms</a>. Business clients can also read the <a href="${CONFIG.links.faqs}" target="_blank" rel="noopener">eutility.com.sg FAQs</a>.</p>`,
+        a: `<p>On our <a href="legal.html">Legal page</a>: the <a href="legal.html#privacy">Privacy Statement</a> and the <a href="legal.html#terms">Website Terms and Conditions</a>.</p>`,
       },
       {
         q: 'What does &ldquo;Get control&rdquo; mean?',
@@ -124,17 +123,11 @@ export const FAQ = [
     items: [
       {
         q: 'Can Eutility help my business?',
-        a: '<p>Yes. Businesses are what Eutility has done since 1979. Use the <a href="calculator.html#sme">SME calculator</a> to add each of your sites. Combining usage across locations can unlock a better aggregated rate, and a consultant then confirms a quote. Business clients get a dedicated account manager and help desk.</p>',
+        a: '<p>If you run a small business, yes. Use the <a href="calculator.html#sme">SME calculator</a> to add each of your sites. Combining usage across locations can unlock a better aggregated rate, and a consultant then confirms a quote.</p>',
       },
       {
         q: 'Do you only do electricity?',
-        a: `<p>On this site, yes. For businesses, Eutility also offers:</p>
-            <ul><li><strong>SmartProcure</strong>: compares multi-year price offers and runs market tenders for competitive retail contracts.</li>
-            <li><strong>SmartValidation</strong>: batches, audits and processes multi-site utility invoices to catch errors.</li>
-            <li><strong>SmartView</strong>: a 24/7 online portal for live consumption, billing data and financial forecasts.</li>
-            <li><strong>Trading Services</strong>: wholesale energy, risk management and power purchase agreements (PPAs) for large users.</li>
-            <li><strong>Sustainability</strong>: carbon tracking, solar asset management and planning towards net zero.</li></ul>
-            <p>Telecommunications costs are covered too. If any of this is relevant to your business, say so when you message us.</p>`,
+        a: '<p>Yes. This site compares electricity plans for Singapore homes and small businesses.</p>',
       },
     ],
   },

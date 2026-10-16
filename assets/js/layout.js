@@ -1,6 +1,6 @@
 // Shared shell: header, mobile drawer, footer, sticky WhatsApp bar,
 // WhatsApp handoff (+ desktop QR fallback), referral capture, scroll reveals, toast.
-import { CONFIG, waLink, mailLink, extLink } from './config.js';
+import { CONFIG, waLink, mailLink } from './config.js';
 import { RATES_DATE, TARIFF, TARIFF_PERIOD } from './calc.js';
 import * as I from './icons.js';
 import * as customer from './services/customer.js';
@@ -98,18 +98,12 @@ function header(page) {
 
 function footer() {
   const year = new Date().getFullYear();
-  const L = CONFIG.links;
   return `
   <footer class="site-footer">
     <div class="container">
       <div class="site-footer__grid">
         <div class="stack" style="--stack:16px">
           <p>Independent energy and utility management since 1979. We don&rsquo;t supply energy. We help you pay less for it.</p>
-          <ul class="site-footer__links" aria-label="Eutility">
-            <li>${extLink(L.smartview, 'SmartView login')}</li>
-            <li>${extLink(L.website, 'eutility.com.sg')}</li>
-            <li>${extLink(L.offices, 'International offices')}</li>
-          </ul>
         </div>
         <div>
           <h3>Product</h3>
@@ -126,7 +120,6 @@ function footer() {
           <h3>Support</h3>
           <ul>
             <li><a href="faq.html">FAQ</a></li>
-            <li>${extLink(L.glossary, 'Glossary of terms')}</li>
             <li><a href="about.html#contact">Contact us</a></li>
             <li><a href="about.html">About Eutility</a></li>
             <li><a href="login.html">Log in</a></li>
@@ -143,7 +136,6 @@ function footer() {
       </div>
       <div class="site-footer__legal">
         <ul class="site-footer__legal-links" aria-label="Legal">
-          <li><a href="legal.html#msa">Master Services Agreement</a></li>
           <li><a href="legal.html#terms">Website Terms and Conditions</a></li>
           <li><a href="legal.html#privacy">Privacy Statement</a></li>
         </ul>

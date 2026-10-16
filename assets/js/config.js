@@ -18,25 +18,14 @@ export const CONFIG = {
     parentLine: 'Independent energy experts since 1979',
     // Eutility is a broker/agent and consultant, not an electricity retailer.
     role: 'independent energy and utility management company',
-    scale: 'more than 2,000 businesses across more than 19,000 locations',
   },
 
-  // ── Links to Eutility's main site (eutility.com.sg) and business tools ──
+  // Eutility's main site. Only used to tell search engines the two sites are
+  // the same company (tools/seo.mjs); this site doesn't link to it for content.
   links: {
     website: 'https://eutility.com.sg/',
-    smartview: 'https://smartview.eutility.com.au/',          // SmartView client login
-    offices: 'https://eutility.com.sg/contact-us/#international',
-    contact: 'https://eutility.com.sg/contact-us/',
-    procurement: 'https://eutility.com.sg/procurement-and-management/',
-    netZero: 'https://eutility.com.sg/net-zero/',
-    trading: 'https://eutility.com.sg/trading/',
-    analysis: 'https://eutility.com.sg/analysis/',
-    support: 'https://eutility.com.sg/support/',
-    faqs: 'https://eutility.com.sg/faqs/',
-    glossary: 'https://eutility.com.sg/glossary-of-terms/',
-    msaOfficial: 'https://eutility.com.sg/wp-content/uploads/2023/05/2023_Eutility_MSA_Type_Terms_Singapore.pdf',
   },
-  // Local copy of the Master Services Agreement terms (same file as msaOfficial).
+  // Master Services Agreement terms for business clients (Legal page).
   msaPdf: 'assets/docs/eutility-msa-terms-2023.pdf',
   // Legal/enquiries address used in the Website Terms and Conditions.
   enquiriesEmail: 'enquiries@eutility.com.sg',

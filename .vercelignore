@@ -22,9 +22,6 @@
 .env.*
 *.log
 
-# Superseded by boardroom.jpg (2.1 MB → 122 KB). Safe to delete from the folder.
-/assets/img/boardroom.png
-
 # Never publish archives or local output folders. A zip of this project would
 # include data/price-comparison-sheet.xlsx — commercial pricing data.
 *.zip

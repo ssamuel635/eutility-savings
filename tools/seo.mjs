@@ -52,15 +52,15 @@ const PAGES = {
   },
   'faq.html': {
     title: 'Switching Electricity Retailer in Singapore: FAQ — Eutility',
-    description: 'Switching electricity retailer in Singapore: how we work out savings, which retailers we compare, contracts, WhatsApp, referrals and business services.',
+    description: 'Switching electricity retailer in Singapore: how we work out savings, which retailers we compare, contracts, WhatsApp, referrals and small businesses.',
   },
   'about.html': {
     title: 'About Eutility: Independent Energy Experts Since 1979',
     description: 'Eutility is an independent, family-owned energy and utility management company, founded in Australia in 1979, with an office in Singapore.',
   },
   'testimonials.html': {
-    title: 'Eutility Reviews: What Our Clients Say',
-    description: 'What Eutility’s clients say, and what switching could save a typical Singapore home.',
+    title: 'What Switching Could Save Your Home — Eutility',
+    description: 'What switching electricity plan could save a typical HDB flat, condo or landed home in Singapore, worked out from today’s rates.',
   },
   'referrals.html': {
     title: 'Refer a Friend, Earn Rewards — Eutility',

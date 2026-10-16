@@ -82,8 +82,12 @@ if (tip) tip.textContent = `Picked from every plan we track, priced for a home u
 // What switching could save: real estimates for typical homes
 document.getElementById('home-testimonials').innerHTML = homeStories(['HDB 3-room', 'HDB 5-room', 'Condo']).map(storyCard).join('');
 
-// Testimonials: three of Eutility's published client quotes
-document.getElementById('home-quotes').innerHTML = TESTIMONIALS.slice(0, 3).map(quoteCard).join('');
+// Testimonials: three home customers' quotes; the section stays hidden until there are any
+const quotes = document.getElementById('home-quotes');
+if (TESTIMONIALS.length) {
+  quotes.innerHTML = TESTIMONIALS.slice(0, 3).map(quoteCard).join('');
+  quotes.closest('section').hidden = false;
+}
 
 // Rewards teaser: four things points can buy
 document.getElementById('home-rewards').innerHTML = rewards.catalogue().filter((r) => ['air-fryer', 'rice-cooker', 'ps5', 'robot-vacuum'].includes(r.id)).map((r) => `
