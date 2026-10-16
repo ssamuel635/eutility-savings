@@ -66,6 +66,10 @@ const PAGES = {
     title: 'Refer a Friend, Earn Rewards — Eutility',
     description: 'Get your friends switched to a better electricity plan, climb the leaderboard and earn rewards with Eutility.',
   },
+  'news.html': {
+    title: 'Singapore Electricity Market News — Eutility',
+    description: 'Electricity tariff changes, retailer news and market updates in Singapore, from SP Group, the Open Electricity Market and local news sites.',
+  },
   'legal.html': {
     title: 'Privacy Policy & Terms — Eutility',
     description: 'Eutility Singapore’s Privacy Statement, Website Terms and Conditions and Master Services Agreement terms.',

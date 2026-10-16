@@ -1,0 +1,59 @@
+{
+ "run": "2026-10-16",
+ "collected_at": "2026-10-16T10:03:56+08:00",
+ "days": 30,
+ "sources": [
+  {
+   "source": "SP Group",
+   "kind": "official",
+   "url": "https://www.spgroup.com.sg/about-us/media-resources/news-and-media-releases",
+   "read": 10,
+   "error": ""
+  },
+  {
+   "source": "Open Electricity Market",
+   "kind": "official",
+   "url": "https://www.openelectricitymarket.sg/residential/list-of-retailers",
+   "read": 7,
+   "error": "",
+   "note": "7 retailers listed, no change"
+  },
+  {
+   "source": "The Straits Times",
+   "kind": "news",
+   "url": "https://www.straitstimes.com/news/singapore/rss.xml",
+   "read": 49,
+   "error": ""
+  },
+  {
+   "source": "The Business Times",
+   "kind": "news",
+   "url": "https://www.businesstimes.com.sg/rss/singapore",
+   "read": 48,
+   "error": ""
+  },
+  {
+   "source": "CNA",
+   "kind": "news",
+   "url": "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml&category=10416",
+   "read": 20,
+   "error": ""
+  }
+ ],
+ "items": [
+  {
+   "id": "42fb727e0a58",
+   "title": "Electricity Tariff Revision for the Period 1 October to 31 December 2026",
+   "url": "https://www.spgroup.com.sg/about-us/media-resources/news-and-media-releases/Electricity-Tariff-Revision-for-the-Period-1-July-to-30-September-2027",
+   "date": "2026-09-29",
+   "source": "SP Group",
+   "source_key": "sp-group",
+   "kind": "official",
+   "snippet": "",
+   "keywords": [
+    "Electricity",
+    "Tariff Revision"
+   ]
+  }
+ ]
+}

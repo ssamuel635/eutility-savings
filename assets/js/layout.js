@@ -30,6 +30,7 @@ const DRAWER = [
   { href: 'how-it-works.html', label: 'How it works', hint: 'Three steps', key: 'how', icon: 'bolt', tone: 'teal' },
   { href: 'testimonials.html', label: 'Testimonials', hint: 'What clients say', key: 'testimonials', icon: 'quote', tone: 'orange' },
   { href: 'faq.html', label: 'FAQ', hint: 'Quick answers', key: 'faq', icon: 'help', tone: 'green' },
+  { href: 'news.html', label: 'Market news', hint: 'Tariffs and retailers', key: 'news', icon: 'news', tone: 'navy' },
   { href: 'about.html', label: 'About & contact', hint: 'Since 1979', key: 'about', icon: 'info', tone: 'navy' },
 ];
 
@@ -120,6 +121,7 @@ function footer() {
           <h3>Support</h3>
           <ul>
             <li><a href="faq.html">FAQ</a></li>
+            <li><a href="news.html">Market news</a></li>
             <li><a href="about.html#contact">Contact us</a></li>
             <li><a href="about.html">About Eutility</a></li>
             <li><a href="login.html">Log in</a></li>

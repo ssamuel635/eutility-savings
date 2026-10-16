@@ -1,0 +1,28 @@
+{
+ "decided": {},
+ "oem_retailers": [
+  "Flo Energy Singapore Pte. Ltd.",
+  "Geneco (by Seraya Energy Pte Ltd)",
+  "Keppel Electric Pte Ltd",
+  "PacificLight Energy Pte Ltd",
+  "Sembcorp Power Pte Ltd",
+  "Senoko Energy Supply Pte Ltd",
+  "Tuas Power Supply Pte Ltd"
+ ],
+ "pending": {
+  "42fb727e0a58": {
+   "id": "42fb727e0a58",
+   "title": "Electricity Tariff Revision for the Period 1 October to 31 December 2026",
+   "url": "https://www.spgroup.com.sg/about-us/media-resources/news-and-media-releases/Electricity-Tariff-Revision-for-the-Period-1-July-to-30-September-2027",
+   "date": "2026-09-29",
+   "source": "SP Group",
+   "source_key": "sp-group",
+   "kind": "official",
+   "snippet": "",
+   "keywords": [
+    "Electricity",
+    "Tariff Revision"
+   ]
+  }
+ }
+}

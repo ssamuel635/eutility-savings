@@ -7,7 +7,9 @@
 // <!-- prerender:NAME --> and <!-- /prerender:NAME --> markers:
 //   faq.html    every question and answer (the page's search re-renders the same markup)
 //   plans.html  "Every plan at a glance": one row per plan at the default usage
-// Both come from the same data the pages use, so re-run after a price update.
+//   news.html   every market news headline; index.html the latest three
+// They come from the same data the pages use, so re-run after a price update.
+// tools/news/apply.py runs it after publishing news.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -19,6 +21,7 @@ const { FAQ, faqMarkup } = await load('assets/js/data/faq.js');
 const { CONFIG } = await load('assets/js/config.js');
 const { fmtMoney, RATES_DATE } = await load('assets/js/calc.js');
 const plans = await load('assets/js/services/plans-service.js');
+const { newsPageMarkup, homeNewsMarkup } = await load('assets/js/services/news-service.js');
 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -51,6 +54,8 @@ function planGlance() {
 const SPOTS = [
   { file: 'faq.html', name: 'faq', html: () => faqMarkup(FAQ), after: /<div id="faq-list"[^>]*>/ },
   { file: 'plans.html', name: 'plans', html: planGlance, after: /<div class="plan-grid" id="plan-grid"><\/div>\s*<\/div>\s*<\/section>/ },
+  { file: 'news.html', name: 'news', html: () => newsPageMarkup(), after: /<div class="news-feed" id="news-feed">/ },
+  { file: 'index.html', name: 'news', html: () => homeNewsMarkup(), after: /<!-- Market news[^>]*-->/ },
 ];
 
 let failed = false;
