@@ -80,7 +80,7 @@ export const FAQ = [
       },
       {
         q: 'Is there a deposit?',
-        a: '<p>Some retailers ask for a security deposit depending on your home type and citizenship/residency status; others waive it. The deposit for the recommended plan is shown on your results.</p>',
+        a: '<p>Some retailers ask for a security deposit, usually set by your home type; others waive it or keep your existing SP Services deposit. Each plan’s deposit is shown with your results, under “Fees and deposit” in the full plan list.</p>',
       },
     ],
   },

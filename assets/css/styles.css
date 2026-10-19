@@ -463,6 +463,14 @@ details.advanced .advanced__body { padding-top: var(--s3); display: grid; gap: v
 .plan-table th.num-cell { text-align: right; }
 .plan-table tr.is-best td { background: var(--orange-tint); }
 .plan-table .muted { color: var(--muted); font-size: 12.5px; display: block; }
+/* Each plan's early termination fee and deposit: a toggle under its name, opening a full-width row */
+.plan-fees-toggle { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; margin-top: 2px; padding: 0; border: 0; background: none; cursor: pointer; font: inherit; font-size: 13px; font-weight: 600; color: var(--blue-aa); text-align: left; }
+.plan-fees-toggle::after { content: ''; width: 7px; height: 7px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform .3s var(--ease); }
+.plan-fees-toggle[aria-expanded="true"]::after { transform: translateY(1px) rotate(-135deg); }
+.plan-table tr:has(+ .plan-fees-row:not([hidden])) td { border-bottom: 0; }
+.plan-table .plan-fees-row td { padding-top: 0; }
+.plan-table tr.is-best + .plan-fees-row td { background: var(--orange-tint); }
+.plan-fees-row .note-list { max-width: 72ch; }
 .save-pos { color: var(--green-aa); }
 .save-neg { color: var(--red-aa); }
 .table-scroll { overflow-x: auto; max-height: 520px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius); }

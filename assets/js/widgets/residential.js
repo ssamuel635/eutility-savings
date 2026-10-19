@@ -327,6 +327,12 @@ async function celebrate(numEl, yearly) {
   if (yearly > CONFIG.confettiThreshold) confetti();
 }
 
+/** A plan's early termination fee and deposit as list items, in one place for the fine print and the full list. */
+function feeItems(p) {
+  return (p.contractMonths ? `<li>Early termination: ${esc(p.etf || 'see retailer terms')}</li>` : '')
+    + (p.deposit ? `<li>Deposit: ${esc(p.deposit)}</li>` : '');
+}
+
 /** The method, in one place — shown in the fine-print panel. */
 function howWeEstimate(inputs) {
   return `How we estimate: your usage × each plan’s published rate (plus any daily charge), compared with your current plan. Retailer rates as at ${RATES_DATE}. Discount-off-tariff plans use SP Group’s regulated tariff of ${TARIFF}¢/kWh for ${TARIFF_PERIOD} (incl. GST). Time-of-use plans assume ${Math.round(inputs.offPeakShare * 100)}% of your usage is off-peak. Promotions are shown separately and not included. Your actual bill depends on your usage and the retailer’s terms.`;
@@ -451,8 +457,7 @@ function renderFull(el, res, inputs) {
         ${promo ? `<div class="promo"><span aria-hidden="true" style="width:22px;flex:none;color:var(--orange-aa)">${I.gift}</span><div><strong>Retailer promotion:</strong> ${esc(promo.title ? `${promo.title}, ${promo.value}` : promo.value)}${promo.code ? ` · code <strong>${esc(promo.code)}</strong>` : ''}${promo.expires ? ` · ends ${esc(fmtDate(promo.expires))}` : ''}${promo.conditions ? `<br><span class="small">${esc(promo.conditions)}</span>` : ''}<br><span class="small">Set by the retailer; terms and availability may change. Not included in the savings above.</span></div></div>` : ''}
         <ul class="note-list">
           ${b.notes.map((n) => `<li>${esc(n)}</li>`).join('')}
-          ${b.contractMonths ? `<li>Early termination: ${esc(b.etf || 'see retailer terms')}</li>` : ''}
-          ${b.deposit ? `<li>Deposit: ${esc(b.deposit)}</li>` : ''}
+          ${feeItems(b)}
         </ul>
             <p class="small">${howWeEstimate(inputs)}</p>
           </div>
@@ -480,11 +485,12 @@ function renderFull(el, res, inputs) {
           <tbody>
             ${results.map((r, i) => `
               <tr class="${i === 0 && !alreadyBest ? 'is-best' : ''}">
-                <td><strong>${esc(r.plan.retailer)}</strong> · ${esc(r.plan.name)}<span class="muted">${contractLabel(r.plan.contractMonths)}${r.plan.category === 'Green' ? ' · Green' : ''}${activePromo(r.plan) ? ' · Promotion' : ''}</span></td>
+                <td><strong>${esc(r.plan.retailer)}</strong> · ${esc(r.plan.name)}<span class="muted">${contractLabel(r.plan.contractMonths)}${r.plan.category === 'Green' ? ' · Green' : ''}${activePromo(r.plan) ? ' · Promotion' : ''}</span>${feeItems(r.plan) ? `<button class="plan-fees-toggle" type="button" aria-expanded="false" data-fees>Fees and deposit</button>` : ''}</td>
                 <td class="col-price">${esc(rateLabel(r.plan))}</td>
                 <td class="num-cell">${fmtMoney(r.total, 2)}</td>
                 <td class="num-cell ${r.savingYearly >= 0 ? 'save-pos' : 'save-neg'}">${fmtMoney(r.savingYearly)}</td>
-              </tr>`).join('')}
+              </tr>${feeItems(r.plan) ? `
+              <tr class="plan-fees-row" hidden><td colspan="4"><ul class="note-list">${feeItems(r.plan)}</ul></td></tr>` : ''}`).join('')}
           </tbody>
         </table>
       </div>
@@ -515,6 +521,12 @@ function renderFull(el, res, inputs) {
   el.querySelector('[data-mail-switch]')?.addEventListener('click', () => { logSwitch(res, inputs, ref, 'email'); openEmail(planWaMessage(res, inputs, ref), planMailSubject(res)); });
   barFor(res, inputs, el, ref);
   el.querySelector('[data-widen]')?.addEventListener('click', () => el.dispatchEvent(new CustomEvent('calc:widen', { bubbles: true })));
+  // Full list: each plan's fees open in a full-width row under it.
+  el.querySelectorAll('[data-fees]').forEach((btn) => btn.addEventListener('click', () => {
+    const open = btn.getAttribute('aria-expanded') !== 'true';
+    btn.setAttribute('aria-expanded', String(open));
+    btn.closest('tr').nextElementSibling.hidden = !open;
+  }));
   const soundBtn = el.querySelector('[data-sound]');
   soundBtn.addEventListener('click', () => {
     const on = !soundEnabled();
