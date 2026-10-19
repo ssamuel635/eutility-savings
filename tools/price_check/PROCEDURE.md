@@ -36,6 +36,15 @@ Rules:
   The compare script rejects any number that isn't in that text.
 - Discounts that depend on a condition (prompt payment, GIRO, card) are **not** part of
   `discount`; put them in `notes`. We list what every customer is guaranteed.
+- **Contract terms.** For every plan, also read the **security deposit** and **early
+  termination** sections of its fact sheet and add `terms` (format below). Copy the fact
+  sheet's exact text into `deposit_source` / `etf_source`, and its version date into
+  `factsheet_date`. Compare with our current wording (the plan's `deposit` and `etf` in
+  `assets/js/data/plans.js`). Set `changed: true` only if an amount, percentage, period or
+  who-it-applies-to differs, and then write the new wording for customers in `deposit` /
+  `etf`, in the same style as ours (plain sentences, `S$` amounts, e.g. *"Billed on your first
+  bill for all new sign-ups: HDB 1–2 room S$50; …"*). Every number you write must be in the
+  copied text. If ours still matches, set `changed: false` and leave `deposit` / `etf` null.
 
 JSON format (one file per retailer):
 
@@ -48,6 +57,8 @@ JSON format (one file per retailer):
    "tou":{"offPeak":{"window":"23:00–07:00","rate_incl_gst":20.05},"peak":{"window":"07:00–23:00","rate_incl_gst":36.95}} or null,
    "tiers":[{"from":0,"to":300,"rate_incl_gst":29.2}] or null,"category":"Standard|Green",
    "promo":{"title":"…","value":"…","code":"…","expires":"YYYY-MM-DD"} or null,
+   "terms":{"factsheet_date":"YYYY-MM-DD","deposit_source":"exact fact sheet text","etf_source":"exact fact sheet text",
+     "changed":false,"deposit":"new site wording or null","etf":"new site wording or null"},
    "source_url":"…","evidence":"exact text copied from the source","confidence":"high|medium|low","notes":"…"}],
  "not_found":["our ids no longer offered"],"issues":"…"}
 ```
@@ -60,6 +71,10 @@ it is read a second time. A separate pass re-reads just those plans **by a diffe
 (the fact sheet instead of the plan page, or the retailer's data feed), without looking at
 the first answer, and writes `price-checks/<date>/verify/<key>.json` in the same format,
 plus `"method"`. If the two reads disagree, the item stays blocked.
+
+**Every contract-terms change** (`terms.changed: true`) also needs this second read: re-read that
+plan's deposit and early termination sections and write its `terms` (with your own wording) into
+`verify/<key>.json`. The two reads must have the same dollar amounts and percentages.
 
 ## Step 2: compare (script)
 
@@ -79,12 +94,17 @@ Accuracy guards (an item that fails any of them is **blocked** and can't be appr
 | Rate between 15¢ and 45¢; discount ≤ 25% / 8¢ | decimal slips, misreads |
 | Move of more than 15% in one week | misreads (real moves this big are rare) |
 | High-impact items need a second read that agrees | a single wrong read reaching the top recommendation |
+| Contract terms: every number in the new wording must be in the copied fact sheet text, and a second read must find the same amounts and percentages | a wrong deposit or termination fee shown to customers (`terms.py`) |
+
+The report's **Contract terms** section lists deposit and early termination changes to approve, and
+plans whose fact sheet is newer than last week but where no change was found (worth a quick look).
+Approved terms are written into the sheet's deposit and ETF columns for every row of that plan.
 
 Gaps: a plan that can't be read keeps its current price and shows **when it was last
 confirmed**. After 21 days unconfirmed it is marked **stale**; check it by hand or hide it.
 The report's coverage card shows how many plans were confirmed this week.
 
-Test the guards: `python3 tools/price_check/test_compare.py`
+Test the guards: `python3 tools/price_check/test_compare.py` and `python3 tools/price_check/test_terms.py`
 
 ## Step 3: approve (person)
 
@@ -108,7 +128,7 @@ are added to the sheet by hand.
 (coverage, changes, blocked, double-checked). apply.py adds who approved, how much, and when it
 went live. Together they show how reliable the agent is over time.
 
-Tests: `python3 tools/price_check/test_compare.py` and `python3 tools/price_check/test_runlog.py`
+Tests: `python3 tools/price_check/test_compare.py`, `test_terms.py` and `test_runlog.py`
 
 ## Weekly schedule
 

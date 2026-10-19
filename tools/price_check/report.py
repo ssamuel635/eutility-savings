@@ -67,7 +67,7 @@ APPROVE_JS = """<script>
   save.addEventListener('click', async () => {
     const pick = (k) => boxes.filter((b) => b.checked && b.dataset.kind === k).map((b) => b.dataset.id);
     const data = { run, approved_by: name.value.trim(), approved_at: new Date().toISOString(),
-                   plans: pick('plan'), promotions: pick('promo') };
+                   plans: pick('plan'), promotions: pick('promo'), terms: pick('terms') };
     const text = JSON.stringify(data, null, 1), file = 'approved-' + run + '.json';
     try {
       if (window.showSaveFilePicker) {
@@ -90,7 +90,46 @@ APPROVE_JS = """<script>
 </script>"""
 
 
-def render(summary, rows, promo_rows, retailers):
+def terms_section(terms_rows):
+    """Deposit and early termination fee: changes to approve, and newer fact sheets to glance at."""
+    shown = [x for x in terms_rows if x["kind"] in ("changed", "newer_factsheet")]
+    checked = len(terms_rows)
+    if not shown:
+        note = f"Read from {checked} plans’ fact sheets; all match the site." if checked else \
+            "Not read this run (the collect step didn’t report any)."
+        return f"<section><h2>Contract terms <span class='count'>0</span></h2><p class='blurb'>Security deposit and early termination fee. {note}</p></section>"
+    out = []
+    for x in sorted(shown, key=lambda r: (r["kind"] != "changed", r["retailer"], r["plan"])):
+        cells = []
+        for k, label in (("deposit", "Deposit"), ("etf", "Early termination")):
+            old, new, ev = x["old"].get(k), x["new"].get(k), x["evidence"].get(k)
+            if x["kind"] == "changed" and new and new != old:
+                body = f"<s>{esc(old or '—')}</s><br><b>{esc(new)}</b>"
+            else:
+                body = esc(old or "—")
+            if ev:
+                body += f"<details><summary class='muted'>Fact sheet text</summary><div class='muted'>{esc(ev)}</div></details>"
+            cells.append(f"<td><div class='muted'>{label}</div>{body}</td>")
+        sheet = f"Fact sheet {esc(x.get('factsheet_date') or '?')}" + (f" (was {esc(x['prev_factsheet_date'])})" if x.get("prev_factsheet_date") else "")
+        src = f" · <a href='{esc(x['source'])}' target='_blank' rel='noopener'>source</a>" if x.get("source") else ""
+        t = x.get("trust") or {}
+        if x["kind"] == "newer_factsheet":
+            checks, approve = "<span class='conf medium'>Newer fact sheet, no change found</span>", "<span class='muted'>Worth a look</span>"
+        else:
+            sr = {"agrees": "<span class='conf'>✓ Double-checked</span>", "disagrees": "<span class='conf low'>Reads disagree</span>"}.get(
+                t.get("second_read"), "<span class='conf medium'>One read</span>")
+            flags = "".join(f"<li>{esc(f)}</li>" for f in t.get("flags", []))
+            checks = sr + (f"<ul class='flags'>{flags}</ul>" if flags else "")
+            approve = "<span class='blk'>Blocked</span>" if t.get("blocked") else \
+                f"<label class='ok'><input type='checkbox' data-kind='terms' data-id='{esc(x['id'])}'> Approve</label>"
+        out.append(f"""<tr class='{'is-blocked' if t.get('blocked') else ''}'><td><b>{esc(x['plan'])}</b><div class='muted'>{esc(x['retailer'])}</div>
+          <div class='muted'>{sheet}{src}</div></td>{''.join(cells)}<td>{checks}</td><td>{approve}</td></tr>""")
+    n = sum(1 for x in shown if x["kind"] == "changed")
+    return f"""<section><h2>Contract terms <span class='count'>{n}</span></h2><p class='blurb'>Security deposit and early termination fee, read from each plan’s fact sheet ({checked} plans this run). Customers see these under “Fees and deposit”. The new wording is drafted by the agent; every number in it must appear in the fact sheet text.</p>
+    <div class='scroll'><table><thead><tr><th>Plan</th><th>Deposit</th><th>Early termination</th><th>Checks</th><th></th></tr></thead><tbody>{''.join(out)}</tbody></table></div></section>"""
+
+
+def render(summary, rows, promo_rows, retailers, terms_rows=()):
     c = summary["counts"]
     bn, bw = summary["best_now"], summary["best_new"]
     order = {"changed": 0, "removed": 1, "new": 2, "unverified": 3, "same": 4}
@@ -171,6 +210,7 @@ ul.flags{{margin:6px 0 0;padding-left:16px;color:var(--up);font-size:12px}}.blk{
  <div class="card"><b>{c['changed']}</b><span>prices changed</span></div>
  <div class="card"><b>{c['removed']}</b><span>plans withdrawn</span></div>
  <div class="card"><b>{summary['promo_changes']}</b><span>promotion updates</span></div>
+ <div class="card"><b>{summary.get('terms_changes', 0)}</b><span>deposit / ETF changes</span></div>
  <div class="card"><b>{c['unverified']}</b><span>couldn’t verify{f" ({len(summary['stale'])} stale)" if summary['stale'] else ''}</span></div>
  <div class="card"><b>{summary['coverage']['pct']}%</b><span>coverage: {summary['coverage']['confirmed']} of {summary['coverage']['total']} plans confirmed</span></div>
  <div class="card"><b>{summary['double_checked']}</b><span>double-checked</span></div>
@@ -185,6 +225,7 @@ ul.flags{{margin:6px 0 0;padding-left:16px;color:var(--up);font-size:12px}}.blk{
 <li><b>Quote check.</b> The agent copies the exact text it read; the script rejects any number that isn’t in that text.</li>
 <li><b>Sanity checks.</b> Rates outside {RATE_MIN:g}–{RATE_MAX:g}¢, jumps over {MAX_JUMP:.0%} in a week, oversized discounts, and with-GST / without-GST pairs that don’t match (×1.09) are blocked.</li>
 <li><b>Second read.</b> Anything that would change the top 3 recommendations or move a typical bill by S$5+/month must be read a second time by a separate pass (different method, e.g. the retailer’s fact sheet or data feed). If the two reads disagree, it’s blocked.</li>
+<li><b>Contract terms too.</b> Each plan’s deposit and early termination fee are read from its fact sheet. A change needs the numbers in the new wording to appear in the fact sheet text, and a second read that finds the same numbers.</li>
 <li><b>Gaps are tracked.</b> Each unverified plan shows when it was last confirmed; after {STALE_DAYS} days it’s marked stale so it gets checked by hand or hidden.</li>
 <li><b>A person approves.</b> Nothing reaches the website until someone ticks it here. Blocked items can’t be ticked.</li></ul></details>
 {table('changed', 'Price changes', 'The retailer’s official site shows a different price from our data. Bill effect is for a typical home using ' + str(TYPICAL_KWH) + ' kWh a month.')}
@@ -193,6 +234,7 @@ ul.flags{{margin:6px 0 0;padding-left:16px;color:var(--up);font-size:12px}}.blk{
 {table('unverified', 'Couldn’t verify', 'The page couldn’t be read reliably (images, scripts or mid-update). These need a quick manual check; nothing changes until then.')}
 <section><h2>Promotion updates <span class="count">{summary['promo_changes']}</span></h2><p class="blurb">Promotions change often and don’t affect the savings figure, but they show on plan cards.</p>
 <div class="scroll"><table><thead><tr><th>Plan</th><th>On our site</th><th>On retailer’s site</th><th></th><th></th></tr></thead><tbody>{promo_html}</tbody></table></div></section>
+{terms_section(terms_rows)}
 <section><h2>By retailer</h2><div class="scroll"><table><thead><tr><th>Retailer</th><th>Checked</th><th>Changed</th><th>Unverified</th><th>Withdrawn</th><th>New</th><th>Notes</th></tr></thead><tbody>{ret_html}</tbody></table></div></section>
 {table('same', 'Unchanged', 'Confirmed against the retailer’s site.')}
 <div class="apbar"><b id="ap-count"></b><button type="button" id="ap-all">Tick / untick all</button>

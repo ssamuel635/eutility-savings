@@ -369,7 +369,12 @@ def compare(run_dir):
         "double_checked": sum(1 for x in rows if (x.get("trust") or {}).get("second_read") == "agrees"),
         "stale": [x["plan"] for x in rows if x.get("stale")],
     }
-    return summary, rows, promo_rows, retailers
+    # Contract terms (deposit, early termination fee): tools/price_check/terms.py
+    from terms import compare_terms
+    terms_rows = compare_terms(findings, verify, current, run_dir)
+    summary["terms_changes"] = sum(1 for x in terms_rows if x["kind"] == "changed")
+    summary["terms_checked"] = len(terms_rows)
+    return summary, rows, promo_rows, retailers, terms_rows
 
 
 # ── Report ───────────────────────────────────────────────────────────────────
@@ -392,14 +397,15 @@ def main():
     run_dir = (ROOT / sys.argv[1]).resolve() if not Path(sys.argv[1]).is_absolute() else Path(sys.argv[1])
     from report import render  # the HTML report lives in report.py
     from runlog import from_summary, record
-    summary, rows, promo_rows, retailers = compare(run_dir)
-    (run_dir / "report.html").write_text(render(summary, rows, promo_rows, retailers), encoding="utf-8")
-    (run_dir / "changes.json").write_text(json.dumps({"summary": summary, "plans": rows, "promotions": promo_rows},
+    summary, rows, promo_rows, retailers, terms_rows = compare(run_dir)
+    (run_dir / "report.html").write_text(render(summary, rows, promo_rows, retailers, terms_rows), encoding="utf-8")
+    (run_dir / "changes.json").write_text(json.dumps({"summary": summary, "plans": rows, "promotions": promo_rows, "terms": terms_rows},
                                                      ensure_ascii=False, indent=1, default=str), encoding="utf-8")
     record(run_dir.parent, run_dir.name, **from_summary(summary))
     c = summary["counts"]
     print(f"{run_dir.name}: {c['changed']} changed, {c['removed']} withdrawn, {c['new']} new, "
-          f"{c['unverified']} unverified, {c['same']} unchanged, {summary['promo_changes']} promo updates")
+          f"{c['unverified']} unverified, {c['same']} unchanged, {summary['promo_changes']} promo updates, "
+          f"{summary['terms_changes']} terms changes ({summary['terms_checked']} plans' terms read)")
     if summary["best_now"] and summary["best_new"]:
         print(f"  recommended at {TYPICAL_KWH} kWh: {summary['best_now'][2]} {summary['best_now'][3]} "
               f"(~S${summary['saving_now']}/yr) -> {summary['best_new'][2]} {summary['best_new'][3]} (~S${summary['saving_new']}/yr)")

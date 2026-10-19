@@ -101,6 +101,7 @@ def main():
                  "Save approvals (or use --all / --only if approval was given another way). Nothing applied.")
     plans_ok = set(approval["plans"]) if approval else None
     promos_ok = set(approval["promotions"]) if approval else None
+    terms_ok = set(approval.get("terms", [])) if approval else None  # older approval files have none
     in_scope = lambda pid: pid and (not only or pid in only) and pid not in skip
     ok = lambda pid: in_scope(pid) and (plans_ok is None or pid in plans_ok)
     promo_ok = lambda pid: in_scope(pid) and (promos_ok is None or pid in promos_ok)
@@ -149,6 +150,26 @@ def main():
         elif p.get("rate") is not None:
             ws.cell(rows[0], 7).value = p["rate"]
         log.append(f"updated: {x['plan']} — " + "; ".join(f"{f}: {o} → {n}" for f, o, n in x["changes"]))
+
+    # Contract terms: the approved deposit / ETF wording goes into columns J and K
+    # of every row of that plan (before any withdrawn rows are deleted).
+    for x in ch.get("terms", []):
+        pid = x.get("id")
+        if x.get("kind") != "changed" or not in_scope(pid) or (terms_ok is not None and pid not in terms_ok):
+            continue
+        if (x.get("trust") or {}).get("blocked"):
+            log.append(f"BLOCKED, terms not applied: {x['plan']} ({'; '.join(x['trust'].get('flags', []))})")
+            continue
+        rows = rows_by_id.get(pid)
+        if not rows:
+            log.append(f"not in sheet, terms skipped: {pid}")
+            continue
+        for col, key in ((10, "deposit"), (11, "etf")):
+            if x["new"].get(key):
+                for i in rows:
+                    ws.cell(i, col).value = x["new"][key]
+        log.append(f"terms: {x['plan']} — " + "; ".join(k for k in ("deposit", "etf") if x["new"].get(k)))
+
     for i in sorted(set(delete), reverse=True):
         ws.delete_rows(i)
 
@@ -198,7 +219,7 @@ def main():
     record(run.parent, run.name,
            approved_by=approval.get("approved_by") if approval else "by hand (--all/--only)",
            approved_at=approval.get("approved_at") if approval else "",
-           plans_approved=sum(1 for l in log if l.startswith(("updated:", "removed:"))),
+           plans_approved=sum(1 for l in log if l.startswith(("updated:", "removed:", "terms:"))),
            promos_approved=sum(1 for l in log if l.startswith(("promotion:", "promotion ended:"))),
            applied_at=date.today().isoformat())
     print(f"\nSaved {SHEET.relative_to(ROOT)}. Next: python3 tools/build_data.py --rates-date {run.name} && npm test")
