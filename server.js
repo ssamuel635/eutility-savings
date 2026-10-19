@@ -20,26 +20,26 @@ const BLOCKED = /^\/(node_modules|tests|tools|data|server|mobile|price-checks|\.
 
 // Customer records go to the CRM chosen by CRM_PROVIDER (server/crm/index.js).
 let crm = null;
-let crmRoutes = null;
 try {
-  const { createCrm } = require('./server/crm');
-  const { createCrmRoutes } = require('./server/crm/routes');
-  crm = createCrm();
-  crmRoutes = createCrmRoutes(crm);
+  crm = require('./server/crm').createCrm();
   console.log(`  CRM: ${crm.provider} → ${crm.where}`);
 } catch (e) {
   console.warn(`  CRM disabled: ${e.message}${e.code === 'MODULE_NOT_FOUND' ? ' (run npm install)' : ''}`);
 }
 
 // Sign-in by mobile number + SMS code (server/auth). New accounts are copied to the CRM.
+let auth = null;
 let authRoutes = null;
 try {
-  const auth = require('./server/auth').createAuth({ crm });
+  auth = require('./server/auth').createAuth({ crm });
   authRoutes = auth.routes;
-  console.log(`  Sign-in: SMS via ${auth.sms}; customers in ${auth.customers}`);
+  console.log(`  Sign-in: ${auth.describe}`);
 } catch (e) {
   console.warn(`  Sign-in disabled: ${e.message}`);
 }
+
+// The CRM routes use sign-in to tell a customer acting for themselves from anyone else.
+const crmRoutes = crm ? require('./server/crm/routes').createCrmRoutes(crm, process.env, auth) : null;
 
 // Send the same security headers as production (read from vercel.json), so a
 // Content-Security-Policy violation shows up here first, not after deploying.

@@ -11,7 +11,12 @@ function createAuth({ env = process.env, crm = null } = {}) {
   const sms = createSms(env);
   const tokens = createTokens(env);
   const customers = createCustomers({ env, crm });
-  return { routes: createAuthRoutes({ sms, tokens, customers, env }), sms: sms.provider, customers: `${customers.source} → ${customers.where}` };
+  return {
+    routes: createAuthRoutes({ sms, tokens, customers, env }),
+    tokens,    // the CRM routes read sessions with these
+    customers,
+    describe: `SMS via ${sms.provider}; customers in ${customers.source} → ${customers.where}`,
+  };
 }
 
 module.exports = { createAuth };

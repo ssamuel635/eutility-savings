@@ -134,12 +134,15 @@ function createExcelCrm({ file, billsDir } = {}) {
 
   // ── Operations (each is a pure change to a loaded workbook) ─
   const OPS = {
-    upsertContact(wb, { id, contact }) {
+    upsertContact(wb, { id, contact, fillOnly = false }) {
       const rows = readRows(wb, 'contacts');
       const hit = findMatch(rows, contact);
       if (hit) {
         // Don't blank out what we already know with empty fields from a partial update.
-        const patch = Object.fromEntries(Object.entries(contact).filter(([, v]) => v !== '' && v !== null));
+        // From someone not signed in, only fill fields that are still empty: knowing a
+        // customer's number mustn't be enough to change their address or email.
+        const blank = (v) => v === '' || v === null || v === undefined;
+        const patch = Object.fromEntries(Object.entries(contact).filter(([k, v]) => !blank(v) && (!fillOnly || blank(hit[k]))));
         writeRow(wb, 'contacts', { ...patch, updatedAt: now() }, hit._row);
         return { id: hit.id, created: false };
       }
@@ -232,9 +235,10 @@ function createExcelCrm({ file, billsDir } = {}) {
     provider: 'excel',
     where: FILE,
 
-    async upsertContact(contact) {
+    /** `fillOnly`: the request isn't signed in, so an existing contact only gets its empty fields filled. */
+    async upsertContact(contact, { fillOnly = false } = {}) {
       const known = await findContact(contact);
-      return run('upsertContact', { id: known?.id || uid('CUST-'), contact });
+      return run('upsertContact', { id: known?.id || uid('CUST-'), contact, fillOnly });
     },
 
     async createApplication(contactId, contact, application) {

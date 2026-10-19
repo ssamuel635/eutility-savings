@@ -107,6 +107,11 @@ function createLocalCustomers({ file, crm = null, log = console } = {}) {
       return publicView(load().customers[id]);
     },
 
+    /** This customer's contact id in the CRM, once it has one (for reading their applications). */
+    async crmIdOf(id) {
+      return load().customers[id]?.crmId || null;
+    },
+
     async create(phone, details) {
       if (all().some((c) => c.phone === phone)) throw new ValidationError('This mobile number already has an account');
       const p = profile(details, { required: true });

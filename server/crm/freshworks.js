@@ -49,10 +49,19 @@ function createFreshworksCrm({ domain = process.env.FRESHWORKS_DOMAIN, apiKey = 
     provider: 'freshworks',
     where: domain,
 
-    async upsertContact(c) {
+    async upsertContact(c, { fillOnly = false } = {}) {
       // The mobile number is the customer ID everywhere (agreed with FXMedia,
       // stored as +6591234567); email only for website contacts without one.
       const unique = c.phone ? { mobile_number: c.phone } : { emails: c.email };
+      if (fillOnly) {
+        // Not signed in: an existing contact is left exactly as it is (stricter than
+        // Excel's fill-the-blanks, which would need a field-by-field read here).
+        // VERIFY: lookup search shape (GET /lookup?q=…&f=…&entities=contact).
+        const [f, q] = c.phone ? ['mobile_number', c.phone] : ['email', c.email];
+        const found = await call('GET', `/lookup?q=${encodeURIComponent(q)}&f=${f}&entities=contact`);
+        const existing = found.contacts?.contacts?.[0];
+        if (existing) return { id: String(existing.id), created: false };
+      }
       const d = await call('POST', '/contacts/upsert', {
         unique_identifier: unique,
         contact: {

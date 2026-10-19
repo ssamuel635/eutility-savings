@@ -15,6 +15,7 @@
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform } from 'react-native';
+import { db } from './mock/db';
 import type { Customer, Dwelling } from './types';
 
 const BASE = (process.env.EXPO_PUBLIC_CRM_URL || (Platform.OS === 'web' ? 'http://localhost:5173' : '')).replace(/\/+$/, '');
@@ -96,10 +97,21 @@ async function timed(url: string, init: RequestInit = {}, ms = 6000) {
   try { return await fetch(url, { ...init, signal: ctl.signal }); } finally { clearTimeout(t); }
 }
 
+/**
+ * The server session from sign-in (./http.ts), so the CRM knows the customer is
+ * acting for themselves: it then files everything under their own number and
+ * lets them update their details. Without it (a demo sign-in on the device) the
+ * CRM only adds, never changes, and won't return application stages.
+ */
+async function authHeaders(): Promise<Record<string, string>> {
+  const token = (await db()).session?.token;
+  return token && !token.startsWith('mock.') ? { Authorization: `Bearer ${token}` } : {};
+}
+
 async function post<T>(path: string, body: unknown): Promise<T> {
   const res = await timed(`${BASE}/api/crm${path}`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
     body: JSON.stringify(body),
   }, path === '/bills' ? 30_000 : 6000);
   if (!res.ok) throw new Error(`crm ${res.status}`);
@@ -166,11 +178,11 @@ export const crm = {
     }
   },
 
-  /** Stages staff have set in the CRM (the Excel "Stage" column). */
+  /** Stages staff have set in the CRM (the Excel "Stage" column). Needs a server session; the server finds the contact from it. */
   async applications(contactId: string): Promise<CrmApplication[] | null> {
     if (!BASE || !contactId) return null;
     try {
-      const res = await timed(`${BASE}/api/crm/applications?contactId=${encodeURIComponent(contactId)}`, {}, 4000);
+      const res = await timed(`${BASE}/api/crm/applications`, { headers: await authHeaders() }, 4000);
       if (!res.ok) return null;
       return ((await res.json()) as { applications: CrmApplication[] }).applications;
     } catch {

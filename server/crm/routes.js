@@ -9,11 +9,17 @@
 //   POST /api/crm/business-enquiries   { contact?, enquiry }      → { reference }
 //   POST /api/crm/bills                { contact, bill: { fileName, mimeType, dataBase64, billingMonth, channel } }
 //   POST /api/crm/applications         { contact, application }
-//   GET  /api/crm/applications?contactId=CUST-…
+//   GET  /api/crm/applications   (signed in: the customer's own applications)
 //
-// PROTOTYPE: these routes are not tied to customer sign-in (server/auth) yet,
-// so they are protected only by input checks, a rate limit and an origin
-// allowlist.
+// Who may do what:
+//   Signed in (Authorization: Bearer <session> from server/auth, sent by the app):
+//     the contact is always the signed-in mobile number, whatever the body says,
+//     and its details may be updated.
+//   Not signed in (the website, whose accounts still live in the browser): may
+//     add a new contact or fill in empty fields, never change what a contact
+//     already has — knowing someone's number mustn't be enough to edit them.
+//   Reading applications needs a session.
+// Beyond that: input checks, a rate limit and an origin allowlist.
 
 const { validate, ValidationError, hasContact } = require('./schema');
 const { makeOriginGuard, makeRateLimit, clientIp, readJson, json } = require('../http');
@@ -21,10 +27,17 @@ const { makeOriginGuard, makeRateLimit, clientIp, readJson, json } = require('..
 const SMALL = 64 * 1024;
 const LARGE = 12 * 1024 * 1024; // a base64 bill up to 8 MB
 
-function createCrmRoutes(crm, env = process.env) {
+/** `auth` is server/auth's { tokens, customers }, or null when sign-in is off (everyone is then "not signed in"). */
+function createCrmRoutes(crm, env = process.env, auth = null) {
   const guard = makeOriginGuard(env);
   // 60 writes a minute per address is plenty for a person, too few for a script.
   const limited = makeRateLimit(60, 60_000);
+
+  /** The session's claims ({ sub: customerId, phone }), or null if there isn't a valid one. */
+  const sessionOf = (req) => {
+    const m = /^Bearer\s+(\S+)$/i.exec(req.headers.authorization || '');
+    return (m && auth?.tokens.read(m[1], 'session')) || null;
+  };
 
   return async function handle(req, res, url) {
     if (guard(req, res)) return;
@@ -35,18 +48,21 @@ function createCrmRoutes(crm, env = process.env) {
         return json(res, 200, { ok: true, provider: crm.provider, pending: crm.pendingCount() });
       }
       if (route === 'GET /api/crm/applications') {
-        const contactId = String(url.searchParams.get('contactId') || '');
-        if (!/^[\w-]{4,40}$/.test(contactId)) throw new ValidationError('contactId required');
-        return json(res, 200, { applications: await crm.listApplications(contactId) });
+        const session = sessionOf(req);
+        if (!session) return json(res, 401, { error: 'Please sign in again.', code: 'not_signed_in' });
+        const contactId = await auth.customers.crmIdOf(session.sub);
+        return json(res, 200, { applications: contactId ? await crm.listApplications(contactId) : [] });
       }
 
       if (req.method !== 'POST') return json(res, 404, { error: 'Not found' });
       if (limited(clientIp(req))) return json(res, 429, { error: 'Too many requests — try again in a minute' });
 
       const body = await readJson(req, route === 'POST /api/crm/bills' ? LARGE : SMALL);
+      const session = sessionOf(req);
+      if (session) body.contact = { ...(body.contact || {}), phone: session.phone };
       const optional = route === 'POST /api/crm/savings-checks' || route === 'POST /api/crm/business-enquiries';
       const contact = optional && !hasContact(body.contact) ? null : validate.contact(body.contact);
-      const { id: contactId = '', queued } = contact ? await crm.upsertContact(contact) : {};
+      const { id: contactId = '', queued } = contact ? await crm.upsertContact(contact, { fillOnly: !session }) : {};
 
       switch (route) {
         case 'POST /api/crm/contacts':
