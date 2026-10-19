@@ -121,6 +121,12 @@ function PlanOption({ option, best, selected, onPress }: { option: PricedPlan; b
         {plan.tags.slice(0, 3).map((t) => <Pill key={t} label={t} tone={t === 'Green' ? 'green' : t === 'Promotion' ? 'red' : 'navy'} />)}
       </View>
       {plan.promo && selected ? <Text variant="caption" color={colors.orangeAA}>Promotion: {plan.promo.title}{plan.promo.value ? ` — ${plan.promo.value}` : ''}</Text> : null}
+      {selected && (plan.contractMonths || plan.deposit) ? (
+        <View style={s.fees}>
+          {plan.contractMonths ? <Text variant="caption">Early termination: {plan.earlyTermination || 'see retailer terms'}</Text> : null}
+          {plan.deposit ? <Text variant="caption">Deposit: {plan.deposit}</Text> : null}
+        </View>
+      ) : null}
     </Pressable>
   );
 }
@@ -137,5 +143,6 @@ const s = StyleSheet.create({
   optionHead: { flexDirection: 'row', alignItems: 'flex-start', gap: space.md },
   optionNums: { flexDirection: 'row', gap: space.x3 },
   tags: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
+  fees: { gap: 4, paddingTop: space.sm, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.border },
   footer: { paddingHorizontal: space.xl, paddingTop: space.md, paddingBottom: space.md, gap: space.sm, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.border, backgroundColor: colors.white },
 });
