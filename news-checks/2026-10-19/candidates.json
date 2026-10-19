@@ -1,0 +1,58 @@
+{
+ "run": "2026-10-19",
+ "collected_at": "2026-10-19T09:34:27+08:00",
+ "days": 7,
+ "sources": [
+  {
+   "source": "SP Group",
+   "kind": "official",
+   "url": "https://www.spgroup.com.sg/about-us/media-resources/news-and-media-releases",
+   "read": 10,
+   "error": ""
+  },
+  {
+   "source": "Open Electricity Market",
+   "kind": "official",
+   "url": "https://www.openelectricitymarket.sg/residential/list-of-retailers",
+   "read": 7,
+   "error": "",
+   "note": "7 retailers listed, no change"
+  },
+  {
+   "source": "The Straits Times",
+   "kind": "news",
+   "url": "https://www.straitstimes.com/news/singapore/rss.xml",
+   "read": 40,
+   "error": ""
+  },
+  {
+   "source": "The Business Times",
+   "kind": "news",
+   "url": "https://www.businesstimes.com.sg/rss/singapore",
+   "read": 51,
+   "error": ""
+  },
+  {
+   "source": "CNA",
+   "kind": "news",
+   "url": "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml&category=10416",
+   "read": 14,
+   "error": ""
+  }
+ ],
+ "items": [
+  {
+   "id": "12831656a958",
+   "title": "Personal mobility aid catches fire at Yishun HDB block, no injuries reported",
+   "url": "https://www.straitstimes.com/singapore/personal-mobility-aid-catches-fire-at-yishun-hdb-block-no-injuries-reported",
+   "date": "2026-10-18",
+   "source": "The Straits Times",
+   "source_key": "straits-times",
+   "kind": "news",
+   "snippet": "The incident at a staircase landing disrupted the electricity supply to two flats adjacent to it.",
+   "keywords": [
+    "electricity"
+   ]
+  }
+ ]
+}

@@ -1,6 +1,7 @@
 {
  "decided": {
-  "42fb727e0a58": "approved"
+  "42fb727e0a58": "approved",
+  "12831656a958": "rejected"
  },
  "oem_retailers": [
   "Flo Energy Singapore Pte. Ltd.",
@@ -12,18 +13,17 @@
   "Tuas Power Supply Pte Ltd"
  ],
  "pending": {
-  "42fb727e0a58": {
-   "id": "42fb727e0a58",
-   "title": "Electricity Tariff Revision for the Period 1 October to 31 December 2026",
-   "url": "https://www.spgroup.com.sg/about-us/media-resources/news-and-media-releases/Electricity-Tariff-Revision-for-the-Period-1-July-to-30-September-2027",
-   "date": "2026-09-29",
-   "source": "SP Group",
-   "source_key": "sp-group",
-   "kind": "official",
-   "snippet": "",
+  "12831656a958": {
+   "id": "12831656a958",
+   "title": "Personal mobility aid catches fire at Yishun HDB block, no injuries reported",
+   "url": "https://www.straitstimes.com/singapore/personal-mobility-aid-catches-fire-at-yishun-hdb-block-no-injuries-reported",
+   "date": "2026-10-18",
+   "source": "The Straits Times",
+   "source_key": "straits-times",
+   "kind": "news",
+   "snippet": "The incident at a staircase landing disrupted the electricity supply to two flats adjacent to it.",
    "keywords": [
-    "Electricity",
-    "Tariff Revision"
+    "electricity"
    ]
   }
  }
