@@ -4,18 +4,13 @@
 import { StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { Button, Logo, Screen, Text } from '@/components';
+import { Button, Logo, Pill, Screen, Text } from '@/components';
 import { FadedPhoto } from '@/components/Photo';
 import { MARKET_PLANS, TARIFF, TARIFF_PERIOD } from '@/engine';
 import { colors, fonts, radius, space } from '@/theme';
 
-const POINTS: { icon: keyof typeof Ionicons.glyphMap; text: string }[] = [
-  { icon: 'flash-outline', text: 'Compare every plan from Singapore’s retailers' },
-  { icon: 'camera-outline', text: 'Snap your bill — we handle the switch' },
-  { icon: 'swap-horizontal-outline', text: 'Track every step until your new plan starts' },
-  { icon: 'gift-outline', text: 'Earn rewards when friends switch too' },
-];
+// The same three tags as the website hero.
+const TAGS = ['Free', 'No obligation', 'Plans compared'];
 
 // Same figure as the website hero: the lowest fixed rate on sale (no daily charge).
 const LOWEST_FIXED = Math.min(...MARKET_PLANS.filter((p) => p.pricingType === 'fixed' && !p.dailyCharge).map((p) => p.rate ?? Infinity));
@@ -39,6 +34,7 @@ export default function Welcome() {
       <View style={{ gap: space.md, marginTop: -space.x3 }}>
         <Text variant="eyebrow" color={colors.blue}>Independent energy experts since 1979</Text>
         <Text variant="display">Get control of your electricity bill.</Text>
+        <Text variant="body" color={colors.inkMuted}>We compare every retailer’s plans and handle the switch.</Text>
       </View>
 
       <View style={s.rates} accessibilityLabel={`Fixed plans from ${LOWEST_FIXED.toFixed(2)} cents per kilowatt hour, against SP Group’s tariff of ${TARIFF.toFixed(2)}`}>
@@ -53,13 +49,8 @@ export default function Welcome() {
         </View>
       </View>
 
-      <View style={{ gap: space.lg }}>
-        {POINTS.map((p) => (
-          <View key={p.text} style={s.point}>
-            <Ionicons name={p.icon} size={22} color={colors.blue} />
-            <Text variant="body" style={{ flex: 1 }}>{p.text}</Text>
-          </View>
-        ))}
+      <View style={s.tags}>
+        {TAGS.map((t) => <Pill key={t} label={t} icon="checkmark" />)}
       </View>
     </Screen>
   );
@@ -73,5 +64,5 @@ const s = StyleSheet.create({
   rate: { fontFamily: fonts.bold, fontSize: 30, lineHeight: 34, color: colors.blue, letterSpacing: -0.8 },
   tariff: { fontSize: 22, lineHeight: 28, color: colors.inkMuted },
   unit: { fontFamily: fonts.bold, fontSize: 13, letterSpacing: 0 },
-  point: { flexDirection: 'row', alignItems: 'center', gap: space.lg },
+  tags: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm },
 });
