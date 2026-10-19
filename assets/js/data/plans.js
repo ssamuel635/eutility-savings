@@ -2,8 +2,8 @@
 // Source: price-comparison-sheet.xlsx
 export const META = {
   "source": "price-comparison-sheet.xlsx",
-  "generated": "2026-10-12",
-  "ratesAsAt": "2026-10-12",
+  "generated": "2026-10-19",
+  "ratesAsAt": "2026-10-19",
   "regulatedTariff": 31.16,
   "tariffPeriod": "Oct–Dec 2026",
   "planCount": 32,
@@ -29,11 +29,11 @@ export const PLANS = [
     "source": "Geneco",
     "available": true,
     "promo": {
-      "title": "Bill rebate for new sign-ups",
+      "title": "Bill rebate for new sign-ups (online only)",
       "code": "GENECO200 / GENECO100",
-      "conditions": "Sign up online. Current SP Group customers use GENECO200; everyone else GENECO100. The 29.00¢ rate is for the first 1,000 sign-ups",
-      "value": "S$200 (SP customers) / S$100 (others)",
-      "expires": "2026-10-16"
+      "conditions": null,
+      "value": "S$200 for current SP Group customers (GENECO200); S$100 for others (GENECO100)",
+      "expires": "2026-11-02"
     },
     "notes": []
   },
@@ -55,11 +55,11 @@ export const PLANS = [
     "source": "Geneco",
     "available": true,
     "promo": {
-      "title": "Bill rebate",
+      "title": "Bill rebate (online sign-ups)",
       "code": "GENECO15",
-      "conditions": "Sign up online; first 250 customers",
-      "value": "S$15",
-      "expires": "2026-10-31"
+      "conditions": null,
+      "value": "S$15 (first 250 customers)",
+      "expires": "2026-11-02"
     },
     "notes": []
   },
@@ -132,10 +132,10 @@ export const PLANS = [
     "source": "Senoko Energy",
     "available": true,
     "promo": {
-      "title": "Gifts & bill rebates",
+      "title": "Gifts & bill rebates bundle (24-month)",
       "code": "GIROBCRC / MBBC130 / TGBGN130 / GIROBC100 / BC60",
-      "conditions": "Gift options need GIRO; cash-only rebates use the codes listed",
-      "value": "Up to S$279 in gifts & rebates (cash-only up to S$150)",
+      "conditions": null,
+      "value": "Up to S$279 (gift via GIRO + S$20 referral); cash-only up to S$150",
       "expires": "2026-12-31"
     },
     "notes": []
@@ -158,10 +158,10 @@ export const PLANS = [
     "source": "Senoko Energy",
     "available": true,
     "promo": {
-      "title": "Gifts & bill rebates",
+      "title": "Gifts & bill rebates bundle (12-month)",
       "code": "GIROBCLC / GIROBC30 / MBBC20 / BC10",
-      "conditions": "Gift options need GIRO",
-      "value": "Up to S$169 in gifts & rebates",
+      "conditions": null,
+      "value": "Up to S$169 (gift via GIRO + S$20 referral)",
       "expires": "2027-01-05"
     },
     "notes": []
@@ -184,10 +184,10 @@ export const PLANS = [
     "source": "Senoko Energy",
     "available": true,
     "promo": {
-      "title": "Samsonite luggage set + bill rebate",
+      "title": "Samsonite luggage set + bill rebate (Trust card recurring payment)",
       "code": "TBBCSB30B",
-      "conditions": "Trust card on recurring payment; first 1,000 sign-ups",
-      "value": "S$680 luggage set + S$30 rebate",
+      "conditions": null,
+      "value": "S$680 luggage set + S$30 bill rebate (first 1,000)",
       "expires": "2026-12-31"
     },
     "notes": []
@@ -212,8 +212,8 @@ export const PLANS = [
     "promo": {
       "title": "Bill rebates",
       "code": "MBBC130 / TGBGN130 / GIROBC100 / BC60",
-      "conditions": "Amount depends on the code and payment method",
-      "value": "Up to S$150",
+      "conditions": null,
+      "value": "Up to S$150 rebate (plan page)",
       "expires": "2026-12-31"
     },
     "notes": []
@@ -239,10 +239,10 @@ export const PLANS = [
     "source": "Senoko Energy",
     "available": true,
     "promo": {
-      "title": "Gifts & bill rebates",
+      "title": "Gifts & bill rebates bundle (24-month)",
       "code": "GIROBCRC / MBBC130 / TGBGN130 / GIROBC100 / BC60",
-      "conditions": "Gift options need GIRO",
-      "value": "Up to S$279 in gifts & rebates (cash up to S$150)",
+      "conditions": null,
+      "value": "Up to S$279; cash rebates up to S$150",
       "expires": "2026-12-31"
     },
     "notes": [
@@ -270,10 +270,10 @@ export const PLANS = [
     "source": "Senoko Energy",
     "available": true,
     "promo": {
-      "title": "Luggage set or bill rebates",
+      "title": "Samsonite luggage set + bill rebate (Trust card) / 36-month rebates",
       "code": "TBBCSB30B / MBBC180 / GIROBC150",
-      "conditions": "Luggage set needs a Trust card on recurring payment",
-      "value": "S$680 luggage set + S$30 rebate, or up to S$180 in rebates",
+      "conditions": null,
+      "value": "S$680 luggage set + S$30 rebate; or cash rebates up to S$180",
       "expires": "2026-12-31"
     },
     "notes": [
@@ -307,10 +307,10 @@ export const PLANS = [
     "source": "Senoko Energy",
     "available": true,
     "promo": {
-      "title": "Gifts & bill rebates",
+      "title": "Gifts & bill rebates bundle (24-month)",
       "code": "GIROBCRC / MBBC130 / TGBGN130 / GIROBC100 / BC60",
-      "conditions": "Gift options need GIRO",
-      "value": "Up to S$279 in gifts & rebates (cash up to S$150)",
+      "conditions": null,
+      "value": "Up to S$279; cash rebates up to S$150",
       "expires": "2026-12-31"
     },
     "notes": [
@@ -325,7 +325,7 @@ export const PLANS = [
     "pricingType": "fixed",
     "pricingLabel": "Fixed",
     "contractMonths": 24,
-    "rate": 29.0,
+    "rate": 30.9,
     "discount": null,
     "dailyCharge": 0.0,
     "tou": null,
@@ -337,8 +337,8 @@ export const PLANS = [
     "promo": {
       "title": "Bill rebate + Maybank card rebate",
       "code": "NEW125",
-      "conditions": "S$20 card rebate needs a Maybank card on recurring payment",
-      "value": "Up to S$145 (S$125 bill + S$20 card)",
+      "conditions": null,
+      "value": "S$125 bill rebate + S$20 Maybank card rebate = up to S$145",
       "expires": null
     },
     "notes": []
@@ -351,7 +351,7 @@ export const PLANS = [
     "pricingType": "fixed",
     "pricingLabel": "Fixed",
     "contractMonths": 24,
-    "rate": 28.5,
+    "rate": 30.4,
     "discount": null,
     "dailyCharge": 0.0,
     "tou": null,
@@ -380,7 +380,7 @@ export const PLANS = [
     "pricingType": "fixed",
     "pricingLabel": "Fixed",
     "contractMonths": 36,
-    "rate": 28.9,
+    "rate": 30.63,
     "discount": null,
     "dailyCharge": 0.0,
     "tou": null,
@@ -392,8 +392,8 @@ export const PLANS = [
     "promo": {
       "title": "Bill rebate + Maybank card rebate",
       "code": "NEW100",
-      "conditions": "S$20 card rebate needs a Maybank card on recurring payment",
-      "value": "Up to S$120 (S$100 bill + S$20 card)",
+      "conditions": null,
+      "value": "S$100 bill rebate + S$20 Maybank card rebate = up to S$120",
       "expires": null
     },
     "notes": []
@@ -416,10 +416,10 @@ export const PLANS = [
     "source": "Keppel Electric",
     "available": true,
     "promo": {
-      "title": "Card payment rebate",
+      "title": "Maybank recurring card payment rebate",
       "code": null,
-      "conditions": "Maybank card on recurring payment; first 125 customers",
-      "value": "S$10",
+      "conditions": null,
+      "value": "S$10 bill rebate (first 125)",
       "expires": "2026-12-31"
     },
     "notes": []
@@ -452,10 +452,10 @@ export const PLANS = [
     "source": "Keppel Electric",
     "available": true,
     "promo": {
-      "title": "Card payment rebate",
+      "title": "Maybank recurring card payment rebate",
       "code": null,
-      "conditions": "Maybank card on recurring payment",
-      "value": "Up to S$20",
+      "conditions": null,
+      "value": "Up to S$20 bill rebate",
       "expires": "2026-12-31"
     },
     "notes": [
@@ -482,8 +482,8 @@ export const PLANS = [
     "promo": {
       "title": "Bill rebate + Maybank card rebate",
       "code": "NEW100",
-      "conditions": "First 1,000 sign-ups; S$20 card rebate needs a Maybank card on recurring payment",
-      "value": "Up to S$120 (S$100 bill + S$20 card)",
+      "conditions": null,
+      "value": "S$100 bill rebate (first 1,000) + S$20 Maybank card rebate = up to S$120",
       "expires": null
     },
     "notes": []
@@ -531,13 +531,7 @@ export const PLANS = [
     "etf": "S$200 flat (all Tuas Power residential plans)",
     "source": "Tuas Power",
     "available": true,
-    "promo": {
-      "title": "Free insurance cover",
-      "code": null,
-      "conditions": "Choose Home, Travel or Personal Accident cover",
-      "value": "12 months of Singlife cover (non-cash)",
-      "expires": null
-    },
+    "promo": null,
     "notes": []
   },
   {
@@ -610,11 +604,11 @@ export const PLANS = [
     "source": "PacificLight",
     "available": true,
     "promo": {
-      "title": "yuu promotion",
-      "code": "YUU24",
-      "conditions": "First 500 sign-ups",
-      "value": "S$50 rebate + 10,000 yuu Points",
-      "expires": "2026-10-26"
+      "title": "Payback deal: S$228 rebate on 3rd-month bill (first 100)",
+      "code": "GETBACK24",
+      "conditions": null,
+      "value": "S$228",
+      "expires": "2026-12-31"
     },
     "notes": []
   },
@@ -662,11 +656,11 @@ export const PLANS = [
     "source": "PacificLight",
     "available": true,
     "promo": {
-      "title": "yuu promotion",
-      "code": "YUU36",
-      "conditions": "First 500 sign-ups",
-      "value": "S$50 rebate + 15,000 yuu Points",
-      "expires": "2026-10-26"
+      "title": "Payback deal: S$268 rebate on 3rd-month bill (first 100)",
+      "code": "GETBACK36",
+      "conditions": null,
+      "value": "S$268",
+      "expires": "2026-12-31"
     },
     "notes": []
   },
@@ -730,10 +724,10 @@ export const PLANS = [
     "source": "PacificLight",
     "available": true,
     "promo": {
-      "title": "Maybank card rebate",
-      "code": "MBBON140",
-      "conditions": "First 30 sign-ups paying by Maybank card on recurring payment",
-      "value": "S$140",
+      "title": "Payback deal: S$228 rebate on 3rd-month bill (first 100)",
+      "code": "GETBACK24",
+      "conditions": null,
+      "value": "S$228",
       "expires": "2026-12-31"
     },
     "notes": []
@@ -810,11 +804,11 @@ export const PLANS = [
     "source": "PacificLight",
     "available": true,
     "promo": {
-      "title": "yuu promotion",
-      "code": "YUU24",
-      "conditions": "First 500 sign-ups",
-      "value": "S$50 rebate + 10,000 yuu Points",
-      "expires": "2026-10-26"
+      "title": "Payback deal: S$228 rebate on 3rd-month bill (first 100)",
+      "code": "GETBACK24",
+      "conditions": null,
+      "value": "S$228",
+      "expires": "2026-12-31"
     },
     "notes": [
       "Time-of-use plan: the estimate depends on how much you use in off-peak hours."

@@ -1,0 +1,51 @@
+{
+ "retailer": "Sembcorp Power",
+ "checked_at": "2026-10-19",
+ "gst_basis_on_site": "both",
+ "sources": [
+  {
+   "url": "https://sembcorppower.com/price-plan",
+   "what": "Price plan cards, read in the built-in browser 19 Oct"
+  }
+ ],
+ "plans": [
+  {
+   "type": "fixed",
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": null,
+   "source_url": "https://sembcorppower.com/price-plan",
+   "confidence": "high",
+   "name": "24M Fixed Price Plan",
+   "matches_id": "sembcorp-power-24m-fixed-price-plan-home",
+   "contractMonths": 24,
+   "rate_incl_gst": 29.0,
+   "rate_excl_gst": 26.61,
+   "evidence": "24M Fixed Price Plan 24 Month 29.00c/kWh -(w/ GST)- Fact Sheet 26.61cents/kWh (w/o GST)",
+   "notes": "Plan card read 19 Oct; unchanged. Fact sheet: https://azsgpoemstrpublicprod.blob.core.windows.net/priceplandocuments/PPC-00185/PPC-169%20Factsheet-24M_New_FixedPrice_C26605504587156_202610064101.pdf"
+  },
+  {
+   "type": "fixed",
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": null,
+   "source_url": "https://sembcorppower.com/price-plan",
+   "confidence": "high",
+   "name": "12M Fixed Price Plan",
+   "matches_id": "sembcorp-power-12m-fixed-price-plan-home",
+   "contractMonths": 12,
+   "rate_incl_gst": 31.0,
+   "rate_excl_gst": 28.44,
+   "evidence": "12M Fixed Price Plan 12 Month 31.00c/kWh -(w/ GST)- Fact Sheet 28.44cents/kWh (w/o GST)",
+   "notes": "Plan card read 19 Oct; unchanged. Fact sheet: https://azsgpoemstrpublicprod.blob.core.windows.net/priceplandocuments/PPC-00151/PPC-151%20Factsheet-12M_New_FixedPrice_C2844_202608035244.pdf"
+  }
+ ],
+ "not_found": [],
+ "issues": "None."
+}

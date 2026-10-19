@@ -1,0 +1,33 @@
+{
+ "retailer": "SP Group",
+ "checked_at": "2026-10-19",
+ "gst_basis_on_site": "both",
+ "sources": [
+  {
+   "url": "https://www.spgroup.com.sg/our-services/utilities/tariff-information",
+   "what": "SP Group tariff information page (Q4 2026)"
+  }
+ ],
+ "plans": [
+  {
+   "name": "Regulated Tariff",
+   "matches_id": "sp-group-regulated-tariff",
+   "type": "regulated",
+   "contractMonths": 0,
+   "rate_incl_gst": 31.16,
+   "rate_excl_gst": 28.59,
+   "discount": null,
+   "dailyCharge_incl_gst": 0,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": null,
+   "source_url": "https://www.spgroup.com.sg/our-services/utilities/tariff-information",
+   "confidence": "high",
+   "notes": "Oct–Dec 2026 tariff, unchanged.",
+   "evidence": "31.16 cents/kWh 28.59 cents/kWh (w/o GST) ELECTRICITY TARIFF (wef 1 Oct - 31 Dec 26)"
+  }
+ ],
+ "not_found": [],
+ "issues": ""
+}

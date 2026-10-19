@@ -1,0 +1,219 @@
+{
+ "retailer": "Senoko Energy",
+ "checked_at": "2026-10-19",
+ "gst_basis_on_site": "both",
+ "sources": [
+  {
+   "url": "https://www.senokoenergy.com/households/price-plans",
+   "what": "Main residential price plans page (GST-inclusive rates, Q4 SP tariff 31.16¢)"
+  },
+  {
+   "url": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXPG-36au1",
+   "what": "LifePower36 fact sheet 1 Oct 2026: 28.90 incl / 26.51 excl"
+  },
+  {
+   "url": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXPG-24au1",
+   "what": "LifePower24 fact sheet 1 Oct 2026: 29.00 incl / 26.61 excl"
+  },
+  {
+   "url": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXPG-12au1",
+   "what": "LifePower12 fact sheet 1 Oct 2026: 30.50 incl / 27.98 excl"
+  },
+  {
+   "url": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXFG-24au1",
+   "what": "LifeGreen24 fact sheet 1 Oct 2026: 29.68 incl / 27.23 excl"
+  },
+  {
+   "url": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFDOTPG-24al1",
+   "what": "LifeSteady24 fact sheet: 1.64¢ off incl GST"
+  },
+  {
+   "url": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOPOPPG-24ak2",
+   "what": "LifeSavvy24 fact sheet: peak 36.95 / off-peak 20.05 incl GST"
+  },
+  {
+   "url": "https://www.senokoenergy.com/households/promotions",
+   "what": "Promotions hub"
+  }
+ ],
+ "plans": [
+  {
+   "name": "LifePower36",
+   "matches_id": "senoko-energy-lifepower36",
+   "type": "fixed",
+   "contractMonths": 36,
+   "rate_incl_gst": 28.9,
+   "rate_excl_gst": 26.51,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": {
+    "title": "Samsonite luggage set + bill rebate (Trust card recurring payment)",
+    "value": "S$680 luggage set + S$30 bill rebate (first 1,000)",
+    "code": "TBBCSB30B",
+    "expires": "2026-12-31"
+   },
+   "source_url": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXPG-36au1",
+   "confidence": "high",
+   "notes": "Fact sheet re-read 19 Oct; unchanged from last week. Promo codes still listed on /households/promotions (expiry carried from last week, not re-read from T&Cs).",
+   "evidence": "Fixed Price Plan: 28.90¢/kWh within the contractual period (26.51¢/kWh before GST)"
+  },
+  {
+   "name": "LifePower24",
+   "matches_id": "senoko-energy-lifepower24",
+   "type": "fixed",
+   "contractMonths": 24,
+   "rate_incl_gst": 29.0,
+   "rate_excl_gst": 26.61,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": {
+    "title": "Gifts & bill rebates bundle (24-month)",
+    "value": "Up to S$279 (gift via GIRO + S$20 referral); cash-only up to S$150",
+    "code": "GIROBCRC / MBBC130 / TGBGN130 / GIROBC100 / BC60",
+    "expires": "2026-12-31"
+   },
+   "source_url": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXPG-24au1",
+   "confidence": "high",
+   "notes": "Fact sheet re-read 19 Oct; unchanged from last week. Promo codes still listed on /households/promotions (expiry carried from last week, not re-read from T&Cs).",
+   "evidence": "Fixed Price Plan: 29.00¢/kWh within the contractual period (26.61¢/kWh before GST)"
+  },
+  {
+   "name": "LifePower12",
+   "matches_id": "senoko-energy-lifepower12",
+   "type": "fixed",
+   "contractMonths": 12,
+   "rate_incl_gst": 30.5,
+   "rate_excl_gst": 27.98,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": {
+    "title": "Gifts & bill rebates bundle (12-month)",
+    "value": "Up to S$169 (gift via GIRO + S$20 referral)",
+    "code": "GIROBCLC / GIROBC30 / MBBC20 / BC10",
+    "expires": "2027-01-05"
+   },
+   "source_url": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXPG-12au1",
+   "confidence": "high",
+   "notes": "Fact sheet re-read 19 Oct; unchanged from last week. Promo codes still listed on /households/promotions (expiry carried from last week, not re-read from T&Cs).",
+   "evidence": "Fixed Price Plan: 30.50¢/kWh within the contractual period (27.98¢/kWh before GST)"
+  },
+  {
+   "name": "LifeGreen24",
+   "matches_id": "senoko-energy-lifegreen24",
+   "type": "fixed",
+   "contractMonths": 24,
+   "rate_incl_gst": 29.68,
+   "rate_excl_gst": 27.23,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Green",
+   "promo": {
+    "title": "Bill rebates",
+    "value": "Up to S$150 rebate (plan page)",
+    "code": "MBBC130 / TGBGN130 / GIROBC100 / BC60",
+    "expires": "2026-12-31"
+   },
+   "source_url": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXFG-24au1",
+   "confidence": "high",
+   "notes": "Fact sheet re-read 19 Oct; unchanged from last week. Promo codes still listed on /households/promotions (expiry carried from last week, not re-read from T&Cs).",
+   "evidence": "Fixed Price Plan : 29.68¢/kWh within the contractual period (27.23¢/kWh before GST)"
+  },
+  {
+   "name": "LifeSteady24",
+   "matches_id": "senoko-energy-lifesteady24",
+   "type": "dot",
+   "contractMonths": 24,
+   "rate_incl_gst": null,
+   "rate_excl_gst": null,
+   "discount": {
+    "value": 1.64,
+    "kind": "cents"
+   },
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": {
+    "title": "Gifts & bill rebates bundle (24-month)",
+    "value": "Up to S$279; cash rebates up to S$150",
+    "code": "GIROBCRC / MBBC130 / TGBGN130 / GIROBC100 / BC60",
+    "expires": "2026-12-31"
+   },
+   "source_url": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFDOTPG-24al1",
+   "confidence": "high",
+   "notes": "Fact sheet re-read 19 Oct; unchanged from last week. Promo codes still listed on /households/promotions (expiry carried from last week, not re-read from T&Cs).",
+   "evidence": "Discount Off the Regulated Tariff Plan: 1.64¢/kWh within the contractual period (1.50¢/kWh before GST)"
+  },
+  {
+   "name": "LifeSteady36",
+   "matches_id": "senoko-energy-lifesteady36",
+   "type": "dot",
+   "contractMonths": 36,
+   "rate_incl_gst": null,
+   "rate_excl_gst": null,
+   "discount": {
+    "value": 1.64,
+    "kind": "cents"
+   },
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": {
+    "title": "Samsonite luggage set + bill rebate (Trust card) / 36-month rebates",
+    "value": "S$680 luggage set + S$30 rebate; or cash rebates up to S$180",
+    "code": "TBBCSB30B / MBBC180 / GIROBC150",
+    "expires": "2026-12-31"
+   },
+   "source_url": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFDOTPG-36al1",
+   "confidence": "high",
+   "notes": "Fact sheet re-read 19 Oct; unchanged from last week. Promo codes still listed on /households/promotions (expiry carried from last week, not re-read from T&Cs).",
+   "evidence": "Discount Off the Regulated Tariff Plan: 1.64¢/kWh within the contractual period (1.50¢/kWh before GST)"
+  },
+  {
+   "name": "LifeSavvy24",
+   "matches_id": "senoko-energy-lifesavvy24",
+   "type": "tou",
+   "contractMonths": 24,
+   "rate_incl_gst": null,
+   "rate_excl_gst": null,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": {
+    "offPeak": {
+     "window": "23:00–07:00",
+     "rate_incl_gst": 20.05
+    },
+    "peak": {
+     "window": "07:00–23:00",
+     "rate_incl_gst": 36.95
+    }
+   },
+   "tiers": null,
+   "category": "Standard",
+   "promo": {
+    "title": "Gifts & bill rebates bundle (24-month)",
+    "value": "Up to S$279; cash rebates up to S$150",
+    "code": "GIROBCRC / MBBC130 / TGBGN130 / GIROBC100 / BC60",
+    "expires": "2026-12-31"
+   },
+   "source_url": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOPOPPG-24ak2",
+   "confidence": "high",
+   "notes": "Fact sheet re-read 19 Oct; unchanged from last week. Promo codes still listed on /households/promotions (expiry carried from last week, not re-read from T&Cs).",
+   "evidence": "Peak Period (7am to 11pm): 36.95¢/kWh within the contractual period (33.90¢/kWh before GST) Off-Peak Period (11pm to 7am): 20.05¢/kWh within the contractual period (18.39¢/kWh before GST)"
+  }
+ ],
+ "not_found": [],
+ "issues": "None. Price-plans page and fact sheets agree."
+}

@@ -1,0 +1,32 @@
+{
+ "run": "2026-10-19",
+ "approved_by": "ebin",
+ "approved_at": "2026-10-19T02:08:47.469Z",
+ "plans": [
+  "keppel-electric-fixed24",
+  "keppel-electric-fixed24-special",
+  "keppel-electric-fixed36"
+ ],
+ "promotions": [
+  "geneco-get-it-fixed-24",
+  "geneco-get-it-fixed-12",
+  "keppel-electric-fixed24",
+  "keppel-electric-fixed36",
+  "keppel-electric-fixed12",
+  "keppel-electric-weekend-saver",
+  "keppel-electric-ecogreen24",
+  "pacificlight-savvy-saver-24",
+  "pacificlight-savvy-saver-36",
+  "pacificlight-stack-it-up-24",
+  "pacificlight-save-while-sleeping-24",
+  "pacificlight-classic-60",
+  "senoko-energy-lifepower36",
+  "senoko-energy-lifepower24",
+  "senoko-energy-lifepower12",
+  "senoko-energy-lifegreen24",
+  "senoko-energy-lifesteady24",
+  "senoko-energy-lifesteady36",
+  "senoko-energy-lifesavvy24",
+  "tuas-power-powerfix-12"
+ ]
+}

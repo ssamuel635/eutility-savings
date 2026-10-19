@@ -1,0 +1,1459 @@
+{
+ "summary": {
+  "run_date": "2026-10-19",
+  "data_rates_as_at": "2026-10-12",
+  "tariff_now": 31.16,
+  "tariff_new": 31.16,
+  "best_now": [
+   130.5,
+   24,
+   "Geneco",
+   "Get It Fixed 24"
+  ],
+  "best_new": [
+   130.5,
+   24,
+   "Geneco",
+   "Get It Fixed 24"
+  ],
+  "saving_now": 117,
+  "saving_new": 117,
+  "counts": {
+   "changed": 3,
+   "same": 31,
+   "unverified": 0,
+   "removed": 0,
+   "new": 0
+  },
+  "promo_changes": 20,
+  "coverage": {
+   "confirmed": 33,
+   "total": 33,
+   "pct": 100
+  },
+  "blocked": 0,
+  "double_checked": 3,
+  "stale": []
+ },
+ "plans": [
+  {
+   "kind": "same",
+   "retailer": "Geneco",
+   "plan": "Get It Fixed 24",
+   "id": "geneco-get-it-fixed-24",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.geneco.sg/residential/electricity-plans/",
+   "notes": "Plan card read 19 Oct; unchanged. Page shows only incl. GST. Promo T&Cs now say the promotion period ends 2 Nov 2026 (was 16 Oct / 31 Oct).",
+   "old_bill": 130.5,
+   "new_bill": 130.5,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 29.0,
+    "discount": null,
+    "dailyCharge": 0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 24
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Geneco",
+   "plan": "Get It Fixed 12",
+   "id": "geneco-get-it-fixed-12",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.geneco.sg/residential/electricity-plans/",
+   "notes": "Plan card read 19 Oct; unchanged. Page shows only incl. GST. Promo T&Cs now say the promotion period ends 2 Nov 2026 (was 16 Oct / 31 Oct).",
+   "old_bill": 137.25,
+   "new_bill": 137.25,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 30.5,
+    "discount": null,
+    "dailyCharge": 0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 12
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Geneco",
+   "plan": "Give Us A Try",
+   "id": "geneco-give-us-a-try",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.geneco.sg/residential/electricity-plans/",
+   "notes": "Plan card read 19 Oct; unchanged. Page shows only incl. GST.",
+   "old_bill": 139.5,
+   "new_bill": 139.5,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 31.0,
+    "discount": null,
+    "dailyCharge": 0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 6
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Geneco",
+   "plan": "Get It 7 To 7",
+   "id": "geneco-get-it-7-to-7",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.geneco.sg/residential/electricity-plans/",
+   "notes": "Plan card read 19 Oct; unchanged. Page shows only incl. GST.",
+   "old_bill": 140.04,
+   "new_bill": 140.04,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": null,
+    "discount": null,
+    "dailyCharge": 0,
+    "tou": {
+     "offPeak": {
+      "window": "19:00–07:00",
+      "rate": 27.9
+     },
+     "peak": {
+      "window": "07:00–19:00",
+      "rate": 32.5
+     }
+    },
+    "tiers": null,
+    "contractMonths": 24
+   }
+  },
+  {
+   "kind": "changed",
+   "retailer": "Keppel Electric",
+   "plan": "FIXED24",
+   "id": "keppel-electric-fixed24",
+   "changes": [
+    [
+     "Rate (¢/kWh)",
+     29.0,
+     30.9
+    ]
+   ],
+   "confidence": "high",
+   "source": "https://www.keppelelectric.com/residential-price-plan",
+   "notes": "Rate up from 29.00¢. Feed lists new fact sheet \"Fact Sheet_FIXED24 v42 _2026 1019 Standard.pdf\" (dated 19 Oct 2026).",
+   "old_bill": 130.5,
+   "new_bill": 139.05,
+   "trust": {
+    "flags": [],
+    "second_read": "agrees",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 30.9,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 24
+   },
+   "high_impact": true
+  },
+  {
+   "kind": "changed",
+   "retailer": "Keppel Electric",
+   "plan": "FIXED24 Special",
+   "id": "keppel-electric-fixed24-special",
+   "changes": [
+    [
+     "Rate (¢/kWh)",
+     28.5,
+     30.4
+    ]
+   ],
+   "confidence": "medium",
+   "source": "https://www.keppelelectric.com/api/AccountPlan/GetAllPlans",
+   "notes": "Referral-only plan, not shown as a card on the page; read from the plan feed. Rate up from 28.50¢. Fact sheet v5 dated 2026-10-19.",
+   "old_bill": 128.25,
+   "new_bill": 136.8,
+   "trust": {
+    "flags": [],
+    "second_read": "agrees",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 30.4,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 24
+   },
+   "high_impact": true
+  },
+  {
+   "kind": "changed",
+   "retailer": "Keppel Electric",
+   "plan": "FIXED36",
+   "id": "keppel-electric-fixed36",
+   "changes": [
+    [
+     "Rate (¢/kWh)",
+     28.9,
+     30.63
+    ]
+   ],
+   "confidence": "high",
+   "source": "https://www.keppelelectric.com/residential-price-plan",
+   "notes": "Rate up from 28.90¢. Feed lists fact sheet v17 dated 2026-10-19.",
+   "old_bill": 130.05,
+   "new_bill": 137.84,
+   "trust": {
+    "flags": [],
+    "second_read": "agrees",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 30.63,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 36
+   },
+   "high_impact": true
+  },
+  {
+   "kind": "same",
+   "retailer": "Keppel Electric",
+   "plan": "FIXED12",
+   "id": "keppel-electric-fixed12",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.keppelelectric.com/residential-price-plan",
+   "notes": "Unchanged. Fact sheet v33 dated 2026-10-01.",
+   "old_bill": 140.18,
+   "new_bill": 140.18,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 31.15,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 12
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Keppel Electric",
+   "plan": "WEEKEND SAVER",
+   "id": "keppel-electric-weekend-saver",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.keppelelectric.com/residential-price-plan",
+   "notes": "Unchanged. (The feed's rateWithGST field still says 39.89 for peak; the page text says 39.90.)",
+   "old_bill": 152.55,
+   "new_bill": 152.55,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": null,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": {
+     "offPeak": {
+      "window": "Weekdays 21:00–09:00 + weekends all day",
+      "rate": 27.9
+     },
+     "peak": {
+      "window": "Weekdays 09:00–21:00",
+      "rate": 39.9
+     },
+     "weekendOffPeak": true
+    },
+    "tiers": null,
+    "contractMonths": 24
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Keppel Electric",
+   "plan": "ecoGreen24",
+   "id": "keppel-electric-ecogreen24",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.keppelelectric.com/residential-price-plan",
+   "notes": "Unchanged.",
+   "old_bill": 174.6,
+   "new_bill": 174.6,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 38.8,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 24
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "PacificLight",
+   "plan": "Savvy Saver 24",
+   "id": "pacificlight-savvy-saver-24",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/06-savvy-saver-24-8-oct-2026",
+   "notes": "Fact sheet re-read 19 Oct (same version as last week); price unchanged. New PAYBACK DEAL (GETBACK24, S$228, 15 Oct–31 Dec 2026, first 100) is now the largest rebate with no card condition; YUU24 / MBBON140 / BONUSFLY24 also listed.",
+   "old_bill": 130.5,
+   "new_bill": 130.5,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 29.0,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 24
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "PacificLight",
+   "plan": "Savvy Saver 12",
+   "id": "pacificlight-savvy-saver-12",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/05-savvy-saver-12-8-oct-2026",
+   "notes": "Fact sheet re-read 19 Oct (same version as last week); price unchanged.",
+   "old_bill": 137.25,
+   "new_bill": 137.25,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 30.5,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 12
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "PacificLight",
+   "plan": "Savvy Saver 36",
+   "id": "pacificlight-savvy-saver-36",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/9-savvy-saver-36-8-oct-2026",
+   "notes": "Fact sheet re-read 19 Oct (same version as last week); price unchanged. New PAYBACK DEAL (GETBACK36, S$268, 15 Oct–31 Dec 2026, first 100); YUU36 / MBBON200 / BONUSFLY36 also listed.",
+   "old_bill": 130.05,
+   "new_bill": 130.05,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 28.9,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 36
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "PacificLight",
+   "plan": "Sunny Side-Up 12",
+   "id": "pacificlight-sunny-side-up-12",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/04-sunny-side-up-12-01-oct-2026",
+   "notes": "Fact sheet re-read 19 Oct (same version as last week); price unchanged.",
+   "old_bill": 139.5,
+   "new_bill": 139.5,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 31.0,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 12
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "PacificLight",
+   "plan": "Stack It Up 24",
+   "id": "pacificlight-stack-it-up-24",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/08-Stack-It-Up-24-8-oct-2026",
+   "notes": "Fact sheet re-read 19 Oct (same version as last week); price unchanged. New PAYBACK DEAL (GETBACK24, S$228, 15 Oct–31 Dec 2026, first 100) is now the largest rebate with no card condition; YUU24 / MBBON140 / BONUSFLY24 also listed.",
+   "old_bill": 130.5,
+   "new_bill": 130.5,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": null,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": [
+     {
+      "from": 0,
+      "to": 300,
+      "rate": 29.2
+     },
+     {
+      "from": 300,
+      "to": 600,
+      "rate": 28.6
+     },
+     {
+      "from": 600,
+      "to": null,
+      "rate": 27.6
+     }
+    ],
+    "contractMonths": 24
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "PacificLight",
+   "plan": "Save While Sleeping 24",
+   "id": "pacificlight-save-while-sleeping-24",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/07-save-while-sleeping-24-8-oct-2026",
+   "notes": "Fact sheet re-read 19 Oct (same version as last week); price unchanged. New PAYBACK DEAL (GETBACK24, S$228, 15 Oct–31 Dec 2026, first 100) is now the largest rebate with no card condition; YUU24 / MBBON140 / BONUSFLY24 also listed.",
+   "old_bill": 135.0,
+   "new_bill": 135.0,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": null,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": {
+     "offPeak": {
+      "window": "23:00–07:00",
+      "rate": 23.0
+     },
+     "peak": {
+      "window": "07:00–23:00",
+      "rate": 33.0
+     }
+    },
+    "tiers": null,
+    "contractMonths": 24
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "PacificLight",
+   "plan": "Easy Peasy",
+   "id": "pacificlight-easy-peasy",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/02-easy-peasy-no-contract-7-oct-2026",
+   "notes": "Fact sheet re-read 19 Oct (same version as last week); price unchanged.",
+   "old_bill": 138.22,
+   "new_bill": 138.22,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 27.0,
+    "discount": null,
+    "dailyCharge": 0.55,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 0
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "PacificLight",
+   "plan": "Easy Save",
+   "id": "pacificlight-easy-save",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/1-easy-save-no-contract-1-july-2026",
+   "notes": "Fact sheet re-read 19 Oct (same version as last week); price unchanged.",
+   "old_bill": 131.7,
+   "new_bill": 131.7,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": null,
+    "discount": {
+     "value": 18,
+     "kind": "percent"
+    },
+    "dailyCharge": 0.55,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 0
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "PacificLight",
+   "plan": "9 to 9",
+   "id": "pacificlight-9-to-9",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/03-9-to-9-no-contract-7-oct-2026",
+   "notes": "Fact sheet re-read 19 Oct (same version as last week); price unchanged.",
+   "old_bill": 174.16,
+   "new_bill": 174.16,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": null,
+    "discount": null,
+    "dailyCharge": 1.01,
+    "tou": {
+     "offPeak": {
+      "window": "21:00–09:00",
+      "rate": 20.05
+     },
+     "peak": {
+      "window": "09:00–21:00",
+      "rate": 36.95
+     }
+    },
+    "tiers": null,
+    "contractMonths": 0
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "PacificLight",
+   "plan": "Classic 60",
+   "id": "pacificlight-classic-60",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/10-classic-60-20-aug-2026",
+   "notes": "Fact sheet re-read 19 Oct (same version as last week); price unchanged.",
+   "old_bill": 136.01,
+   "new_bill": 136.01,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": null,
+    "discount": {
+     "value": 3,
+     "kind": "percent"
+    },
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 60
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Sembcorp Power",
+   "plan": "24M Fixed Price Plan Home",
+   "id": "sembcorp-power-24m-fixed-price-plan-home",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://sembcorppower.com/price-plan",
+   "notes": "Plan card read 19 Oct; unchanged. Fact sheet: https://azsgpoemstrpublicprod.blob.core.windows.net/priceplandocuments/PPC-00185/PPC-169%20Factsheet-24M_New_FixedPrice_C26605504587156_202610064101.pdf",
+   "old_bill": 130.5,
+   "new_bill": 130.5,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 29.0,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 24
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Sembcorp Power",
+   "plan": "12M Fixed Price Plan Home",
+   "id": "sembcorp-power-12m-fixed-price-plan-home",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://sembcorppower.com/price-plan",
+   "notes": "Plan card read 19 Oct; unchanged. Fact sheet: https://azsgpoemstrpublicprod.blob.core.windows.net/priceplandocuments/PPC-00151/PPC-151%20Factsheet-12M_New_FixedPrice_C2844_202608035244.pdf",
+   "old_bill": 139.5,
+   "new_bill": 139.5,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 31.0,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 12
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Senoko Energy",
+   "plan": "LifePower36",
+   "id": "senoko-energy-lifepower36",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXPG-36au1",
+   "notes": "Fact sheet re-read 19 Oct; unchanged from last week. Promo codes still listed on /households/promotions (expiry carried from last week, not re-read from T&Cs).",
+   "old_bill": 130.05,
+   "new_bill": 130.05,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 28.9,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 36
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Senoko Energy",
+   "plan": "LifePower24",
+   "id": "senoko-energy-lifepower24",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXPG-24au1",
+   "notes": "Fact sheet re-read 19 Oct; unchanged from last week. Promo codes still listed on /households/promotions (expiry carried from last week, not re-read from T&Cs).",
+   "old_bill": 130.5,
+   "new_bill": 130.5,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 29.0,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 24
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Senoko Energy",
+   "plan": "LifePower12",
+   "id": "senoko-energy-lifepower12",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXPG-12au1",
+   "notes": "Fact sheet re-read 19 Oct; unchanged from last week. Promo codes still listed on /households/promotions (expiry carried from last week, not re-read from T&Cs).",
+   "old_bill": 137.25,
+   "new_bill": 137.25,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 30.5,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 12
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Senoko Energy",
+   "plan": "LifeGreen24",
+   "id": "senoko-energy-lifegreen24",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXFG-24au1",
+   "notes": "Fact sheet re-read 19 Oct; unchanged from last week. Promo codes still listed on /households/promotions (expiry carried from last week, not re-read from T&Cs).",
+   "old_bill": 133.56,
+   "new_bill": 133.56,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 29.68,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 24
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Senoko Energy",
+   "plan": "LifeSteady24",
+   "id": "senoko-energy-lifesteady24",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFDOTPG-24al1",
+   "notes": "Fact sheet re-read 19 Oct; unchanged from last week. Promo codes still listed on /households/promotions (expiry carried from last week, not re-read from T&Cs).",
+   "old_bill": 132.84,
+   "new_bill": 132.84,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": null,
+    "discount": {
+     "value": 1.64,
+     "kind": "cents"
+    },
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 24
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Senoko Energy",
+   "plan": "LifeSteady36",
+   "id": "senoko-energy-lifesteady36",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFDOTPG-36al1",
+   "notes": "Fact sheet re-read 19 Oct; unchanged from last week. Promo codes still listed on /households/promotions (expiry carried from last week, not re-read from T&Cs).",
+   "old_bill": 132.84,
+   "new_bill": 132.84,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": null,
+    "discount": {
+     "value": 1.64,
+     "kind": "cents"
+    },
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 36
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Senoko Energy",
+   "plan": "LifeSavvy24",
+   "id": "senoko-energy-lifesavvy24",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOPOPPG-24ak2",
+   "notes": "Fact sheet re-read 19 Oct; unchanged from last week. Promo codes still listed on /households/promotions (expiry carried from last week, not re-read from T&Cs).",
+   "old_bill": 143.46,
+   "new_bill": 143.46,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": null,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": {
+     "offPeak": {
+      "window": "23:00–07:00",
+      "rate": 20.05
+     },
+     "peak": {
+      "window": "07:00–23:00",
+      "rate": 36.95
+     }
+    },
+    "tiers": null,
+    "contractMonths": 24
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "SP Group",
+   "plan": "Regulated Tariff",
+   "id": "sp-group-regulated-tariff",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.spgroup.com.sg/our-services/utilities/tariff-information",
+   "notes": "Oct–Dec 2026 tariff, unchanged.",
+   "old_bill": 140.22,
+   "new_bill": 140.22,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 31.16,
+    "discount": null,
+    "dailyCharge": 0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 0
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Tuas Power",
+   "plan": "PowerFIX 24",
+   "id": "tuas-power-powerfix-24",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.savewithtuas.com/assets/pdf/2026/fs/powerfix_24_20261006(283.5)-$100_bill_rebate.pdf",
+   "notes": "Fact sheet (same version as last week) and plans page agree; unchanged. Plans page card: \"PowerFIX 24 24 Months Fixed Rate (with GST) $0.3090 /kWh Bill Rebate $100 Promo Code ONLINE\". Promo still shown on the plans page; the ONLINE T&C PDF says the campaign ended 11 Oct unless extended, so no end date is given.",
+   "old_bill": 139.05,
+   "new_bill": 139.05,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 30.9,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 24
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Tuas Power",
+   "plan": "PowerFIX 36",
+   "id": "tuas-power-powerfix-36",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.savewithtuas.com/assets/pdf/2026/powerfix_36_20261008(281)-$160_bill_rebate.pdf",
+   "notes": "Fact sheet (same version as last week) and plans page agree; unchanged. Plans page card: \"PowerFIX 36 36 Months Fixed Rate (with GST) $0.3063 /kWh Bill Rebate $160 Promo Code ONLINE\". Promo still shown on the plans page; the ONLINE T&C PDF says the campaign ended 11 Oct unless extended, so no end date is given.",
+   "old_bill": 137.84,
+   "new_bill": 137.84,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 30.63,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 36
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Tuas Power",
+   "plan": "PowerFIX 25 G+",
+   "id": "tuas-power-powerfix-25-g",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.savewithtuas.com/assets/pdf/2026/fs/powerfix_25_20260615(300)-$100_bill_rebate.pdf",
+   "notes": "Fact sheet (same version as last week) and plans page agree; unchanged. Plans page card: \"PowerFIX 25 G+ Green Plan | 25 Months Fixed Rate (with GST) $0.3270 /kWh Bill Rebate $100 Promo Code ONGREEN\". Promo still shown on the plans page; the ONLINE T&C PDF says the campaign ended 11 Oct unless extended, so no end date is given.",
+   "old_bill": 147.15,
+   "new_bill": 147.15,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 32.7,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 25
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Tuas Power",
+   "plan": "PowerFIX 12",
+   "id": "tuas-power-powerfix-12",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.savewithtuas.com/assets/pdf/2026/powerfix_12_20261006(285.8).pdf",
+   "notes": "Fact sheet (same version as last week) and plans page agree; unchanged. Plans page card: \"PowerFIX 12 12 Months Fixed Rate (with GST) $0.3115 /kWh Bill Rebate -\".",
+   "old_bill": 140.18,
+   "new_bill": 140.18,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 31.15,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 12
+   }
+  }
+ ],
+ "promotions": [
+  {
+   "retailer": "Geneco",
+   "plan": "Get It Fixed 24",
+   "id": "geneco-get-it-fixed-24",
+   "old": {
+    "title": "Bill rebate for new sign-ups",
+    "code": "GENECO200 / GENECO100",
+    "conditions": "Sign up online. Current SP Group customers use GENECO200; everyone else GENECO100. The 29.00¢ rate is for the first 1,000 sign-ups",
+    "value": "S$200 (SP customers) / S$100 (others)",
+    "expires": "2026-10-16"
+   },
+   "new": {
+    "title": "Bill rebate for new sign-ups (online only)",
+    "value": "S$200 for current SP Group customers (GENECO200); S$100 for others (GENECO100)",
+    "code": "GENECO200 / GENECO100",
+    "expires": "2026-11-02"
+   },
+   "source": "https://www.geneco.sg/residential/electricity-plans/"
+  },
+  {
+   "retailer": "Geneco",
+   "plan": "Get It Fixed 12",
+   "id": "geneco-get-it-fixed-12",
+   "old": {
+    "title": "Bill rebate",
+    "code": "GENECO15",
+    "conditions": "Sign up online; first 250 customers",
+    "value": "S$15",
+    "expires": "2026-10-31"
+   },
+   "new": {
+    "title": "Bill rebate (online sign-ups)",
+    "value": "S$15 (first 250 customers)",
+    "code": "GENECO15",
+    "expires": "2026-11-02"
+   },
+   "source": "https://www.geneco.sg/residential/electricity-plans/"
+  },
+  {
+   "retailer": "Keppel Electric",
+   "plan": "FIXED24",
+   "id": "keppel-electric-fixed24",
+   "old": {
+    "title": "Bill rebate + Maybank card rebate",
+    "code": "NEW125",
+    "conditions": "S$20 card rebate needs a Maybank card on recurring payment",
+    "value": "Up to S$145 (S$125 bill + S$20 card)",
+    "expires": null
+   },
+   "new": {
+    "title": "Bill rebate + Maybank card rebate",
+    "value": "S$125 bill rebate + S$20 Maybank card rebate = up to S$145",
+    "code": "NEW125",
+    "expires": null
+   },
+   "source": "https://www.keppelelectric.com/residential-price-plan"
+  },
+  {
+   "retailer": "Keppel Electric",
+   "plan": "FIXED36",
+   "id": "keppel-electric-fixed36",
+   "old": {
+    "title": "Bill rebate + Maybank card rebate",
+    "code": "NEW100",
+    "conditions": "S$20 card rebate needs a Maybank card on recurring payment",
+    "value": "Up to S$120 (S$100 bill + S$20 card)",
+    "expires": null
+   },
+   "new": {
+    "title": "Bill rebate + Maybank card rebate",
+    "value": "S$100 bill rebate + S$20 Maybank card rebate = up to S$120",
+    "code": "NEW100",
+    "expires": null
+   },
+   "source": "https://www.keppelelectric.com/residential-price-plan"
+  },
+  {
+   "retailer": "Keppel Electric",
+   "plan": "FIXED12",
+   "id": "keppel-electric-fixed12",
+   "old": {
+    "title": "Card payment rebate",
+    "code": null,
+    "conditions": "Maybank card on recurring payment; first 125 customers",
+    "value": "S$10",
+    "expires": "2026-12-31"
+   },
+   "new": {
+    "title": "Maybank recurring card payment rebate",
+    "value": "S$10 bill rebate (first 125)",
+    "code": null,
+    "expires": "2026-12-31"
+   },
+   "source": "https://www.keppelelectric.com/residential-price-plan"
+  },
+  {
+   "retailer": "Keppel Electric",
+   "plan": "WEEKEND SAVER",
+   "id": "keppel-electric-weekend-saver",
+   "old": {
+    "title": "Card payment rebate",
+    "code": null,
+    "conditions": "Maybank card on recurring payment",
+    "value": "Up to S$20",
+    "expires": "2026-12-31"
+   },
+   "new": {
+    "title": "Maybank recurring card payment rebate",
+    "value": "Up to S$20 bill rebate",
+    "code": null,
+    "expires": "2026-12-31"
+   },
+   "source": "https://www.keppelelectric.com/residential-price-plan"
+  },
+  {
+   "retailer": "Keppel Electric",
+   "plan": "ecoGreen24",
+   "id": "keppel-electric-ecogreen24",
+   "old": {
+    "title": "Bill rebate + Maybank card rebate",
+    "code": "NEW100",
+    "conditions": "First 1,000 sign-ups; S$20 card rebate needs a Maybank card on recurring payment",
+    "value": "Up to S$120 (S$100 bill + S$20 card)",
+    "expires": null
+   },
+   "new": {
+    "title": "Bill rebate + Maybank card rebate",
+    "value": "S$100 bill rebate (first 1,000) + S$20 Maybank card rebate = up to S$120",
+    "code": "NEW100",
+    "expires": null
+   },
+   "source": "https://www.keppelelectric.com/residential-price-plan"
+  },
+  {
+   "retailer": "PacificLight",
+   "plan": "Savvy Saver 24",
+   "id": "pacificlight-savvy-saver-24",
+   "old": {
+    "title": "yuu promotion",
+    "code": "YUU24",
+    "conditions": "First 500 sign-ups",
+    "value": "S$50 rebate + 10,000 yuu Points",
+    "expires": "2026-10-26"
+   },
+   "new": {
+    "title": "Payback deal: S$228 rebate on 3rd-month bill (first 100)",
+    "value": "S$228",
+    "code": "GETBACK24",
+    "expires": "2026-12-31"
+   },
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/06-savvy-saver-24-8-oct-2026"
+  },
+  {
+   "retailer": "PacificLight",
+   "plan": "Savvy Saver 36",
+   "id": "pacificlight-savvy-saver-36",
+   "old": {
+    "title": "yuu promotion",
+    "code": "YUU36",
+    "conditions": "First 500 sign-ups",
+    "value": "S$50 rebate + 15,000 yuu Points",
+    "expires": "2026-10-26"
+   },
+   "new": {
+    "title": "Payback deal: S$268 rebate on 3rd-month bill (first 100)",
+    "value": "S$268",
+    "code": "GETBACK36",
+    "expires": "2026-12-31"
+   },
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/9-savvy-saver-36-8-oct-2026"
+  },
+  {
+   "retailer": "PacificLight",
+   "plan": "Stack It Up 24",
+   "id": "pacificlight-stack-it-up-24",
+   "old": {
+    "title": "Maybank card rebate",
+    "code": "MBBON140",
+    "conditions": "First 30 sign-ups paying by Maybank card on recurring payment",
+    "value": "S$140",
+    "expires": "2026-12-31"
+   },
+   "new": {
+    "title": "Payback deal: S$228 rebate on 3rd-month bill (first 100)",
+    "value": "S$228",
+    "code": "GETBACK24",
+    "expires": "2026-12-31"
+   },
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/08-Stack-It-Up-24-8-oct-2026"
+  },
+  {
+   "retailer": "PacificLight",
+   "plan": "Save While Sleeping 24",
+   "id": "pacificlight-save-while-sleeping-24",
+   "old": {
+    "title": "yuu promotion",
+    "code": "YUU24",
+    "conditions": "First 500 sign-ups",
+    "value": "S$50 rebate + 10,000 yuu Points",
+    "expires": "2026-10-26"
+   },
+   "new": {
+    "title": "Payback deal: S$228 rebate on 3rd-month bill (first 100)",
+    "value": "S$228",
+    "code": "GETBACK24",
+    "expires": "2026-12-31"
+   },
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/07-save-while-sleeping-24-8-oct-2026"
+  },
+  {
+   "retailer": "PacificLight",
+   "plan": "Classic 60",
+   "id": "pacificlight-classic-60",
+   "old": {
+    "title": "Prompt payment discount",
+    "code": null,
+    "conditions": "Pay each bill in full by the due date (GIRO). On top of the 3% off the tariff, so up to 8% off in total",
+    "value": "Extra 5% off electricity charges",
+    "expires": null
+   },
+   "new": null,
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/10-classic-60-20-aug-2026"
+  },
+  {
+   "retailer": "Senoko Energy",
+   "plan": "LifePower36",
+   "id": "senoko-energy-lifepower36",
+   "old": {
+    "title": "Samsonite luggage set + bill rebate",
+    "code": "TBBCSB30B",
+    "conditions": "Trust card on recurring payment; first 1,000 sign-ups",
+    "value": "S$680 luggage set + S$30 rebate",
+    "expires": "2026-12-31"
+   },
+   "new": {
+    "title": "Samsonite luggage set + bill rebate (Trust card recurring payment)",
+    "value": "S$680 luggage set + S$30 bill rebate (first 1,000)",
+    "code": "TBBCSB30B",
+    "expires": "2026-12-31"
+   },
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXPG-36au1"
+  },
+  {
+   "retailer": "Senoko Energy",
+   "plan": "LifePower24",
+   "id": "senoko-energy-lifepower24",
+   "old": {
+    "title": "Gifts & bill rebates",
+    "code": "GIROBCRC / MBBC130 / TGBGN130 / GIROBC100 / BC60",
+    "conditions": "Gift options need GIRO; cash-only rebates use the codes listed",
+    "value": "Up to S$279 in gifts & rebates (cash-only up to S$150)",
+    "expires": "2026-12-31"
+   },
+   "new": {
+    "title": "Gifts & bill rebates bundle (24-month)",
+    "value": "Up to S$279 (gift via GIRO + S$20 referral); cash-only up to S$150",
+    "code": "GIROBCRC / MBBC130 / TGBGN130 / GIROBC100 / BC60",
+    "expires": "2026-12-31"
+   },
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXPG-24au1"
+  },
+  {
+   "retailer": "Senoko Energy",
+   "plan": "LifePower12",
+   "id": "senoko-energy-lifepower12",
+   "old": {
+    "title": "Gifts & bill rebates",
+    "code": "GIROBCLC / GIROBC30 / MBBC20 / BC10",
+    "conditions": "Gift options need GIRO",
+    "value": "Up to S$169 in gifts & rebates",
+    "expires": "2027-01-05"
+   },
+   "new": {
+    "title": "Gifts & bill rebates bundle (12-month)",
+    "value": "Up to S$169 (gift via GIRO + S$20 referral)",
+    "code": "GIROBCLC / GIROBC30 / MBBC20 / BC10",
+    "expires": "2027-01-05"
+   },
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXPG-12au1"
+  },
+  {
+   "retailer": "Senoko Energy",
+   "plan": "LifeGreen24",
+   "id": "senoko-energy-lifegreen24",
+   "old": {
+    "title": "Bill rebates",
+    "code": "MBBC130 / TGBGN130 / GIROBC100 / BC60",
+    "conditions": "Amount depends on the code and payment method",
+    "value": "Up to S$150",
+    "expires": "2026-12-31"
+   },
+   "new": {
+    "title": "Bill rebates",
+    "value": "Up to S$150 rebate (plan page)",
+    "code": "MBBC130 / TGBGN130 / GIROBC100 / BC60",
+    "expires": "2026-12-31"
+   },
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXFG-24au1"
+  },
+  {
+   "retailer": "Senoko Energy",
+   "plan": "LifeSteady24",
+   "id": "senoko-energy-lifesteady24",
+   "old": {
+    "title": "Gifts & bill rebates",
+    "code": "GIROBCRC / MBBC130 / TGBGN130 / GIROBC100 / BC60",
+    "conditions": "Gift options need GIRO",
+    "value": "Up to S$279 in gifts & rebates (cash up to S$150)",
+    "expires": "2026-12-31"
+   },
+   "new": {
+    "title": "Gifts & bill rebates bundle (24-month)",
+    "value": "Up to S$279; cash rebates up to S$150",
+    "code": "GIROBCRC / MBBC130 / TGBGN130 / GIROBC100 / BC60",
+    "expires": "2026-12-31"
+   },
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFDOTPG-24al1"
+  },
+  {
+   "retailer": "Senoko Energy",
+   "plan": "LifeSteady36",
+   "id": "senoko-energy-lifesteady36",
+   "old": {
+    "title": "Luggage set or bill rebates",
+    "code": "TBBCSB30B / MBBC180 / GIROBC150",
+    "conditions": "Luggage set needs a Trust card on recurring payment",
+    "value": "S$680 luggage set + S$30 rebate, or up to S$180 in rebates",
+    "expires": "2026-12-31"
+   },
+   "new": {
+    "title": "Samsonite luggage set + bill rebate (Trust card) / 36-month rebates",
+    "value": "S$680 luggage set + S$30 rebate; or cash rebates up to S$180",
+    "code": "TBBCSB30B / MBBC180 / GIROBC150",
+    "expires": "2026-12-31"
+   },
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFDOTPG-36al1"
+  },
+  {
+   "retailer": "Senoko Energy",
+   "plan": "LifeSavvy24",
+   "id": "senoko-energy-lifesavvy24",
+   "old": {
+    "title": "Gifts & bill rebates",
+    "code": "GIROBCRC / MBBC130 / TGBGN130 / GIROBC100 / BC60",
+    "conditions": "Gift options need GIRO",
+    "value": "Up to S$279 in gifts & rebates (cash up to S$150)",
+    "expires": "2026-12-31"
+   },
+   "new": {
+    "title": "Gifts & bill rebates bundle (24-month)",
+    "value": "Up to S$279; cash rebates up to S$150",
+    "code": "GIROBCRC / MBBC130 / TGBGN130 / GIROBC100 / BC60",
+    "expires": "2026-12-31"
+   },
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOPOPPG-24ak2"
+  },
+  {
+   "retailer": "Tuas Power",
+   "plan": "PowerFIX 12",
+   "id": "tuas-power-powerfix-12",
+   "old": {
+    "title": "Free insurance cover",
+    "code": null,
+    "conditions": "Choose Home, Travel or Personal Accident cover",
+    "value": "12 months of Singlife cover (non-cash)",
+    "expires": null
+   },
+   "new": null,
+   "source": "https://www.savewithtuas.com/assets/pdf/2026/powerfix_12_20261006(285.8).pdf"
+  }
+ ]
+}

@@ -1,0 +1,78 @@
+{
+ "retailer": "Keppel Electric",
+ "checked_at": "2026-10-19",
+ "method": "Second read: downloaded Keppel's EMA fact sheet PDFs dated 19 Oct 2026 (the files the page links under \"View Fact Sheet\") and extracted the rate statement text with pypdf.",
+ "gst_basis_on_site": "both",
+ "sources": [
+  {
+   "url": "https://www.keppelelectric.com/api/Accountplan/Download/Factsheet?filename=Fact%20Sheet_FIXED24%20v42%20_2026%201019%20Standard.pdf",
+   "what": "EMA fact sheet PDF"
+  },
+  {
+   "url": "https://www.keppelelectric.com/api/Accountplan/Download/Factsheet?filename=Fact%20Sheet_FIXED24%20Special%20v5%20_2026%201019_Standard.pdf",
+   "what": "EMA fact sheet PDF"
+  },
+  {
+   "url": "https://www.keppelelectric.com/api/Accountplan/Download/Factsheet?filename=Fact%20Sheet_Fixed36%20v17_2026%201019_%20NonStandard.pdf",
+   "what": "EMA fact sheet PDF"
+  }
+ ],
+ "plans": [
+  {
+   "name": "FIXED24",
+   "matches_id": "keppel-electric-fixed24",
+   "type": "fixed",
+   "contractMonths": 24,
+   "rate_incl_gst": 30.9,
+   "rate_excl_gst": 28.35,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": null,
+   "source_url": "https://www.keppelelectric.com/api/Accountplan/Download/Factsheet?filename=Fact%20Sheet_FIXED24%20v42%20_2026%201019%20Standard.pdf",
+   "evidence": "Name of Price Plan: FIXED24 ... Fixed Price Plan: 30.90 cents/kWh (inclusive of GST) or; 28.35 cents/kWh (exclusive of GST)",
+   "confidence": "high",
+   "notes": "Read from the EMA fact sheet PDF (text extracted from the PDF), not the plan page or feed."
+  },
+  {
+   "name": "FIXED24 Special",
+   "matches_id": "keppel-electric-fixed24-special",
+   "type": "fixed",
+   "contractMonths": 24,
+   "rate_incl_gst": 30.4,
+   "rate_excl_gst": 27.89,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": null,
+   "source_url": "https://www.keppelelectric.com/api/Accountplan/Download/Factsheet?filename=Fact%20Sheet_FIXED24%20Special%20v5%20_2026%201019_Standard.pdf",
+   "evidence": "Name of Price Plan: FIXED24 Special ... Fixed Price Plan: 30.40 cents/kWh (inclusive of GST) or; 27.89 cents/kWh (exclusive of GST)",
+   "confidence": "high",
+   "notes": "Read from the EMA fact sheet PDF (text extracted from the PDF), not the plan page or feed."
+  },
+  {
+   "name": "FIXED36",
+   "matches_id": "keppel-electric-fixed36",
+   "type": "fixed",
+   "contractMonths": 36,
+   "rate_incl_gst": 30.63,
+   "rate_excl_gst": 28.1,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": null,
+   "source_url": "https://www.keppelelectric.com/api/Accountplan/Download/Factsheet?filename=Fact%20Sheet_Fixed36%20v17_2026%201019_%20NonStandard.pdf",
+   "evidence": "Name of Price Plan: FIXED36 ... Fixed Price Plan: 30.63 cents/kWh (inclusive of GST) or; 28.10 cents/kWh (exclusive of GST)",
+   "confidence": "high",
+   "notes": "Read from the EMA fact sheet PDF (text extracted from the PDF), not the plan page or feed."
+  }
+ ],
+ "not_found": [],
+ "issues": ""
+}
