@@ -17,6 +17,7 @@ export default function AppLayout() {
       <Stack.Screen name="invoice" options={{ headerShown: false, presentation: 'modal' }} />
       <Stack.Screen name="notifications" options={{ title: 'Updates' }} />
       <Stack.Screen name="profile-edit" options={{ title: 'Edit details' }} />
+      <Stack.Screen name="rewards-catalogue" options={{ title: 'All rewards' }} />
     </Stack>
   );
 }

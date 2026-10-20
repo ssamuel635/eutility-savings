@@ -81,7 +81,7 @@ declare module 'eutility-web/config.js' {
     defaultOffPeakShare: number;
     confettiThreshold: number;
     homePresets: { label: string; kwh: number }[];
-    rewards: { programmeName: string; nextRewardAt: number; pointsPerSwitch: number; featured: string; catalogue: { id: string; name: string; points: number; img: string }[] };
+    rewards: { programmeName: string; nextRewardAt: number; pointsPerSwitch: number; featured: string; catalogue: { id: string; name: string; points: number; img: string; about?: string }[]; redeemNotes: string[] };
     links: Record<string, string>;
     company: Record<string, string | number>;
   };

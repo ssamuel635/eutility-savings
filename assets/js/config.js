@@ -86,15 +86,26 @@ export const CONFIG = {
     // This month's headline reward, promoted on the app's Home and the Rewards
     // page. Change it each month (an `id` from the catalogue below).
     featured: 'ps5',
+    // `about` is the one-line description on the item's detail page (the app's
+    // reward sheet). Kept generic on purpose: no brands or models until Eutility
+    // confirms what it will actually send (TODO: confirm with Eutility).
     catalogue: [
-      { id: 'voucher', name: 'S$10 shopping voucher', points: 1000, img: 'gift-voucher' },
-      { id: 'fan', name: 'Desk fan', points: 2500, img: 'desk-fan' },
-      { id: 'rice-cooker', name: 'Rice cooker', points: 3500, img: 'rice-cooker' },
-      { id: 'air-fryer', name: 'Air fryer', points: 4500, img: 'air-fryer' },
-      { id: 'robot-vacuum', name: 'Robot vacuum', points: 9000, img: 'robot-vacuum' },
-      { id: 'switch', name: 'Nintendo Switch', points: 14000, img: 'nintendo-switch' },
-      { id: 'ps5', name: 'PlayStation 5', points: 20000, img: 'ps5' },
-      { id: 'tv', name: '50-inch smart TV', points: 24000, img: 'smart-tv' },
+      { id: 'voucher', name: 'S$10 shopping voucher', points: 1000, img: 'gift-voucher', about: 'A S$10 shopping voucher. We’ll confirm where it can be used when you redeem.' },
+      { id: 'fan', name: 'Desk fan', points: 2500, img: 'desk-fan', about: 'A desk fan for your room or work-from-home corner.' },
+      { id: 'rice-cooker', name: 'Rice cooker', points: 3500, img: 'rice-cooker', about: 'A rice cooker for everyday meals at home.' },
+      { id: 'air-fryer', name: 'Air fryer', points: 4500, img: 'air-fryer', about: 'An air fryer for quick, low-oil cooking.' },
+      { id: 'robot-vacuum', name: 'Robot vacuum', points: 9000, img: 'robot-vacuum', about: 'A robot vacuum that cleans your floors on its own.' },
+      { id: 'switch', name: 'Nintendo Switch', points: 14000, img: 'nintendo-switch', about: 'Nintendo’s games console, for play at home or on the go.' },
+      { id: 'ps5', name: 'PlayStation 5', points: 20000, img: 'ps5', about: 'Sony’s PlayStation 5 games console.' },
+      { id: 'tv', name: '50-inch smart TV', points: 24000, img: 'smart-tv', about: 'A 50-inch smart TV with streaming apps built in.' },
+    ],
+    // How redeeming works, shown on every item's detail page. Only what the
+    // app actually does today (TODO: Eutility to confirm delivery and terms).
+    redeemNotes: [
+      'Points are added when a friend’s new plan starts.',
+      'Redeeming sends Eutility a WhatsApp message with your request and referral code.',
+      'We confirm the item and delivery with you before anything is sent.',
+      'Items are subject to availability. Terms apply.',
     ],
   },
 

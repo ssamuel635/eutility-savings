@@ -15,9 +15,20 @@ const IMAGES: Record<string, ImageSourcePropType> = {
   'smart-tv': require('../../assets/rewards/smart-tv.jpg'),
 };
 
-export interface RewardItem { id: string; name: string; points: number; image?: ImageSourcePropType }
+export interface RewardItem { id: string; name: string; points: number; about?: string; image?: ImageSourcePropType }
 
 export const CATALOGUE: RewardItem[] = CONFIG.rewards.catalogue.map((r) => ({ ...r, image: IMAGES[r.img] }));
+
+/** How redeeming works: shown on every item's detail sheet. */
+export const REDEEM_NOTES: string[] = CONFIG.rewards.redeemNotes;
+
+/** What a customer sends friends when they share their code. */
+export const shareMessage = (code: string, link: string) =>
+  `I switched my electricity plan with Eutility and saved. Check what you could save — use my code ${code}: ${link}`;
+
+/** The WhatsApp message that asks Eutility for an item. */
+export const redeemMessage = (item: RewardItem, code: string) =>
+  `Hi ${CONFIG.brand}, I'd like to redeem ${pts(item.points)} for: ${item.name}.\nReferral code: ${code}\n(sent from the Eutility app)`;
 
 /** This month's headline reward (CONFIG.rewards.featured). */
 export const FEATURED: RewardItem | undefined = CATALOGUE.find((r) => r.id === CONFIG.rewards.featured);
