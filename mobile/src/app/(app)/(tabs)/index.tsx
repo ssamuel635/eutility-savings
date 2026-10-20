@@ -57,26 +57,30 @@ export default function Home() {
       {data === undefined ? <Card><Text variant="small">Loading your account…</Text></Card>
         : data.app ? <SwitchSummary app={data.app} /> : <StartSummary quote={data.quote} />}
 
-      {/* Only what the menu bar below doesn't already cover */}
-      <QuickActions
-        columns={3}
-        items={[
-          { icon: 'camera', label: 'Submit a bill', tone: 'orange', onPress: () => router.push('/invoice') },
-          { icon: 'logo-whatsapp', label: 'WhatsApp us', tone: 'green', onPress: () => openWhatsApp(generalMessage()) },
-          { icon: 'share-social', label: 'Refer a friend', tone: 'red', onPress: () => router.navigate('/rewards') },
-        ]}
-      />
-
-      <RewardPromo balance={balance} onPress={() => router.navigate('/rewards')} />
-
+      {/* Things you do (functions) — one colour, labelled, so they read as tools, not adverts.
+          Only what the menu bar below doesn't already cover. */}
       <View style={{ gap: space.md }}>
-        <View style={s.headRow}>
+        <Text variant="h3">Quick actions</Text>
+        <QuickActions
+          columns={3}
+          items={[
+            { icon: 'camera-outline', label: 'Submit a bill', tone: 'blue', onPress: () => router.push('/invoice') },
+            { icon: 'logo-whatsapp', label: 'WhatsApp us', tone: 'blue', onPress: () => openWhatsApp(generalMessage()) },
+            { icon: 'share-social-outline', label: 'Refer a friend', tone: 'blue', onPress: () => router.navigate('/rewards') },
+          ]}
+        />
+      </View>
+
+      {/* Things to explore (features): rewards, then savings by home type below */}
+      <View style={{ gap: space.md }}>
+        <View style={s.sectionHead}>
           <View style={{ flex: 1, gap: 2 }}>
-            <Text variant="h2">Redeem your points</Text>
+            <Text variant="h2">Rewards</Text>
             <Text variant="small">You have <Text variant="bodyStrong" color={colors.orangeAA}>{pts(balance)}</Text>. Earn more when friends switch.</Text>
           </View>
           <Text variant="bodyStrong" color={colors.blue} onPress={() => router.navigate('/rewards')} accessibilityRole="link">See all</Text>
         </View>
+        <RewardPromo balance={balance} onPress={() => router.navigate('/rewards')} />
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.rail} decelerationRate="fast" snapToInterval={140 + space.md} snapToAlignment="start" disableIntervalMomentum>
           {CATALOGUE.filter((r) => r.id !== FEATURED?.id).slice(0, 6).map((item) => (
             <RewardCard key={item.id} item={item} balance={balance} width={140} onPress={() => router.navigate('/rewards')} />
@@ -89,29 +93,52 @@ export default function Home() {
   );
 }
 
+/**
+ * Where your switch is up to. The whole card opens My switch, so it needs no
+ * button of its own. Colour carries one meaning each: green = done / on track,
+ * blue = the step you're on now, orange = money saved.
+ */
 function SwitchSummary({ app }: { app: Application }) {
   const current = app.stages.find((st) => st.state === 'current');
-  const done = app.stages.filter((st) => st.state === 'done').length;
+  const step = app.stages.findIndex((st) => st.state === 'current') + 1;
   const active = app.status === 'active';
+  const attention = app.status === 'needs_attention';
+  const plan = app.plan ? `${app.plan.retailer} · ${app.plan.name}` : 'Plan to be recommended';
   return (
-    <Card style={s.status}>
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={`Your switch: ${plan}. ${active ? 'Active' : attention ? 'Action needed' : `Step ${step} of ${app.stages.length}, ${current?.label}`}. Open My switch.`}
+      onPress={() => router.navigate('/application')}
+      style={({ pressed }) => [s.switchCard, pressed && s.pressed]}
+    >
       <View style={s.rowBetween}>
-        <Text variant="eyebrow">Your electricity switch</Text>
-        <Pill label={active ? 'Active' : app.status === 'needs_attention' ? 'Action needed' : 'Processing'} tone={active ? 'green' : app.status === 'needs_attention' ? 'orange' : 'blue'} />
+        <Text variant="eyebrow">Your switch</Text>
+        <Pill
+          label={active ? 'Active' : attention ? 'Action needed' : 'In progress'}
+          tone={attention ? 'orange' : 'success'}
+          icon={active ? 'checkmark-circle' : attention ? 'alert-circle' : undefined}
+        />
       </View>
-      <Text variant="h2">{app.plan ? `${app.plan.retailer} · ${app.plan.name}` : 'Plan to be recommended'}</Text>
-      {app.estimatedSavingYearly > 0 ? (
-        <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
-          <CountUp variant="figure" value={app.estimatedSavingYearly} format={(n) => money(n)} />
-          <Text variant="body"> a year, estimated</Text>
+      <View style={s.planRow}>
+        <Text variant="h3" style={{ flex: 1 }}>{plan}</Text>
+        {app.estimatedSavingYearly > 0 ? (
+          <View style={s.saving}>
+            <CountUp variant="h2" color={colors.orangeDisplay} value={app.estimatedSavingYearly} format={(n) => money(n)} />
+            <Text variant="caption">a year, est.</Text>
+          </View>
+        ) : null}
+      </View>
+      <View style={s.progress}>
+        {app.stages.map((st) => <View key={st.key} style={[s.seg, st.state === 'done' && s.segDone, st.state === 'current' && s.segNow]} />)}
+      </View>
+      <View style={s.rowBetween}>
+        <Text variant="small" style={{ flex: 1 }}>{active ? 'Your new plan is active.' : attention ? 'We need something from you.' : `Step ${step} of ${app.stages.length}: ${current?.label}`}</Text>
+        <View style={s.more}>
+          <Text variant="bodyStrong" color={colors.blue}>Details</Text>
+          <Ionicons name="chevron-forward" size={16} color={colors.blue} />
         </View>
-      ) : null}
-      <View style={s.progress} accessibilityLabel={`Step ${done} of ${app.stages.length}`}>
-        {app.stages.map((st) => <View key={st.key} style={[s.seg, st.state === 'done' && { backgroundColor: colors.blue }, st.state === 'current' && { backgroundColor: colors.orange }]} />)}
       </View>
-      <Text variant="small">{active ? 'Your new plan is active.' : `Now: ${current?.label}`}</Text>
-      <Button label="View my switch" small icon="arrow-forward" onPress={() => router.navigate('/application')} />
-    </Card>
+    </Pressable>
   );
 }
 
@@ -148,10 +175,17 @@ const s = StyleSheet.create({
   badge: { position: 'absolute', top: 10, right: 11, width: 9, height: 9, borderRadius: 5, backgroundColor: colors.orange, borderWidth: 1.5, borderColor: colors.white },
   // The status card's blue top edge ties it to the brand without a navy slab.
   status: { borderTopWidth: 3, borderTopColor: colors.blue },
-  rowBetween: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  switchCard: { backgroundColor: colors.white, borderWidth: 1, borderColor: colors.border, borderRadius: radius.card, padding: space.xl, gap: space.md },
+  pressed: { backgroundColor: colors.cloud },
+  planRow: { flexDirection: 'row', alignItems: 'flex-start', gap: space.md },
+  saving: { alignItems: 'flex-end' },
+  more: { flexDirection: 'row', alignItems: 'center', gap: 2 },
+  rowBetween: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: space.md },
   progress: { flexDirection: 'row', gap: 6 },
-  seg: { flex: 1, height: 6, borderRadius: 1, backgroundColor: colors.cloud },
-  headRow: { flexDirection: 'row', alignItems: 'flex-end', gap: space.md },
+  seg: { flex: 1, height: 6, borderRadius: 3, backgroundColor: colors.cloud },
+  segDone: { backgroundColor: colors.successLine },
+  segNow: { backgroundColor: colors.blue },
+  sectionHead: { flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', gap: space.md },
   // Vertical padding leaves room for the cards' shadows inside the scroller.
   rail: { gap: space.md, paddingHorizontal: space.xl, marginHorizontal: -space.xl, paddingTop: 4, paddingBottom: 18 },
 });

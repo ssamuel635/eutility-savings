@@ -24,6 +24,12 @@ export const colors = {
   orangeTint: '#FFF3E0',
   greenTint: '#E8F5E9',
   redTint: '#FDECEA',
+  // Status only (20 Oct 2026): a light green that means "done" or "on track" —
+  // switch progress, active plans, accepted bills. Never used for decoration, so
+  // it always means the same thing and is hard to miss.
+  success: '#1E7B44',     // text and ticks (5.6:1 on white)
+  successTint: '#EDF7F0', // light fill behind status tags and ticks
+  successLine: '#A3D9B8', // their border
 } as const;
 
 /** Icon tiles (actions, menus): white, with the glyph and a fine border in

@@ -16,10 +16,10 @@ import { CATALOGUE, pointsFor, pts, type RewardItem } from '@/lib/rewards';
 import { openWhatsApp } from '@/lib/whatsapp';
 import { colors, fonts, radius, space } from '@/theme';
 
-const STATUS: Record<ReferralStatus, { label: string; tone: 'blue' | 'orange' | 'green' }> = {
+const STATUS: Record<ReferralStatus, { label: string; tone: 'blue' | 'orange' | 'success' }> = {
   invited: { label: 'Invited', tone: 'blue' },
   signed_up: { label: 'Signed up', tone: 'orange' },
-  switched: { label: 'Switched', tone: 'green' },
+  switched: { label: 'Switched', tone: 'success' },
 };
 
 const STEPS = [

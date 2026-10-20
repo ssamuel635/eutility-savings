@@ -17,10 +17,13 @@ export function Card({ children, style, tone = 'white' }: { children: ReactNode;
 // Tags: white, with a fine border and text in one of the logo's colours.
 // Blue = good news/active, orange = needs a look or a highlight, navy = plain
 // facts. Text colours pass 4.5:1 on white. (green/red/teal map onto these.)
+// `success` is the one exception: a light green status tag (in progress, active,
+// accepted), so progress is obvious at a glance. Status only, never decoration.
 const BRAND_PILL = {
   blue: { bg: colors.white, fg: colors.deep, bd: colors.blue },
   orange: { bg: colors.white, fg: colors.orangeAA, bd: colors.orange },
   navy: { bg: colors.white, fg: colors.navy, bd: colors.navy },
+  success: { bg: colors.successTint, fg: colors.success, bd: colors.successLine },
 } as const;
 const pillTones = { ...BRAND_PILL, green: BRAND_PILL.blue, red: BRAND_PILL.orange, teal: BRAND_PILL.navy } as const;
 

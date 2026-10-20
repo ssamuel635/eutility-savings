@@ -10,10 +10,10 @@ import { applicationMessage, openWhatsApp } from '@/lib/whatsapp';
 import { colors, space } from '@/theme';
 import { PhotoHeader } from '@/components/PhotoHeader';
 
-const INVOICE_STATUS: Record<InvoiceStatus, { label: string; tone: 'blue' | 'green' | 'orange' | 'red' }> = {
+const INVOICE_STATUS: Record<InvoiceStatus, { label: string; tone: 'blue' | 'success' | 'orange' | 'red' }> = {
   received: { label: 'Received', tone: 'blue' },
   reviewing: { label: 'Reviewing', tone: 'orange' },
-  accepted: { label: 'Accepted', tone: 'green' },
+  accepted: { label: 'Accepted', tone: 'success' },
   needs_attention: { label: 'Needs attention', tone: 'red' },
 };
 
@@ -96,9 +96,9 @@ export default function Track() {
 }
 
 function StatusPill({ app }: { app: Application }) {
-  if (app.status === 'active') return <Pill label="Active" tone="green" icon="checkmark-circle" />;
+  if (app.status === 'active') return <Pill label="Active" tone="success" icon="checkmark-circle" />;
   if (app.status === 'needs_attention') return <Pill label="Action needed" tone="red" icon="alert-circle" />;
-  return <Pill label="Processing" tone="blue" />;
+  return <Pill label="In progress" tone="success" />;
 }
 
 function InvoiceCard({ invoice }: { invoice: Invoice }) {
