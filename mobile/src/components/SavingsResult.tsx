@@ -8,7 +8,9 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import type { PricedPlan, SavingsQuote } from '@/api';
 import { money } from '@/lib/format';
 import { colors, radius, space } from '@/theme';
+import { CONFIG } from '@/engine';
 import { Button } from './Button';
+import { Confetti } from './Confetti';
 import { CountUp, FadeIn, PopIn } from './Motion';
 import { FadedPhoto } from './Photo';
 import { Pill } from './Surfaces';
@@ -89,6 +91,8 @@ export function SavingsResult({ quote, visible, chosenId, onChoose, onClose, onS
         ) : (
           <View style={s.footer}><Button label="Edit details" variant="secondary" onPress={onClose} /></View>
         )}
+        {/* Celebrate a real saving, as the website does: only above the same threshold, once per result */}
+        <Confetti key={quote.id} run={visible && !!rec && rec.savingYearly >= CONFIG.confettiThreshold} />
       </SafeAreaView>
     </Modal>
   );
