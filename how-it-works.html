@@ -79,21 +79,28 @@
           <p class="small">No bill handy? Tap <strong>I don’t have my bill</strong>, type roughly how much you use, and pick your provider. We use your bill only to prepare your estimate and your switch. See our <a href="legal.html#privacy">Privacy Statement</a>.</p>
         </div>
         <div class="journey__visual" data-inview>
-          <div class="bill" aria-hidden="true">
-            <div class="bill__head"><span>Your bill</span><span>Example</span></div>
-            <div class="bill__line bill__line--w80"></div>
-            <div class="bill__hl"><span>Usage</span><span>450 kWh</span></div>
-            <div class="bill__line bill__line--w60"></div>
-            <div class="bill__hl"><span>Provider</span><span>SP Group</span></div>
-            <div class="bill__line bill__line--w40"></div>
-            <div class="bill__hl"><span>Rate</span><span data-tariff>—</span></div>
-            <div class="bill__scan"></div>
+          <div class="phone" aria-hidden="true">
+            <div class="phone__screen">
+              <div class="phone__bar"><span class="avatar" data-logo></span><span>Eutility<small>Usually replies in seconds</small></span></div>
+              <div class="chat">
+                <div class="bubble bubble--me bubble--photo">
+                  <div class="bill">
+                    <div class="bill__head"><span>Your bill</span><span>Example</span></div>
+                    <div class="bill__line bill__line--w80"></div>
+                    <div class="bill__hl"><span>Usage</span><span>450 kWh</span></div>
+                    <div class="bill__line bill__line--w60"></div>
+                    <div class="bill__hl"><span>Provider</span><span>SP Group</span></div>
+                    <div class="bill__line bill__line--w40"></div>
+                    <div class="bill__hl"><span>Rate</span><span data-tariff>—</span></div>
+                    <div class="bill__scan"></div>
+                  </div>
+                </div>
+                <div class="bubble bubble--step">1 of 3: Checking your current rate</div>
+                <div class="bubble bubble--step">2 of 3: Comparing <span data-plan-count>all</span> plans</div>
+                <div class="bubble bubble--step">3 of 3: Calculating your savings</div>
+              </div>
+            </div>
           </div>
-          <ol class="bot-steps" aria-hidden="true">
-            <li>1 of 3: Checking your current rate</li>
-            <li>2 of 3: Comparing <span data-plan-count>all</span> plans</li>
-            <li>3 of 3: Calculating your savings</li>
-          </ol>
         </div>
       </li>
 
@@ -104,14 +111,22 @@
           <p class="lead">Your current rate next to the best plan for you, and what you’d save each month and each year. Want options? Tap <strong>Show more plans</strong> for your top three.</p>
           <a class="link-arrow" href="calculator.html">Or try the calculator here</a>
         </div>
-        <div class="journey__visual" data-inview id="step3" style="background:#fff;border:1px solid var(--border)">
-          <div class="report" aria-label="Example savings report">
-            <p class="report__head">Your savings report</p>
-            <div class="report__row"><span>Current</span><strong data-current>SP Group</strong></div>
-            <div class="report__row"><span>Recommended</span><strong data-recommended>—</strong></div>
-            <div class="report__save"><span>You save</span><strong>S$<span data-count>0</span><small> a year</small></strong><span class="small" data-monthly></span></div>
-            <div class="chat-btns"><span class="is-primary">Switch now</span><span>Show more plans</span><span>Not now</span></div>
-            <p class="small" data-example></p>
+        <div class="journey__visual" data-inview id="step3">
+          <div class="phone">
+            <div class="phone__screen">
+              <div class="phone__bar" aria-hidden="true"><span class="avatar" data-logo></span><span>Eutility<small>Usually replies in seconds</small></span></div>
+              <div class="chat">
+                <div class="bubble bubble--me" aria-hidden="true">Check my savings</div>
+                <div class="bubble bubble--card report" aria-label="Example savings report">
+                  <p class="report__head">Your savings report</p>
+                  <div class="report__row"><span>Current</span><strong data-current>SP Group</strong></div>
+                  <div class="report__row"><span>Recommended</span><strong data-recommended>—</strong></div>
+                  <div class="report__save"><span>You save</span><strong>S$<span data-count>0</span><small> a year</small></strong><span class="small" data-monthly></span></div>
+                  <div class="chat-btns"><span class="is-primary">Switch now</span><span>Show more plans</span><span>Not now</span></div>
+                  <p class="small" data-example></p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </li>
@@ -127,7 +142,7 @@
             <a class="btn btn--secondary" href="#" data-wa>Chat on WhatsApp</a>
           </div>
         </div>
-        <div class="journey__visual" data-inview id="step4" style="background:var(--blue-tint)">
+        <div class="journey__visual" data-inview id="step4">
           <div class="phone" aria-hidden="true">
             <div class="phone__screen">
               <div class="phone__bar"><span class="avatar" data-logo></span><span>Eutility<small>Usually replies in seconds</small></span></div>
