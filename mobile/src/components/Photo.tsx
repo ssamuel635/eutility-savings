@@ -36,10 +36,16 @@ interface Props {
   style?: StyleProp<ViewStyle>;
   children?: React.ReactNode;
   focus?: 'top' | 'center' | 'bottom';
+  /** How high the fade starts (see FADES). */
+  fade?: keyof typeof FADES;
 }
 
 /** A photo with an optional soft fade at the bottom, like the website's. */
-export function FadedPhoto({ name, ratio = 3 / 2, fadeTo = colors.white, style, children, focus = 'center' }: Props) {
+/** Where the fade runs: `soft` only melts the bottom edge; `tall` starts high so
+ *  the photo dissolves gently into the page (screen headers, where a title follows). */
+const FADES = { soft: [0.45, 0.8, 0.96], tall: [0.3, 0.7, 0.92] } as const;
+
+export function FadedPhoto({ name, ratio = 3 / 2, fadeTo = colors.white, style, children, focus = 'center', fade = 'soft' }: Props) {
   const p = PHOTOS[name];
   return (
     // Behind a fade the frame takes the fade's colour, so no sliver of the
@@ -50,7 +56,7 @@ export function FadedPhoto({ name, ratio = 3 / 2, fadeTo = colors.white, style, 
         <LinearGradient
           pointerEvents="none"
           colors={[withAlpha(fadeTo, 0), withAlpha(fadeTo, 0.7), fadeTo]}
-          locations={[0.45, 0.8, 0.96]}
+          locations={[...FADES[fade]]}
           style={StyleSheet.absoluteFill}
         />
       ) : null}

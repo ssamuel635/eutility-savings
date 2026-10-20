@@ -45,7 +45,7 @@ export function SavingsResult({ quote, visible, chosenId, onChoose, onClose, onS
         </View>
 
         <ScrollView contentContainerStyle={s.body}>
-          <FadedPhoto name={rec ? 'parkBench' : 'estate'} ratio={16 / 9} style={s.photo} />
+          <FadedPhoto name={rec ? 'parkBench' : 'estate'} ratio={16 / 9} style={s.photo} fade="tall" />
           <View style={s.headline} accessibilityLiveRegion="polite">
             {rec ? (
               <>
@@ -141,7 +141,8 @@ const s = StyleSheet.create({
   back: { flexDirection: 'row', alignItems: 'center', gap: 2, minHeight: 44 },
   body: { padding: space.xl, gap: space.xl, paddingBottom: space.x4 },
   photo: { marginTop: -space.xl, marginHorizontal: -space.xl },
-  headline: { gap: space.sm, marginTop: -space.x4 },
+  // Below the photo on clean white, like the screen headers (PhotoHeader).
+  headline: { gap: space.sm, marginTop: -12 },
   option: { backgroundColor: colors.white, borderRadius: radius.card, padding: space.lg, gap: space.sm, borderWidth: 1, borderColor: colors.border },
   optionOn: { borderColor: colors.blue, backgroundColor: '#F3F8FE' },
   optionHead: { flexDirection: 'row', alignItems: 'flex-start', gap: space.md },

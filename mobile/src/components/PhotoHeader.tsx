@@ -1,5 +1,6 @@
 // A tab screen's header: a local photo running edge to edge and under the
-// status bar, fading into the white page, with the title sitting on the fade.
+// status bar, fading gently into the white page from high up, with the title
+// on the white just below it.
 // Use with <Screen edges={[]}> so the photo can reach the top of the screen.
 
 import { useCallback, type ReactNode } from 'react';
@@ -8,7 +9,7 @@ import { useFocusEffect } from 'expo-router';
 import { setStatusBarStyle } from 'expo-status-bar';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { space } from '@/theme';
+import { colors, space } from '@/theme';
 import { FadedPhoto, type PhotoKey } from './Photo';
 import { Text } from './Text';
 
@@ -35,7 +36,7 @@ export function PhotoHeader({ photo, title, subtitle, corner, badge, ratio = 16 
 
   return (
     <View style={s.bleed}>
-      <FadedPhoto name={photo} ratio={ratio} focus={focus}>
+      <FadedPhoto name={photo} ratio={ratio} focus={focus} fade="tall">
         {/* A dark wash at the top keeps the clock and battery readable on any photo */}
         <LinearGradient pointerEvents="none" colors={['rgba(10,20,40,0.55)', 'rgba(10,20,40,0)']} style={[s.topWash, { height: insets.top + 72 }]} />
         {badge || corner ? (
@@ -59,6 +60,9 @@ const s = StyleSheet.create({
   bleed: { marginTop: -space.xl, marginHorizontal: -space.xl },
   topWash: { position: 'absolute', top: 0, left: 0, right: 0 },
   topRow: { position: 'absolute', left: space.xl, right: space.xl, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  // The title rides up onto the faded foot of the photo.
-  text: { marginTop: -56, paddingHorizontal: space.xl, gap: space.sm },
+  // The title sits below the photo, tucked just into the white end of the fade,
+  // so it reads on clean white rather than over the busy foot of the image.
+  // Its white backing overlaps the photo's last 24px, covering the hairline seam
+  // some renderers leave at an image's edge; the title itself sits 12px into the fade.
+  text: { marginTop: -24, paddingTop: 12, backgroundColor: colors.white, paddingHorizontal: space.xl, gap: space.sm },
 });
