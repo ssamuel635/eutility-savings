@@ -1,7 +1,8 @@
 {
  "decided": {
   "42fb727e0a58": "approved",
-  "12831656a958": "rejected"
+  "12831656a958": "rejected",
+  "442049bc3164": "approved"
  },
  "oem_retailers": [
   "Flo Energy Singapore Pte. Ltd.",
@@ -13,17 +14,17 @@
   "Tuas Power Supply Pte Ltd"
  ],
  "pending": {
-  "12831656a958": {
-   "id": "12831656a958",
-   "title": "Personal mobility aid catches fire at Yishun HDB block, no injuries reported",
-   "url": "https://www.straitstimes.com/singapore/personal-mobility-aid-catches-fire-at-yishun-hdb-block-no-injuries-reported",
-   "date": "2026-10-18",
-   "source": "The Straits Times",
-   "source_key": "straits-times",
+  "442049bc3164": {
+   "id": "442049bc3164",
+   "title": "Singapore and Qatar renew energy pact to strengthen LNG cooperation, move towards strategic partnership",
+   "url": "https://www.channelnewsasia.com/singapore/singapore-qatar-energy-pact-mou-6472451",
+   "date": "2026-10-19",
+   "source": "CNA",
+   "source_key": "cna",
    "kind": "news",
-   "snippet": "The incident at a staircase landing disrupted the electricity supply to two flats adjacent to it.",
+   "snippet": "The two countries also agreed to work towards elevating bilateral ties to a strategic partnership, with the Qatari Emir's future state visit to Singapore seen as an opportunity to launch it.",
    "keywords": [
-    "electricity"
+    "LNG"
    ]
   }
  }

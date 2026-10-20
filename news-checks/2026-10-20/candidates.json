@@ -1,0 +1,58 @@
+{
+ "run": "2026-10-20",
+ "collected_at": "2026-10-20T09:11:31+08:00",
+ "days": 7,
+ "sources": [
+  {
+   "source": "SP Group",
+   "kind": "official",
+   "url": "https://www.spgroup.com.sg/about-us/media-resources/news-and-media-releases",
+   "read": 10,
+   "error": ""
+  },
+  {
+   "source": "Open Electricity Market",
+   "kind": "official",
+   "url": "https://www.openelectricitymarket.sg/residential/list-of-retailers",
+   "read": 7,
+   "error": "",
+   "note": "7 retailers listed, no change"
+  },
+  {
+   "source": "The Straits Times",
+   "kind": "news",
+   "url": "https://www.straitstimes.com/news/singapore/rss.xml",
+   "read": 43,
+   "error": ""
+  },
+  {
+   "source": "The Business Times",
+   "kind": "news",
+   "url": "https://www.businesstimes.com.sg/rss/singapore",
+   "read": 52,
+   "error": ""
+  },
+  {
+   "source": "CNA",
+   "kind": "news",
+   "url": "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml&category=10416",
+   "read": 20,
+   "error": ""
+  }
+ ],
+ "items": [
+  {
+   "id": "442049bc3164",
+   "title": "Singapore and Qatar renew energy pact to strengthen LNG cooperation, move towards strategic partnership",
+   "url": "https://www.channelnewsasia.com/singapore/singapore-qatar-energy-pact-mou-6472451",
+   "date": "2026-10-19",
+   "source": "CNA",
+   "source_key": "cna",
+   "kind": "news",
+   "snippet": "The two countries also agreed to work towards elevating bilateral ties to a strategic partnership, with the Qatari Emir's future state visit to Singapore seen as an opportunity to launch it.",
+   "keywords": [
+    "LNG"
+   ]
+  }
+ ]
+}
