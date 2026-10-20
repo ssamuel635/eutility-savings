@@ -7,6 +7,7 @@ import { AVAILABLE_PLANS, getPlan, compare, fmtMoney, rateLabel, DEFAULT_CURRENT
 import * as customer from '../services/customer.js';
 import { confetti } from '../fx.js';
 import * as I from '../icons.js';
+import { enhanceSelect } from '../widgets/picker.js';
 
 initLayout();
 
@@ -98,7 +99,7 @@ function panel() {
         <div class="field"${list.length <= 1 ? ' hidden' : ''}>
           <label class="field__label" for="su-plan">Current plan</label>
           <select class="select" id="su-plan">
-            ${list.map((p) => `<option value="${p.id}"${p.id === form.currentPlanId ? ' selected' : ''}>${esc(p.name)} — ${esc(rateLabel(p))}</option>`).join('')}
+            ${list.map((p) => `<option value="${p.id}" data-sub="${esc(rateLabel(p))}"${p.id === form.currentPlanId ? ' selected' : ''}>${esc(p.name)}</option>`).join('')}
           </select>
         </div>
         ${field('su-kwh', 'Average monthly usage', form.monthlyKwh, { type: 'number', suffix: 'kWh', inputmode: 'numeric', help: 'From your SP Group bill. It doesn’t need to be exact; we confirm it from your bill.' })}
@@ -180,6 +181,7 @@ function wire() {
   card.querySelector('#su-plan')?.addEventListener('change', (e) => { form.currentPlanId = e.target.value; });
   card.querySelector('#su-consent')?.addEventListener('change', (e) => { form.consent = e.target.checked; });
   card.querySelector('#su-contact')?.addEventListener('change', (e) => { form.contactOk = e.target.checked; });
+  card.querySelectorAll('select.select').forEach(enhanceSelect); // the same branded drop-down as the calculator
 
   const drop = card.querySelector('#su-drop');
   if (drop) {

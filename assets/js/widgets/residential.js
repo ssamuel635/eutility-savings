@@ -12,6 +12,7 @@ import { openWhatsApp, openEmail, toast, setBarAction } from '../layout.js';
 import * as customer from '../services/customer.js';
 import * as crm from '../services/crm.js';
 import * as I from '../icons.js';
+import { enhanceSelect } from './picker.js';
 
 const RETAILERS = [...new Set(AVAILABLE_PLANS.map((p) => p.retailer))];
 // SP Group first — it's the default for households who have never switched.
@@ -19,6 +20,13 @@ RETAILERS.sort((a, b) => (a === 'SP Group' ? -1 : b === 'SP Group' ? 1 : a.local
 const plansOf = (r) => AVAILABLE_PLANS.filter((p) => p.retailer === r);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const ratesNote = `Estimate using retailers’ published rates as at <span class="nowrap">${RATES_DATE}</span>. Promotions not included.`;
+
+/** Second line under a retailer in the picker: SP's tariff, or how many plans a retailer offers. */
+function retailerSub(r) {
+  const ps = plansOf(r);
+  if (r === 'SP Group') return `Regulated tariff · ${TARIFF}¢/kWh`;
+  return `${ps.length} plan${ps.length === 1 ? '' : 's'}`;
+}
 
 /** Pick the most likely plan when a user knows their retailer but not their plan. */
 function defaultPlanFor(retailer) {
@@ -43,7 +51,9 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
     ${bare ? '' : `<h2 class="calc-card__title" id="${id}-title">${full ? 'Your details' : 'Check your savings'}</h2>`}
 
     <div class="range-wrap">
-      <label class="field__label" for="${id}-kwh"><span>Monthly electricity usage <span class="tip" tabindex="0" data-tip="kWh (kilowatt-hours) are the units of electricity on your bill. Your SP Group bill shows how many you used last month.">?</span></span></label>
+      <div class="field__label tip-wrap"><label for="${id}-kwh">Monthly electricity usage</label>
+        <button type="button" class="tip" aria-label="What is kWh?" aria-expanded="false" aria-controls="${id}-kwh-tip">?</button>
+        <span class="tip-pop" id="${id}-kwh-tip" role="tooltip" hidden>kWh (kilowatt-hours) are the units of electricity on your bill. Your SP Group bill shows how many you used last month.</span></div>
       <div class="presets" role="group" aria-label="Not sure? Pick your home type">
         ${CONFIG.homePresets.map((p) => `<button type="button" class="preset" data-kwh="${p.kwh}" aria-pressed="false">${p.label}</button>`).join('')}
       </div>
@@ -63,7 +73,7 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
     <div class="field">
       <label class="field__label" for="${id}-retailer">Current retailer</label>
       <select class="select" id="${id}-retailer">
-        ${RETAILERS.map((r) => `<option value="${esc(r)}"${r === startRetailer ? ' selected' : ''}>${esc(r === 'SP Group' ? 'SP Group (never switched)' : r)}</option>`).join('')}
+        ${RETAILERS.map((r) => `<option value="${esc(r)}" data-sub="${esc(retailerSub(r))}"${r === startRetailer ? ' selected' : ''}>${esc(r === 'SP Group' ? 'SP Group (never switched)' : r)}</option>`).join('')}
       </select>
     </div>
     <div class="field" id="${id}-plan-field">
@@ -151,6 +161,25 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
     glide = requestAnimationFrame(step);
   }));
   range.addEventListener('input', () => setKwh(Number(range.value), 'range'));
+
+  // The "?" beside usage: opens on tap, click, hover or keyboard focus; closes on
+  // Escape, moving away, or a tap anywhere else. (Tapping it again keeps it open.)
+  const tip = root.querySelector('.tip');
+  const tipWrap = tip.closest('.tip-wrap');
+  const tipPop = tipWrap.querySelector('.tip-pop');
+  const showTip = (on) => {
+    tipPop.hidden = !on;
+    tip.setAttribute('aria-expanded', String(on));
+    if (on) tipPop.style.setProperty('--tip-x', `${Math.min(tip.offsetLeft + 4, tipPop.offsetWidth - 18)}px`); // arrow under the "?"
+  };
+  tip.addEventListener('click', () => showTip(true));
+  tip.addEventListener('focus', () => showTip(true));
+  tip.addEventListener('blur', () => showTip(false));
+  tip.addEventListener('mouseenter', () => showTip(true));
+  tipWrap.addEventListener('mouseleave', () => { if (document.activeElement !== tip) showTip(false); });
+  tip.addEventListener('keydown', (e) => { if (e.key === 'Escape') showTip(false); });
+  document.addEventListener('click', (e) => { if (!tipWrap.contains(e.target)) showTip(false); });
+
   exact?.addEventListener('input', () => {
     const v = Number(exact.value);
     const ok = exact.value.trim() !== '' && Number.isFinite(v) && v >= CONFIG.minKwh && v <= 5000;
@@ -165,12 +194,14 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
     const ps = plansOf(retailer);
     const def = defaultPlanFor(retailer);
     planSel.innerHTML = ps.map((p) => {
-      const tag = p.id === def && ps.length > 1 ? ' — assumed if unsure' : '';
-      return `<option value="${p.id}"${p.id === (selectedId || def) ? ' selected' : ''}>${esc(p.name)} — ${esc(rateLabel(p))}${tag}</option>`;
+      const tag = p.id === def && ps.length > 1 ? 'Most common' : '';
+      return `<option value="${p.id}" data-sub="${esc(`${rateLabel(p)} · ${contractLabel(p.contractMonths)}`)}"${tag ? ` data-tag="${tag}"` : ''}${p.id === (selectedId || def) ? ' selected' : ''}>${esc(p.name)}</option>`;
     }).join('');
     $(`#${id}-plan-field`).hidden = ps.length <= 1;
   }
   fillPlans(startRetailer, start.currentId);
+  enhanceSelect(retailerSel);
+  enhanceSelect(planSel);
   updateLive();
   retailerSel.addEventListener('change', () => { fillPlans(retailerSel.value); updateLive(); });
   planSel.addEventListener('change', updateLive);
