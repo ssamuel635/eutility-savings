@@ -156,7 +156,7 @@ export default function Rewards() {
 
 const s = StyleSheet.create({
   rowBetween: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', gap: space.md },
-  balance: { fontFamily: fonts.head, fontSize: 36, lineHeight: 42, color: colors.ink, letterSpacing: -0.8 },
+  balance: { fontFamily: fonts.head, fontSize: 36, lineHeight: 42, color: colors.heading, letterSpacing: -0.8 },
   balanceUnit: { fontFamily: fonts.head, fontSize: 16, color: colors.orangeAA, letterSpacing: 0 },
   code: { fontFamily: fonts.head, fontSize: 24, lineHeight: 30, color: colors.navy, letterSpacing: 3 },
   track: { height: 8, borderRadius: 4, backgroundColor: colors.cloud, overflow: 'hidden' },

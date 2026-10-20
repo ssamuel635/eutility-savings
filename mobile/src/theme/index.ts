@@ -4,7 +4,8 @@
 export const colors = {
   blue: '#007BB8',        // Star Command Blue — buttons, links, active tab, hero (white on it: 4.6:1)
   deep: '#00689C',        // pressed / selected: a deeper Star Command, never navy
-  ink: '#111827',         // headlines: near-black for contrast
+  heading: '#294671',     // headings and big numbers: the Eutility navy (10:1 on white), ties every page to the brand
+  ink: '#111827',         // strong labels and values: near-black for contrast
   inkSoft: '#374151',     // body copy
   inkMuted: '#5B6472',    // captions, helper text
   orange: '#F57C00',      // Energy Orange — accents (large only)

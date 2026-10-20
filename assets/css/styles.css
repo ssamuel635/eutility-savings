@@ -1575,11 +1575,13 @@ details.disclosure > summary::-webkit-details-marker { display: none; }
   --blue-aa: #007bb8;       /* 4.6:1 with white */
   --deep: #00689c;          /* pressed / hover: a deeper Star Command, not navy */
   --blue-tint: #e6f4fb;
-  --heading: #111827;
+  /* Headings and big numbers: the Eutility navy (10:1 on white), as in the app.
+     Body copy stays dark grey (--slate) for comfortable reading; blue is for things you tap. */
+  --heading: #294671;
   --text: #111827;
   --slate: #3f4652;         /* body copy: 9.6:1 on white */
   --muted: #5b6472;         /* captions: 6.1:1 */
-  --ink: #111827;
+  --ink: #294671;
   --ink-soft: #374151;
   --ink-muted: #5b6472;
   --eyebrow-ink: #006a9e;
@@ -1837,6 +1839,14 @@ main > section:first-of-type::before, main > section:first-of-type::after { cont
 /* ── Rewards: points panel and the catalogue ── */
 .rewards-panel__pts { font-family: var(--font-head); font-weight: 700; font-size: 52px; line-height: 1; letter-spacing: -0.03em; }
 .rewards-panel__pts span { font-size: 20px; color: #FFB35C; letter-spacing: 0; }
+/* Points card (20 Oct): white with a fine border, like the app, instead of a navy slab
+   that "doesn't feel legit". Navy for the number, blue progress, orange "pts". */
+.rewards-panel { background: #fff; color: var(--slate); border: 1px solid var(--border); }
+.rewards-panel h2, .rewards-panel .h3 { color: var(--heading); }
+.rewards-panel__pts { color: var(--heading); }
+.rewards-panel__pts span { color: var(--orange-aa, #a45400); }
+.rewards-panel .progress__track { background: var(--cloud); }
+.rewards-panel .progress__fill { background: var(--blue); }
 .catalogue { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 @media (min-width: 768px) { .catalogue { grid-template-columns: repeat(4, 1fr); gap: var(--s5); } }
 .reward-item { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: border-color .2s; }

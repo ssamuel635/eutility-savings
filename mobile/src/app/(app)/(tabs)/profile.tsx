@@ -120,6 +120,6 @@ const s = StyleSheet.create({
   initials: { fontFamily: fonts.head, fontSize: 28, lineHeight: 34, color: colors.navy },
   stats: { flex: 1, flexDirection: 'row' },
   stat: { flex: 1, alignItems: 'center', gap: 2, paddingHorizontal: 2 },
-  statValue: { fontFamily: fonts.head, fontSize: 19, lineHeight: 24, color: colors.ink },
+  statValue: { fontFamily: fonts.head, fontSize: 19, lineHeight: 24, color: colors.heading },
   actions: { flexDirection: 'row', gap: space.sm },
 });

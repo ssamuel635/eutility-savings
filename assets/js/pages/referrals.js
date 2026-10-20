@@ -18,12 +18,12 @@ const pts = rewards.fmtPts;
 const next = status.next;
 document.getElementById('leaderboard').innerHTML = `
   <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
-    <h2 class="h3" style="display:flex;align-items:center;gap:10px"><span style="width:26px;color:#fff">${I.trophy}</span>${customer.firstName() ? `${esc(customer.firstName())}, your points` : 'Your points'}</h2>
-    <span class="small" style="color:#fff">${status.switched} friend${status.switched === 1 ? '' : 's'} switched</span>
+    <h2 class="h3" style="display:flex;align-items:center;gap:10px"><span style="width:26px;color:var(--blue)">${I.trophy}</span>${customer.firstName() ? `${esc(customer.firstName())}, your points` : 'Your points'}</h2>
+    <span class="small">${status.switched} friend${status.switched === 1 ? '' : 's'} switched</span>
   </div>
   <p class="rewards-panel__pts">${status.points.toLocaleString('en-SG')}<span> pts</span></p>
   <div class="progress"><div class="progress__track"><div class="progress__fill" id="prog-hero"></div></div></div>
-  <p class="small" style="color:#fff">${next ? `Next up: ${esc(next.name)}, ${pts(next.points - status.points)} to go. Each friend who switches earns you ${pts(CONFIG.rewards.pointsPerSwitch)}.` : 'You can redeem anything in the catalogue.'}</p>`;
+  <p class="small">${next ? `Next up: ${esc(next.name)}, ${pts(next.points - status.points)} to go. Each friend who switches earns you ${pts(CONFIG.rewards.pointsPerSwitch)}.` : 'You can redeem anything in the catalogue.'}</p>`;
 document.getElementById('leaderboard').classList.replace('board-hero', 'rewards-panel');
 
 // ── Your status, progress and link ──
