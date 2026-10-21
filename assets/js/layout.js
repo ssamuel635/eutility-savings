@@ -90,7 +90,7 @@ function header(page) {
           : `<a href="login.html"${page === 'login' ? ' aria-current="page"' : ''}><span class="ico-tile ico-tile--blue">${I.login}</span><span><strong>Log in</strong></span></a><a href="signup.html"${page === 'signup' ? ' aria-current="page"' : ''}><span class="ico-tile ico-tile--green">${I.userPlus}</span><span><strong>Sign up</strong></span></a>`}
       </div>
       <div class="drawer__actions">
-        <a class="btn btn--neutral btn--block" href="${waLink()}" data-wa>${I.chat}<span>Chat on WhatsApp</span></a>
+        <a class="btn btn--wa btn--block" href="${waLink()}" data-wa>${I.chat}<span>Chat on WhatsApp</span></a>
       </div>
     </div>
   </div>`;
@@ -129,7 +129,7 @@ function footer() {
         <div class="stack" style="--stack:14px">
           <h3>Talk to us</h3>
           <p>Got a question? Message us and someone from our Singapore office replies.</p>
-          <a class="btn btn--white" href="${waLink()}" data-wa>${I.chat}<span>Chat on WhatsApp</span></a>
+          <a class="btn btn--wa" href="${waLink()}" data-wa>${I.chat}<span>Chat on WhatsApp</span></a>
           <a class="btn btn--ghost-light" href="${mailLink()}" data-mail>${I.mail}<span>Email us instead</span></a>
           <p><a href="mailto:${CONFIG.email}">${CONFIG.email}</a><br><a href="tel:${CONFIG.phone.replace(/\s/g, '')}">${CONFIG.phone}</a></p>
         </div>
@@ -157,7 +157,7 @@ function footer() {
       <h2 class="h3" id="wa-modal-title">Send this to Eutility</h2>
       <p class="small">Scan with your phone camera to open the chat with your message ready to send, or email the same details instead.</p>
       <div class="qr" id="wa-qr" role="img" aria-label="QR code linking to Eutility on WhatsApp"></div>
-      <a class="btn btn--block" id="wa-open" href="#" target="_blank" rel="noopener">${I.chat}<span>Open WhatsApp on this computer</span></a>
+      <a class="btn btn--wa btn--block" id="wa-open" href="#" target="_blank" rel="noopener">${I.chat}<span>Open WhatsApp on this computer</span></a>
       <a class="btn btn--neutral btn--block" id="wa-mail" href="#">${I.mail}<span>Email us instead</span></a>
       <p class="small">We reply from ${CONFIG.email} during Singapore business hours.</p>
     </div>

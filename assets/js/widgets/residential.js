@@ -374,7 +374,7 @@ function goodNewsActions(inputs, current, params) {
   const msg = `Hi Eutility, your calculator says I'm already on one of the cheapest plans (${current.retailer} ${current.name}, about ${inputs.kwh} kWh a month). Are there any promotions I should know about?`;
   return `
     <div class="btn-row">
-      <a class="btn" href="#" data-wa data-wa-message="${esc(msg)}">${I.chat}<span>Ask about promotions</span></a>
+      <a class="btn btn--wa" href="#" data-wa data-wa-message="${esc(msg)}">${I.chat}<span>Ask about promotions</span></a>
       ${params ? `<a class="btn btn--secondary" href="calculator.html?${params}">See the full comparison</a>` : ''}
     </div>`;
 }
@@ -401,7 +401,7 @@ async function renderCompact(el, res, inputs) {
         ${freeMonths(res.best) ? `<span class="free-months">That’s about ${freeMonths(res.best)} of electricity bills</span>` : ''}
       </div>
       <div class="btn-row">
-        <button class="btn btn--urgent" type="button" data-switch data-wa-switch>${I.chat}<span>Switch on WhatsApp</span></button>
+        <button class="btn btn--wa" type="button" data-switch data-wa-switch>${I.chat}<span>Switch on WhatsApp</span></button>
         <a class="btn btn--secondary" href="calculator.html?${params}">See the full comparison</a>
       </div>
       <p class="small">No account needed. <a href="signup.html?plan=${encodeURIComponent(res.best.plan.id)}&kwh=${inputs.kwh}">Save this result to an account</a> if you’d like to come back to it.</p>
@@ -446,7 +446,7 @@ function renderFull(el, res, inputs) {
           <p class="lead">Try a longer contract length or turn off “Green plans only”.</p>
           <div class="btn-row">
             <button class="btn" type="button" data-widen>Show all plans</button>
-            <a class="btn btn--secondary" href="#" data-wa data-wa-message="Hi Eutility, I'm looking for an electricity plan and have a question.">${I.chat}<span>Ask us on WhatsApp</span></a>
+            <a class="btn btn--wa-outline" href="#" data-wa data-wa-message="Hi Eutility, I'm looking for an electricity plan and have a question.">${I.chat}<span>Ask us on WhatsApp</span></a>
           </div>
         </div>` : alreadyBest ? `
         <div class="stack" style="--stack:12px">
@@ -477,7 +477,7 @@ function renderFull(el, res, inputs) {
           </div>
         </div>
         <div class="btn-row">
-          <button class="btn btn--urgent" type="button" data-switch data-wa-switch>${I.chat}<span>Switch on WhatsApp</span></button>
+          <button class="btn btn--wa" type="button" data-switch data-wa-switch>${I.chat}<span>Switch on WhatsApp</span></button>
           <button class="btn btn--secondary" type="button" data-mail-switch>${I.mail}<span>Switch by email</span></button>
         </div>
         <p class="res-actions-note">No account needed. We confirm the plan with you before anything is submitted.${customer.isSignedIn() ? ' · Saved to <a href="account.html">your account</a>' : ` · <a href="signup.html?plan=${encodeURIComponent(b.id)}&kwh=${inputs.kwh}">Save this to an account</a>`}</p>

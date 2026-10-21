@@ -177,8 +177,11 @@ ul { margin: 0; padding: 0; }
 .btn--orange:hover { --btn-bg: #ff8a14; --btn-fg: var(--ink); }
 .btn--urgent { --btn-bg: var(--blue); }
 .btn--urgent:hover { --btn-bg: var(--deep); }
-.btn--wa { --btn-bg: #fff; --btn-fg: var(--green-aa); --btn-bd: var(--green); }
-.btn--wa:hover { --btn-bg: var(--green-tint); --btn-fg: var(--green-aa); }
+/* WhatsApp buttons (see "WhatsApp green" at the end of the file) */
+.btn--wa { --btn-bg: #25D366; --btn-fg: #294671; --btn-bd: #25D366; }
+.btn--wa:hover { --btn-bg: #4ade85; --btn-fg: #294671; --btn-bd: #4ade85; }
+.btn--wa-outline { --btn-bg: #fff; --btn-fg: #294671; --btn-bd: #25D366; }
+.btn--wa-outline:hover { --btn-bg: #e9faf0; --btn-fg: #294671; }
 .btn--neutral { --btn-bg: #fff; --btn-fg: var(--deep); --btn-bd: var(--border); }
 .btn--neutral:hover { --btn-bg: var(--cloud); --btn-fg: var(--deep); }
 .btn--pulse { animation: pulse 1.8s var(--ease) infinite; }
@@ -2012,3 +2015,17 @@ body { line-height: 1.65; }
 .news-card:hover { border-color: var(--blue); }
 .news-card .news-title { font-size: 16px; }
 .news-empty { display: grid; gap: 8px; }
+
+/* WhatsApp green (21 Oct): every button that opens WhatsApp is WhatsApp green
+   #25D366 with navy text (4.8:1; white on this green is only 2:1). The one
+   colour outside the logo palette, by the owner's choice, so the WhatsApp
+   action is recognisable at a glance. Classes: .btn--wa, .btn--wa-outline. */
+@media (max-width: 1023px) {
+  .wa-bar__main, .wa-bar.is-action .wa-bar__main { background: #25D366; color: #294671 !important; }
+}
+.btn--wa.btn--pulse { animation-name: pulse-wa; }
+@keyframes pulse-wa {
+  0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, .45); }
+  70% { box-shadow: 0 0 0 14px rgba(37, 211, 102, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}

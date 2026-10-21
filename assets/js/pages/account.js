@@ -157,7 +157,7 @@ function dashboard() {
       <div class="dash-card">
         <p>We can check your contract dates, confirm a plan, or just answer a question.</p>
         <div class="btn-row">
-          <button class="btn" type="button" data-wa-help>${I.chat}<span>Chat on WhatsApp</span></button>
+          <button class="btn btn--wa" type="button" data-wa-help>${I.chat}<span>Chat on WhatsApp</span></button>
           <a class="btn btn--secondary" href="faq.html">Read the FAQ</a>
         </div>
       </div>`,

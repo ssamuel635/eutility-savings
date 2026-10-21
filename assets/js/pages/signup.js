@@ -316,7 +316,7 @@ function finish() {
         <div><span>Bill</span><span>${bill ? esc(bill.name) : 'Not uploaded yet'}</span></div>
       </div>
       <div class="stack" style="--stack:12px">
-        <button class="btn btn--block" type="button" data-wa-finish>${I.chat}<span>Send my details on WhatsApp</span></button>
+        <button class="btn btn--wa btn--block" type="button" data-wa-finish>${I.chat}<span>Send my details on WhatsApp</span></button>
         <a class="btn btn--secondary btn--block" href="account.html">Go to my account</a>
       </div>
       <p class="small">Next: send us your details on WhatsApp. We check your bill, confirm the plan with you, then help you sign up with the retailer. Your supply is never interrupted.</p>
