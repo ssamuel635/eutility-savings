@@ -119,7 +119,7 @@ export const FAQ = [
     items: [
       {
         q: 'Can Eutility help my business?',
-        a: '<p>If you run a small business, yes. Use the <a href="calculator.html#sme">SME calculator</a> to add each of your sites. Combining usage across locations can unlock a better aggregated rate, and a consultant then confirms a quote.</p>',
+        a: '<p>If you run a small business, yes. Message us on <a href="#" data-wa data-wa-message="Hi Eutility, I’d like a business electricity quote.">WhatsApp</a> or call <a href="tel:+6597908347">+65 9790 8347</a> and a consultant will quote your sites. Combining usage across locations can unlock a better rate.</p>',
       },
       {
         q: 'Do you only do electricity?',

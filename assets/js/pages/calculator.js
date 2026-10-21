@@ -32,7 +32,7 @@ function setMode(mode, push) {
   panelRes.hidden = sme;
   panelSme.hidden = !sme;
   lead.textContent = sme
-    ? 'Add each of your business sites. We combine the usage and ask retailers for one aggregated rate.'
+    ? 'For businesses, a consultant quotes all your sites together.'
     : `Compare your current plan against ${PLAN_COUNT} residential plans from ${RETAILER_COUNT} Singapore retailers.`;
   // The phone bar's "Switch & save" belongs to the household result, not the SME tab.
   if (sme) pauseBarAction(); else resumeBarAction();

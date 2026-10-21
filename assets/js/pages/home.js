@@ -1,5 +1,6 @@
 import { initLayout, observeReveals, pauseBarAction, resumeBarAction, photoFallbacks } from '../layout.js';
 import { mountResidential } from '../widgets/residential.js';
+import { mountSme } from '../widgets/sme.js';
 import { homeStories, storyCard } from '../widgets/home-story.js';
 import { MARKET_PLANS, fmtMoney, PLAN_COUNT, RETAILER_COUNT, TARIFF, TARIFF_PERIOD } from '../calc.js';
 import { CONFIG } from '../config.js';
@@ -15,6 +16,7 @@ initLayout();
 
 // Hero calculator (Residential) and the SME switch
 mountResidential(document.getElementById('home-calc'), { mode: 'compact', bare: true });
+mountSme(document.getElementById('home-sme'), { bare: true });
 document.querySelectorAll('input[name="home-mode"]').forEach((r) => r.addEventListener('change', () => {
   const sme = r.value === 'sme' && r.checked;
   const show = document.getElementById(sme ? 'home-sme' : 'home-calc');
@@ -40,7 +42,7 @@ const VALUE = [
   { icon: 'compare', title: 'Every plan, side by side', text: `${PLAN_COUNT} home plans from ${RETAILER_COUNT} retailers, priced for your usage.`, href: 'calculator.html', link: 'Check my savings' },
   { icon: 'shield', title: 'Independent, not a retailer', text: 'We have no plan of our own to sell. If yours already wins, we say so.', href: 'about.html', link: 'About Eutility' },
   { icon: 'chat', title: 'We do the switching', text: 'Send your bill on WhatsApp. We confirm the plan with you and sign you up.', href: 'how-it-works.html', link: 'How it works' },
-  { icon: 'bolt', title: 'Running a business?', text: 'Add your sites and we ask retailers for one aggregated rate.', href: 'calculator.html#sme', link: 'For businesses' },
+  { icon: 'bolt', title: 'Running a business?', text: 'Message or call us and a consultant quotes your sites.', href: 'calculator.html#sme', link: 'For businesses' },
 ];
 document.getElementById('why-list').innerHTML = VALUE.map((v) => `
   <li>${I[v.icon]}<strong>${v.title}</strong><p>${v.text}</p><a class="link-arrow" href="${v.href}">${v.link}</a></li>`).join('');
