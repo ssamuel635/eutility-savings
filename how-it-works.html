@@ -57,15 +57,18 @@
           <p class="lead">Send us any message and tap <strong>Check my savings</strong>. Coming from this website or our app? Your details are already in the message, so you skip straight to your results.</p>
           <a class="btn btn--wa" href="#" data-wa data-wa-message="Hi Eutility, I'd like to check my electricity savings.">Start on WhatsApp</a>
         </div>
-        <div class="journey__visual" data-inview>
-          <div class="phone" aria-hidden="true">
-            <div class="phone__screen">
-              <div class="phone__bar"><span class="avatar" data-logo></span><span>Eutility<small>Usually replies in seconds</small></span></div>
-              <div class="chat">
-                <div class="bubble bubble--me">Hi</div>
-                <div class="bubble">Hello! 👋 Welcome to Eutility. I can help you check if you’re overpaying for electricity. It takes about 60 seconds.</div>
-                <div class="chat-btns"><span class="is-primary">Check my savings</span><span>How it works</span><span>Talk to someone</span></div>
+        <div class="journey__visual" data-inview id="step1">
+          <div class="phone wac" role="img" aria-label="Example WhatsApp chat: you say hi, and Eutility replies with buttons to check your savings, see how it works or talk to someone.">
+            <div class="phone__screen wac__screen" aria-hidden="true">
+              <div class="wac__status"><span>10:02</span><i class="wac__sys"></i></div>
+              <div class="wac__head"><i class="wac__back"></i><span class="wac__avatar" data-logo></span><span class="wac__who"><b>Eutility</b><small>online</small></span><i class="wac__call"></i></div>
+              <div class="wac__chat">
+                <div class="wac__day">Today</div>
+                <div class="wac-msg wac-msg--out">Hi Eutility, I’d like to check my electricity savings.<span class="wac-meta">10:02<i class="wac-tick"></i></span></div>
+                <div class="wac-msg wac-msg--in"><span class="wac-text">Hello! 👋 Welcome to Eutility. I can help you check if you’re overpaying for electricity. It takes about 60 seconds.<span class="wac-meta">10:02</span></span><span class="wac-btns"><span>Check my savings</span><span>How it works</span><span>Talk to someone</span></span></div>
+                <div class="wac__typing"><i></i><i></i><i></i></div>
               </div>
+              <div class="wac__input"><span class="wac__field"><i class="wac__emoji"></i>Message<i class="wac__clip"></i><i class="wac__cam"></i></span><i class="wac__mic"></i></div>
             </div>
           </div>
         </div>
@@ -78,12 +81,16 @@
           <p class="lead">Snap your latest electricity bill and send it in the chat. The assistant reads your usage, your provider and your rate, and shows you each step as it works.</p>
           <p class="small">No bill handy? Tap <strong>I don’t have my bill</strong>, type roughly how much you use, and pick your provider. We use your bill only to prepare your estimate and your switch. See our <a href="legal.html#privacy">Privacy Statement</a>.</p>
         </div>
-        <div class="journey__visual" data-inview>
-          <div class="phone" aria-hidden="true">
-            <div class="phone__screen">
-              <div class="phone__bar"><span class="avatar" data-logo></span><span>Eutility<small>Usually replies in seconds</small></span></div>
-              <div class="chat">
-                <div class="bubble bubble--me bubble--photo">
+        <div class="journey__visual" data-inview id="step2">
+          <div class="phone wac" role="img" aria-label="Example WhatsApp chat: you send a photo of your bill, and the assistant checks your rate, compares every plan and works out your savings.">
+            <div class="phone__screen wac__screen" aria-hidden="true">
+              <div class="wac__status"><span>10:02</span><i class="wac__sys"></i></div>
+              <div class="wac__head"><i class="wac__back"></i><span class="wac__avatar" data-logo></span><span class="wac__who"><b>Eutility</b><small>online</small></span><i class="wac__call"></i></div>
+              <div class="wac__chat">
+                <div class="wac__day">Today</div>
+                <div class="wac-msg wac-msg--out">Check my savings<span class="wac-meta">10:02<i class="wac-tick"></i></span></div>
+                <div class="wac-msg wac-msg--in"><span class="wac-text">Great! Please send a photo of your latest electricity bill 📸<span class="wac-meta">10:02</span></span><span class="wac-btns"><span>I don’t have my bill</span></span></div>
+                <div class="wac-msg wac-msg--out wac-msg--photo">
                   <div class="bill">
                     <div class="bill__head"><span>Your bill</span><span>Example</span></div>
                     <div class="bill__line bill__line--w80"></div>
@@ -94,11 +101,14 @@
                     <div class="bill__hl"><span>Rate</span><span data-tariff>—</span></div>
                     <div class="bill__scan"></div>
                   </div>
+                  <span class="wac-meta">10:03<i class="wac-tick"></i></span>
                 </div>
-                <div class="bubble bubble--step">1 of 3: Checking your current rate</div>
-                <div class="bubble bubble--step">2 of 3: Comparing <span data-plan-count>all</span> plans</div>
-                <div class="bubble bubble--step">3 of 3: Calculating your savings</div>
+                <div class="wac-msg wac-msg--in" data-quick><span class="wac-text">⏳ 1 of 3: Checking your current rate<span class="wac-meta">10:03</span></span></div>
+                <div class="wac-msg wac-msg--in" data-quick><span class="wac-text">⏳ 2 of 3: Comparing <span data-plan-count>all</span> plans<span class="wac-meta">10:03</span></span></div>
+                <div class="wac-msg wac-msg--in" data-quick><span class="wac-text">⏳ 3 of 3: Calculating your savings<span class="wac-meta">10:03</span></span></div>
+                <div class="wac__typing"><i></i><i></i><i></i></div>
               </div>
+              <div class="wac__input"><span class="wac__field"><i class="wac__emoji"></i>Message<i class="wac__clip"></i><i class="wac__cam"></i></span><i class="wac__mic"></i></div>
             </div>
           </div>
         </div>
@@ -112,20 +122,17 @@
           <a class="link-arrow" href="calculator.html">Or try the calculator here</a>
         </div>
         <div class="journey__visual" data-inview id="step3">
-          <div class="phone">
-            <div class="phone__screen">
-              <div class="phone__bar" aria-hidden="true"><span class="avatar" data-logo></span><span>Eutility<small>Usually replies in seconds</small></span></div>
-              <div class="chat">
-                <div class="bubble bubble--me" aria-hidden="true">Check my savings</div>
-                <div class="bubble bubble--card report" aria-label="Example savings report">
-                  <p class="report__head">Your savings report</p>
-                  <div class="report__row"><span>Current</span><strong data-current>SP Group</strong></div>
-                  <div class="report__row"><span>Recommended</span><strong data-recommended>—</strong></div>
-                  <div class="report__save"><span>You save</span><strong>S$<span data-count>0</span><small> a year</small></strong><span class="small" data-monthly></span></div>
-                  <div class="chat-btns"><span class="is-primary">Switch now</span><span>Show more plans</span><span>Not now</span></div>
-                  <p class="small" data-example></p>
-                </div>
+          <div class="phone wac" role="img" aria-label="Example WhatsApp chat: your savings report">
+            <div class="phone__screen wac__screen" aria-hidden="true">
+              <div class="wac__status"><span>10:02</span><i class="wac__sys"></i></div>
+              <div class="wac__head"><i class="wac__back"></i><span class="wac__avatar" data-logo></span><span class="wac__who"><b>Eutility</b><small>online</small></span><i class="wac__call"></i></div>
+              <div class="wac__chat">
+                <div class="wac__day">Today</div>
+                <div class="wac-msg wac-msg--in" data-quick><span class="wac-text">All done! Here’s what I found 👇<span class="wac-meta">10:03</span></span></div>
+                <div class="wac-msg wac-msg--in"><span class="wac-text"><b>📊 Your savings report</b><br>Current: <b data-current>SP Group</b><br>Recommended: <b data-recommended>—</b><br><br>You save <b class="wac-save">S$<span data-count>0</span> a year</b><br><span data-monthly></span><br><br><span class="wac-small" data-example></span><span class="wac-meta">10:03</span></span><span class="wac-btns"><span>Switch now</span><span>Show more plans</span><span>Not now</span></span></div>
+                <div class="wac__typing"><i></i><i></i><i></i></div>
               </div>
+              <div class="wac__input"><span class="wac__field"><i class="wac__emoji"></i>Message<i class="wac__clip"></i><i class="wac__cam"></i></span><i class="wac__mic"></i></div>
             </div>
           </div>
         </div>
@@ -143,14 +150,20 @@
           </div>
         </div>
         <div class="journey__visual" data-inview id="step4">
-          <div class="phone" aria-hidden="true">
-            <div class="phone__screen">
-              <div class="phone__bar"><span class="avatar" data-logo></span><span>Eutility<small>Usually replies in seconds</small></span></div>
-              <div class="chat">
-                <div class="bubble">Your contract is ready! 📄 Please review and sign below.</div>
-                <div class="chat-btns"><span class="is-primary">View &amp; sign contract</span><span>I have questions</span></div>
-                <div class="bubble">Contract signed. ✅ We’re submitting your switch now. We’ll keep you updated, so there’s nothing else you need to do.</div>
+          <div class="phone wac" role="img" aria-label="Example WhatsApp chat: you tap Switch now, give your details, and sign your contract in the chat.">
+            <div class="phone__screen wac__screen" aria-hidden="true">
+              <div class="wac__status"><span>10:02</span><i class="wac__sys"></i></div>
+              <div class="wac__head"><i class="wac__back"></i><span class="wac__avatar" data-logo></span><span class="wac__who"><b>Eutility</b><small>online</small></span><i class="wac__call"></i></div>
+              <div class="wac__chat">
+                <div class="wac__day">Today</div>
+                <div class="wac-msg wac-msg--out">Switch now<span class="wac-meta">10:04<i class="wac-tick"></i></span></div>
+                <div class="wac-msg wac-msg--in"><span class="wac-text">Great choice! To prepare your contract, please send your full name, NRIC or FIN, and email.<span class="wac-meta">10:04</span></span></div>
+                <div class="wac-msg wac-msg--out">Mei Ling Tan, S••••567D, meiling@example.com<span class="wac-meta">10:05<i class="wac-tick"></i></span></div>
+                <div class="wac-msg wac-msg--in"><span class="wac-text">Your contract is ready! 📄 Please review and sign below.<span class="wac-meta">10:05</span></span><span class="wac-btns wac-btns--cta"><span>View &amp; sign contract</span></span></div>
+                <div class="wac-msg wac-msg--in"><span class="wac-text">Contract signed ✅ We’re submitting your switch now. We’ll keep you updated, so there’s nothing else you need to do.<span class="wac-meta">10:07</span></span></div>
+                <div class="wac__typing"><i></i><i></i><i></i></div>
               </div>
+              <div class="wac__input"><span class="wac__field"><i class="wac__emoji"></i>Message<i class="wac__clip"></i><i class="wac__cam"></i></span><i class="wac__mic"></i></div>
             </div>
           </div>
         </div>
