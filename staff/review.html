@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en-SG">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Review waiting items — Eutility staff</title>
+<link rel="icon" href="/assets/img/favicon-64.png" type="image/png">
+<link rel="stylesheet" href="/staff/review.css">
+<script type="module" src="/staff/review.js"></script>
+</head>
+<body>
+<main>
+  <header class="top">
+    <img src="/assets/img/eutility-logo.png" alt="Eutility" width="123" height="44">
+    <p class="who" id="who"></p>
+  </header>
+  <h1>Review waiting items</h1>
+  <p class="sub">Nothing goes on the website until it’s approved here. Approve or reject each headline, then press <b>Save and publish</b>. Headlines you leave undecided keep waiting for next time. The site updates a few minutes after you publish.</p>
+
+  <p class="note" id="status" role="status">Loading…</p>
+
+  <section id="news" hidden>
+    <h2>Market news <span class="count" id="news-count"></span></h2>
+    <p class="blurb" id="news-blurb"></p>
+    <ol class="items" id="news-items"></ol>
+    <details class="sources"><summary>Sources checked</summary><ul id="news-sources"></ul></details>
+  </section>
+
+  <section>
+    <h2>Price check changes</h2>
+    <p class="blurb">Still approved in the weekly report (price-checks/&lt;date&gt;/report.html) on the office PC. They’ll appear here once that check runs in the cloud.</p>
+  </section>
+
+  <section id="runs" hidden>
+    <h2>Recent publishing</h2>
+    <ul class="runs" id="runs-list"></ul>
+  </section>
+
+  <div class="bar" id="bar" hidden>
+    <b id="tally"></b>
+    <button type="button" id="publish" disabled>Save and publish</button>
+    <span id="msg" role="status"></span>
+  </div>
+</main>
+</body>
+</html>

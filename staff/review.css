@@ -1,0 +1,44 @@
+/* Staff Review page. Brand: white, Star Command Blue + navy, square cards, no shadows, Montserrat. */
+@font-face { font-family: 'Montserrat'; src: url('/assets/fonts/montserrat-var.woff2') format('woff2'); font-weight: 100 900; font-display: swap; }
+:root { --ink: #294671; --text: #212121; --muted: #5b6472; --line: #e3e1dc; --bg: #ffffff; --soft: #f6f8fb; --blue: #007bb8; --ok: #027a48; --ok-tint: #ecfdf3; --err: #b42318; --err-tint: #fef3f2; }
+* { box-sizing: border-box; }
+body { margin: 0; font: 15px/1.5 Montserrat, system-ui, -apple-system, 'Segoe UI', sans-serif; color: var(--text); background: var(--bg); }
+main { max-width: 960px; margin: 0 auto; padding: 24px 16px 120px; }
+.top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+.top img { height: 36px; width: auto; }
+.who { margin: 0; font-size: 13px; color: var(--muted); }
+h1 { font-size: 26px; color: var(--ink); margin: 0 0 6px; }
+h2 { font-size: 19px; color: var(--ink); margin: 0 0 6px; }
+.sub, .blurb { color: var(--muted); margin: 0 0 16px; }
+a { color: var(--blue); }
+section { border: 1px solid var(--line); padding: 18px; margin: 16px 0; }
+.count { font-size: 13px; font-weight: 600; color: var(--muted); border: 1px solid var(--line); padding: 1px 9px; }
+.note { background: var(--soft); border: 1px solid var(--line); padding: 10px 14px; margin: 0 0 16px; }
+.note:empty { display: none; }
+.note.is-err { background: var(--err-tint); border-color: #fecdca; color: var(--err); }
+.note.is-ok { background: var(--ok-tint); border-color: #abefc6; color: var(--ok); }
+.items { list-style: none; margin: 0; padding: 0; }
+.item { display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; padding: 14px 0; border-top: 1px solid var(--line); }
+.item:first-child { border-top: 0; }
+.item .meta { font-size: 13px; color: var(--muted); margin: 0 0 2px; }
+.item .title { font-weight: 600; }
+.item .snip { font-size: 13px; color: var(--muted); margin: 4px 0 0; }
+.tag { font-size: 12px; font-weight: 600; padding: 1px 8px; border: 1px solid var(--line); color: var(--ink); margin-right: 6px; }
+.tag--official { border-color: var(--blue); color: var(--blue); }
+.choice { display: flex; gap: 6px; align-items: start; }
+.choice button { font: inherit; font-size: 14px; font-weight: 600; padding: 7px 14px; border: 1px solid var(--line); background: #fff; color: var(--ink); cursor: pointer; min-width: 92px; }
+.choice button[aria-pressed='true'][data-v='approved'] { background: var(--ok); border-color: var(--ok); color: #fff; }
+.choice button[aria-pressed='true'][data-v='rejected'] { background: var(--err); border-color: var(--err); color: #fff; }
+.choice button:focus-visible, .bar button:focus-visible { outline: 3px solid rgba(0, 123, 184, .35); outline-offset: 2px; }
+.sources summary { cursor: pointer; color: var(--ink); font-weight: 600; margin-top: 12px; }
+.sources ul, .runs { margin: 8px 0 0; padding-left: 18px; font-size: 14px; }
+.err { color: var(--err); font-weight: 600; }
+.bar { position: fixed; left: 0; right: 0; bottom: 0; background: #fff; border-top: 1px solid var(--line); padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: center; }
+.bar button { font: inherit; font-weight: 700; padding: 10px 18px; border: 1px solid var(--blue); background: var(--blue); color: #fff; cursor: pointer; }
+.bar button:disabled { opacity: .45; cursor: not-allowed; }
+#msg { flex-basis: 100%; text-align: center; font-size: 13px; }
+#msg:empty { display: none; }
+@media (max-width: 600px) {
+  .item { grid-template-columns: 1fr; }
+  .choice button { flex: 1; }
+}

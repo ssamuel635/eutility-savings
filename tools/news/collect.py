@@ -14,18 +14,25 @@ them, for up to 7 days after they were published. So a day the computer was off
 loses nothing (some feeds only hold a day of stories), and only the newest
 review page ever needs looking at.
 
+The daily run happens on GitHub (.github/workflows/news-collect.yml), which
+commits news-checks/ and the Review page on the website reads it from there.
+A run on this computer while both are running should use --folder
+news-checks-local, so the two never write the same files.
+
 Usage:
   python tools/news/collect.py                   # today (Singapore time)
   python tools/news/collect.py --days 14         # look further back
+  python tools/news/collect.py --folder news-checks-local   # a side copy (not committed)
 """
 import argparse
 import json
+import shutil
 import sys
 from datetime import datetime, timedelta
 
 import sources as S
 from review import render
-from state import CHECKS, load_state, record, save_state
+from state import CHECKS, ROOT, load_state, record, save_state
 
 PARSERS = {"rss": S.parse_rss, "sp-group": S.parse_sp_group}
 
@@ -55,13 +62,17 @@ def main():
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")  # Windows consoles default to cp1252
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--days", type=int, default=7)
+    ap.add_argument("--folder", default=str(CHECKS), help="where runs, state.json and runs.csv go (default news-checks)")
     args = ap.parse_args()
 
     now = datetime.now(S.SGT)
     today = now.date()
-    run = CHECKS / today.isoformat()
+    folder = ROOT / args.folder
+    run = folder / today.isoformat()
     run.mkdir(parents=True, exist_ok=True)
-    state = load_state()
+    if not (folder / "state.json").exists() and (CHECKS / "state.json").exists():
+        shutil.copy2(CHECKS / "state.json", folder / "state.json")  # a side copy starts from what's been decided
+    state = load_state(folder / "state.json")
 
     items, report = [], []
     for src in S.SOURCES:
@@ -85,10 +96,10 @@ def main():
             "days": args.days, "sources": report, "items": picked}
     (run / "candidates.json").write_text(json.dumps(data, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     (run / "review.html").write_text(render(data), encoding="utf-8")
-    save_state(state)
+    save_state(state, folder / "state.json")
 
     failed = [r for r in report if r["error"]]
-    record(today.isoformat(), sources_ok=len(report) - len(failed), sources_failed=len(failed),
+    record(today.isoformat(), path=folder / "runs.csv", sources_ok=len(report) - len(failed), sources_failed=len(failed),
            items_read=sum(r["read"] for r in report if "note" not in r), for_review=len(picked))
 
     print(f"Market news {today}: {len(picked)} headline(s) to review from the last {args.days} days.")

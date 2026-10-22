@@ -1,0 +1,103 @@
+# Publish approved changes and deploy the website.
+#
+# Started by the staff Review page (/api/review) after someone approves, or by
+# hand from the Actions tab. It runs tools/publish.py, the same path for the
+# market news and the weekly price check:
+#   apply the approvals -> npm run seo -> npm run preload -> npm test
+# then commits the result to the site branch and deploys with the Vercel CLI.
+# If any step fails nothing is deployed, the run fails and GitHub emails the owner.
+#
+# Vercel stays unconnected from GitHub: the deploy uses the VERCEL_TOKEN repo
+# secret. VERCEL_ORG_ID / VERCEL_PROJECT_ID are the ids in .vercel/project.json
+# (not secret). workflow_dispatch only works for workflows on the default
+# branch, so this file must be on main too; it always works on SITE_BRANCH.
+name: Publish approved changes
+
+on:
+  workflow_dispatch:
+    inputs:
+      kind:
+        description: "What was approved"
+        type: choice
+        options: [news, price]
+        required: true
+      run:
+        description: "Run date, e.g. 2026-10-22"
+        required: true
+      approved:
+        description: "Approvals file, e.g. news-checks/2026-10-22/approved-news-2026-10-22-0915.json"
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: site-content
+  cancel-in-progress: false
+
+env:
+  SITE_BRANCH: ${{ vars.SITE_BRANCH || 'feature/app-crm-v2' }}
+  VERCEL_ORG_ID: team_hmM6HoE54cLYa8PMkU0Crdee
+  VERCEL_PROJECT_ID: prj_kUL9e7EvmG9dqsMMewfbN5nCKK1K
+  VERCEL_CLI: vercel@54.10.2
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check the deploy token is set up
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          if [ -z "$VERCEL_TOKEN" ]; then
+            echo "::error::The VERCEL_TOKEN repo secret is missing (Settings > Secrets and variables > Actions). Nothing was applied."
+            exit 1
+          fi
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.SITE_BRANCH }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install
+        run: |
+          pip install --quiet openpyxl
+          npm ci --no-audit --no-fund
+
+      - name: Apply the approvals, rebuild the pages, run the tests
+        env:
+          KIND: ${{ inputs.kind }}
+          RUN: ${{ inputs.run }}
+          APPROVED: ${{ inputs.approved }}
+        run: python tools/publish.py "$KIND" "$RUN" --approved "$APPROVED"
+
+      - name: Commit what was published
+        env:
+          KIND: ${{ inputs.kind }}
+          RUN: ${{ inputs.run }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then echo "Nothing changed."; exit 0; fi
+          git commit -m "Publish: approved $KIND for $RUN"
+          git pull --rebase origin "$SITE_BRANCH"
+          git push origin "HEAD:$SITE_BRANCH"
+
+      - name: Deploy to Vercel (production)
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          url=$(npx --yes "$VERCEL_CLI" deploy --prod --yes --token "$VERCEL_TOKEN")
+          echo "Deployed: $url"
+          echo "Published the approved ${{ inputs.kind }} for ${{ inputs.run }} and deployed $url" >> "$GITHUB_STEP_SUMMARY"

@@ -53,6 +53,40 @@ From this folder: `npx vercel --prod`. Before you do, if you changed any
 `<link rel="modulepreload">` block in every page so the browser fetches all the
 JS in parallel instead of five round trips deep.
 
+## Publishing from GitHub (market news, and later the price check)
+
+Since 22 Oct 2026 the daily market news runs on GitHub, and approved changes
+are published by a GitHub Action instead of this PC. Vercel is still not
+connected to GitHub: the Action deploys with a Vercel token.
+
+1. **Collect** — `.github/workflows/news-collect.yml`, daily 08:30 SGT. Runs
+   `tools/news/collect.py` and commits `news-checks/<date>/`. Never publishes.
+2. **Approve** — the staff Review page, `/staff/review.html` (admins only; also
+   linked from `/__gate/admin`). Approve or reject each headline; undecided ones
+   keep waiting. `api/review.mjs` saves the decision (who, what, when) as
+   `news-checks/<date>/approved-news-<date>-<time>.json` and starts step 3.
+3. **Publish** — `.github/workflows/publish.yml` runs `tools/publish.py`
+   (apply the approvals, `npm run seo`, `npm run preload`, `npm test`), commits,
+   then `vercel deploy --prod`. A failing step means nothing deploys and GitHub
+   emails the owner. The same script publishes on this PC:
+   `python tools/publish.py news <date> --approved <file>` (or `price`).
+4. **Alerts** — GitHub issues, which GitHub emails: "Market news waiting for
+   review" while headlines wait, and "Market news sources failing" when a source
+   fails 3 runs running. Both close themselves when cleared.
+
+**Before deploying from this PC, `git pull`.** The Action commits published
+news to the site branch; deploying an older copy from here would take it down.
+
+| Where | Name | What |
+|---|---|---|
+| GitHub → repo → Settings → Secrets and variables → Actions → Secrets | `VERCEL_TOKEN` | Vercel token (vercel.com/account/tokens), scope: team eutility2 |
+| Vercel → Project → Settings → Environment Variables (Production, Sensitive) | `REVIEW_GITHUB_TOKEN` | GitHub fine-grained token, only this repo: Contents read/write, Actions read/write |
+| GitHub → Actions → Variables (optional) | `SITE_BRANCH` | the branch the site is published from (default `feature/app-crm-v2`) |
+
+GitHub only runs scheduled and dispatched workflows from the default branch,
+so the files in `.github/workflows/` must also be on `main`; they always check
+out and commit to `SITE_BRANCH`.
+
 ## Production hardening already in place
 
 - **Content-Security-Policy** in `vercel.json`: scripts, fonts, images and

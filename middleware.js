@@ -203,7 +203,7 @@ function adminPage(session) {
       <li>Remove someone: delete their entry from <code>GATE_USERS</code> and redeploy. Their session stops working straight away.</li>
       <li>Sign everyone out: change <code>GATE_SECRET</code> and redeploy.</li>
     </ol>
-    <a class="btn" href="/">Go to the site</a><a class="btn btn--ghost" href="/__gate/logout">Sign out</a>`, true);
+    <a class="btn" href="/staff/review.html">Review waiting news</a><a class="btn btn--ghost" href="/">Go to the site</a><a class="btn btn--ghost" href="/__gate/logout">Sign out</a>`, true);
 }
 
 // ── Middleware ─────────────────────────────────────────────────
@@ -244,6 +244,11 @@ export default async function middleware(request) {
     if (!session) return html(gatePage(path), 401);
     if (session.role !== 'admin') return html(page('Not allowed — Eutility', '<h1>Admins only</h1><p>This page is for the site admin.</p><a class="btn" href="/">Go to the site</a>'), 403);
     return html(adminPage(session));
+  }
+
+  // Staff pages (the Review page) are for admins; /api/review checks the role again itself.
+  if (path.startsWith('/staff/') && session && session.role !== 'admin') {
+    return html(page('Not allowed — Eutility', '<h1>Admins only</h1><p>This page is for the site admin.</p><a class="btn" href="/">Go to the site</a>'), 403);
   }
 
   if (session) return continueRequest();

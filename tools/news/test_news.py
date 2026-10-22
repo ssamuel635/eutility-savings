@@ -1,11 +1,13 @@
 """Checks the market news parsers, filter, waiting list and publishing.  Run: python tools/news/test_news.py"""
+import json
 import sys
 import tempfile
 from datetime import date, datetime
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 import sources as S
-from apply import merge, read_news, write_news
+import alerts
+from apply import merge, read_news, split, write_news
 from collect import update_pending
 from review import render
 
@@ -111,5 +113,34 @@ with tempfile.TemporaryDirectory() as d:
     check("news.js: is a JS module", "export const NEWS = [" in f.read_text(encoding="utf-8"))
     write_news([], f)
     check("news.js: empty list round-trips", read_news(f) == [])
+
+# ── Approvals from the Review page: reject only what's rejected ──
+three = [dict(pub, id=i) for i in ("p1", "p2", "p3")]
+ok, no = split(three, {"p1"})
+check("approvals without a rejected list: the rest is set aside", [x["id"] for x in no] == ["p2", "p3"])
+ok, no = split(three, {"p1"}, ["p2", "p1"])
+check("approvals with a rejected list: the rest keeps waiting", [x["id"] for x in ok] == ["p1"] and [x["id"] for x in no] == ["p2"])
+
+# ── Alerts for the daily GitHub run ──
+def run_file(folder, day, items, errors=()):
+    d = Path(folder) / day
+    d.mkdir(parents=True)
+    srcs = [{"source": n, "read": 0, "error": "URLError: timed out" if n in errors else ""} for n in ("CNA", "SP Group")]
+    (d / "candidates.json").write_text(json.dumps({"run": day, "items": items, "sources": srcs}), encoding="utf-8")
+
+with tempfile.TemporaryDirectory() as d:
+    check("alerts: no runs, nothing to say", alerts.summarise(d)["waiting"] == 0)
+    run_file(d, "2026-10-20", three[:1], errors=["CNA"])
+    run_file(d, "2026-10-21", three[:2], errors=["CNA", "SP Group"])
+    run_file(d, "2026-10-22", three, errors=["CNA"])
+    (Path(d) / "state.json").write_text(json.dumps({"decided": {"p1": "approved"}}), encoding="utf-8")
+    s = alerts.summarise(d, "https://x.test/review")
+    check("alerts: decided headlines aren't waiting", s["waiting"] == 2 and s["run"] == "2026-10-22")
+    check("alerts: only today's first sightings count as new", s["new"] == 1)
+    check("alerts: a source failing 3 runs in a row is reported", [f["source"] for f in s["failing"]] == ["CNA"] and s["failing"][0]["since"] == "2026-10-20")
+    check("alerts: issue text links the Review page and the headlines", "https://x.test/review" in s["waiting_md"] and "[Headline" not in s["waiting_md"] and three[1]["url"] in s["waiting_md"])
+    (Path(d) / "2026-10-19").mkdir()  # a folder without candidates.json is ignored
+    check("alerts: failing text names the source", "**CNA** since 2026-10-20" in alerts.summarise(d)["failing_md"])
+check("alerts: fewer than 3 runs never counts as failing", alerts.failing_sources([{"run": "x", "sources": [{"source": "CNA", "error": "e"}]}]) == [])
 
 sys.exit(1 if fails else 0)

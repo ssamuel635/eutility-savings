@@ -8,3 +8,6 @@ node_modules/
 !.env.example
 __pycache__/
 *.pyc
+
+# Side copy of the daily news run made on the PC while the GitHub run takes over (see tools/news/collect.py --folder).
+/news-checks-local/

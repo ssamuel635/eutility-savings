@@ -36,5 +36,10 @@
 /mobile/
 /.claude/
 
-# Weekly price-check reports: internal only, never published.
+# Weekly price-check reports and the market news runs: internal only, never published.
 /price-checks/
+/news-checks/
+/news-checks-local/
+
+# GitHub Actions workflows (collect and publish run on GitHub, not on the site).
+/.github/

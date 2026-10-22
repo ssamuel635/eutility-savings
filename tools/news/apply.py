@@ -4,9 +4,12 @@ Market news, step 2: publish the approved headlines.
 
 Reads news-checks/<date>/candidates.json and the approvals saved from
 review.html (approved-news-<date>.json, looked for in the run folder, then
-Downloads). Approved headlines are added to assets/js/data/news.js, which the
-Market news page and the homepage read. Headlines left unticked are set aside
-for good. A copy of the approvals is kept in the run folder as the record.
+Downloads) or by the staff Review page on the website (which passes --approved).
+Approved headlines are added to assets/js/data/news.js, which the Market news
+page and the homepage read. If the approvals list "rejected" headlines (the
+Review page does), only those are set aside and the rest keep waiting;
+otherwise (review.html) everything not approved is set aside for good. A copy
+of the approvals is kept in the run folder as the record.
 Then the pages are rewritten (tools/prerender.mjs) so the news is in the HTML.
 
 Usage:
@@ -23,12 +26,13 @@ import re
 import shutil
 import subprocess
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from state import ROOT, load_state, record, save_state
 
 NEWS_JS = ROOT / "assets" / "js" / "data" / "news.js"
+SGT = timezone(timedelta(hours=8))
 KEEP = 100  # newest headlines kept on the site
 FIELDS = ("id", "date", "title", "source", "kind", "url")
 
@@ -60,6 +64,15 @@ def merge(current, approved, keep=KEEP):
     return sorted(by_id.values(), key=lambda x: (x["date"], x["title"]), reverse=True)[:keep]
 
 
+def split(items, approved_ids, rejected_ids=None):
+    """(approved, rejected). Without a rejected list, everything not approved counts as rejected."""
+    approved = [it for it in items if it["id"] in approved_ids]
+    if rejected_ids is None:
+        return approved, [it for it in items if it["id"] not in approved_ids]
+    no = set(rejected_ids) - set(approved_ids)
+    return approved, [it for it in items if it["id"] in no]
+
+
 def find_approvals(run, given):
     if given:
         return Path(given)
@@ -87,14 +100,14 @@ def main():
         sys.exit(f"{file.name} is for the {appr.get('run')} run, not {run.name}.")
 
     ids = set(appr.get("items", []))
-    approved = [it for it in cands["items"] if it["id"] in ids]
-    rejected = [it for it in cands["items"] if it["id"] not in ids]
+    approved, rejected = split(cands["items"], ids, appr.get("rejected"))
     unknown = ids - {it["id"] for it in cands["items"]}
 
     print(f"Approved by {appr.get('approved_by')} at {appr.get('approved_at')}")
     for it in approved:
         print(f"  + {it['date']}  {it['source']}: {it['title']}")
-    print(f"  {len(rejected)} set aside" + (f"; {len(unknown)} approved id(s) not in this run, ignored" if unknown else ""))
+    waiting = len(cands["items"]) - len(approved) - len(rejected)
+    print(f"  {len(rejected)} set aside" + (f", {waiting} still waiting" if waiting else "") + (f"; {len(unknown)} approved id(s) not in this run, ignored" if unknown else ""))
     if args.dry_run:
         print("Dry run: nothing saved.")
         return
@@ -106,8 +119,10 @@ def main():
     save_state(state)
     if file.parent != run:
         shutil.copy2(file, run / f"approved-news-{run.name}.json")
+    decided = [state["decided"].get(it["id"]) for it in cands["items"]]  # this run so far, over every batch of approvals
     record(run.name, approved_by=appr.get("approved_by"), approved_at=appr.get("approved_at"),
-           approved=len(approved), rejected=len(rejected), applied_at=datetime.now().isoformat(timespec="seconds"))
+           approved=decided.count("approved"), rejected=decided.count("rejected"),
+           applied_at=datetime.now(SGT).isoformat(timespec="seconds"))
 
     subprocess.run(["node", str(ROOT / "tools" / "prerender.mjs")], cwd=ROOT, check=True)
     print(f"Saved {len(approved)} headline(s) to {NEWS_JS.relative_to(ROOT)} and rewrote the pages. Next: npm test, commit, deploy.")
