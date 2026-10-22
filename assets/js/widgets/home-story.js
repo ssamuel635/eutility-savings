@@ -25,10 +25,13 @@ const LOGOS = {
   'Flo Energy': 'flo-energy.png',
 };
 
+/** Bump when a logo file is replaced under the same name (browsers cache images for a week). */
+const LOGO_VERSION = '20261022';
+
 export function retailerLogo(name) {
   const file = LOGOS[name];
   return file
-    ? `<img class="retailer-logo" src="assets/img/retailers/${file}" alt="${esc(name)}" loading="lazy" decoding="async">`
+    ? `<img class="retailer-logo" src="assets/img/retailers/${file}?v=${LOGO_VERSION}" alt="${esc(name)}" loading="lazy" decoding="async">`
     : `<span class="retailer-logo retailer-logo--text">${esc(name)}</span>`;
 }
 

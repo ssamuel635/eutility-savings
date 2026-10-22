@@ -46,9 +46,16 @@ export function monthLabel() {
   return new Date().toLocaleDateString('en-GB', { month: 'long', year: 'numeric', timeZone: 'Asia/Singapore' });
 }
 
+/**
+ * Bump when photos in assets/img/rewards/ are replaced under the same names:
+ * browsers keep images for a week (vercel.json), so a new ?v= makes them
+ * fetch the new files straight away.
+ */
+const PHOTO_VERSION = '20261022';
+
 /** The rewards catalogue (items and points from config), with each photo's path. */
 export function catalogue() {
-  return CONFIG.rewards.catalogue.map((r) => ({ ...r, src: `assets/img/rewards/${r.img}.jpg` }));
+  return CONFIG.rewards.catalogue.map((r) => ({ ...r, src: `assets/img/rewards/${r.img}.jpg?v=${PHOTO_VERSION}` }));
 }
 
 export const fmtPts = (n) => `${Number(n).toLocaleString('en-SG')} pts`;
