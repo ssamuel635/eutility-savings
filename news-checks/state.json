@@ -14,17 +14,17 @@
   "Tuas Power Supply Pte Ltd"
  ],
  "pending": {
-  "442049bc3164": {
-   "id": "442049bc3164",
-   "title": "Singapore and Qatar renew energy pact to strengthen LNG cooperation, move towards strategic partnership",
-   "url": "https://www.channelnewsasia.com/singapore/singapore-qatar-energy-pact-mou-6472451",
-   "date": "2026-10-19",
+  "90e48190d7f5": {
+   "id": "90e48190d7f5",
+   "title": "Google Cloud services largely restored in UK; Revolut services back up in Singapore",
+   "url": "https://www.channelnewsasia.com/business/google-cloud-service-outage-london-revolut-6475076",
+   "date": "2026-10-20",
    "source": "CNA",
    "source_key": "cna",
    "kind": "news",
-   "snippet": "The two countries also agreed to work towards elevating bilateral ties to a strategic partnership, with the Qatari Emir's future state visit to Singapore seen as an opportunity to launch it.",
+   "snippet": "A power outage at a Google Cloud data centre near London disrupted several UK banks and Revolut services, including in Singapore.",
    "keywords": [
-    "LNG"
+    "power outage"
    ]
   }
  }
