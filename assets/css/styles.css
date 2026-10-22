@@ -2151,3 +2151,22 @@ body { line-height: 1.65; }
    title instead of a Home / Business switch taking up the top of the card. */
 .hero-calc__for { margin: 0; font-size: 14px; color: var(--muted); }
 .hero-calc__for a { color: var(--blue); font-weight: 600; }
+
+/* Hero fits a laptop screen (22 Oct): on a 1280x800 laptop the Calculate
+   button used to sit ~300px below the fold. From 1024px wide the photo band is
+   shorter and framed on the family's faces, which show above the card; the
+   card starts higher and is tighter. The "50 / 2,000" scale and the "Not sure?"
+   line go here only: the home-type buttons above the slider say the same. */
+@media (min-width: 1024px) {
+  .hero--photo { padding-top: 24px; }
+  /* Band and card offset grow with the width, like the photo itself, so the
+     faces sit just above the card at every desktop size (1280: 300px / 96px). */
+  .hero__photo { height: 23.5vw; }
+  .hero__photo img { object-position: center 55%; }
+  .hero--photo .hero-calc { margin-top: max(64px, calc(23.5vw - 205px)); padding: 20px 28px 24px; }
+  .hero-calc #home-calc { margin-top: 14px !important; }
+  .hero-calc .calc-card > * + * { margin-top: 14px; }
+  .hero-calc .range-scale, .hero-calc .field__help { display: none; }
+  .hero-calc .preset { min-height: 36px; padding-block: 6px; }
+  .hero-calc .live-bill { padding-block: 6px; }
+}
