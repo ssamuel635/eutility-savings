@@ -2029,3 +2029,21 @@ body { line-height: 1.65; }
   70% { box-shadow: 0 0 0 14px rgba(37, 211, 102, 0); }
   100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
 }
+
+/* Retailer logos (22 Oct): the switching examples (home-type stories, "Our
+   picks") show who you'd move from and to by their official logos, in place of
+   stock photos. Files in assets/img/retailers/. */
+.retailer-logo { display: block; max-width: 100%; max-height: 44px; width: auto; height: auto; object-fit: contain; }
+.retailer-logo--text { font: 700 17px/1.2 var(--font-head); color: var(--heading); text-align: center; }
+.story-card__switch { display: grid; gap: 14px; padding: 18px 18px 16px; border-bottom: 1px solid var(--border); }
+.story-card__switch .story-card__home { position: static; font-size: 15px; }
+.switch-logos { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.25fr); align-items: center; gap: 10px; }
+.switch-logos > span:not(.switch-logos__arrow) { display: grid; gap: 6px; justify-items: center; align-content: center; height: 88px; padding: 10px; border: 1px solid var(--border); border-radius: 2px; background: #fff; }
+.switch-logos small { font: 600 11px/1 var(--font-head); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.switch-logos__from .retailer-logo { max-height: 34px; }
+.switch-logos__to { border-color: var(--blue) !important; }
+.switch-logos__arrow { color: var(--blue); }
+.story-card__body { padding-top: 16px; }
+.pick-card__logo { display: grid; place-items: center; height: 136px; padding: 44px 20px 16px; border: 1px solid var(--border); border-radius: 2px; background: #fff; }
+.pick-card__logo .retailer-logo { max-height: 52px; }
+

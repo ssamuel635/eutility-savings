@@ -1,7 +1,7 @@
 import { initLayout, observeReveals, pauseBarAction, resumeBarAction, photoFallbacks } from '../layout.js';
 import { mountResidential } from '../widgets/residential.js';
 import { mountSme } from '../widgets/sme.js';
-import { homeStories, storyCard } from '../widgets/home-story.js';
+import { homeStories, storyCard, retailerLogo } from '../widgets/home-story.js';
 import { MARKET_PLANS, fmtMoney, PLAN_COUNT, RETAILER_COUNT, TARIFF, TARIFF_PERIOD } from '../calc.js';
 import { CONFIG } from '../config.js';
 import { photo } from '../data/photos.js';
@@ -50,20 +50,20 @@ document.getElementById('why-list').innerHTML = VALUE.map((v) => `
 // Hero photo: behind the top of the page on desktop, above the headline on phones
 document.getElementById('hero-photo').innerHTML = photo('sofa', { eager: true, sizes: '(min-width: 1024px) 62vw, 100vw' });
 
-// Our picks: three plans worth a look, priced for a typical home, each with a photo
+// Our picks: three plans worth a look, priced for a typical home, each with its retailer's logo
 const kwh = CONFIG.defaultKwh;
 const cheapest = plans.list({ kwh, sort: 'price' })[0];
 const noLock = plans.list({ kwh, type: 'nolock', sort: 'price' })[0];
 const green = plans.list({ kwh, type: 'green', sort: 'price' })[0];
 const picks = [
-  ['Lowest bill', cheapest, 'livingRoom'],
-  ['No lock-in', noLock, 'motherChild'],
-  ['Greener choice', green, 'kites'],
+  ['Lowest bill', cheapest],
+  ['No lock-in', noLock],
+  ['Greener choice', green],
 ].filter(([, r], i, arr) => r && arr.findIndex(([, x]) => x?.id === r.id) === i);
-document.getElementById('plan-teaser').innerHTML = picks.map(([label, r, img], i) => `
+document.getElementById('plan-teaser').innerHTML = picks.map(([label, r], i) => `
   <article class="pick-card reveal" style="--d:${i * 0.06}s">
     <span class="pick-card__ribbon">${esc(label)}</span>
-    <div class="photo-frame">${photo(img, { sizes: '(min-width: 720px) 33vw, 100vw' })}</div>
+    <div class="pick-card__logo">${retailerLogo(r.plan.retailer)}</div>
     <div class="pick-card__body">
       <p class="pick-card__retailer">${esc(r.plan.retailer)}</p>
       <p class="pick-card__name">${esc(r.plan.name)}</p>
