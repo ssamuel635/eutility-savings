@@ -10,8 +10,9 @@ import { CONFIG } from '../config.js';
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
 /**
- * Official logos, as published on each retailer's own website (Oct 2026), in
- * assets/img/retailers/. A retailer without a file here shows its name instead.
+ * Official logos, from each retailer's own website or supplied by Eutility
+ * (Oct 2026), in assets/img/retailers/. A retailer without a file here shows
+ * its name instead.
  */
 const LOGOS = {
   'SP Group': 'sp-group.svg',
@@ -21,6 +22,7 @@ const LOGOS = {
   'Sembcorp Power': 'sembcorp-power.png',
   'Senoko Energy': 'senoko-energy.png',
   'Tuas Power': 'tuas-power.png',
+  'Flo Energy': 'flo-energy.png',
 };
 
 export function retailerLogo(name) {
