@@ -19,7 +19,9 @@ const RETAILERS = [...new Set(AVAILABLE_PLANS.map((p) => p.retailer))];
 RETAILERS.sort((a, b) => (a === 'SP Group' ? -1 : b === 'SP Group' ? 1 : a.localeCompare(b)));
 const plansOf = (r) => AVAILABLE_PLANS.filter((p) => p.retailer === r);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const ratesNote = `Estimate using retailers’ published rates as at <span class="nowrap">${RATES_DATE}</span>. Promotions not included.`;
+/** WhatsApp opener for people who'd rather send their bill than type their usage. */
+const BILL_MESSAGE = "Hi Eutility, I'd like to check my electricity savings. I'll send you my bill.";
+const ratesNote =`Estimate using retailers’ published rates as at <span class="nowrap">${RATES_DATE}</span>. Promotions not included.`;
 
 /** Second line under a retailer in the picker: SP's tariff, or how many plans a retailer offers. */
 function retailerSub(r) {
@@ -106,6 +108,14 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
     <button class="btn btn--block" type="submit">Calculate my savings <span class="arrow" aria-hidden="true">→</span></button>
     <p class="small text-center">No account needed · ${PLAN_COUNT} plans from ${RETAILER_COUNT} retailers · rates as at <span class="nowrap">${RATES_DATE}</span></p>
     ${full ? '' : `<div class="res-compact-out" aria-live="polite"></div>`}
+    <div class="bill-alt">
+      <p class="bill-alt__or" aria-hidden="true"><span>or</span></p>
+      <a class="bill-alt__link" href="#" data-wa data-wa-message="${esc(BILL_MESSAGE)}">
+        <span class="bill-alt__icon" aria-hidden="true">${I.file}</span>
+        <span class="bill-alt__copy"><strong>Send your bill instead</strong><span>Photo or PDF on WhatsApp. We’ll read it and reply with your savings.</span></span>
+        <span class="bill-alt__go" aria-hidden="true">${I.chevron}</span>
+      </a>
+    </div>
   </form>
   ${full ? `<div class="res-results" id="${id}-results" aria-live="polite" tabindex="-1"></div>` : ''}`;
 
@@ -249,6 +259,9 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
     btn.innerHTML = 'Recalculate <span class="arrow" aria-hidden="true">→</span>';
     // Once there's a result, the switch button is the main action, not this one.
     btn.classList.add('btn--secondary');
+    // With an estimate on screen, sending the bill is the way to an exact figure.
+    const alt = form.querySelector('.bill-alt__copy');
+    if (alt) alt.innerHTML = '<strong>Want an exact figure?</strong><span>Send your bill on WhatsApp and we’ll check it against your actual usage and rate.</span>';
     running = false;
   });
 
