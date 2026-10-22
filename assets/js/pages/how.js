@@ -17,10 +17,14 @@ document.querySelectorAll('[data-plan-count]').forEach((e) => { e.textContent = 
 document.querySelectorAll('[data-tariff]').forEach((e) => { e.textContent = `${TARIFF}¢/kWh`; });
 document.querySelectorAll('[data-logo]').forEach((e) => { e.innerHTML = '<img src="assets/img/eutility-symbol.png" alt="" width="22" height="22">'; });
 document.querySelectorAll('[data-icon]').forEach((e) => { e.innerHTML = I[e.dataset.icon] || ''; });
+// The report reads like the bot's: "You save : S$ 29.04/month", "That's : S$ 348.48/year"
+const cents = (n) => Number(n).toLocaleString('en-SG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const yearlyExact = Math.max(0, best?.savingYearly || 0);
 document.querySelector('[data-current]').textContent = `SP Group @ ${TARIFF}¢/kWh`;
 document.querySelector('[data-recommended]').textContent = best ? `${best.plan.retailer} @ ${rateLabel(best.plan)}` : '—';
-document.querySelector('[data-monthly]').textContent = best ? `That's ${fmtMoney(best.savingMonthly)} a month.` : '';
+document.querySelector('[data-monthly]').textContent = cents(Math.max(0, best?.savingMonthly || 0));
 document.querySelector('[data-example]').textContent = 'Example: a home using 450 kWh a month, on today’s published rates.';
+document.querySelectorAll('[data-retailer]').forEach((e) => { if (best) e.textContent = best.plan.retailer; });
 document.querySelector('#step3 .wac').setAttribute('aria-label', best
   ? `Example WhatsApp chat: your savings report. Current: SP Group at ${TARIFF}¢/kWh. Recommended: ${best.plan.retailer} at ${rateLabel(best.plan)}. You save ${fmtMoney(yearly)} a year.`
   : 'Example WhatsApp chat: your savings report.');
@@ -34,7 +38,9 @@ async function play(visual) {
   const typing = visual.querySelector('.wac__typing');
   const show = (m) => {
     m.classList.add('is-in');
-    if (m.contains(count)) countUp(count, yearly);
+    // The customer's reply greys out the button they tapped, as WhatsApp does
+    if (m.classList.contains('wac-msg--out')) visual.querySelectorAll('.is-in [data-tap]').forEach((b) => b.classList.add('is-tapped'));
+    if (m.contains(count)) countUp(count, yearlyExact, { format: cents });
   };
   if (reducedMotion()) { msgs.forEach(show); return; }
   await sleep(350);
@@ -51,7 +57,10 @@ async function play(visual) {
   }
 }
 
-if (reducedMotion()) count.textContent = yearly.toLocaleString('en-SG');
+if (reducedMotion()) {
+  count.textContent = cents(yearlyExact);
+  document.querySelectorAll('[data-tap]').forEach((b) => b.classList.add('is-tapped'));
+}
 document.querySelectorAll('.journey__visual').forEach((v) => {
   v.addEventListener('inview', () => play(v), { once: true });
 });
