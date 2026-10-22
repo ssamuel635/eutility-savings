@@ -1,0 +1,92 @@
+# Market news, daily: collect headlines for review. Never publishes anything.
+#
+# Runs tools/news/collect.py (7-day lookback) and commits the run into
+# news-checks/<date>/ on the site branch. Staff approve or reject on the
+# website's Review page (/staff/review.html), which starts publish.yml.
+#
+# Alerts are GitHub issues, which GitHub emails to the repo owner:
+#   "Market news waiting for review"  opened or refreshed while headlines wait
+#   "Market news sources failing"     a source couldn't be read 3 runs running
+# A failed run is emailed by GitHub too.
+#
+# Scheduled workflows only run from the default branch (main), so this file
+# must be on main; it always works on the site branch (repo variable
+# SITE_BRANCH, default feature/app-crm-v2).
+name: Market news (collect)
+
+on:
+  schedule:
+    - cron: "30 0 * * *" # 00:30 UTC = 08:30 Singapore
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: site-content # one job at a time writes news-checks/ (publish.yml uses the same group)
+  cancel-in-progress: false
+
+env:
+  SITE_BRANCH: ${{ vars.SITE_BRANCH || 'feature/app-crm-v2' }}
+  REVIEW_URL: https://eutility-savings.vercel.app/staff/review.html
+  GH_TOKEN: ${{ github.token }}
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.SITE_BRANCH }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Collect headlines
+        run: python tools/news/collect.py
+
+      - name: Commit the run
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add news-checks
+          if git diff --cached --quiet; then echo "Nothing changed."; exit 0; fi
+          git commit -m "News: collected $(TZ=Asia/Singapore date +%F) for review"
+          git pull --rebase origin "$SITE_BRANCH"
+          git push origin "HEAD:$SITE_BRANCH"
+
+      - name: Open, refresh or close the alert issues
+        run: |
+          python tools/news/alerts.py --review-url "$REVIEW_URL" > "$RUNNER_TEMP/alerts.json"
+          a="$RUNNER_TEMP/alerts.json"
+          owner="@${{ github.repository_owner }}"
+          gh label create news-review --color 007BB8 --description "Market news waiting for review" --force
+          gh label create news-source-failing --color B42318 --description "A market news source keeps failing" --force
+
+          # issue <label> <title> <body-file> <should be open: 1|0> <comment when refreshed, or "">
+          issue() {
+            num=$(gh issue list --state open --label "$1" --json number --jq '.[0].number // empty')
+            if [ "$4" = 1 ]; then
+              if [ -z "$num" ]; then
+                printf '%s\n\n%s\n' "$owner" "$(cat "$3")" > "$3.new"
+                gh issue create --title "$2" --label "$1" --body-file "$3.new"
+              else
+                gh issue edit "$num" --body-file "$3"
+                [ -n "$5" ] && gh issue comment "$num" --body "$owner $5"
+              fi
+            elif [ -n "$num" ]; then
+              gh issue close "$num" --comment "All clear in the $(jq -r .run "$a") run."
+            fi
+            return 0
+          }
+
+          jq -r .waiting_md "$a" > "$RUNNER_TEMP/waiting.md"
+          jq -r .failing_md "$a" > "$RUNNER_TEMP/failing.md"
+          waiting=$(jq .waiting "$a"); new=$(jq .new "$a"); failing=$(jq '.failing | length' "$a")
+          note=""; [ "$new" -gt 0 ] && note="$new new headline(s) in the $(jq -r .run "$a") run. $waiting waiting in all: $REVIEW_URL"
+          issue news-review "Market news waiting for review" "$RUNNER_TEMP/waiting.md" "$([ "$waiting" -gt 0 ] && echo 1 || echo 0)" "$note"
+          issue news-source-failing "Market news sources failing" "$RUNNER_TEMP/failing.md" "$([ "$failing" -gt 0 ] && echo 1 || echo 0)" ""
+          echo "Waiting: $waiting ($new new). Sources failing 3 runs running: $failing."
