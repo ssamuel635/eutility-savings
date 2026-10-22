@@ -65,7 +65,7 @@ function header(page) {
         ${customer.isSignedIn()
           ? `<a class="account-chip" href="account.html" aria-label="Your account"><span class="account-chip__avatar">${esc(initials())}</span><span class="account-chip__name">${esc(customer.firstName() || 'Account')}</span></a>`
           : `<a class="btn btn--ghost btn--sm header-account" href="login.html">Log in</a>`}
-        <a class="btn btn--sm header-cta" href="calculator.html">Check my savings</a>
+        <a class="btn btn--sm header-cta" href="${page === 'home' ? '#calculator' : 'calculator.html'}">Check my savings</a>
         <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">${I.menu}</button>
       </div>
     </div>

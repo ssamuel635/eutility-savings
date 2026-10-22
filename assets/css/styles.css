@@ -2146,3 +2146,8 @@ body { line-height: 1.65; }
 .bill-alt__go { flex: none; width: 20px; height: 20px; color: #294671; transition: transform .2s; }
 .bill-alt__go svg { width: 20px; height: 20px; }
 .bill-alt__link:hover .bill-alt__go { transform: translateX(3px); }
+
+/* Hero calculator is homes only (22 Oct): businesses get one line under the
+   title instead of a Home / Business switch taking up the top of the card. */
+.hero-calc__for { margin: 0; font-size: 14px; color: var(--muted); }
+.hero-calc__for a { color: var(--blue); font-weight: 600; }

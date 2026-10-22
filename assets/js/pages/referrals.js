@@ -52,7 +52,7 @@ document.getElementById('my-status').innerHTML = `
       <div class="ref-link"><span id="ref-link-text">${esc(display)}</span></div>
       <div class="stack" style="--stack:12px">
         <button class="btn btn--block" type="button" id="ref-copy">Copy link</button>
-        <button class="btn btn--neutral btn--block" type="button" id="ref-share">Share on WhatsApp</button>
+        <button class="btn btn--wa btn--block" type="button" id="ref-share">${I.chat}<span>Share on WhatsApp</span></button>
       </div>
       <p class="small">Your friend lands on our home page, and your code is added when they message us.</p>
     </div>
@@ -74,7 +74,7 @@ document.getElementById('catalogue').innerHTML = rewards.catalogue().map((r, i) 
       <p class="reward-item__pts">${pts(r.points)}</p>
       <div class="progress__track" aria-hidden="true"><div class="progress__fill" style="width:${pct}%"></div></div>
       ${ready
-        ? `<button class="btn btn--sm btn--block" type="button" data-redeem="${esc(r.id)}">Redeem</button>`
+        ? `<button class="btn btn--wa btn--sm btn--block" type="button" data-redeem="${esc(r.id)}">${I.chat}<span>Redeem</span></button>`
         : `<p class="small">${pts(r.points - status.points)} to go</p>`}
     </div>
   </article>`;

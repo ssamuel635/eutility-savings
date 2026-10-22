@@ -1,8 +1,7 @@
-import { initLayout, observeReveals, pauseBarAction, resumeBarAction, photoFallbacks } from '../layout.js';
+import { initLayout, observeReveals, photoFallbacks } from '../layout.js';
 import { mountResidential } from '../widgets/residential.js';
-import { mountSme } from '../widgets/sme.js';
 import { homeStories, storyCard, retailerLogo } from '../widgets/home-story.js';
-import { MARKET_PLANS, fmtMoney, PLAN_COUNT, RETAILER_COUNT, TARIFF, TARIFF_PERIOD } from '../calc.js';
+import { MARKET_PLANS, CONTRACT_FILTERS, fmtMoney, PLAN_COUNT, RETAILER_COUNT, TARIFF, TARIFF_PERIOD } from '../calc.js';
 import { CONFIG } from '../config.js';
 import { photo } from '../data/photos.js';
 import { TESTIMONIALS, quoteCard } from '../data/testimonials.js';
@@ -14,25 +13,19 @@ const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<
 
 initLayout();
 
-// Hero calculator (Residential) and the SME switch
+// Hero calculator, homes only; businesses get a link to a consultant above it
 mountResidential(document.getElementById('home-calc'), { mode: 'compact', bare: true });
-mountSme(document.getElementById('home-sme'), { bare: true });
-document.querySelectorAll('input[name="home-mode"]').forEach((r) => r.addEventListener('change', () => {
-  const sme = r.value === 'sme' && r.checked;
-  const show = document.getElementById(sme ? 'home-sme' : 'home-calc');
-  document.getElementById('home-calc').hidden = sme;
-  document.getElementById('home-sme').hidden = !sme;
-  show.classList.remove('panel-in'); void show.offsetWidth; show.classList.add('panel-in');
-  if (sme) pauseBarAction(); else resumeBarAction();
-}));
 
 document.querySelector('[data-plan-count]').textContent = `${PLAN_COUNT} plans compared`;
 
 // Hero: our best fixed rate against the regulated tariff, straight from the price sheet
-// Lowest fixed rate on sale (no daily charge, so the figure is the whole price)
-const best = Math.min(...MARKET_PLANS.filter((p) => p.pricingType === 'fixed' && !p.dailyCharge).map((p) => p.rate));
+// Lowest fixed rate on sale (no daily charge, so the figure is the whole price),
+// for contracts of up to 24 months: the calculator's default, so the headline
+// rate is one the calculator can actually recommend.
+const upTo24 = CONTRACT_FILTERS['24'].test;
+const best = Math.min(...MARKET_PLANS.filter((p) => p.pricingType === 'fixed' && !p.dailyCharge && upTo24(p.contractMonths)).map((p) => p.rate));
 document.getElementById('rate-vs').innerHTML = `
-  <div class="rate-vs__item"><span class="rate-vs__num">${best.toFixed(2)}<small>¢/kWh</small></span><span class="rate-vs__label">Fixed plans from</span></div>
+  <div class="rate-vs__item"><span class="rate-vs__num">${best.toFixed(2)}<small>¢/kWh</small></span><span class="rate-vs__label">Fixed plans up to 24 months, from</span></div>
   <span class="rate-vs__vs">vs</span>
   <div class="rate-vs__item rate-vs__item--tariff"><span class="rate-vs__num">${TARIFF.toFixed(2)}<small>¢/kWh</small></span><span class="rate-vs__label">SP Group tariff, ${esc(TARIFF_PERIOD)}</span></div>`;
 
@@ -74,7 +67,7 @@ document.getElementById('plan-teaser').innerHTML = picks.map(([label, r], i) => 
       </div>
     </div>
     <div class="pick-card__actions">
-      <button class="btn btn--block" type="button" data-wa data-wa-message="Hi Eutility, I'm interested in switching to ${esc(r.plan.retailer)} ${esc(r.plan.name)}. Can you check if it suits my usage?" aria-label="Switch to ${esc(r.plan.retailer)} ${esc(r.plan.name)}">Switch with Eutility</button>
+      <button class="btn btn--wa btn--block" type="button" data-wa data-wa-message="Hi Eutility, I'm interested in switching to ${esc(r.plan.retailer)} ${esc(r.plan.name)}. Can you check if it suits my usage?" aria-label="Switch to ${esc(r.plan.retailer)} ${esc(r.plan.name)} on WhatsApp">${I.chat}<span>Switch on WhatsApp</span></button>
       <a class="link-arrow" href="calculator.html?kwh=${kwh}&run=1">Compare for my usage</a>
     </div>
   </article>`).join('');

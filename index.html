@@ -39,7 +39,6 @@
   <link rel="modulepreload" href="assets/js/widgets/home-story.js">
   <link rel="modulepreload" href="assets/js/widgets/picker.js">
   <link rel="modulepreload" href="assets/js/widgets/residential.js">
-  <link rel="modulepreload" href="assets/js/widgets/sme.js">
   <!-- /modulepreload -->
   <script type="module" src="assets/js/pages/home.js"></script>
 </head>
@@ -58,16 +57,11 @@
         <div class="trust reveal reveal-delay-3"><span>Free</span><span>No obligation</span><span data-plan-count>Plans compared</span></div>
       </div>
       <div class="card card--shadow hero-calc reveal" id="calculator">
-        <div class="stack" style="--stack:20px">
+        <div class="stack" style="--stack:6px">
           <h2 class="calc-card__title">Check your savings</h2>
-          <p style="color:var(--muted)">Are you checking for a home or a business?</p>
-          <div class="segmented" role="radiogroup" aria-label="Account type">
-            <input type="radio" name="home-mode" id="hm-res" value="res" checked><label for="hm-res">Home</label>
-            <input type="radio" name="home-mode" id="hm-sme" value="sme"><label for="hm-sme">Business (SME)</label>
-          </div>
+          <p class="hero-calc__for">For homes. Running a business? <a href="calculator.html#sme">Talk to a consultant</a></p>
         </div>
         <div id="home-calc" style="margin-top:20px"></div>
-        <div id="home-sme" style="margin-top:20px" hidden></div>
       </div>
     </div>
   </section>
