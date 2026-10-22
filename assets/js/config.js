@@ -86,6 +86,11 @@ export const CONFIG = {
     // This month's headline reward, promoted on the app's Home and the Rewards
     // page. Change it each month (an `id` from the catalogue below).
     featured: 'ps5',
+    // Photos: PS5 and Nintendo Switch are the makers' own product images; the
+    // rest are free-licence stock (Unsplash: photo-1618941716939 fan,
+    // photo-1585942513011 rice cooker, photo-1762500824321 robot vacuum,
+    // photo-1586024486164 TV, photo-1764385827352 voucher; Pexels 35285814
+    // air fryer). Swap in the real items' photos once Eutility picks them.
     // `about` is the one-line description on the item's detail page (the app's
     // reward sheet). Kept generic on purpose: no brands or models until Eutility
     // confirms what it will actually send (TODO: confirm with Eutility).
