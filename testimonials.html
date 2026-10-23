@@ -24,6 +24,7 @@
   <!-- modulepreload -->
   <link rel="modulepreload" href="assets/js/calc.js">
   <link rel="modulepreload" href="assets/js/config.js">
+  <link rel="modulepreload" href="assets/js/data/photos.js">
   <link rel="modulepreload" href="assets/js/data/plans.js">
   <link rel="modulepreload" href="assets/js/data/testimonials.js">
   <link rel="modulepreload" href="assets/js/icons.js">
@@ -39,21 +40,28 @@
 <body data-page="testimonials">
 <main id="main">
   <section class="hero container">
-    <div class="stack" style="--stack:20px;max-width:820px">
-      <p class="eyebrow reveal">Testimonials</p>
-      <h1 class="display reveal reveal-delay-1">Homes like yours.</h1>
-      <p class="lead reveal reveal-delay-2">What switching could save a typical Singapore home of each type, priced on today&rsquo;s rates against SP Group&rsquo;s tariff. Your own bill is the real test: it takes about a minute.</p>
+    <div class="grid-2">
+      <div class="stack" style="--stack:20px">
+        <p class="eyebrow reveal">Testimonials</p>
+        <h1 class="display reveal reveal-delay-1">Homes like yours.</h1>
+        <p class="lead reveal reveal-delay-2">Singapore households on checking their electricity plan and switching with Eutility, and what switching could save each type of home on today&rsquo;s rates.</p>
+      </div>
+      <div class="hero__art photo-frame reveal" style="aspect-ratio:4/3" data-photo-slot="corridor"></div>
     </div>
   </section>
-  <section class="container" style="padding-bottom:clamp(48px,8vw,96px)">
-    <div class="grid-3" id="t-grid"></div>
-  </section>
-  <section class="section section--cloud container" hidden>
+  <section class="container" style="padding-bottom:clamp(48px,8vw,96px)" hidden>
     <div class="section-head">
       <h2 class="h2">In their own words.</h2>
       <p class="lead">Home customers on switching with Eutility.</p>
     </div>
     <div class="t-grid" id="t-quotes"></div>
+  </section>
+  <section class="section section--cloud container">
+    <div class="section-head">
+      <h2 class="h2">What switching could save.</h2>
+      <p class="lead">A typical Singapore home of each type, priced on today&rsquo;s rates against SP Group&rsquo;s tariff. Your own bill is the real test: it takes about a minute.</p>
+    </div>
+    <div class="grid-3" id="t-grid"></div>
   </section>
   <section class="section container">
     <div class="banner banner--blue" style="background:#fff">

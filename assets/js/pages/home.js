@@ -1,13 +1,14 @@
 import { initLayout, observeReveals, photoFallbacks } from '../layout.js';
 import { mountResidential } from '../widgets/residential.js';
 import { homeStories, storyCard, retailerLogo } from '../widgets/home-story.js';
-import { MARKET_PLANS, CONTRACT_FILTERS, fmtMoney, PLAN_COUNT, RETAILER_COUNT, TARIFF, TARIFF_PERIOD } from '../calc.js';
+import { MARKET_PLANS, CONTRACT_FILTERS, compare, fmtMoney, rateLabel, PLAN_COUNT, RETAILER_COUNT, TARIFF, TARIFF_PERIOD } from '../calc.js';
 import { CONFIG } from '../config.js';
 import { photo } from '../data/photos.js';
 import { TESTIMONIALS, quoteCard } from '../data/testimonials.js';
 import * as rewards from '../services/rewards.js';
 import * as plans from '../services/plans-service.js';
 import * as I from '../icons.js';
+import { playChat } from '../widgets/wa-chat.js';
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -43,14 +44,18 @@ document.getElementById('why-list').innerHTML = VALUE.map((v) => `
 // Hero photo: behind the top of the page on desktop, above the headline on phones
 document.getElementById('hero-photo').innerHTML = photo('sofa', { eager: true, sizes: '(min-width: 1024px) 62vw, 100vw' });
 
-// Our picks: three plans worth a look, priced for a typical home, each with its retailer's logo
+// Our picks: three plans worth a look from the featured retailers (CONFIG),
+// priced for a typical home, each with its retailer's logo
 const kwh = CONFIG.defaultKwh;
-const cheapest = plans.list({ kwh, sort: 'price' })[0];
-const noLock = plans.list({ kwh, type: 'nolock', sort: 'price' })[0];
-const green = plans.list({ kwh, type: 'green', sort: 'price' })[0];
+const featured = CONFIG.featuredRetailers?.length ? CONFIG.featuredRetailers : null;
+const pool = (opts = {}) => plans.list({ kwh, sort: 'price', ...opts }).filter((r) => !featured || featured.includes(r.plan.retailer));
+const cheapest = pool()[0];
+const longest = pool().filter((r) => r.plan.pricingType === 'fixed')
+  .sort((a, b) => (b.plan.contractMonths ?? 0) - (a.plan.contractMonths ?? 0) || a.monthly - b.monthly)[0];
+const green = pool({ type: 'green' })[0];
 const picks = [
   ['Lowest bill', cheapest],
-  ['No lock-in', noLock],
+  ['Longest fixed price', longest],
   ['Greener choice', green],
 ].filter(([, r], i, arr) => r && arr.findIndex(([, x]) => x?.id === r.id) === i);
 document.getElementById('plan-teaser').innerHTML = picks.map(([label, r], i) => `
@@ -72,7 +77,7 @@ document.getElementById('plan-teaser').innerHTML = picks.map(([label, r], i) => 
     </div>
   </article>`).join('');
 const tip = document.querySelector('#plan-teaser')?.closest('section')?.querySelector('.section-head .lead');
-if (tip) tip.textContent = `Picked from every plan we track, priced for a home using ${kwh} kWh a month. Check yours above for your own numbers.`;
+if (tip) tip.textContent = `${featured ? `Plans from ${featured.join(' and ')}` : 'Picked from every plan we track'}, priced for a home using ${kwh} kWh a month. Check yours above to compare every plan for your own numbers.`;
 
 // What switching could save: real estimates for typical homes
 document.getElementById('home-testimonials').innerHTML = homeStories(['HDB 3-room', 'HDB 5-room', 'Condo']).map(storyCard).join('');
@@ -88,7 +93,31 @@ if (TESTIMONIALS.length) {
 document.getElementById('home-rewards').innerHTML = rewards.catalogue().filter((r) => ['air-fryer', 'rice-cooker', 'ps5', 'robot-vacuum'].includes(r.id)).map((r) => `
   <figure class="reward-mini"><img src="${r.src}" alt="" loading="lazy" decoding="async" width="600" height="600"><figcaption>${esc(r.name)}<span>${rewards.fmtPts(r.points)}</span></figcaption></figure>`).join('');
 
-// Photos in the lower sections (steps, account, the closing band)
+// Three simple steps: the WhatsApp assistant's chat, drawn like How it works,
+// with the report worked out live for a home using the default usage. The
+// three chats play one after another as they scroll into view.
+const steps = document.getElementById('home-steps');
+const report = compare({ kwh, contract: '24' }).best;
+const twoDp = (n) => Number(Math.max(0, n)).toLocaleString('en-SG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+steps.querySelectorAll('[data-logo]').forEach((e) => { e.innerHTML = '<img src="assets/img/eutility-symbol.png" alt="" width="22" height="22">'; });
+steps.querySelector('[data-current]').textContent = `SP Group @ ${TARIFF}¢/kWh`;
+if (report) {
+  steps.querySelector('[data-recommended]').textContent = `${report.plan.retailer} @ ${rateLabel(report.plan)}`;
+  steps.querySelector('[data-monthly]').textContent = twoDp(report.savingMonthly);
+  steps.querySelector('[data-yearly]').textContent = twoDp(report.savingYearly);
+  steps.querySelector('[data-retailer]').textContent = report.plan.retailer;
+  steps.querySelector('[data-report-label]').setAttribute('aria-label', `Example WhatsApp chat: your savings report. Recommended: ${report.plan.retailer} at ${rateLabel(report.plan)}. You save ${fmtMoney(report.savingYearly)} a year.`);
+}
+steps.parentElement.querySelector('[data-example]').textContent = `Example: a home using ${kwh} kWh a month, on today’s published rates.`;
+// Each chat waits for the one before it and for itself to be on screen (side
+// by side on a laptop, one under another on a phone). A chat coming into view
+// also releases the ones above it, for someone who jumps past them.
+const chats = [...steps.querySelectorAll('.step__chat')];
+const seen = chats.map(() => { let resolve; const p = new Promise((r) => { resolve = r; }); return { p, resolve }; });
+chats.forEach((chat, i) => chat.addEventListener('inview', () => seen.slice(0, i + 1).forEach((s) => s.resolve()), { once: true }));
+chats.reduce((previous, chat, i) => previous.then(() => seen[i].p).then(() => playChat(chat)), Promise.resolve());
+
+// Photos in the lower sections (account, the closing band)
 document.querySelectorAll('[data-photo-slot]').forEach((el) => { el.innerHTML = photo(el.dataset.photoSlot, { sizes: '(min-width: 1024px) 33vw, 100vw' }); });
 
 // Retailer marquee (names only; duplicated once for a seamless loop — the copy is

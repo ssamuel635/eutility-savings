@@ -37,7 +37,7 @@ const PAGES = {
   },
   'calculator.html': {
     title: 'Singapore Electricity Savings Calculator — Eutility',
-    description: 'Enter your usage and current plan to see the cheapest Singapore electricity plans for you and your yearly saving. Businesses can check savings across sites.',
+    description: 'Enter your usage and current plan to see the cheapest Singapore electricity plans for you and your yearly saving. Businesses can talk to a consultant.',
   },
   'how-it-works.html': {
     title: 'How to Switch Electricity Retailer in Singapore — Eutility',
@@ -49,7 +49,7 @@ const PAGES = {
   },
   'about.html': {
     title: 'About Eutility: Independent Energy Experts Since 1979',
-    description: 'Eutility is an independent, family-owned energy and utility management company, founded in Australia in 1979, with an office in Singapore.',
+    description: 'Eutility is an independent energy and utility management company, founded in Australia in 1979, with an office in Singapore since 2016.',
   },
   'testimonials.html': {
     title: 'What Switching Could Save Your Home — Eutility',

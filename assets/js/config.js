@@ -55,6 +55,11 @@ export const CONFIG = {
   // such as 'eutility.sg' only once that domain is owned and pointed at the site.
   referralHost: '',
 
+  // Retailers the home page's "Our picks" come from (23 Oct 2026: the
+  // retailers Eutility is presenting to). The calculator still compares every
+  // plan. Empty = pick from every retailer.
+  featuredRetailers: ['Flo Energy', 'Senoko Energy'],
+
   // Calculator defaults
   defaultKwh: 450,
   minKwh: 50,

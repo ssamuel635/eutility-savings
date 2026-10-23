@@ -39,6 +39,7 @@
   <link rel="modulepreload" href="assets/js/widgets/home-story.js">
   <link rel="modulepreload" href="assets/js/widgets/picker.js">
   <link rel="modulepreload" href="assets/js/widgets/residential.js">
+  <link rel="modulepreload" href="assets/js/widgets/wa-chat.js">
   <!-- /modulepreload -->
   <script type="module" src="assets/js/pages/home.js"></script>
 </head>
@@ -120,11 +121,59 @@
     <div class="section-head">
       <h2 class="h2">Three simple steps.</h2>
     </div>
-    <ol class="steps steps--row steps--photos">
-      <li class="step reveal"><div class="photo-frame step__photo" data-photo-slot="corridor"></div><span class="step__num">1</span><h3 class="h4">Send your bill</h3><p>Snap your SP bill on WhatsApp, or just type your usage here.</p></li>
-      <li class="step reveal reveal-delay-1"><div class="photo-frame step__photo" data-photo-slot="hawker"></div><span class="step__num">2</span><h3 class="h4">We compare everything</h3><p>Singapore home plans from every retailer we track, priced for how much you use. We rank them on price for your usage, nothing else.</p></li>
-      <li class="step reveal reveal-delay-2"><div class="photo-frame step__photo" data-photo-slot="mrtPark"></div><span class="step__num">3</span><h3 class="h4">We help you switch</h3><p>If you decide to switch, we help you sign up with your new retailer. SP Group still delivers your power through the same wires.</p></li>
+    <ol class="steps steps--row steps--chats" id="home-steps">
+      <li class="step reveal">
+        <div class="step__chat" data-inview role="img" aria-label="Example WhatsApp chat: you say Hi, Eutility asks for a photo of your bill, and you send it.">
+          <div class="wac__screen" aria-hidden="true">
+            <div class="wac__head"><span class="wac__avatar" data-logo></span><b class="wac__who">Eutility Singapore</b></div>
+            <div class="wac__chat">
+              <div class="wac-msg wac-msg--out">Hi<span class="wac-meta">1:22 PM<i class="wac-tick"></i></span></div>
+              <div class="wac-msg wac-msg--in"><span class="wac-text">Hello! 👋 Send me a photo of your latest electricity bill and I’ll check your savings.<span class="wac-meta">1:22 PM</span></span></div>
+              <div class="wac-msg wac-msg--out wac-msg--photo">
+                <div class="bill">
+                  <div class="bill__head"><span>Your bill</span><span>Example</span></div>
+                  <div class="bill__hl"><span>Usage</span><span>450 kWh</span></div>
+                  <div class="bill__hl"><span>Provider</span><span>SP Group</span></div>
+                  <div class="bill__scan"></div>
+                </div>
+                <span class="wac-meta">1:23 PM<i class="wac-tick"></i></span>
+              </div>
+              <div class="wac__typing"><i></i><i></i><i></i></div>
+            </div>
+          </div>
+        </div>
+        <span class="step__num">1</span><h3 class="h4">Send your bill</h3><p>Snap your SP bill on WhatsApp, or just type your usage here.</p>
+      </li>
+      <li class="step reveal reveal-delay-1">
+        <div class="step__chat" data-inview role="img" data-report-label aria-label="Example WhatsApp chat: Eutility compares every plan and sends your savings report.">
+          <div class="wac__screen" aria-hidden="true">
+            <div class="wac__head"><span class="wac__avatar" data-logo></span><b class="wac__who">Eutility Singapore</b></div>
+            <div class="wac__chat">
+              <div class="wac-msg wac-msg--in" data-quick><span class="wac-text">⏳ Comparing all plans…<span class="wac-meta">1:23 PM</span></span></div>
+              <div class="wac-msg wac-msg--in"><span class="wac-text">YOUR SAVINGS REPORT<br><br>Current : <span data-current>SP Group</span><br>Recommended : <span data-recommended>—</span><br><br>You save : S$ <span data-monthly>0.00</span>/month<br>That’s : S$ <span data-yearly>0.00</span>/year<span class="wac-meta">1:23 PM</span></span><span class="wac-btns"><span data-tap>Switch Now</span><span>Show More Plans</span></span></div>
+              <div class="wac__typing"><i></i><i></i><i></i></div>
+            </div>
+          </div>
+        </div>
+        <span class="step__num">2</span><h3 class="h4">We compare everything</h3><p>Singapore home plans from every retailer we track, priced for how much you use. We rank them on price for your usage, nothing else.</p>
+      </li>
+      <li class="step reveal reveal-delay-2">
+        <div class="step__chat" data-inview role="img" data-switch-label aria-label="Example WhatsApp chat: you tap Switch Now and sign the contract, and Eutility submits your switch.">
+          <div class="wac__screen" aria-hidden="true">
+            <div class="wac__head"><span class="wac__avatar" data-logo></span><b class="wac__who">Eutility Singapore</b></div>
+            <div class="wac__chat">
+              <div class="wac-msg wac-msg--out">Switch Now<span class="wac-meta">1:27 PM<i class="wac-tick"></i></span></div>
+              <div class="wac-msg wac-msg--in"><span class="wac-text">Your contract is ready! 📄 Please review and sign below.<span class="wac-meta">1:28 PM</span></span><span class="wac-btns"><span data-tap>Sign Contract</span></span></div>
+              <div class="wac-msg wac-msg--out">Sign Contract<span class="wac-meta">1:28 PM<i class="wac-tick"></i></span></div>
+              <div class="wac-msg wac-msg--in"><span class="wac-text">Contract signed. ✅<br>We’ll submit your switch to <span data-retailer>your new retailer</span>. Your new rate starts on your next bill.<span class="wac-meta">1:28 PM</span></span></div>
+              <div class="wac__typing"><i></i><i></i><i></i></div>
+            </div>
+          </div>
+        </div>
+        <span class="step__num">3</span><h3 class="h4">We help you switch</h3><p>If you decide to switch, we help you sign up with your new retailer. SP Group still delivers your power through the same wires.</p>
+      </li>
     </ol>
+    <p class="wac-caption steps__caption" data-example></p>
     <p style="margin-top:24px"><a class="link-arrow" href="how-it-works.html">See the full journey</a></p>
   </section>
 

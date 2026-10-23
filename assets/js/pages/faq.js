@@ -1,7 +1,10 @@
 import { initLayout } from '../layout.js';
 import { FAQ, faqMarkup } from '../data/faq.js';
 import * as I from '../icons.js';
+import { photo } from '../data/photos.js';
 
+// Before initLayout(), so its fade-in and missing-photo handling see the photo
+document.querySelectorAll('[data-photo-slot]').forEach((el) => { el.innerHTML = photo(el.dataset.photoSlot, { eager: true, sizes: '(min-width: 768px) 50vw, 100vw' }); });
 initLayout();
 
 const list = document.getElementById('faq-list');

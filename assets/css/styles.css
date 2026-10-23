@@ -2170,3 +2170,26 @@ body { line-height: 1.65; }
   .hero-calc .preset { min-height: 36px; padding-block: 6px; }
   .hero-calc .live-bill { padding-block: 6px; }
 }
+
+/* Home's three simple steps as the WhatsApp chat (23 Oct): each step shows a
+   short piece of the assistant's conversation instead of a photo, drawn with
+   the same wac-* styles as How it works but cropped to the chat (no phone
+   frame or message box), and played one step after another (home.js). */
+.steps--chats .step { padding: 0; overflow: hidden; }
+.steps--chats .step > :not(.step__chat) { margin-inline: var(--s6); }
+.steps--chats .step > :last-child { margin-bottom: var(--s6); }
+.step__chat { margin-bottom: var(--s2); border-bottom: 1px solid var(--border); }
+.step__chat .wac__screen { display: flex; flex-direction: column; height: 300px; border-radius: 0; }
+.step__chat .wac__head { padding: 10px 12px; }
+.step__chat .wac__chat { padding: 8px 12px 30px; }
+.steps--chats .step__num { margin-top: -38px; position: relative; z-index: 1; width: 52px; height: 52px; display: grid; place-items: center; background: #fff; border: 1px solid var(--border); font-size: 26px; }
+.steps__caption { max-width: none; margin: 14px 0 0; text-align: left; }
+
+/* Sample testimonials (23 Oct): until real customers agree to be quoted, each
+   quote is a written sample and says so on the card. */
+.t-quote__sample { justify-self: start; margin-top: 6px; padding: 2px 8px; border: 1px solid var(--border); border-radius: 2px; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+
+/* News and FAQ heroes (23 Oct): a short landscape photo beside the heading,
+   reusing the photos the home page's steps used to show. */
+.hero__art.hero__art--short { aspect-ratio: 16 / 9; }
+@media (min-width: 1024px) { .hero__art.hero__art--short { aspect-ratio: 16 / 10; align-self: center; } }

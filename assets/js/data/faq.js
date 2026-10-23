@@ -16,7 +16,7 @@ export const FAQ = [
     items: [
       {
         q: 'Who is Eutility?',
-        a: `<p>Eutility is an independent energy company. It was founded in Australia in ${CONFIG.company.foundedAu} and is still family owned. We don&rsquo;t sell electricity: we compare what the retailers offer and help Singapore homes switch to a plan that suits them.</p>
+        a: `<p>Eutility is an independent energy and utility management company, founded in Australia in ${CONFIG.company.foundedAu}. We don&rsquo;t sell electricity: we compare what the retailers offer and help Singapore homes switch to a plan that suits them.</p>
             <p>${CONFIG.company.sgEntity} (UEN ${CONFIG.company.sgUen}) has had an office here since ${CONFIG.company.sgIncorporated}, at ${CONFIG.company.sgAddress}.</p>`,
       },
       {

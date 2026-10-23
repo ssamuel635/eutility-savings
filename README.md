@@ -110,7 +110,8 @@ Wording across the site reflects the actual business rather than a generic
 comparison-site voice:
 
 - Eutility is an **independent energy and telecommunications consultant**,
-  family owned and Australian, operating since **1979**
+  founded in Australia in **1979**, with Eutility Singapore Pte Ltd here since 2016
+  (don't call it family-owned: not confirmed, removed from the site 23 Oct 2026)
 - It is **not an electricity retailer** — Eutility Singapore is registered with
   ACRA under "activities of brokers and agents for electric power and natural
   gas", which is the trust story the FAQ leans on

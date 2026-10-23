@@ -6,6 +6,7 @@ import { initLayout, observeReveals } from '../layout.js';
 import { compare, TARIFF, fmtMoney, PLAN_COUNT, rateLabel } from '../calc.js';
 import { countUp, reducedMotion } from '../fx.js';
 import * as I from '../icons.js';
+import { playChat } from '../widgets/wa-chat.js';
 
 initLayout();
 
@@ -30,38 +31,12 @@ document.querySelector('#step3 .wac').setAttribute('aria-label', best
   : 'Example WhatsApp chat: your savings report.');
 
 const count = document.querySelector('[data-count]');
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-
-/** Show one chat's messages in turn: replies from Eutility get "typing…" first. */
-async function play(visual) {
-  const msgs = [...visual.querySelectorAll('.wac-msg')];
-  const typing = visual.querySelector('.wac__typing');
-  const show = (m) => {
-    m.classList.add('is-in');
-    // The customer's reply greys out the button they tapped, as WhatsApp does
-    if (m.classList.contains('wac-msg--out')) visual.querySelectorAll('.is-in [data-tap]').forEach((b) => b.classList.add('is-tapped'));
-    if (m.contains(count)) countUp(count, yearlyExact, { format: cents });
-  };
-  if (reducedMotion()) { msgs.forEach(show); return; }
-  await sleep(350);
-  for (const m of msgs) {
-    if (m.classList.contains('wac-msg--in')) {
-      typing.classList.add('is-on');
-      await sleep('quick' in m.dataset ? 650 : 1100);
-      typing.classList.remove('is-on');
-    } else {
-      await sleep(500);
-    }
-    show(m);
-    await sleep(350);
-  }
-}
 
 if (reducedMotion()) {
   count.textContent = cents(yearlyExact);
   document.querySelectorAll('[data-tap]').forEach((b) => b.classList.add('is-tapped'));
 }
 document.querySelectorAll('.journey__visual').forEach((v) => {
-  v.addEventListener('inview', () => play(v), { once: true });
+  v.addEventListener('inview', () => playChat(v, (m) => { if (m.contains(count)) countUp(count, yearlyExact, { format: cents }); }), { once: true });
 });
 observeReveals();

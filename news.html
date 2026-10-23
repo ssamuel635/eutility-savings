@@ -24,6 +24,7 @@
   <!-- modulepreload -->
   <link rel="modulepreload" href="assets/js/calc.js">
   <link rel="modulepreload" href="assets/js/config.js">
+  <link rel="modulepreload" href="assets/js/data/photos.js">
   <link rel="modulepreload" href="assets/js/data/plans.js">
   <link rel="modulepreload" href="assets/js/icons.js">
   <link rel="modulepreload" href="assets/js/layout.js">
@@ -37,10 +38,13 @@
 <body data-page="news">
 <main id="main">
   <section class="hero container" style="padding-bottom:32px">
-    <div class="stack" style="--stack:20px;max-width:760px">
-      <p class="eyebrow reveal">Market news</p>
-      <h1 class="display reveal reveal-delay-1">Singapore electricity news.</h1>
-      <p class="lead reveal reveal-delay-2">Tariff changes, retailer news and market updates from SP Group, the Open Electricity Market and Singapore&rsquo;s news sites. Each headline links to the original story.</p>
+    <div class="grid-2">
+      <div class="stack" style="--stack:20px">
+        <p class="eyebrow reveal">Market news</p>
+        <h1 class="display reveal reveal-delay-1">Singapore electricity news.</h1>
+        <p class="lead reveal reveal-delay-2">Tariff changes, retailer news and market updates from SP Group, the Open Electricity Market and Singapore&rsquo;s news sites. Each headline links to the original story.</p>
+      </div>
+      <div class="hero__art hero__art--short photo-frame reveal" data-photo-slot="mrtPark"></div>
     </div>
   </section>
   <section class="container" style="padding-bottom:clamp(48px,8vw,96px)">
