@@ -48,6 +48,15 @@ export function newsPageMarkup(items = NEWS) {
       </section>`).join('');
 }
 
+/** Headlines about the SP Group tariff (the tariff page), newest first; empty when there are none. */
+export function tariffNewsMarkup(n = 4, items = NEWS) {
+  const top = latest(Infinity, items).filter((it) => /tariff/i.test(it.title)).slice(0, n);
+  if (!top.length) return '';
+  return `<ul class="news-list">
+        ${top.map((it) => itemMarkup(it, 'news-item')).join('\n        ')}
+        </ul>`;
+}
+
 /** The homepage section: the latest three, or a short note while there's no news yet. */
 export function homeNewsMarkup(items = NEWS) {
   const top = latest(3, items);

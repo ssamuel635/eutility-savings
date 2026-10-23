@@ -1,12 +1,12 @@
 import { initLayout, observeReveals, photoFallbacks } from '../layout.js';
 import { mountResidential } from '../widgets/residential.js';
-import { homeStories, storyCard, retailerLogo } from '../widgets/home-story.js';
+import { homeStories, storyCard } from '../widgets/home-story.js';
 import { MARKET_PLANS, CONTRACT_FILTERS, compare, fmtMoney, rateLabel, PLAN_COUNT, RETAILER_COUNT, TARIFF, TARIFF_PERIOD } from '../calc.js';
 import { CONFIG } from '../config.js';
 import { photo } from '../data/photos.js';
 import { TESTIMONIALS, quoteCard } from '../data/testimonials.js';
 import * as rewards from '../services/rewards.js';
-import * as plans from '../services/plans-service.js';
+import { picksMarkup, picksLead } from '../widgets/picks.js';
 import * as I from '../icons.js';
 import { playChat } from '../widgets/wa-chat.js';
 
@@ -28,7 +28,7 @@ const best = Math.min(...MARKET_PLANS.filter((p) => p.pricingType === 'fixed' &&
 document.getElementById('rate-vs').innerHTML = `
   <div class="rate-vs__item"><span class="rate-vs__num">${best.toFixed(2)}<small>¢/kWh</small></span><span class="rate-vs__label">Fixed plans up to 24 months, from</span></div>
   <span class="rate-vs__vs">vs</span>
-  <div class="rate-vs__item rate-vs__item--tariff"><span class="rate-vs__num">${TARIFF.toFixed(2)}<small>¢/kWh</small></span><span class="rate-vs__label">SP Group tariff, ${esc(TARIFF_PERIOD)}</span></div>`;
+  <div class="rate-vs__item rate-vs__item--tariff"><span class="rate-vs__num">${TARIFF.toFixed(2)}<small>¢/kWh</small></span><a class="rate-vs__label" href="electricity-tariff.html">SP Group tariff, ${esc(TARIFF_PERIOD)}</a></div>`;
 
 // What Eutility does: a photo beside a short list
 document.getElementById('why-photo').innerHTML = photo('dinner', { sizes: '(min-width: 1024px) 50vw, 100vw' });
@@ -44,40 +44,11 @@ document.getElementById('why-list').innerHTML = VALUE.map((v) => `
 // Hero photo: behind the top of the page on desktop, above the headline on phones
 document.getElementById('hero-photo').innerHTML = photo('sofa', { eager: true, sizes: '(min-width: 1024px) 62vw, 100vw' });
 
-// Our picks: three plans worth a look from the featured retailers (CONFIG),
-// priced for a typical home, each with its retailer's logo
+// Our picks (also written into index.html by tools/prerender.mjs)
 const kwh = CONFIG.defaultKwh;
-const featured = CONFIG.featuredRetailers?.length ? CONFIG.featuredRetailers : null;
-const pool = (opts = {}) => plans.list({ kwh, sort: 'price', ...opts }).filter((r) => !featured || featured.includes(r.plan.retailer));
-const cheapest = pool()[0];
-const longest = pool().filter((r) => r.plan.pricingType === 'fixed')
-  .sort((a, b) => (b.plan.contractMonths ?? 0) - (a.plan.contractMonths ?? 0) || a.monthly - b.monthly)[0];
-const green = pool({ type: 'green' })[0];
-const picks = [
-  ['Lowest bill', cheapest],
-  ['Longest fixed price', longest],
-  ['Greener choice', green],
-].filter(([, r], i, arr) => r && arr.findIndex(([, x]) => x?.id === r.id) === i);
-document.getElementById('plan-teaser').innerHTML = picks.map(([label, r], i) => `
-  <article class="pick-card reveal" style="--d:${i * 0.06}s">
-    <span class="pick-card__ribbon">${esc(label)}</span>
-    <div class="pick-card__logo">${retailerLogo(r.plan.retailer)}</div>
-    <div class="pick-card__body">
-      <p class="pick-card__retailer">${esc(r.plan.retailer)}</p>
-      <p class="pick-card__name">${esc(r.plan.name)}</p>
-      <p class="pick-card__rate">${esc(r.priceLabel.replace(/ \+ .*$/, ''))}<small>${esc(r.contract)}</small></p>
-      <div class="pick-stats">
-        <div><span>Est. monthly</span><strong>${fmtMoney(r.monthly)}</strong></div>
-        <div><span>vs SP tariff</span><strong class="save">${r.savingVsTariffYearly > 0 ? `Save ${fmtMoney(r.savingVsTariffYearly)}/yr` : 'Similar'}</strong></div>
-      </div>
-    </div>
-    <div class="pick-card__actions">
-      <button class="btn btn--wa btn--block" type="button" data-wa data-wa-message="Hi Eutility, I'm interested in switching to ${esc(r.plan.retailer)} ${esc(r.plan.name)}. Can you check if it suits my usage?" aria-label="Switch to ${esc(r.plan.retailer)} ${esc(r.plan.name)} on WhatsApp">${I.chat}<span>Switch on WhatsApp</span></button>
-      <a class="link-arrow" href="calculator.html?kwh=${kwh}&run=1">Compare for my usage</a>
-    </div>
-  </article>`).join('');
+document.getElementById('plan-teaser').innerHTML = picksMarkup(kwh);
 const tip = document.querySelector('#plan-teaser')?.closest('section')?.querySelector('.section-head .lead');
-if (tip) tip.textContent = `${featured ? `Plans from ${featured.join(' and ')}` : 'Picked from every plan we track'}, priced for a home using ${kwh} kWh a month. Check yours above to compare every plan for your own numbers.`;
+if (tip) tip.textContent = picksLead(kwh);
 
 // What switching could save: real estimates for typical homes
 document.getElementById('home-testimonials').innerHTML = homeStories(['HDB 3-room', 'HDB 5-room', 'Condo']).map(storyCard).join('');

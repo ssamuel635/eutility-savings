@@ -27,8 +27,29 @@ const load = (rel) => import(pathToFileURL(path.join(ROOT, rel)).href);
 const { META } = await load('assets/js/data/plans.js');
 const { CONFIG } = await load('assets/js/config.js');
 const { FAQ } = await load('assets/js/data/faq.js');
-const { planCount: plans, retailerCount: retailers } = META;
+const { homeFacts } = await load('assets/js/widgets/guides.js');
+const { fmtMoney } = await load('assets/js/calc.js');
+const { planCount: plans, retailerCount: retailers, regulatedTariff: tariff, tariffPeriod } = META;
 
+// "a 4-room HDB flat" -> "a 4-Room HDB Flat" (titles only)
+const titleCase = (t) => t.split(' ').map((w) => (/^(a|an)$/.test(w) ? w : w.replace(/(^|-)([a-z])/g, (m, sep, ch) => sep + ch.toUpperCase()))).join(' ');
+
+// One page per home type ("Electricity plans for a 4-room HDB flat"), from the
+// presets in config.js and the pages listed in widgets/home-story.js.
+const HOME_TYPE_PAGES = Object.fromEntries(CONFIG.homePresets.map((p) => homeFacts(p.label)).filter((f) => f?.href).map((f) => [f.href, {
+  title: `Electricity Plans for ${titleCase(f.inSentence)} — Eutility`,
+  description: `${f.inSentence.charAt(0).toUpperCase()}${f.inSentence.slice(1)} uses about ${f.kwh} kWh a month: about ${fmtMoney(f.onTariff)} a month on SP Group’s tariff. See the plans that cost least for that usage.`,
+}]));
+
+// The search each page is written to answer (Oct 2026 plan), so new copy and
+// titles stay on topic:
+//   index.html           compare electricity plans Singapore
+//   calculator.html      electricity savings calculator / cheapest electricity plan
+//   how-it-works.html    how to switch electricity retailer Singapore
+//   electricity-tariff   SP Group electricity tariff <quarter>
+//   electricity-plans-*  electricity plan / bill for an HDB flat, condo or landed home
+//   faq.html             switching electricity retailer questions
+//   news.html            Singapore electricity market news
 // index: false keeps a page out of search results (account pages, errors).
 const PAGES = {
   'index.html': {
@@ -59,6 +80,11 @@ const PAGES = {
     title: 'Refer a Friend, Earn Rewards — Eutility',
     description: 'Get your friends switched to a better electricity plan, climb the leaderboard and earn rewards with Eutility.',
   },
+  'electricity-tariff.html': {
+    title: `SP Group Electricity Tariff ${tariffPeriod} — Eutility`,
+    description: `SP Group’s regulated electricity tariff for ${tariffPeriod} is ${tariff}¢/kWh incl. GST. See what it costs each type of home, and the plans that cost less.`,
+  },
+  ...HOME_TYPE_PAGES,
   'news.html': {
     title: 'Singapore Electricity Market News — Eutility',
     description: 'Electricity tariff changes, retailer news and market updates in Singapore, from SP Group, the Open Electricity Market and local news sites.',
@@ -154,7 +180,7 @@ for (const [file, p] of Object.entries(PAGES)) {
 
 // sitemap.xml: the pages search engines may list. Only the price-driven pages
 // carry a date, because a lastmod that changes on every build gets ignored.
-const PRICE_PAGES = new Set(['index.html', 'calculator.html']);
+const PRICE_PAGES = new Set(['index.html', 'calculator.html', 'electricity-tariff.html', ...Object.keys(HOME_TYPE_PAGES)]);
 const urls = Object.entries(PAGES).filter(([, p]) => p.index !== false).map(([file]) =>
   `  <url><loc>${urlOf(file)}</loc>${PRICE_PAGES.has(file) ? `<lastmod>${META.ratesAsAt}</lastmod>` : ''}</url>`);
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'),

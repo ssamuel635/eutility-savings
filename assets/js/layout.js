@@ -113,6 +113,8 @@ function footer() {
             <li><a href="how-it-works.html">How it works</a></li>
             <li><a href="referrals.html">${CONFIG.rewards.programmeName}</a></li>
             <li><a href="testimonials.html">Testimonials</a></li>
+            <li><a href="electricity-tariff.html">SP Group tariff this quarter</a></li>
+            <li><a href="electricity-plans-hdb-4-room.html">Plans by type of home</a></li>
           </ul>
         </div>
         <div>

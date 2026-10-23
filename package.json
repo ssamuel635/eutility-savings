@@ -5,7 +5,7 @@
   "description": "Eutility Singapore — savings comparison & SME load aggregation subsite (static site; local server adds the Excel CRM)",
   "scripts": {
     "start": "node server.js",
-    "test": "node --test tests/calc.test.mjs tests/gate.test.mjs tests/crm.test.mjs tests/auth.test.mjs tests/crm-access.test.mjs tests/news.test.mjs tests/review-api.test.mjs",
+    "test": "node --test tests/calc.test.mjs tests/gate.test.mjs tests/crm.test.mjs tests/auth.test.mjs tests/crm-access.test.mjs tests/news.test.mjs tests/review-api.test.mjs tests/pages.test.mjs",
     "data": "python3 tools/build_data.py",
     "preload": "node tools/preload.mjs",
     "seo": "node tools/seo.mjs && node tools/prerender.mjs",

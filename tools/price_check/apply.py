@@ -19,7 +19,7 @@ Usage:
   python3 tools/price_check/apply.py price-checks/2026-10-12 --only id1,id2   # just these (--skip to leave some out)
   python3 tools/price_check/apply.py ... --no-promos                          # prices only
 
-Then: python3 tools/build_data.py --rates-date <date>  &&  npm test
+Then: python3 tools/build_data.py --rates-date <date>  &&  npm run seo  &&  npm test   (npm run seo rewrites the pages built from the prices)
 """
 import argparse
 import json
@@ -222,7 +222,7 @@ def main():
            plans_approved=sum(1 for l in log if l.startswith(("updated:", "removed:", "terms:"))),
            promos_approved=sum(1 for l in log if l.startswith(("promotion:", "promotion ended:"))),
            applied_at=date.today().isoformat())
-    print(f"\nSaved {SHEET.relative_to(ROOT)}. Next: python3 tools/build_data.py --rates-date {run.name} && npm test")
+    print(f"\nSaved {SHEET.relative_to(ROOT)}. Next: python3 tools/build_data.py --rates-date {run.name} && npm run seo && npm test")
 
 
 if __name__ == "__main__":

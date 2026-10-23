@@ -7,6 +7,9 @@
 // <!-- prerender:NAME --> and <!-- /prerender:NAME --> markers:
 //   faq.html    every question and answer (the page's search re-renders the same markup)
 //   news.html   every market news headline; index.html the latest three
+//   index.html  "Our picks" and the savings by home type; testimonials.html the
+//               savings for every home type
+//   electricity-tariff.html and electricity-plans-*.html  the whole page (widgets/guides.js)
 // They come from the same data the pages use, so re-run after a price update.
 // tools/news/apply.py runs it after publishing news.
 import fs from 'node:fs';
@@ -18,11 +21,21 @@ const load = (rel) => import(pathToFileURL(path.join(ROOT, rel)).href);
 
 const { FAQ, faqMarkup } = await load('assets/js/data/faq.js');
 const { newsPageMarkup, homeNewsMarkup } = await load('assets/js/services/news-service.js');
+const { picksMarkup, picksLead } = await load('assets/js/widgets/picks.js');
+const { homeStories, storyCard, HOME_PAGES } = await load('assets/js/widgets/home-story.js');
+const { tariffPageMarkup, homeTypePageMarkup } = await load('assets/js/widgets/guides.js');
 
 const SPOTS = [
   { file: 'faq.html', name: 'faq', html: () => faqMarkup(FAQ), after: /<div id="faq-list"[^>]*>/ },
   { file: 'news.html', name: 'news', html: () => newsPageMarkup(), after: /<div class="news-feed" id="news-feed">/ },
   { file: 'index.html', name: 'news', html: () => homeNewsMarkup(), after: /<!-- Market news[^>]*-->/ },
+  { file: 'index.html', name: 'picks-lead', html: () => picksLead(), after: /<p class="lead" id="picks-lead">/ },
+  { file: 'index.html', name: 'picks', html: () => picksMarkup(), after: /<div class="picks" id="plan-teaser">/ },
+  // Same three homes as pages/home.js
+  { file: 'index.html', name: 'stories', html: () => homeStories(['HDB 3-room', 'HDB 5-room', 'Condo']).map(storyCard).join(''), after: /<div class="grid-3" id="home-testimonials">/ },
+  { file: 'testimonials.html', name: 'stories', html: () => homeStories().map(storyCard).join(''), after: /<div class="grid-3" id="t-grid">/ },
+  { file: 'electricity-tariff.html', name: 'guide', html: () => tariffPageMarkup(), after: /<main id="main">/ },
+  ...Object.entries(HOME_PAGES).map(([label, file]) => ({ file, name: 'guide', html: () => homeTypePageMarkup(label), after: /<main id="main">/ })),
 ];
 
 let failed = false;

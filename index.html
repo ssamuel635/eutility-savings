@@ -38,6 +38,7 @@
   <link rel="modulepreload" href="assets/js/services/store.js">
   <link rel="modulepreload" href="assets/js/widgets/home-story.js">
   <link rel="modulepreload" href="assets/js/widgets/picker.js">
+  <link rel="modulepreload" href="assets/js/widgets/picks.js">
   <link rel="modulepreload" href="assets/js/widgets/residential.js">
   <link rel="modulepreload" href="assets/js/widgets/wa-chat.js">
   <!-- /modulepreload -->
@@ -91,9 +92,74 @@
   <section class="section section--cloud container">
     <div class="section-head">
       <h2 class="h2">Our picks for Singapore homes.</h2>
-      <p class="lead">Picked from every plan we track, priced for a typical home. Check yours above for your own numbers.</p>
+      <p class="lead" id="picks-lead">
+  <!-- prerender:picks-lead -->Plans from Flo Energy and Senoko Energy, priced for a home using 450 kWh a month. Check yours above to compare every plan for your own numbers.<!-- /prerender:picks-lead --></p>
     </div>
-    <div class="picks" id="plan-teaser"></div>
+    <div class="picks" id="plan-teaser">
+  <!-- prerender:picks -->
+  <article class="pick-card reveal" style="--d:0s">
+    <span class="pick-card__ribbon">Lowest bill</span>
+    <div class="pick-card__logo"><img class="retailer-logo" src="assets/img/retailers/flo-energy.png?v=20261022" alt="Flo Energy" loading="lazy" decoding="async"></div>
+    <div class="pick-card__body">
+      <p class="pick-card__retailer">Flo Energy</p>
+      <p class="pick-card__name">Fixed 12</p>
+      <p class="pick-card__rate">26.30¢/kWh<small>12-month contract</small></p>
+      <div class="pick-stats">
+        <div><span>Est. monthly</span><strong>S$118</strong></div>
+        <div><span>vs SP tariff</span><strong class="save">Save S$262/yr</strong></div>
+      </div>
+    </div>
+    <div class="pick-card__actions">
+      <button class="btn btn--wa btn--block" type="button" data-wa data-wa-message="Hi Eutility, I'm interested in switching to Flo Energy Fixed 12. Can you check if it suits my usage?" aria-label="Switch to Flo Energy Fixed 12 on WhatsApp">
+<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M12 3.5c-4.97 0-9 3.47-9 7.75 0 2.3 1.17 4.37 3.03 5.79L5.3 20.5l4.03-1.9c.85.2 1.74.3 2.67.3 4.97 0 9-3.47 9-7.75S16.97 3.5 12 3.5z"/>
+  <path d="M8.5 11.25h.01M12 11.25h.01M15.5 11.25h.01" stroke-width="2.6"/>
+</svg><span>Switch on WhatsApp</span></button>
+      <a class="link-arrow" href="calculator.html?kwh=450&run=1">Compare for my usage</a>
+    </div>
+  </article>
+  <article class="pick-card reveal" style="--d:0.06s">
+    <span class="pick-card__ribbon">Longest fixed price</span>
+    <div class="pick-card__logo"><img class="retailer-logo" src="assets/img/retailers/senoko-energy.png?v=20261022" alt="Senoko Energy" loading="lazy" decoding="async"></div>
+    <div class="pick-card__body">
+      <p class="pick-card__retailer">Senoko Energy</p>
+      <p class="pick-card__name">LifePower36</p>
+      <p class="pick-card__rate">28.90¢/kWh<small>36-month contract</small></p>
+      <div class="pick-stats">
+        <div><span>Est. monthly</span><strong>S$130</strong></div>
+        <div><span>vs SP tariff</span><strong class="save">Save S$122/yr</strong></div>
+      </div>
+    </div>
+    <div class="pick-card__actions">
+      <button class="btn btn--wa btn--block" type="button" data-wa data-wa-message="Hi Eutility, I'm interested in switching to Senoko Energy LifePower36. Can you check if it suits my usage?" aria-label="Switch to Senoko Energy LifePower36 on WhatsApp">
+<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M12 3.5c-4.97 0-9 3.47-9 7.75 0 2.3 1.17 4.37 3.03 5.79L5.3 20.5l4.03-1.9c.85.2 1.74.3 2.67.3 4.97 0 9-3.47 9-7.75S16.97 3.5 12 3.5z"/>
+  <path d="M8.5 11.25h.01M12 11.25h.01M15.5 11.25h.01" stroke-width="2.6"/>
+</svg><span>Switch on WhatsApp</span></button>
+      <a class="link-arrow" href="calculator.html?kwh=450&run=1">Compare for my usage</a>
+    </div>
+  </article>
+  <article class="pick-card reveal" style="--d:0.12s">
+    <span class="pick-card__ribbon">Greener choice</span>
+    <div class="pick-card__logo"><img class="retailer-logo" src="assets/img/retailers/senoko-energy.png?v=20261022" alt="Senoko Energy" loading="lazy" decoding="async"></div>
+    <div class="pick-card__body">
+      <p class="pick-card__retailer">Senoko Energy</p>
+      <p class="pick-card__name">LifeGreen24</p>
+      <p class="pick-card__rate">29.68¢/kWh<small>24-month contract</small></p>
+      <div class="pick-stats">
+        <div><span>Est. monthly</span><strong>S$134</strong></div>
+        <div><span>vs SP tariff</span><strong class="save">Save S$80/yr</strong></div>
+      </div>
+    </div>
+    <div class="pick-card__actions">
+      <button class="btn btn--wa btn--block" type="button" data-wa data-wa-message="Hi Eutility, I'm interested in switching to Senoko Energy LifeGreen24. Can you check if it suits my usage?" aria-label="Switch to Senoko Energy LifeGreen24 on WhatsApp">
+<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M12 3.5c-4.97 0-9 3.47-9 7.75 0 2.3 1.17 4.37 3.03 5.79L5.3 20.5l4.03-1.9c.85.2 1.74.3 2.67.3 4.97 0 9-3.47 9-7.75S16.97 3.5 12 3.5z"/>
+  <path d="M8.5 11.25h.01M12 11.25h.01M15.5 11.25h.01" stroke-width="2.6"/>
+</svg><span>Switch on WhatsApp</span></button>
+      <a class="link-arrow" href="calculator.html?kwh=450&run=1">Compare for my usage</a>
+    </div>
+  </article><!-- /prerender:picks --></div>
     <p style="margin-top:24px"><a class="link-arrow" href="calculator.html">Compare plans for your usage</a></p>
   </section>
 
@@ -103,7 +169,56 @@
       <h2 class="h2">What switching could save.</h2>
       <p class="lead">A typical Singapore home of each type, worked out from today&rsquo;s rates.</p>
     </div>
-    <div class="grid-3" id="home-testimonials"></div>
+    <div class="grid-3" id="home-testimonials">
+  <!-- prerender:stories -->
+  <article class="story-card reveal" style="--d:0s">
+    <div class="story-card__switch">
+      <a class="story-card__home" href="electricity-plans-hdb-3-room.html">3-room HDB flat</a>
+      <div class="switch-logos" role="img" aria-label="From SP Group to Flo Energy">
+        <span class="switch-logos__from" aria-hidden="true"><small>From</small><img class="retailer-logo" src="assets/img/retailers/sp-group.svg?v=20261022" alt="SP Group" loading="lazy" decoding="async"></span>
+        <span class="switch-logos__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <span class="switch-logos__to" aria-hidden="true"><small>To</small><img class="retailer-logo" src="assets/img/retailers/flo-energy.png?v=20261022" alt="Flo Energy" loading="lazy" decoding="async"></span>
+      </div>
+    </div>
+    <div class="story-card__body">
+      <p class="story-card__save">S$163<small> a year</small></p>
+      <p class="story-card__how">A 3-room HDB flat using about 280 kWh a month, moving from SP Group’s tariff to Flo Energy Fixed 12.</p>
+      <p class="story-card__note">Example estimate, retailer rates as at 19 October 2026.</p>
+      <a class="link-arrow" href="calculator.html?kwh=280&run=1">Check your own home</a>
+    </div>
+  </article>
+  <article class="story-card reveal" style="--d:0.06s">
+    <div class="story-card__switch">
+      <a class="story-card__home" href="electricity-plans-hdb-5-room.html">5-room HDB flat</a>
+      <div class="switch-logos" role="img" aria-label="From SP Group to Flo Energy">
+        <span class="switch-logos__from" aria-hidden="true"><small>From</small><img class="retailer-logo" src="assets/img/retailers/sp-group.svg?v=20261022" alt="SP Group" loading="lazy" decoding="async"></span>
+        <span class="switch-logos__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <span class="switch-logos__to" aria-hidden="true"><small>To</small><img class="retailer-logo" src="assets/img/retailers/flo-energy.png?v=20261022" alt="Flo Energy" loading="lazy" decoding="async"></span>
+      </div>
+    </div>
+    <div class="story-card__body">
+      <p class="story-card__save">S$257<small> a year</small></p>
+      <p class="story-card__how">A 5-room HDB flat using about 440 kWh a month, moving from SP Group’s tariff to Flo Energy Fixed 12.</p>
+      <p class="story-card__note">Example estimate, retailer rates as at 19 October 2026.</p>
+      <a class="link-arrow" href="calculator.html?kwh=440&run=1">Check your own home</a>
+    </div>
+  </article>
+  <article class="story-card reveal" style="--d:0.12s">
+    <div class="story-card__switch">
+      <a class="story-card__home" href="electricity-plans-condo.html">Condo</a>
+      <div class="switch-logos" role="img" aria-label="From SP Group to Flo Energy">
+        <span class="switch-logos__from" aria-hidden="true"><small>From</small><img class="retailer-logo" src="assets/img/retailers/sp-group.svg?v=20261022" alt="SP Group" loading="lazy" decoding="async"></span>
+        <span class="switch-logos__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <span class="switch-logos__to" aria-hidden="true"><small>To</small><img class="retailer-logo" src="assets/img/retailers/flo-energy.png?v=20261022" alt="Flo Energy" loading="lazy" decoding="async"></span>
+      </div>
+    </div>
+    <div class="story-card__body">
+      <p class="story-card__save">S$292<small> a year</small></p>
+      <p class="story-card__how">A condo using about 500 kWh a month, moving from SP Group’s tariff to Flo Energy Fixed 12.</p>
+      <p class="story-card__note">Example estimate, retailer rates as at 19 October 2026.</p>
+      <a class="link-arrow" href="calculator.html?kwh=500&run=1">Check your own home</a>
+    </div>
+  </article><!-- /prerender:stories --></div>
   </section>
 
   <!-- Testimonials -->

@@ -35,9 +35,23 @@ export function retailerLogo(name) {
     : `<span class="retailer-logo retailer-logo--text">${esc(name)}</span>`;
 }
 
-const HOME_NAMES = { 'HDB 3-room': '3-room HDB flat', 'HDB 4-room': '4-room HDB flat', 'HDB 5-room': '5-room HDB flat', Executive: 'Executive flat', Condo: 'Condo', Landed: 'Landed home' };
+export const HOME_NAMES = { 'HDB 3-room': '3-room HDB flat', 'HDB 4-room': '4-room HDB flat', 'HDB 5-room': '5-room HDB flat', Executive: 'Executive flat', Condo: 'Condo', Landed: 'Landed home' };
 /** The same, mid-sentence ("A 3-room HDB flat using…"). */
-const IN_SENTENCE = { 'HDB 3-room': 'a 3-room HDB flat', 'HDB 4-room': 'a 4-room HDB flat', 'HDB 5-room': 'a 5-room HDB flat', Executive: 'an Executive flat', Condo: 'a condo', Landed: 'a landed home' };
+export const IN_SENTENCE = { 'HDB 3-room': 'a 3-room HDB flat', 'HDB 4-room': 'a 4-room HDB flat', 'HDB 5-room': 'a 5-room HDB flat', Executive: 'an Executive flat', Condo: 'a condo', Landed: 'a landed home' };
+
+/**
+ * Each home type's own page ("Electricity plans for a 4-room HDB flat"),
+ * written by tools/prerender.mjs from the price sheet. A new home preset needs
+ * a page file too: copy one of these and add it here.
+ */
+export const HOME_PAGES = {
+  'HDB 3-room': 'electricity-plans-hdb-3-room.html',
+  'HDB 4-room': 'electricity-plans-hdb-4-room.html',
+  'HDB 5-room': 'electricity-plans-hdb-5-room.html',
+  Executive: 'electricity-plans-executive-flat.html',
+  Condo: 'electricity-plans-condo.html',
+  Landed: 'electricity-plans-landed-home.html',
+};
 
 /** Stories for the given home types (all of them by default). */
 export function homeStories(labels = CONFIG.homePresets.map((p) => p.label)) {
@@ -58,7 +72,7 @@ export function storyCard(s, i = 0) {
   return `
   <article class="story-card reveal" style="--d:${i * 0.06}s">
     <div class="story-card__switch">
-      <span class="story-card__home">${esc(home)}</span>
+      ${HOME_PAGES[s.label] ? `<a class="story-card__home" href="${HOME_PAGES[s.label]}">${esc(home)}</a>` : `<span class="story-card__home">${esc(home)}</span>`}
       <div class="switch-logos" role="img" aria-label="${esc(`From SP Group to ${to}`)}">
         <span class="switch-logos__from" aria-hidden="true"><small>From</small>${retailerLogo('SP Group')}</span>
         <span class="switch-logos__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
