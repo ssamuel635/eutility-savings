@@ -33,7 +33,7 @@ What that means in practice:
 | Switch request | Goes out by WhatsApp or email | Logged in a CRM |
 
 The switch journey is genuinely functional without a database, because the
-handoff is a real message to a real person: WhatsApp on `+65 9790 8347`, or
+handoff is a real message: WhatsApp to the chatbot on `+65 8227 7121`, or
 email to `customerservice@eutility.com.sg`. Every WhatsApp button has the email
 option beside it.
 
@@ -302,7 +302,7 @@ Keep the same column layout. Rows with the same Retailer + Plan Name are merged 
 
 | Item | Where |
 |---|---|
-| WhatsApp Business number (currently `6500000000`) | `assets/js/config.js` → `whatsappNumber` |
+| WhatsApp number (currently the chatbot, `6582277121`) | `assets/js/config.js` → `whatsappNumber` |
 | Email and phone | `assets/js/config.js` |
 | **SME aggregation tiers and discounts (made up)** | `assets/js/config.js` → `smeTiers`. The baseline is the best ≤24-month fixed residential rate in the sheet, which is also an assumption |
 | Logo is in (314×112 PNG). A larger or SVG export would look sharper on high-resolution screens | `assets/img/eutility-logo.png`, symbol + favicons in `assets/img/` |

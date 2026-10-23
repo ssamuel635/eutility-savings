@@ -30,8 +30,10 @@ export const CONFIG = {
   // Legal/enquiries address used in the Website Terms and Conditions.
   enquiriesEmail: 'enquiries@eutility.com.sg',
 
-  // TODO: Eutility's WhatsApp Business number in international format, digits only (no +, spaces).
-  whatsappNumber: '6597908347',
+  // WhatsApp number every WhatsApp button and QR code opens, in international
+  // format, digits only (no +, spaces). This is the chatbot's number
+  // (+65 8227 7121, 23 Oct); the office phone below stays separate.
+  whatsappNumber: '6582277121',
 
   // Pre-filled message for the WhatsApp handoff (from the creative brief §6).
   whatsappDefaultMessage: "Hi Eutility, I'd like to check my electricity savings.",

@@ -2,7 +2,7 @@
 // tools/prerender.mjs, which writes the same markup into faq.html so search
 // engines and AI tools can read it without running JavaScript.
 
-import { CONFIG } from '../config.js';
+import { CONFIG, waLink } from '../config.js';
 import { MARKET_PLANS, PLAN_COUNT } from '../calc.js';
 
 const retailers = [...new Set(MARKET_PLANS.map((p) => p.retailer))].sort();
@@ -30,7 +30,7 @@ export const FAQ = [
       },
       {
         q: 'Are you actually based in Singapore?',
-        a: `<p>Yes. ${CONFIG.company.sgEntity} is registered in Singapore (UEN ${CONFIG.company.sgUen}) and our office is at ${CONFIG.company.sgAddress}. Reach the Singapore team on WhatsApp at ${CONFIG.phone}, or by email at <a href="mailto:${CONFIG.email}">${CONFIG.email}</a>.</p>`,
+        a: `<p>Yes. ${CONFIG.company.sgEntity} is registered in Singapore (UEN ${CONFIG.company.sgUen}) and our office is at ${CONFIG.company.sgAddress}. Reach the Singapore team on <a href="${waLink()}" data-wa>WhatsApp</a>, by phone at ${CONFIG.phone}, or by email at <a href="mailto:${CONFIG.email}">${CONFIG.email}</a>.</p>`,
       },
       {
         q: 'Where can I read Eutility&rsquo;s terms and privacy statement?',
