@@ -15,9 +15,9 @@ export function initials(name = customer.get()?.fullName) {
 
 const NAV = [
   { href: 'calculator.html', label: 'Savings calculator', key: 'calculator' },
-  { href: 'news.html', label: 'Market news', key: 'news' },
-  { href: 'referrals.html', label: 'Rewards', key: 'referrals' },
   { href: 'how-it-works.html', label: 'How it works', key: 'how' },
+  { href: 'referrals.html', label: 'Rewards', key: 'referrals' },
+  { href: 'news.html', label: 'Market news', key: 'news' },
   { href: 'faq.html', label: 'FAQ', key: 'faq' },
 ];
 
