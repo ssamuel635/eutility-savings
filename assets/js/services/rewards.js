@@ -51,7 +51,7 @@ export function monthLabel() {
  * browsers keep images for a week (vercel.json), so a new ?v= makes them
  * fetch the new files straight away.
  */
-const PHOTO_VERSION = '20261022';
+const PHOTO_VERSION = '20261023';
 
 /** The rewards catalogue (items and points from config), with each photo's path. */
 export function catalogue() {
