@@ -2,8 +2,9 @@
 //
 // SAMPLES (23 Oct 2026, for the Flo Energy demo): the entries below are sample
 // testimonials written to show how real ones will look. They are not real
-// customers, and every card says "Sample" (sample: true). Replace each one with
-// a real customer's words once that customer agrees to be quoted, and drop the
+// customers (sample: true). The cards don't show a "Sample" tag for the demo,
+// by the owner's choice (23 Oct): replace every one with a real customer's
+// words, once that customer agrees to be quoted, BEFORE LAUNCH, and drop the
 // `sample` flag. Leaving the list empty hides the quote sections again.
 //
 // One entry looks like this:
@@ -92,6 +93,6 @@ export function quoteCard(t, i = 0) {
   <figure class="t-quote reveal" style="--d:${(i % 3) * 0.06}s">
     <svg class="t-quote__mark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9.6 6C6.5 7.3 4.6 9.9 4.6 13.4V18h5.6v-5.6H7.4c0-2 1-3.5 3-4.4zm9 0c-3.1 1.3-5 3.9-5 7.4V18h5.6v-5.6h-2.8c0-2 1-3.5 3-4.4z"/></svg>
     <blockquote>${esc(t.quote)}</blockquote>
-    <figcaption><strong>${esc(t.name)}</strong>${where ? `<span>${esc(where)}</span>` : ''}${s.yearly ? `<span>Saves about ${fmtMoney(s.yearly)} a year${s.name ? ` on ${esc(s.name)}` : ''}</span>` : ''}${t.sample ? '<span class="t-quote__sample">Sample testimonial</span>' : ''}</figcaption>
+    <figcaption><strong>${esc(t.name)}</strong>${where ? `<span>${esc(where)}</span>` : ''}${s.yearly ? `<span>Saves about ${fmtMoney(s.yearly)} a year${s.name ? ` on ${esc(s.name)}` : ''}</span>` : ''}</figcaption>
   </figure>`;
 }

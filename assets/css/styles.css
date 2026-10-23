@@ -2185,10 +2185,6 @@ body { line-height: 1.65; }
 .steps--chats .step__num { margin-top: -38px; position: relative; z-index: 1; width: 52px; height: 52px; display: grid; place-items: center; background: #fff; border: 1px solid var(--border); font-size: 26px; }
 .steps__caption { max-width: none; margin: 14px 0 0; text-align: left; }
 
-/* Sample testimonials (23 Oct): until real customers agree to be quoted, each
-   quote is a written sample and says so on the card. */
-.t-quote__sample { justify-self: start; margin-top: 6px; padding: 2px 8px; border: 1px solid var(--border); border-radius: 2px; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
-
 /* News and FAQ heroes (23 Oct): a short landscape photo beside the heading,
    reusing the photos the home page's steps used to show. */
 .hero__art.hero__art--short { aspect-ratio: 16 / 9; }
