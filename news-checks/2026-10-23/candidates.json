@@ -1,0 +1,73 @@
+{
+ "run": "2026-10-23",
+ "collected_at": "2026-10-23T09:15:50+08:00",
+ "days": 7,
+ "sources": [
+  {
+   "source": "SP Group",
+   "kind": "official",
+   "url": "https://www.spgroup.com.sg/about-us/media-resources/news-and-media-releases",
+   "read": 10,
+   "error": ""
+  },
+  {
+   "source": "Open Electricity Market",
+   "kind": "official",
+   "url": "https://www.openelectricitymarket.sg/residential/list-of-retailers",
+   "read": 7,
+   "error": "",
+   "note": "7 retailers listed, no change"
+  },
+  {
+   "source": "The Straits Times",
+   "kind": "news",
+   "url": "https://www.straitstimes.com/news/singapore/rss.xml",
+   "read": 50,
+   "error": ""
+  },
+  {
+   "source": "The Business Times",
+   "kind": "news",
+   "url": "https://www.businesstimes.com.sg/rss/singapore",
+   "read": 50,
+   "error": ""
+  },
+  {
+   "source": "CNA",
+   "kind": "news",
+   "url": "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml&category=10416",
+   "read": 20,
+   "error": ""
+  }
+ ],
+ "items": [
+  {
+   "id": "30525632dd12",
+   "title": "How Singapore is preparing to keep its power grid reliable as demand grows",
+   "url": "https://www.channelnewsasia.com/singapore/electricity-power-grid-reliable-demand-utility-bills-ema-sp-group-6481836",
+   "date": "2026-10-22",
+   "source": "CNA",
+   "source_key": "cna",
+   "kind": "news",
+   "snippet": "Singapore's peak electricity demand is projected to grow by between 2.9 per cent and 6.5 per cent annually over the next decade, according to EMA.",
+   "keywords": [
+    "power grid",
+    "electricity",
+    "EMA"
+   ]
+  },
+  {
+   "id": "90e48190d7f5",
+   "title": "Google Cloud services largely restored in UK; Revolut services back up in Singapore",
+   "url": "https://www.channelnewsasia.com/business/google-cloud-service-outage-london-revolut-6475076",
+   "date": "2026-10-20",
+   "source": "CNA",
+   "source_key": "cna",
+   "kind": "news",
+   "snippet": "A power outage at a Google Cloud data centre near London disrupted several UK banks and Revolut services, including in Singapore.",
+   "keywords": [
+    "power outage"
+   ]
+  }
+ ]
+}

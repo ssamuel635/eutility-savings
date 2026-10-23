@@ -1,6 +1,6 @@
 {
  "run": "2026-10-22",
- "collected_at": "2026-10-22T09:28:47+08:00",
+ "collected_at": "2026-10-22T17:36:07+08:00",
  "days": 7,
  "sources": [
   {
@@ -22,14 +22,14 @@
    "source": "The Straits Times",
    "kind": "news",
    "url": "https://www.straitstimes.com/news/singapore/rss.xml",
-   "read": 49,
+   "read": 50,
    "error": ""
   },
   {
    "source": "The Business Times",
    "kind": "news",
    "url": "https://www.businesstimes.com.sg/rss/singapore",
-   "read": 46,
+   "read": 51,
    "error": ""
   },
   {
@@ -41,6 +41,21 @@
   }
  ],
  "items": [
+  {
+   "id": "30525632dd12",
+   "title": "How Singapore is preparing to keep its power grid reliable as demand grows",
+   "url": "https://www.channelnewsasia.com/singapore/electricity-power-grid-reliable-demand-utility-bills-ema-sp-group-6481836",
+   "date": "2026-10-22",
+   "source": "CNA",
+   "source_key": "cna",
+   "kind": "news",
+   "snippet": "Singapore's peak electricity demand is projected to grow by between 2.9 per cent and 6.5 per cent annually over the next decade, according to EMA.",
+   "keywords": [
+    "power grid",
+    "electricity",
+    "EMA"
+   ]
+  },
   {
    "id": "90e48190d7f5",
    "title": "Google Cloud services largely restored in UK; Revolut services back up in Singapore",
