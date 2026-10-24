@@ -199,8 +199,8 @@ function adminPage(session) {
     <p>Signed in as <strong>${esc(session.name)}</strong> until ${esc(until)} (SGT).</p>
     <table><thead><tr><th>Account</th><th>Role</th></tr></thead><tbody>${rows}</tbody></table>
     <ol>
-      <li>Add or change an account: run <code>node tools/gate-user.mjs &lt;name&gt; &lt;viewer|admin&gt; &lt;password&gt;</code>, put the line it prints into <code>GATE_USERS</code> in Vercel, then redeploy.</li>
-      <li>Remove someone: delete their entry from <code>GATE_USERS</code> and redeploy. Their session stops working straight away.</li>
+      <li>Add, change or remove accounts: list <strong>every</strong> account in one go, e.g. <code>node tools/gate-user.mjs --set kenneth:viewer ebin:admin</code> (it asks each password), then redeploy. Anyone left out is locked out straight away.</li>
+      <li>Don’t edit <code>GATE_USERS</code> in the Vercel dashboard: it’s encrypted, so saving there wipes the accounts you can’t see.</li>
       <li>Sign everyone out: change <code>GATE_SECRET</code> and redeploy.</li>
     </ol>
     <a class="btn" href="/staff/review.html">Review waiting news</a><a class="btn btn--ghost" href="/">Go to the site</a><a class="btn btn--ghost" href="/__gate/logout">Sign out</a>`, true);

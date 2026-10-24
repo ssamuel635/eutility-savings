@@ -127,8 +127,7 @@ Vercel (Project → Settings → Environment Variables, Production and Preview).
 - **Sign in:** any page shows the sign-in form; you land back on that page afterwards. Sessions last 14 days.
 - **Admin page:** `/__gate/admin` (admins only) lists accounts and how to manage them.
 - **Sign out:** `/__gate/logout`.
-- **Add or change an account:** `node tools/gate-user.mjs <name> <viewer|admin> <password>` prints the entry. Add it to `GATE_USERS` (comma-separated) and redeploy.
-- **Remove an account:** delete its entry from `GATE_USERS` and redeploy. Its session stops working immediately.
+- **Add, change or remove accounts:** always rewrite the whole list in one go, listing **every** account, e.g. `node tools/gate-user.mjs --set kenneth:viewer ebin:admin`. It asks each password (hidden, twice), replaces `GATE_USERS` in Vercel, then redeploy (`npx vercel --prod`). Don't edit `GATE_USERS` in the Vercel dashboard: it's encrypted, so you can't see the existing accounts and saving wipes them. Anyone left out of the list is locked out straight away.
 - **New secret:** `node tools/gate-user.mjs --secret`.
 - If either variable is missing, the site shows "Not available yet" to everyone. It fails closed, never open.
 - Local preview (`npm start`) isn't gated; the gate only runs on Vercel.
