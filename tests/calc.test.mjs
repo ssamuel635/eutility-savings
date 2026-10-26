@@ -149,3 +149,25 @@ test('fmtMoney formats negatives and non-numbers', async () => {
   assert.equal(fmtMoney(Infinity), 'S$—');
   assert.equal(fmtMoney(1234.5, 2), 'S$1,234.50');
 });
+
+test('parseRate reads a rate from a bill in cents or dollars', async () => {
+  const { parseRate } = await import('../assets/js/calc.js');
+  assert.equal(parseRate('29.11'), 29.11);
+  assert.equal(parseRate('29.11¢/kWh'), 29.11);
+  assert.equal(parseRate('$0.2911'), 29.11);
+  assert.equal(parseRate('.2911'), 29.11);
+  assert.equal(parseRate('29,11'), 29.11);
+  for (const bad of ['', null, 'abc', '0', '5', '291.1', '$2.91']) assert.equal(parseRate(bad), null, String(bad));
+});
+
+test('compare: a typed current rate replaces the plan price from the sheet', () => {
+  const other = MARKET_PLANS.find((p) => p.retailer !== 'SP Group');
+  const own = compare({ kwh: 400, currentId: other.id, currentRate: '35', contract: 'any' });
+  assert.equal(own.current.customRate, 35);
+  close(own.current.total, 140);
+  for (const r of own.results) close(r.savingMonthly, 140 - r.total);
+  // Nonsense rates fall back to the sheet price.
+  const sheet = compare({ kwh: 400, currentId: other.id, currentRate: 'abc', contract: 'any' });
+  assert.equal(sheet.current.customRate, undefined);
+  close(sheet.current.total, monthlyCost(other, 400).total);
+});

@@ -93,6 +93,22 @@ export function monthlyCost(plan, kwh, opts = {}) {
   };
 }
 
+/** Believable household rates (¢/kWh) for a rate typed from a bill. */
+export const RATE_RANGE = { min: 10, max: 60 };
+
+/**
+ * A rate typed from a bill, in ¢/kWh rounded to 2 dp: "29.11", "29.11¢" or
+ * "$0.2911" (dollars per kWh, as some bills print it). Null if it isn't believable.
+ */
+export function parseRate(input) {
+  const m = String(input ?? '').replace(/,/g, '.').match(/\d*\.?\d+/);
+  if (!m) return null;
+  let v = Number(m[0]);
+  if (v > 0 && v < 1) v *= 100; // $/kWh → ¢/kWh
+  v = round2(v);
+  return v >= RATE_RANGE.min && v <= RATE_RANGE.max ? v : null;
+}
+
 export const CONTRACT_FILTERS = {
   none: { label: 'No lock-in', test: (m) => !m },
   '12': { label: 'Up to 12 months', test: (m) => (m ?? 0) <= 12 },
@@ -102,11 +118,14 @@ export const CONTRACT_FILTERS = {
 
 /**
  * Compare every available plan against the user's current plan.
+ * `currentRate` (¢/kWh, from their bill) replaces the current plan's price: our
+ * sheet has today's prices, but a contract keeps the rate it was signed at.
  * @returns {{current, results, best, alreadyBest}}
  */
 export function compare({
   kwh,
   currentId = DEFAULT_CURRENT_ID,
+  currentRate = null,
   contract = '24',
   greenOnly = false,
   includeReferralOnly = false,
@@ -114,7 +133,10 @@ export function compare({
 }) {
   const opts = { offPeakShare };
   const currentPlan = getPlan(currentId) || getPlan(DEFAULT_CURRENT_ID);
-  const current = { plan: currentPlan, ...monthlyCost(currentPlan, kwh, opts) };
+  const ownRate = parseRate(currentRate);
+  const current = ownRate
+    ? { plan: currentPlan, customRate: ownRate, ...monthlyCost({ pricingType: 'fixed', rate: ownRate }, kwh, opts) }
+    : { plan: currentPlan, ...monthlyCost(currentPlan, kwh, opts) };
   const filter = Object.hasOwn(CONTRACT_FILTERS, contract) ? CONTRACT_FILTERS[contract] : CONTRACT_FILTERS.any;
 
   const results = AVAILABLE_PLANS

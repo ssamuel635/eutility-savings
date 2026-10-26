@@ -5,7 +5,7 @@ import { CONFIG } from '../config.js';
 import {
   AVAILABLE_PLANS, compare, getPlan, DEFAULT_CURRENT_ID, CONTRACT_FILTERS,
   fmtMoney, contractLabel, rateLabel, monthlyCost, activePromo, fmtDate,
-  PLAN_COUNT, RETAILER_COUNT, RATES_DATE, TARIFF, TARIFF_PERIOD,
+  PLAN_COUNT, RETAILER_COUNT, RATES_DATE, TARIFF, TARIFF_PERIOD, parseRate, RATE_RANGE,
 } from '../calc.js';
 import { countUp, confetti, ding, wait, soundEnabled, setSound, reducedMotion } from '../fx.js';
 import { openWhatsApp, openEmail, toast, setBarAction } from '../layout.js';
@@ -19,8 +19,7 @@ const RETAILERS = [...new Set(AVAILABLE_PLANS.map((p) => p.retailer))];
 RETAILERS.sort((a, b) => (a === 'SP Group' ? -1 : b === 'SP Group' ? 1 : a.localeCompare(b)));
 const plansOf = (r) => AVAILABLE_PLANS.filter((p) => p.retailer === r);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-/** WhatsApp opener for people who'd rather send their bill than type their usage. */
-const BILL_MESSAGE = "Hi Eutility, I'd like to check my electricity savings. I'll send you my bill.";
+const isSp = (retailer) => retailer === 'SP Group';
 const ratesNote =`Estimate using retailers’ published rates as at <span class="nowrap">${RATES_DATE}</span>. Promotions not included.`;
 
 /** Second line under a retailer in the picker: SP's tariff, or how many plans a retailer offers. */
@@ -45,6 +44,7 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
     kwh: clampKwh(Number(initial.kwh) || CONFIG.defaultKwh),
     currentId: getPlan(initial.plan)?.id || DEFAULT_CURRENT_ID,
     contract: Object.hasOwn(CONTRACT_FILTERS, initial.contract || '') ? initial.contract : '24',
+    rate: parseRate(initial.rate),
   };
   const startRetailer = getPlan(start.currentId).retailer;
 
@@ -82,6 +82,13 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
       <label class="field__label" for="${id}-plan">Current plan <span class="small">Not sure? Leave as is</span></label>
       <select class="select" id="${id}-plan"></select>
     </div>
+    <div class="field" id="${id}-rate-field" hidden>
+      <label class="field__label" for="${id}-rate">Your current rate</label>
+      <div class="input-suffix"><input class="input" id="${id}-rate" type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 29.11" value="${start.rate ?? ''}" aria-describedby="${id}-rate-help"><span>¢/kWh</span></div>
+      <p class="field__help" id="${id}-rate-help">The price per kWh on your bill (29.11¢ or $0.2911 both work). Your contract sets it, so it can differ from the retailer’s prices today.</p>
+      <p class="field__error" id="${id}-rate-err" hidden></p>
+      <p class="field__help"><a href="#" data-bill-wa>Don’t know your rate? Send your bill on WhatsApp</a></p>
+    </div>
 
     ${full ? `
     <fieldset class="field" style="border:0;padding:0;margin-top:20px">
@@ -110,7 +117,7 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
     ${full ? '' : `<div class="res-compact-out" aria-live="polite"></div>`}
     <div class="bill-alt">
       <p class="bill-alt__or" aria-hidden="true"><span>or</span></p>
-      <a class="bill-alt__link" href="#" data-wa data-wa-message="${esc(BILL_MESSAGE)}">
+      <a class="bill-alt__link" href="#" data-bill-wa>
         <span class="bill-alt__icon" aria-hidden="true">${I.file}</span>
         <span class="bill-alt__copy"><strong>Send your bill instead</strong><span>Photo or PDF on WhatsApp. We’ll read it and reply with your savings.</span></span>
         <span class="bill-alt__go" aria-hidden="true">${I.chevron}</span>
@@ -127,6 +134,9 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
   const exactErr = $(`#${id}-kwh-err`);
   const retailerSel = $(`#${id}-retailer`);
   const planSel = $(`#${id}-plan`);
+  const rateField = $(`#${id}-rate-field`);
+  const rateIn = $(`#${id}-rate`);
+  const rateErr = $(`#${id}-rate-err`);
   const offpeak = $(`#${id}-offpeak`);
   const resultsEl = full ? $(`#${id}-results`) : $('.res-compact-out');
 
@@ -138,9 +148,16 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
   };
   const liveBill = $('[data-live-bill]');
   const presets = root.querySelectorAll('.preset');
+  // Customers of other retailers pay the rate their contract was signed at, not
+  // the retailer's price today, so we use the rate they type (or read their bill).
+  const ownRate = () => (isSp(retailerSel.value) ? null : parseRate(rateIn.value));
   function updateLive() {
+    if (!liveBill) return;
     const cur = getPlan(planSel?.value) || getPlan(DEFAULT_CURRENT_ID);
-    if (liveBill && cur) liveBill.textContent = fmtMoney(monthlyCost(cur, kwh).total);
+    const rate = ownRate();
+    // Without their rate, any figure for a non-SP customer would be today's price, so show none.
+    liveBill.closest('.live-bill').hidden = !isSp(retailerSel.value) && !rate;
+    liveBill.textContent = fmtMoney(rate ? (kwh * rate) / 100 : monthlyCost(cur, kwh).total);
   }
   function setKwh(v, from) {
     kwh = v;
@@ -213,8 +230,45 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
   enhanceSelect(retailerSel);
   enhanceSelect(planSel);
   updateLive();
-  retailerSel.addEventListener('change', () => { fillPlans(retailerSel.value); updateLive(); });
+  retailerSel.addEventListener('change', () => { fillPlans(retailerSel.value); syncRate(); updateLive(); });
   planSel.addEventListener('change', updateLive);
+
+  function showRateErr(msg) {
+    rateIn.setAttribute('aria-invalid', String(!!msg));
+    rateErr.hidden = !msg;
+    rateErr.textContent = msg;
+  }
+  function syncRate() {
+    rateField.hidden = isSp(retailerSel.value);
+    if (rateField.hidden) showRateErr('');
+  }
+  rateIn.addEventListener('input', () => {
+    const typed = rateIn.value.trim();
+    showRateErr(typed && !parseRate(typed) ? `Enter your rate in cents per kWh, between ${RATE_RANGE.min} and ${RATE_RANGE.max}, e.g. 29.11.` : '');
+    updateLive();
+  });
+  syncRate();
+  updateLive();
+
+  /** Hand-off for customers who'd rather send their bill: everything they've entered goes with it. */
+  function billWaMessage() {
+    const cur = getPlan(planSel.value) || getPlan(DEFAULT_CURRENT_ID);
+    const home = [...presets].find((b) => b.getAttribute('aria-pressed') === 'true')?.textContent;
+    // Format agreed with FXMedia (26 Oct) so the chatbot only has to ask for the bill.
+    return [
+      'Hi Eutility, please read my bill and work out my savings.',
+      '',
+      `Usage: ${kwh} kWh/month`,
+      `Current retailer: ${cur.retailer}`,
+      `Current plan: ${cur.name}`,
+      ...(home ? [`Home: ${home}`] : []),
+      '(sent from the Eutility website)',
+    ].join('\n');
+  }
+  root.querySelectorAll('[data-bill-wa]').forEach((a) => a.addEventListener('click', (e) => {
+    e.preventDefault();
+    openWhatsApp(billWaMessage());
+  }));
 
   offpeak?.addEventListener('input', () => {
     $(`#${id}-offpeak-out`).textContent = offpeak.value + '%';
@@ -226,6 +280,7 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
     return {
       kwh,
       currentId: planSel.value || DEFAULT_CURRENT_ID,
+      currentRate: ownRate(),
       contract: full ? form.querySelector(`input[name="${id}-contract"]:checked`).value : '24',
       greenOnly: full ? $(`#${id}-green`).checked : false,
       includeReferralOnly: full ? $(`#${id}-refonly`).checked : false,
@@ -238,6 +293,11 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
     e.preventDefault();
     if (running) return;
     if (exact && exact.getAttribute('aria-invalid') === 'true') { exact.focus(); return; }
+    if (!isSp(retailerSel.value) && !ownRate()) {
+      if (!rateIn.value.trim()) showRateErr('Enter the rate from your bill, or send us your bill on WhatsApp.');
+      rateIn.focus();
+      return;
+    }
     running = true;
     const btn = form.querySelector('button[type="submit"]');
     btn.disabled = true;
@@ -251,6 +311,7 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
       u.searchParams.set('kwh', inputs.kwh);
       u.searchParams.set('plan', inputs.currentId);
       u.searchParams.set('contract', inputs.contract);
+      if (inputs.currentRate) u.searchParams.set('rate', inputs.currentRate); else u.searchParams.delete('rate');
       history.replaceState(null, '', u);
     } else {
       renderCompact(resultsEl, res, inputs);
@@ -318,22 +379,25 @@ function freeMonths(best) {
  * switch, which is why nobody has to make an account first — the fast path is
  * calculator → results → WhatsApp, and this message is what makes that work.
  */
-function planWaMessage(res, inputs, reference) {
+function planWaMessage(res, inputs) {
   const b = res.best.plan;
   const c = res.current.plan;
-  // Same line-by-line format as the app, so the chatbot reads one format from every channel.
+  // Line-by-line format sent to FXMedia (26 Oct) for the chatbot. No reference code
+  // until they confirm comparisons are stored where the bot can look them up.
   return [
     "Hi Eutility, I'd like to switch my electricity plan.",
     '',
     `Usage: ${inputs.kwh} kWh/month`,
     `Current plan: ${c.retailer} – ${c.name}`,
+    ...(res.current.customRate ? [`Current rate: ${res.current.customRate}¢/kWh`] : []),
     `Selected plan: ${b.retailer} – ${b.name}`,
     `Estimated savings: ${fmtMoney(res.best.savingYearly)}/year`,
-    // The chatbot (and staff) look the comparison up by this code.
-    ...(reference ? [`Reference: ${reference}`] : []),
     '(sent from the Eutility website)',
   ].join('\n');
 }
+
+/** The current plan's price as shown in results: the rate they typed, or the plan's own. */
+const currentRateLabel = (current) => (current.customRate ? `${current.customRate}¢/kWh · your rate` : rateLabel(current.plan));
 
 /** On phones the bottom bar becomes this result's switch button (layout.js). */
 function barFor(res, inputs, el, reference) {
@@ -341,7 +405,7 @@ function barFor(res, inputs, el, reference) {
   setBarAction({
     label: `Switch & save ${fmtMoney(res.best.savingYearly)}/yr`,
     sub: `${res.best.plan.retailer} ${res.best.plan.name}`,
-    message: planWaMessage(res, inputs, reference),
+    message: planWaMessage(res, inputs),
     subject: planMailSubject(res),
     onSend: (channel) => logSwitch(res, inputs, reference, channel),
   }, el.querySelector('[data-wa-switch]'));
@@ -351,7 +415,7 @@ function barFor(res, inputs, el, reference) {
 function logSwitch(res, inputs, reference, channel) {
   crm.logComparison(reference, channel === 'email' ? 'switch_email' : 'switch_whatsapp', {
     kwh: inputs.kwh,
-    currentPlanName: `${res.current.plan.retailer} · ${res.current.plan.name}`,
+    currentPlanName: `${res.current.plan.retailer} · ${res.current.plan.name}${res.current.customRate ? ` (${res.current.customRate}¢/kWh)` : ''}`,
     bestPlanName: `${res.best.plan.retailer} · ${res.best.plan.name}`,
     savingMonthly: res.best.savingMonthly,
     savingYearly: res.best.savingYearly,
@@ -379,7 +443,8 @@ function feeItems(p) {
 
 /** The method, in one place — shown in the fine-print panel. */
 function howWeEstimate(inputs) {
-  return `How we estimate: your usage × each plan’s published rate (plus any daily charge), compared with your current plan. Retailer rates as at ${RATES_DATE}. Discount-off-tariff plans use SP Group’s regulated tariff of ${TARIFF}¢/kWh for ${TARIFF_PERIOD} (incl. GST). Time-of-use plans assume ${Math.round(inputs.offPeakShare * 100)}% of your usage is off-peak. Promotions are shown separately and not included. Your actual bill depends on your usage and the retailer’s terms.`;
+  const against = inputs.currentRate ? `your current rate of ${inputs.currentRate}¢/kWh` : 'your current plan';
+  return `How we estimate: your usage × each plan’s published rate (plus any daily charge), compared with ${against}. Retailer rates as at ${RATES_DATE}. Discount-off-tariff plans use SP Group’s regulated tariff of ${TARIFF}¢/kWh for ${TARIFF_PERIOD} (incl. GST). Time-of-use plans assume ${Math.round(inputs.offPeakShare * 100)}% of your usage is off-peak. Promotions are shown separately and not included. Your actual bill depends on your usage and the retailer’s terms.`;
 }
 
 /** Shown when nothing beats the current plan: still give the visitor somewhere to go. */
@@ -394,7 +459,7 @@ function goodNewsActions(inputs, current, params) {
 
 // ── Compact result (homepage) ──
 async function renderCompact(el, res, inputs) {
-  const params = new URLSearchParams({ kwh: inputs.kwh, plan: inputs.currentId, run: '1' });
+  const params = new URLSearchParams({ kwh: inputs.kwh, plan: inputs.currentId, ...(inputs.currentRate ? { rate: inputs.currentRate } : {}), run: '1' });
   if (res.alreadyBest || res.noMatches) {
     el.innerHTML = `
       <div class="stack enter" style="--stack:12px">
@@ -423,7 +488,7 @@ async function renderCompact(el, res, inputs) {
   const r = el.getBoundingClientRect();
   if (r.bottom > innerHeight || r.top < 0) el.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'center' });
   const ref = crm.newReference('EC');
-  el.querySelector('[data-wa-switch]')?.addEventListener('click', () => { logSwitch(res, inputs, ref, 'whatsapp'); openWhatsApp(planWaMessage(res, inputs, ref)); });
+  el.querySelector('[data-wa-switch]')?.addEventListener('click', () => { logSwitch(res, inputs, ref, 'whatsapp'); openWhatsApp(planWaMessage(res, inputs)); });
   barFor(res, inputs, el, ref);
   await celebrate(el.querySelector('[data-n]'), res.best.savingYearly);
   el.querySelector('[data-switch]').classList.add('btn--pulse');
@@ -477,7 +542,7 @@ function renderFull(el, res, inputs) {
           <div class="plan-box">
             <span class="plan-box__eyebrow">Current plan</span>
             <span class="plan-box__name">${esc(cur.retailer)} · ${esc(cur.name)}</span>
-            <span class="plan-box__meta">${esc(rateLabel(cur))}</span>
+            <span class="plan-box__meta">${esc(currentRateLabel(current))}</span>
             <span class="plan-box__bill">${fmtMoney(current.total, 2)}<span class="small">/mo</span></span>
           </div>
           <span class="plan-vs__arrow"><span aria-hidden="true">→</span><span class="plan-vs__delta">−${fmtMoney(best.savingMonthly, 2)}/mo</span></span>
@@ -561,8 +626,8 @@ function renderFull(el, res, inputs) {
   // Wire actions — the switch handoff carries the plan and the numbers, so this
   // alone is a complete request. The account offer sits beside it, never in front.
   const ref = best ? crm.newReference('EC') : '';
-  el.querySelector('[data-wa-switch]')?.addEventListener('click', () => { logSwitch(res, inputs, ref, 'whatsapp'); openWhatsApp(planWaMessage(res, inputs, ref)); });
-  el.querySelector('[data-mail-switch]')?.addEventListener('click', () => { logSwitch(res, inputs, ref, 'email'); openEmail(planWaMessage(res, inputs, ref), planMailSubject(res)); });
+  el.querySelector('[data-wa-switch]')?.addEventListener('click', () => { logSwitch(res, inputs, ref, 'whatsapp'); openWhatsApp(planWaMessage(res, inputs)); });
+  el.querySelector('[data-mail-switch]')?.addEventListener('click', () => { logSwitch(res, inputs, ref, 'email'); openEmail(planWaMessage(res, inputs), planMailSubject(res)); });
   barFor(res, inputs, el, ref);
   el.querySelector('[data-widen]')?.addEventListener('click', () => el.dispatchEvent(new CustomEvent('calc:widen', { bubbles: true })));
   // Full list: each plan's fees open in a full-width row under it.

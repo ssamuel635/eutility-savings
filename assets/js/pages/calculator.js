@@ -9,7 +9,7 @@ const q = new URLSearchParams(location.search);
 const resMount = document.getElementById('res-mount');
 const calc = mountResidential(resMount, {
   mode: 'full',
-  initial: { kwh: q.get('kwh'), plan: q.get('plan'), contract: q.get('contract') },
+  initial: { kwh: q.get('kwh'), plan: q.get('plan'), contract: q.get('contract'), rate: q.get('rate') },
 });
 
 // Empty state until the first calculation
