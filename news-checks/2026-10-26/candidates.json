@@ -1,0 +1,176 @@
+{
+ "run": "2026-10-26",
+ "collected_at": "2026-10-26T09:22:47+08:00",
+ "days": 7,
+ "sources": [
+  {
+   "source": "SP Group",
+   "kind": "official",
+   "url": "https://www.spgroup.com.sg/about-us/media-resources/news-and-media-releases",
+   "read": 10,
+   "error": ""
+  },
+  {
+   "source": "Open Electricity Market",
+   "kind": "official",
+   "url": "https://www.openelectricitymarket.sg/residential/list-of-retailers",
+   "read": 7,
+   "error": "",
+   "note": "7 retailers listed, no change"
+  },
+  {
+   "source": "The Straits Times",
+   "kind": "news",
+   "url": "https://www.straitstimes.com/news/singapore/rss.xml",
+   "read": 50,
+   "error": ""
+  },
+  {
+   "source": "The Business Times",
+   "kind": "news",
+   "url": "https://www.businesstimes.com.sg/rss/singapore",
+   "read": 53,
+   "error": ""
+  },
+  {
+   "source": "CNA",
+   "kind": "news",
+   "url": "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml&category=10416",
+   "read": 20,
+   "error": ""
+  }
+ ],
+ "items": [
+  {
+   "id": "1338f8f4d284",
+   "title": "‘Keep calm and carry on’: Indonesia gas cut unlikely to hit Singapore electricity prices, says Tan See Leng",
+   "url": "https://www.channelnewsasia.com/singapore/electricity-prices-indonesia-gas-supply-cut-tan-see-leng-6490121",
+   "date": "2026-10-25",
+   "source": "CNA",
+   "source_key": "cna",
+   "kind": "news",
+   "snippet": "Global gas prices are a bigger factor in costs, says Minister for Energy, Trade and Industry (Energy and Industry) Tan See Leng.",
+   "keywords": [
+    "electricity"
+   ]
+  },
+  {
+   "id": "8dad585ae1e9",
+   "title": "Singapore expects all parties to honour commitments, says PM Wong after Indonesia cuts gas exports",
+   "url": "https://www.businesstimes.com.sg/singapore/singapore-expects-all-parties-honour-commitments-says-pm-wong-after-indonesia-cuts-gas-exports",
+   "date": "2026-10-25",
+   "source": "The Business Times",
+   "source_key": "business-times",
+   "kind": "news",
+   "snippet": "The Republic needs ‘cleaner sources of power that can provide reliable electricity around the clock’, he adds",
+   "keywords": [
+    "electricity"
+   ]
+  },
+  {
+   "id": "53518e234072",
+   "title": "Indonesia’s gas supply cuts unlikely to affect electricity prices that much: Tan See Leng",
+   "url": "https://www.straitstimes.com/singapore/politics/gas-supply-may-pursue-remedies-if-contract-breached-following-indonesias-export-cuts-tan-see-leng",
+   "date": "2026-10-25",
+   "source": "The Straits Times",
+   "source_key": "straits-times",
+   "kind": "news",
+   "snippet": "Tan said electricity prices would not be affected that much in the short term due to the move.",
+   "keywords": [
+    "electricity"
+   ]
+  },
+  {
+   "id": "623f46c5d3c2",
+   "title": "Gas supply cut from Indonesia accounts for less than 2% of Singapore’s daily gas demand: EMA",
+   "url": "https://www.businesstimes.com.sg/singapore/gas-supply-cut-indonesia-accounts-less-2-singapores-daily-gas-demand-ema",
+   "date": "2026-10-25",
+   "source": "The Business Times",
+   "source_key": "business-times",
+   "kind": "news",
+   "snippet": "The authority has contingency plans in place to deal with such reductions",
+   "keywords": [
+    "EMA"
+   ]
+  },
+  {
+   "id": "67813a58256c",
+   "title": "Reduction in Indonesia gas supply amounts to less than 2% of Singapore’s total daily demand: EMA",
+   "url": "https://www.channelnewsasia.com/singapore/indonesia-gas-exports-ema-6488841",
+   "date": "2026-10-24",
+   "source": "CNA",
+   "source_key": "cna",
+   "kind": "news",
+   "snippet": "Singapore's Energy Market Authority also said that it had contingency plans in place to deal with such reductions.",
+   "keywords": [
+    "EMA",
+    "Energy Market Authority"
+   ]
+  },
+  {
+   "id": "d642b1a840b9",
+   "title": "Indonesia reduces gas exports to Singapore in order to 'safeguard reliability' of domestic supplies",
+   "url": "https://www.channelnewsasia.com/singapore/indonesia-gas-singapore-supply-diversion-6488391",
+   "date": "2026-10-24",
+   "source": "CNA",
+   "source_key": "cna",
+   "kind": "news",
+   "snippet": "Indonesia's diversion of exports to meet domestic needs involves 31 million standard cubic feet of natural gas a day from Natuna and Sumatra, Indonesia’s upstream oil and gas regulator told CNA.",
+   "keywords": [
+    "natural gas"
+   ]
+  },
+  {
+   "id": "f7b34ba0dac6",
+   "title": "Indonesia begins cutting natural gas exports to Singapore from Oct 24: reports",
+   "url": "https://www.businesstimes.com.sg/singapore/indonesia-begins-cutting-natural-gas-exports-singapore-oct-24-reports",
+   "date": "2026-10-24",
+   "source": "The Business Times",
+   "source_key": "business-times",
+   "kind": "news",
+   "snippet": "The cut is equivalent to about 8% of the pipeline gas Indonesia exported to Singapore in 2024",
+   "keywords": [
+    "natural gas"
+   ]
+  },
+  {
+   "id": "7a1b7a57d257",
+   "title": "Gas supply cut from Indonesia accounts for less than 2% of S’pore’s daily gas demand: EMA",
+   "url": "https://www.straitstimes.com/singapore/environment/gas-supply-cut-from-indonesia-accounts-for-less-than-2-of-spore-s-daily-gas-demand-ema",
+   "date": "2026-10-24",
+   "source": "The Straits Times",
+   "source_key": "straits-times",
+   "kind": "news",
+   "snippet": "Singapore has also been moving to further diversify its energy sources.",
+   "keywords": [
+    "EMA"
+   ]
+  },
+  {
+   "id": "856e65a58d72",
+   "title": "Singapore launches S$143 million initiative to help industries cut emissions",
+   "url": "https://www.channelnewsasia.com/singapore/decarbonisation-initiative-funding-manufacturing-industries-6482846",
+   "date": "2026-10-23",
+   "source": "CNA",
+   "source_key": "cna",
+   "kind": "news",
+   "snippet": "Three companies have also been approved to import and supply biomethane, a renewable alternative to natural gas, as Singapore explores ways to help industries decarbonise.",
+   "keywords": [
+    "natural gas"
+   ]
+  },
+  {
+   "id": "90e48190d7f5",
+   "title": "Google Cloud services largely restored in UK; Revolut services back up in Singapore",
+   "url": "https://www.channelnewsasia.com/business/google-cloud-service-outage-london-revolut-6475076",
+   "date": "2026-10-20",
+   "source": "CNA",
+   "source_key": "cna",
+   "kind": "news",
+   "snippet": "A power outage at a Google Cloud data centre near London disrupted several UK banks and Revolut services, including in Singapore.",
+   "keywords": [
+    "power outage"
+   ]
+  }
+ ]
+}

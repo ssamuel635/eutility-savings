@@ -106,6 +106,45 @@
    "keywords": [
     "natural gas"
    ]
+  },
+  "53518e234072": {
+   "id": "53518e234072",
+   "title": "Indonesia’s gas supply cuts unlikely to affect electricity prices that much: Tan See Leng",
+   "url": "https://www.straitstimes.com/singapore/politics/gas-supply-may-pursue-remedies-if-contract-breached-following-indonesias-export-cuts-tan-see-leng",
+   "date": "2026-10-25",
+   "source": "The Straits Times",
+   "source_key": "straits-times",
+   "kind": "news",
+   "snippet": "Tan said electricity prices would not be affected that much in the short term due to the move.",
+   "keywords": [
+    "electricity"
+   ]
+  },
+  "8dad585ae1e9": {
+   "id": "8dad585ae1e9",
+   "title": "Singapore expects all parties to honour commitments, says PM Wong after Indonesia cuts gas exports",
+   "url": "https://www.businesstimes.com.sg/singapore/singapore-expects-all-parties-honour-commitments-says-pm-wong-after-indonesia-cuts-gas-exports",
+   "date": "2026-10-25",
+   "source": "The Business Times",
+   "source_key": "business-times",
+   "kind": "news",
+   "snippet": "The Republic needs ‘cleaner sources of power that can provide reliable electricity around the clock’, he adds",
+   "keywords": [
+    "electricity"
+   ]
+  },
+  "1338f8f4d284": {
+   "id": "1338f8f4d284",
+   "title": "‘Keep calm and carry on’: Indonesia gas cut unlikely to hit Singapore electricity prices, says Tan See Leng",
+   "url": "https://www.channelnewsasia.com/singapore/electricity-prices-indonesia-gas-supply-cut-tan-see-leng-6490121",
+   "date": "2026-10-25",
+   "source": "CNA",
+   "source_key": "cna",
+   "kind": "news",
+   "snippet": "Global gas prices are a bigger factor in costs, says Minister for Energy, Trade and Industry (Energy and Industry) Tan See Leng.",
+   "keywords": [
+    "electricity"
+   ]
   }
  }
 }
