@@ -83,11 +83,20 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
       <select class="select" id="${id}-plan"></select>
     </div>
     <div class="field" id="${id}-rate-field" hidden>
-      <label class="field__label" for="${id}-rate">Your current rate</label>
-      <div class="input-suffix"><input class="input" id="${id}-rate" type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 29.11" value="${start.rate ?? ''}" aria-describedby="${id}-rate-help"><span>¢/kWh</span></div>
-      <p class="field__help" id="${id}-rate-help">The price per kWh on your bill (29.11¢ or $0.2911 both work). Your contract sets it, so it can differ from the retailer’s prices today.</p>
-      <p class="field__error" id="${id}-rate-err" hidden></p>
-      <p class="field__help"><a href="#" data-bill-wa>Don’t know your rate? Send your bill on WhatsApp</a></p>
+      <fieldset style="border:0;padding:0;margin:0">
+        <legend class="field__label" style="margin-bottom:8px">Do you know your current rate?</legend>
+        <div class="chips">
+          <span class="chip"><input type="radio" name="${id}-rate-known" id="${id}-rk-yes" value="yes" checked><label for="${id}-rk-yes">Yes, I’ll type it in</label></span>
+          <span class="chip"><input type="radio" name="${id}-rate-known" id="${id}-rk-no" value="no"><label for="${id}-rk-no">No, I’ll send my bill</label></span>
+        </div>
+      </fieldset>
+      <div class="field" id="${id}-rate-entry" style="margin-top:12px">
+        <label class="field__label" for="${id}-rate">Your current rate</label>
+        <div class="input-suffix"><input class="input" id="${id}-rate" type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 29.11" value="${start.rate ?? ''}" aria-describedby="${id}-rate-help"><span>¢/kWh</span></div>
+        <p class="field__help" id="${id}-rate-help">The price per kWh on your bill (29.11¢ or $0.2911 both work). Your contract sets it, so it can differ from the retailer’s prices today.</p>
+        <p class="field__error" id="${id}-rate-err" hidden></p>
+      </div>
+      <p class="field__help" id="${id}-rate-bill" hidden>No problem. Send a photo or PDF of your bill on WhatsApp and we’ll read your rate and work out your savings. What you’ve entered here goes with it, so you won’t need to type it again.</p>
     </div>
 
     ${full ? `
@@ -113,6 +122,7 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
 
     <p class="live-bill" aria-live="polite"><span class="pulse-dot" aria-hidden="true"></span><span>Your electricity costs about <strong data-live-bill>—</strong> a month today</span></p>
     <button class="btn btn--block" type="submit">Calculate my savings <span class="arrow" aria-hidden="true">→</span></button>
+    <button class="btn btn--wa btn--block" type="button" data-bill-wa data-bill-send hidden>${I.chat}<span>Send my bill on WhatsApp</span></button>
     <p class="small text-center">No account needed · ${PLAN_COUNT} plans from ${RETAILER_COUNT} retailers · rates as at <span class="nowrap">${RATES_DATE}</span></p>
     ${full ? '' : `<div class="res-compact-out" aria-live="polite"></div>`}
     <div class="bill-alt">
@@ -150,7 +160,8 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
   const presets = root.querySelectorAll('.preset');
   // Customers of other retailers pay the rate their contract was signed at, not
   // the retailer's price today, so we use the rate they type (or read their bill).
-  const ownRate = () => (isSp(retailerSel.value) ? null : parseRate(rateIn.value));
+  const billMode = () => !isSp(retailerSel.value) && $(`#${id}-rk-no`).checked;
+  const ownRate = () => (isSp(retailerSel.value) || billMode() ? null : parseRate(rateIn.value));
   function updateLive() {
     if (!liveBill) return;
     const cur = getPlan(planSel?.value) || getPlan(DEFAULT_CURRENT_ID);
@@ -238,10 +249,19 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
     rateErr.hidden = !msg;
     rateErr.textContent = msg;
   }
+  // "No, I'll send my bill": the main button becomes the WhatsApp hand-off instead of Calculate.
   function syncRate() {
     rateField.hidden = isSp(retailerSel.value);
-    if (rateField.hidden) showRateErr('');
+    const bill = billMode();
+    $(`#${id}-rate-entry`).hidden = bill;
+    $(`#${id}-rate-bill`).hidden = !bill;
+    form.querySelector('button[type="submit"]').hidden = bill;
+    $('[data-bill-send]').hidden = !bill;
+    const alt = $('.bill-alt');
+    if (alt) alt.hidden = bill; // the main button already sends the bill
+    if (rateField.hidden || bill) showRateErr('');
   }
+  root.querySelectorAll(`input[name="${id}-rate-known"]`).forEach((r) => r.addEventListener('change', () => { syncRate(); updateLive(); }));
   rateIn.addEventListener('input', () => {
     const typed = rateIn.value.trim();
     showRateErr(typed && !parseRate(typed) ? `Enter your rate in cents per kWh, between ${RATE_RANGE.min} and ${RATE_RANGE.max}, e.g. 29.11.` : '');
@@ -293,8 +313,10 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
     e.preventDefault();
     if (running) return;
     if (exact && exact.getAttribute('aria-invalid') === 'true') { exact.focus(); return; }
+    // Enter in the usage box while "No, I'll send my bill" is picked: hand off, don't calculate.
+    if (billMode()) { openWhatsApp(billWaMessage()); return; }
     if (!isSp(retailerSel.value) && !ownRate()) {
-      if (!rateIn.value.trim()) showRateErr('Enter the rate from your bill, or send us your bill on WhatsApp.');
+      if (!rateIn.value.trim()) showRateErr('Enter the rate from your bill, or pick “No, I’ll send my bill” above.');
       rateIn.focus();
       return;
     }
