@@ -1,0 +1,354 @@
+{
+ "retailer": "PacificLight",
+ "checked_at": "2026-10-26",
+ "gst_basis_on_site": "both",
+ "sources": [
+  {
+   "url": "https://pacificlight.com.sg/support/factsheet",
+   "what": "OEM fact sheet index, 10 residential plans, versions 1 Jul–8 Oct 2026"
+  },
+  {
+   "url": "https://pacificlight.com.sg/support/factsheet-detail/10-classic-60-20-aug-2026",
+   "what": "Classic 60 fact sheet: up to 8% off tariff (3% + 5% prompt payment)"
+  }
+ ],
+ "plans": [
+  {
+   "name": "Savvy Saver 24",
+   "matches_id": "pacificlight-savvy-saver-24",
+   "type": "fixed",
+   "contractMonths": 24,
+   "rate_incl_gst": 29.0,
+   "rate_excl_gst": 26.605,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": {
+    "title": "Payback deal: S$228 rebate on 3rd-month bill (first 100)",
+    "value": "S$228",
+    "code": "GETBACK24",
+    "expires": "2026-12-31"
+   },
+   "source_url": "https://pacificlight.com.sg/support/factsheet-detail/06-savvy-saver-24-8-oct-2026",
+   "confidence": "high",
+   "notes": "Fact sheet re-read 26 Oct (same version as last week); price unchanged.",
+   "evidence": "Fixed price plan: 29.00¢/kWh (Rate excl. 9% GST is 26.605¢/kWh)",
+   "terms": {
+    "factsheet_date": "2026-10-08",
+    "deposit_source": "Security Deposit | (see footnote 7): | HDB 1 and 2 Room - $80 | HDB 3 Room - $110 | HDB 4 Room - $160 | HDB 5 Room - $190 | HDB Executive, Jumbo or Multi-Gen - $230 | Condominium, Apartment or Shophouse - $240 | Terrace - $360 | Semi-Detached - $500 | Bungalow or Penthouse - $1,000",
+    "etf_source": "Early Termination Charge | (see footnote 6): | HDB 1 and 2 Room - $160 | HDB 3 Room - $220 | HDB 4 Room - $320 | HDB 5 Room - $380 | HDB Executive, Jumbo or Multi-Gen - $460 | Condominium, Apartment or Shophouse - $480 | Terrace - $720 | Semi-Detached - $1,000 | Bungalow or Penthouse - $2,000",
+    "changed": false,
+    "deposit": null,
+    "etf": null
+   }
+  },
+  {
+   "name": "Savvy Saver 12",
+   "matches_id": "pacificlight-savvy-saver-12",
+   "type": "fixed",
+   "contractMonths": 12,
+   "rate_incl_gst": 30.5,
+   "rate_excl_gst": 27.981,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": {
+    "title": "yuu promo: 500 yuu Points (first 500)",
+    "value": "500 yuu Points",
+    "code": "YUU12",
+    "expires": "2026-10-26"
+   },
+   "source_url": "https://pacificlight.com.sg/support/factsheet-detail/05-savvy-saver-12-8-oct-2026",
+   "confidence": "high",
+   "notes": "Fact sheet re-read 26 Oct (same version as last week); price unchanged.",
+   "evidence": "Fixed price plan: 30.50¢/kWh (Rate excl. 9% GST is 27.981¢/kWh)",
+   "terms": {
+    "factsheet_date": "2026-10-08",
+    "deposit_source": "Security Deposit | (see footnote 7): | HDB 1 and 2 Room - $80 | HDB 3 Room - $110 | HDB 4 Room - $160 | HDB 5 Room - $190 | HDB Executive, Jumbo or Multi-Gen - $230 | Condominium, Apartment or Shophouse - $240 | Terrace - $360 | Semi-Detached - $500 | Bungalow or Penthouse - $1,000",
+    "etf_source": "Early Termination Charge | (see footnote 6): | HDB 1 and 2 Room - $160 | HDB 3 Room - $220 | HDB 4 Room - $320 | HDB 5 Room - $380 | HDB Executive, Jumbo or Multi-Gen - $460 | Condominium, Apartment or Shophouse - $480 | Terrace - $720 | Semi-Detached - $1,000 | Bungalow or Penthouse - $2,000",
+    "changed": false,
+    "deposit": null,
+    "etf": null
+   }
+  },
+  {
+   "name": "Savvy Saver 36",
+   "matches_id": "pacificlight-savvy-saver-36",
+   "type": "fixed",
+   "contractMonths": 36,
+   "rate_incl_gst": 28.9,
+   "rate_excl_gst": 26.513,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": {
+    "title": "Payback deal: S$268 rebate on 3rd-month bill (first 100)",
+    "value": "S$268",
+    "code": "GETBACK36",
+    "expires": "2026-12-31"
+   },
+   "source_url": "https://pacificlight.com.sg/support/factsheet-detail/9-savvy-saver-36-8-oct-2026",
+   "confidence": "high",
+   "notes": "Fact sheet re-read 26 Oct (same version as last week); price unchanged.",
+   "evidence": "Fixed price plan: 28.90¢/kWh (Rate excl. 9% GST is 26.513¢/kWh)",
+   "terms": {
+    "factsheet_date": "2026-10-08",
+    "deposit_source": "Security Deposit | (see footnote 7): | HDB 1 and 2 Room - $80 | HDB 3 Room - $110 | HDB 4 Room - $160 | HDB 5 Room - $190 | HDB Executive, Jumbo or Multi-Gen - $230 | Condominium, Apartment or Shophouse - $240 | Terrace - $360 | Semi-Detached - $500 | Bungalow or Penthouse - $1,000",
+    "etf_source": "Early Termination Charge | (see footnote 6): | HDB 1 and 2 Room - $160 | HDB 3 Room - $220 | HDB 4 Room - $320 | HDB 5 Room - $380 | HDB Executive, Jumbo or Multi-Gen - $460 | Condominium, Apartment or Shophouse - $480 | Terrace - $720 | Semi-Detached - $1,000 | Bungalow or Penthouse - $2,000",
+    "changed": false,
+    "deposit": null,
+    "etf": null
+   }
+  },
+  {
+   "name": "Sunny Side-Up 12",
+   "matches_id": "pacificlight-sunny-side-up-12",
+   "type": "fixed",
+   "contractMonths": 12,
+   "rate_incl_gst": 31.0,
+   "rate_excl_gst": 28.44,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Green",
+   "promo": {
+    "title": "yuu promo: 500 yuu Points (first 500)",
+    "value": "500 yuu Points",
+    "code": "YUU12",
+    "expires": "2026-10-26"
+   },
+   "source_url": "https://pacificlight.com.sg/support/factsheet-detail/04-sunny-side-up-12-01-oct-2026",
+   "confidence": "high",
+   "notes": "Fact sheet re-read 26 Oct (same version as last week); price unchanged.",
+   "evidence": "Fixed price plan: 31.00¢/kWh (Rate excl. 9% GST is 28.44¢/kWh)",
+   "terms": {
+    "factsheet_date": "2026-10-01",
+    "deposit_source": "Security Deposit | (see footnote 7): | HDB 1 and 2 Room - $80 | HDB 3 Room - $110 | HDB 4 Room - $160 | HDB 5 Room - $190 | HDB Executive, Jumbo or Multi-Gen - $230 | Condominium, Apartment or Shophouse - $240 | Terrace - $360 | Semi-Detached - $500 | Bungalow or Penthouse - $1,000",
+    "etf_source": "Early Termination Charge | (see footnote 6): | HDB 1 and 2 Room - $160 | HDB 3 Room - $220 | HDB 4 Room - $320 | HDB 5 Room - $380 | HDB Executive, Jumbo or Multi-Gen - $460 | Condominium, Apartment or Shophouse - $480 | Terrace - $720 | Semi-Detached - $1,000 | Bungalow or Penthouse - $2,000",
+    "changed": false,
+    "deposit": null,
+    "etf": null
+   }
+  },
+  {
+   "name": "Stack It Up 24",
+   "matches_id": "pacificlight-stack-it-up-24",
+   "type": "tiered",
+   "contractMonths": 24,
+   "rate_incl_gst": null,
+   "rate_excl_gst": null,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": [
+    {
+     "from": 0,
+     "to": 300,
+     "rate_incl_gst": 29.2
+    },
+    {
+     "from": 300,
+     "to": 600,
+     "rate_incl_gst": 28.6
+    },
+    {
+     "from": 600,
+     "to": null,
+     "rate_incl_gst": 27.6
+    }
+   ],
+   "category": "Standard",
+   "promo": {
+    "title": "Payback deal: S$228 rebate on 3rd-month bill (first 100)",
+    "value": "S$228",
+    "code": "GETBACK24",
+    "expires": "2026-12-31"
+   },
+   "source_url": "https://pacificlight.com.sg/support/factsheet-detail/08-Stack-It-Up-24-8-oct-2026",
+   "confidence": "high",
+   "notes": "Fact sheet re-read 26 Oct (same version as last week); price unchanged.",
+   "evidence": "Fixed-price plan based on usage per billing period: (i) Stack 1 - First 300 kWh @29.20¢/kWh (ii) Stack 2 - Usage between 301 to 600 kWh @28.60¢/kWh (iii) Stack 3 - Above 600 kWh @27.60¢/kWh (Rates excl. 9% GST are 26.788¢/kWh, 26.24¢/kWh and 25.32¢/kWh respectively)",
+   "terms": {
+    "factsheet_date": "2026-10-08",
+    "deposit_source": "Security Deposit | (see footnote 7): | HDB 1 and 2 Room - $80 | HDB 3 Room - $110 | HDB 4 Room - $160 | HDB 5 Room - $190 | HDB Executive, Jumbo or Multi-Gen - $230 | Condominium, Apartment or Shophouse - $240 | Terrace - $360 | Semi-Detached - $500 | Bungalow or Penthouse - $1,000",
+    "etf_source": "Early Termination Charge | (see footnote 6): | HDB 1 and 2 Room - $160 | HDB 3 Room - $220 | HDB 4 Room - $320 | HDB 5 Room - $380 | HDB Executive, Jumbo or Multi-Gen - $460 | Condominium, Apartment or Shophouse - $480 | Terrace - $720 | Semi-Detached - $1,000 | Bungalow or Penthouse - $2,000",
+    "changed": false,
+    "deposit": null,
+    "etf": null
+   }
+  },
+  {
+   "name": "Save While Sleeping 24",
+   "matches_id": "pacificlight-save-while-sleeping-24",
+   "type": "tou",
+   "contractMonths": 24,
+   "rate_incl_gst": null,
+   "rate_excl_gst": null,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": {
+    "offPeak": {
+     "window": "23:00–07:00",
+     "rate_incl_gst": 23.0
+    },
+    "peak": {
+     "window": "07:00–23:00",
+     "rate_incl_gst": 33.0
+    }
+   },
+   "tiers": null,
+   "category": "Standard",
+   "promo": {
+    "title": "Payback deal: S$228 rebate on 3rd-month bill (first 100)",
+    "value": "S$228",
+    "code": "GETBACK24",
+    "expires": "2026-12-31"
+   },
+   "source_url": "https://pacificlight.com.sg/support/factsheet-detail/07-save-while-sleeping-24-8-oct-2026",
+   "confidence": "high",
+   "notes": "Fact sheet re-read 26 Oct (same version as last week); price unchanged.",
+   "evidence": "Peak/off-peak fixed-rate plan: (i) 33.00¢/kWh during peak periods from 7 am to 11 pm (Day) (ii) 23.00¢/kWh during off-peak periods from 11 pm to 7 am (Night) (Rates excl. 9% GST are 30.275¢/kWh and 21.10¢/kWh).",
+   "terms": {
+    "factsheet_date": "2026-10-08",
+    "deposit_source": "Security Deposit | (see footnote 7): | HDB 1 and 2 Room - $80 | HDB 3 Room - $110 | HDB 4 Room - $160 | HDB 5 Room - $190 | HDB Executive, Jumbo or Multi-Gen - $230 | Condominium, Apartment or Shophouse - $240 | Terrace - $360 | Semi-Detached - $500 | Bungalow or Penthouse - $1,000",
+    "etf_source": "Early Termination Charge | (see footnote 6): | HDB 1 and 2 Room - $160 | HDB 3 Room - $220 | HDB 4 Room - $320 | HDB 5 Room - $380 | HDB Executive, Jumbo or Multi-Gen - $460 | Condominium, Apartment or Shophouse - $480 | Terrace - $720 | Semi-Detached - $1,000 | Bungalow or Penthouse - $2,000",
+    "changed": false,
+    "deposit": null,
+    "etf": null
+   }
+  },
+  {
+   "name": "Easy Peasy",
+   "matches_id": "pacificlight-easy-peasy",
+   "type": "fixed",
+   "contractMonths": 0,
+   "rate_incl_gst": 27.0,
+   "rate_excl_gst": 24.77,
+   "discount": null,
+   "dailyCharge_incl_gst": 0.55,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": null,
+   "source_url": "https://pacificlight.com.sg/support/factsheet-detail/02-easy-peasy-no-contract-7-oct-2026",
+   "confidence": "high",
+   "notes": "Fact sheet re-read 26 Oct (same version as last week); price unchanged.",
+   "evidence": "Fixed price plan: 27.00¢/kWh + Daily Charge 55¢/day (Rate excl. 9% GST is 24.77¢/kWh + Daily Charge is 50¢/day).",
+   "terms": {
+    "factsheet_date": "2026-10-07",
+    "deposit_source": "Security Deposit | (see footnote 7): | HDB 1 and 2 Room - $80 | HDB 3 Room - $110 | HDB 4 Room - $160 | HDB 5 Room - $190 | HDB Executive, Jumbo or Multi-Gen - $230 | Condominium, Apartment or Shophouse - $240 | Terrace - $360 | Semi-Detached - $500 | Bungalow - $1,000 | Penthouse - $1,000",
+    "etf_source": "Early Termination Charge | (see footnote 6): | As per Termination Charges in Electricity Contract, not applicable for Easy Peasy plan.",
+    "changed": false,
+    "deposit": null,
+    "etf": null
+   }
+  },
+  {
+   "name": "Easy Save",
+   "matches_id": "pacificlight-easy-save",
+   "type": "dot",
+   "contractMonths": 0,
+   "rate_incl_gst": null,
+   "rate_excl_gst": null,
+   "discount": {
+    "value": 18,
+    "kind": "percent"
+   },
+   "dailyCharge_incl_gst": 0.55,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": null,
+   "source_url": "https://pacificlight.com.sg/support/factsheet-detail/1-easy-save-no-contract-1-july-2026",
+   "confidence": "high",
+   "notes": "Fact sheet re-read 26 Oct (same version as last week); price unchanged.",
+   "evidence": "Discount-off Regulated Tariff Plan: 18% Discount Off Tariff + Daily Charge 55¢/day (Rate excl. 9% GST for Daily Charge is 50¢/day).",
+   "terms": {
+    "factsheet_date": "2026-07-01",
+    "deposit_source": "Security Deposit | (see footnote 7): | HDB 1 and 2 Room - $80 | HDB 3 Room - $110 | HDB 4 Room - $160 | HDB 5 Room - $190 | HDB Executive, Jumbo or Multi-Gen - $230 | Condominium, Apartment or Shophouse - $240 | Terrace - $360 | Semi-Detached - $500 | Bungalow - $1,000 | Penthouse - $1,000",
+    "etf_source": "Early Termination Charge | (see footnote 6): | As per Termination Charges in Electricity Contract, not applicable for Easy Save plan.",
+    "changed": false,
+    "deposit": null,
+    "etf": null
+   }
+  },
+  {
+   "name": "9 to 9",
+   "matches_id": "pacificlight-9-to-9",
+   "type": "tou",
+   "contractMonths": 0,
+   "rate_incl_gst": null,
+   "rate_excl_gst": null,
+   "discount": null,
+   "dailyCharge_incl_gst": 1.01,
+   "tou": {
+    "offPeak": {
+     "window": "21:00–09:00",
+     "rate_incl_gst": 20.05
+    },
+    "peak": {
+     "window": "09:00–21:00",
+     "rate_incl_gst": 36.95
+    }
+   },
+   "tiers": null,
+   "category": "Standard",
+   "promo": null,
+   "source_url": "https://pacificlight.com.sg/support/factsheet-detail/03-9-to-9-no-contract-7-oct-2026",
+   "confidence": "high",
+   "notes": "Fact sheet re-read 26 Oct (same version as last week); price unchanged.",
+   "evidence": "(i) 36.95¢/kWh from 9 am to 9 pm; (ii) 20.05¢/kWh from 9 pm to 9 am; and Daily Charge of $1.01/day applies. (Rates excl. 9% GST are 33.899¢/kWh and 18.394¢/kWh, with a Daily Charge of 92.52¢/day).",
+   "terms": {
+    "factsheet_date": "2026-10-07",
+    "deposit_source": "Security Deposit | (see footnote 7): | HDB 1 and 2 Room - $80 | HDB 3 Room - $110 | HDB 4 Room - $160 | HDB 5 Room - $190 | HDB Executive, Jumbo or Multi-Gen - $230 | Condominium, Apartment or Shophouse - $240 | Terrace - $360 | Semi-Detached - $500 | Bungalow - $1,000 | Penthouse - $1,000",
+    "etf_source": "Early Termination Charge | (see footnote 6): | As per Termination Charges in Electricity Contract, not applicable for 9 to 9 plan.",
+    "changed": false,
+    "deposit": null,
+    "etf": null
+   }
+  },
+  {
+   "name": "Classic 60",
+   "matches_id": "pacificlight-classic-60",
+   "type": "dot",
+   "contractMonths": 60,
+   "rate_incl_gst": null,
+   "rate_excl_gst": null,
+   "discount": {
+    "value": 3,
+    "kind": "percent"
+   },
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": {
+    "title": "Prompt payment discount",
+    "value": "Extra 5% off electricity charges",
+    "code": null,
+    "expires": null
+   },
+   "source_url": "https://pacificlight.com.sg/support/factsheet-detail/10-classic-60-20-aug-2026",
+   "confidence": "high",
+   "notes": "Fact sheet re-read 26 Oct (same version as last week); price unchanged. Terms: the fact sheet waives the early termination charge on account closure (no outstanding bills); our ETF wording lists only the amounts.",
+   "evidence": "Discount off SP Regulated Tariff plan: Up to 8% off ( 3% off SP Regulated Tariff + 5% Prompt Payment Discount*)",
+   "terms": {
+    "factsheet_date": "2026-08-20",
+    "deposit_source": "Security Deposit | (see footnote 7): | HDB 1 and 2 Room - $80 | HDB 3 Room - $110 | HDB 4 Room - $160 | HDB 5 Room - $190 | HDB Executive, Jumbo or Multi-Gen - $230 | Condominium, Apartment or Shophouse - $240 | Terrace - $360 | Semi-Detached - $500 | Bungalow or Penthouse - $1,000",
+    "etf_source": "Early Termination Charge (ETC) | (see footnote 6): | The ETC for the Classic 60 Plan will be waived upon account closure, provided there are no outstanding bills. Otherwise, the following charges shall apply: | HDB 1 and 2 Room - $160 | HDB 3 Room - $220 | HDB 4 Room - $320 | HDB 5 Room - $380 | HDB Executive, Jumbo or Multi-Gen - $460 | Condominium, Apartment or Shophouse - $480 | Terrace - $720 | Semi-Detached - $1,000 | Bungalow or Penthouse - $2,000",
+    "changed": true,
+    "deposit": null,
+    "etf": "Waived when you close your account, as long as no bills are outstanding. Otherwise: HDB 1 and 2 room S$160; HDB 3 room S$220; HDB 4 room S$320; HDB 5 room S$380; HDB Executive, Jumbo or Multi-Gen S$460; condo, apartment or shophouse S$480; terrace S$720; semi-detached S$1,000; bungalow or penthouse S$2,000."
+   }
+  }
+ ],
+ "not_found": [],
+ "issues": "Prices unchanged (all 10 fact sheets same versions as last week). YUU12 promo (Savvy Saver 12, Sunny Side-Up 12) ends today, 26 Oct. Terms: Classic 60's ETF is waived on account closure (missing from our wording). Our deposit wording for all plans ('Varies by residential dwelling type') is vague: the fact sheets list S$80-S$1,000 by home type, waived for recurring credit card payments."
+}

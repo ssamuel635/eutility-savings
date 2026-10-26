@@ -1,0 +1,146 @@
+{
+ "retailer": "Geneco",
+ "checked_at": "2026-10-26",
+ "gst_basis_on_site": "incl",
+ "sources": [
+  {
+   "url": "https://www.geneco.sg/residential/electricity-plans/",
+   "what": "Plan cards, read in the built-in browser 26 Oct"
+  },
+  {
+   "url": "https://get.geneco.sg/hubfs/Switch%20to%20One%202026/Promo%20Codes%20TnCs/GENECO100_GENECO200%20Rebate%20T&Cs.pdf",
+   "what": "GENECO100/GENECO200 T&Cs (now one PDF): promotion period 1 Sep - 2 Nov 2026"
+  },
+  {
+   "url": "https://get.geneco.sg/hubfs/Switch%20to%20One%202026/Promo%20Codes%20TnCs/GENECO15%20Rebate%20T&Cs.pdf",
+   "what": "GENECO15 T&Cs: promotion period 1 Sep - 2 Nov 2026"
+  }
+ ],
+ "plans": [
+  {
+   "name": "Get It Fixed 24",
+   "matches_id": "geneco-get-it-fixed-24",
+   "type": "fixed",
+   "contractMonths": 24,
+   "rate_incl_gst": 29.0,
+   "rate_excl_gst": null,
+   "discount": null,
+   "dailyCharge_incl_gst": 0,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": {
+    "title": "Bill rebate for new sign-ups (online only)",
+    "value": "S$200 for current SP Group customers (GENECO200); S$100 for others (GENECO100)",
+    "code": "GENECO200 / GENECO100",
+    "expires": "2026-11-02"
+   },
+   "source_url": "https://www.geneco.sg/residential/electricity-plans/",
+   "confidence": "high",
+   "notes": "Plan card read 26 Oct; unchanged. Page shows only incl. GST. Fact sheet (Google Drive file 165FkF_27bn2Q945tbgyenP1bcmPQIXXC, linked from the plan card) also notes the ETF is reimbursed on relocation under conditions; not in our wording.",
+   "evidence": "LIMITED TIME OFFER | Get It Fixed 24 | 24 months | 29.00 | ¢/kWh (inc. GST) | Exclusive rate for the | first 1000 sign-ups.",
+   "terms": {
+    "factsheet_date": "2026-09-30",
+    "deposit_source": "Security Deposit (see footnote 7): Dwelling Type Security Deposit Amount HDB 1 or 2 rooms S$50 HDB 3, 4 or 5 rooms / HDB Executive S$90 Executive Condominium / Condominium / Private Apartment S$120 Terrace House/ Semi- Detached House S$150 Bungalow S$220",
+    "etf_source": "Early Termination Fee (see footnote 6): Dwelling Type Early Termination Fee per remaining month HDB 1 or 2 rooms S$10 HDB 3, 4 or 5 rooms / HDB Executive S$15 Executive Condominium / Condominium / Private Apartment S$20 Terrace House/ Semi-Detached House S$40 Bungalow S$75",
+    "changed": false,
+    "deposit": null,
+    "etf": null
+   }
+  },
+  {
+   "name": "Get It Fixed 12",
+   "matches_id": "geneco-get-it-fixed-12",
+   "type": "fixed",
+   "contractMonths": 12,
+   "rate_incl_gst": 30.5,
+   "rate_excl_gst": null,
+   "discount": null,
+   "dailyCharge_incl_gst": 0,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": {
+    "title": "Bill rebate (online sign-ups)",
+    "value": "S$15 (first 250 customers)",
+    "code": "GENECO15",
+    "expires": "2026-11-02"
+   },
+   "source_url": "https://www.geneco.sg/residential/electricity-plans/",
+   "confidence": "high",
+   "notes": "Plan card read 26 Oct; unchanged. Page shows only incl. GST. Fact sheet (Google Drive file 1-esZga-Svnc7YeBKl7tWI_Xxx676LmdF, linked from the plan card) also notes the ETF is reimbursed on relocation under conditions; not in our wording.",
+   "evidence": "Low Fixed Rate | Get It Fixed 12 | 12 months | 30.50 | ¢/kWh (inc. GST) | Use promo code | GENECO15",
+   "terms": {
+    "factsheet_date": "2026-10-09",
+    "deposit_source": "Security Deposit (see footnote 7): Dwelling Type Security Deposit Amount HDB 1 or 2 rooms S$50 HDB 3, 4 or 5 rooms / HDB Executive S$90 Executive Condominium / Condominium / Private Apartment S$120 Terrace House/ Semi- Detached House S$150 Bungalow S$220",
+    "etf_source": "Early Termination Fee (see footnote 6): Dwelling Type Early Termination Fee per remaining month HDB 1 or 2 rooms S$10 HDB 3, 4 or 5 rooms / HDB Executive S$15 Executive Condominium / Condominium / Private Apartment S$20 Terrace House/ Semi-Detached House S$40 Bungalow S$75",
+    "changed": false,
+    "deposit": null,
+    "etf": null
+   }
+  },
+  {
+   "name": "Give Us A Try",
+   "matches_id": "geneco-give-us-a-try",
+   "type": "fixed",
+   "contractMonths": 6,
+   "rate_incl_gst": 31.0,
+   "rate_excl_gst": null,
+   "discount": null,
+   "dailyCharge_incl_gst": 0,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": null,
+   "source_url": "https://www.geneco.sg/residential/electricity-plans/",
+   "confidence": "high",
+   "notes": "Plan card read 26 Oct; unchanged. Page shows only incl. GST. Fact sheet (Google Drive file 1rAbOhMarW3NZD_2AOkP6PC71F-GfYqfW, linked from the plan card) also notes the ETF is reimbursed on relocation under conditions; not in our wording.",
+   "evidence": "Short Term Contract | Give Us A Try | 6 months | 31.00 | ¢/kWh (inc. GST)",
+   "terms": {
+    "factsheet_date": "2026-08-04",
+    "deposit_source": "Security Deposit (see footnote 7): Dwelling Type Security Deposit Amount HDB 1 or 2 rooms S$50 HDB 3, 4 or 5 rooms / HDB Executive S$90 Executive Condominium / Condominium / Private Apartment S$120 Terrace House/ Semi- Detached House S$150 Bungalow S$220",
+    "etf_source": "Early Termination Fee (see footnote 6): Dwelling Type Early Termination Fee per remaining month HDB 1 or 2 rooms S$10 HDB 3, 4 or 5 rooms / HDB Executive S$15 Executive Condominium / Condominium / Private Apartment S$20 Terrace House/ Semi-Detached House S$40 Bungalow S$75",
+    "changed": false,
+    "deposit": null,
+    "etf": null
+   }
+  },
+  {
+   "name": "Get It 7 To 7",
+   "matches_id": "geneco-get-it-7-to-7",
+   "type": "tou",
+   "contractMonths": 24,
+   "rate_incl_gst": null,
+   "rate_excl_gst": null,
+   "discount": null,
+   "dailyCharge_incl_gst": 0,
+   "tou": {
+    "offPeak": {
+     "window": "19:00–07:00",
+     "rate_incl_gst": 27.9
+    },
+    "peak": {
+     "window": "07:00–19:00",
+     "rate_incl_gst": 32.5
+    }
+   },
+   "tiers": null,
+   "category": "Standard",
+   "promo": null,
+   "source_url": "https://www.geneco.sg/residential/electricity-plans/",
+   "confidence": "high",
+   "notes": "Plan card read 26 Oct; unchanged. Page shows only incl. GST. Fact sheet (Google Drive file 1F6y3F6zOlakB_rLRIMpuoru4_e4Z6Ej9, linked from the plan card) also notes the ETF is reimbursed on relocation under conditions; not in our wording.",
+   "evidence": "Get It 7 To 7 | 24 months | 7pm - 7am | 27.90 | ¢/kWh (inc. GST) | 7am - 7pm | 32.50 | ¢/kWh (inc. GST)",
+   "terms": {
+    "factsheet_date": "2026-08-24",
+    "deposit_source": "Security Deposit (see footnote 7): Dwelling Type Security Deposit Amount HDB 1 or 2 rooms S$50 HDB 3, 4 or 5 rooms / HDB Executive S$90 Executive Condominium / Condominium / Private Apartment S$120 Terrace House/ Semi-Detached House S$150 Bungalow S$220",
+    "etf_source": "Early Termination Fee (see footnote 6): Dwelling Type Early Termination Fee per remaining month HDB 1 or 2 rooms S$10 HDB 3, 4 or 5 rooms / HDB Executive S$15 Executive Condominium / Condominium / Private Apartment S$20 Terrace House/ Semi-Detached House S$40 Bungalow S$75",
+    "changed": false,
+    "deposit": null,
+    "etf": null
+   }
+  }
+ ],
+ "not_found": [],
+ "issues": "None. Prices and promo end dates (2 Nov 2026) unchanged; GENECO100/200 T&Cs merged into one PDF."
+}

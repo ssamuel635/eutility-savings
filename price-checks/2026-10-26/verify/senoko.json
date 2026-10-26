@@ -1,0 +1,50 @@
+{
+ "retailer": "Senoko Energy",
+ "checked_at": "2026-10-26",
+ "method": "Second read by a different route: the first read used the EMA fact sheet PDFs (plan codes ...av1, 22 Oct 2026); this read used Senoko's plan pages rendered in the built-in browser (price-plans card for LifePower24, the EcoSmart Homes plan page for LifeGreen24). Both pages show the rate incl. GST only.",
+ "gst_basis_on_site": "incl",
+ "sources": [
+  {"url": "https://www.senokoenergy.com/households/price-plans", "what": "LifePower24 plan card, read in the built-in browser 26 Oct"},
+  {"url": "https://www.senokoenergy.com/households/ecosmart-homes/lifegreen24", "what": "LifeGreen24 plan page, read in the built-in browser 26 Oct"}
+ ],
+ "plans": [
+  {
+   "name": "LifePower24",
+   "matches_id": "senoko-energy-lifepower24",
+   "type": "fixed",
+   "contractMonths": 24,
+   "rate_incl_gst": 30.5,
+   "rate_excl_gst": null,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": null,
+   "source_url": "https://www.senokoenergy.com/households/price-plans",
+   "evidence": "24-month plan | LifePower24 | Lock in our low 24-month fixed rate | 30.50¢/kWh | Includes GST",
+   "confidence": "high",
+   "notes": "Read from the plan card on the price-plans page, not the fact sheet."
+  },
+  {
+   "name": "LifeGreen24",
+   "matches_id": "senoko-energy-lifegreen24",
+   "type": "fixed",
+   "contractMonths": 24,
+   "rate_incl_gst": 30.88,
+   "rate_excl_gst": null,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Green",
+   "promo": null,
+   "source_url": "https://www.senokoenergy.com/households/ecosmart-homes/lifegreen24",
+   "evidence": "24-month plan | LifeGreen24 | Lock in our low 24-month fixed rate | 30.88¢/kWh | Includes GST",
+   "confidence": "high",
+   "notes": "Read from the LifeGreen24 plan page, not the fact sheet."
+  }
+ ],
+ "not_found": [],
+ "issues": ""
+}

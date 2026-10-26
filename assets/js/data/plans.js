@@ -2,8 +2,8 @@
 // Source: price-comparison-sheet.xlsx
 export const META = {
   "source": "price-comparison-sheet.xlsx",
-  "generated": "2026-10-23",
-  "ratesAsAt": "2026-10-19",
+  "generated": "2026-10-26",
+  "ratesAsAt": "2026-10-26",
   "regulatedTariff": 31.16,
   "tariffPeriod": "Oct–Dec 2026",
   "planCount": 33,
@@ -122,7 +122,7 @@ export const PLANS = [
     "pricingType": "fixed",
     "pricingLabel": "Fixed",
     "contractMonths": 24,
-    "rate": 29.0,
+    "rate": 30.5,
     "discount": null,
     "dailyCharge": 0.0,
     "tou": null,
@@ -148,7 +148,7 @@ export const PLANS = [
     "pricingType": "fixed",
     "pricingLabel": "Fixed",
     "contractMonths": 12,
-    "rate": 30.5,
+    "rate": 31.15,
     "discount": null,
     "dailyCharge": 0.0,
     "tou": null,
@@ -174,7 +174,7 @@ export const PLANS = [
     "pricingType": "fixed",
     "pricingLabel": "Fixed",
     "contractMonths": 36,
-    "rate": 28.9,
+    "rate": 29.95,
     "discount": null,
     "dailyCharge": 0.0,
     "tou": null,
@@ -200,7 +200,7 @@ export const PLANS = [
     "pricingType": "fixed",
     "pricingLabel": "Fixed",
     "contractMonths": 24,
-    "rate": 29.68,
+    "rate": 30.88,
     "discount": null,
     "dailyCharge": 0.0,
     "tou": null,
@@ -294,11 +294,11 @@ export const PLANS = [
     "tou": {
       "offPeak": {
         "window": "23:00–07:00",
-        "rate": 20.05
+        "rate": 21.05
       },
       "peak": {
         "window": "07:00–23:00",
-        "rate": 36.95
+        "rate": 37.95
       }
     },
     "tiers": null,

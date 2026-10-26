@@ -1,0 +1,218 @@
+{
+ "retailer": "Keppel Electric",
+ "checked_at": "2026-10-26",
+ "gst_basis_on_site": "both",
+ "sources": [
+  {
+   "url": "https://www.keppelelectric.com/residential-price-plan",
+   "what": "Official residential price plan page, read in the built-in browser 26 Oct (plan cards, w/GST and w/o GST)"
+  },
+  {
+   "url": "https://www.keppelelectric.com/api/AccountPlan/GetAllPlans",
+   "what": "Keppel plan feed the page loads; used only for FIXED24 Special (referral-only, not shown as a card)"
+  },
+  {
+   "url": "https://www.keppelelectric.com/api/Accountplan/Download/Factsheet",
+   "what": "EMA fact sheet PDFs (deposit and termination sections)"
+  }
+ ],
+ "plans": [
+  {
+   "name": "FIXED24",
+   "matches_id": "keppel-electric-fixed24",
+   "type": "fixed",
+   "contractMonths": 24,
+   "rate_incl_gst": 30.9,
+   "rate_excl_gst": 28.35,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": {
+    "title": "Bill rebate + Maybank card rebate",
+    "value": "S$125 bill rebate + S$20 Maybank card rebate = up to S$145",
+    "code": "NEW125",
+    "expires": null
+   },
+   "source_url": "https://www.keppelelectric.com/residential-price-plan",
+   "confidence": "high",
+   "notes": "Unchanged on the page and in the plan feed (26 Oct); same fact sheet version as last week.",
+   "evidence": "FIXED24 24 Months Fixed Rate 30.90¢/kWh (w/GST) Fixed Rate 28.35¢/kWh (w/o GST)",
+   "terms": {
+    "factsheet_date": "2026-10-19",
+    "deposit_source": "Security Deposit (see footnote 7): Deposit will be billed via the first invoice as follows: Security Deposit ($) All New Sign-ups HDB 1/2 50 HDB 3/4/5/EA/Jumbo 90 Condo/HDUC/EC 120 Others (e.g. shophouse) 190 Landed 220",
+    "etf_source": "Early Termination Charge (see footnote 6): Early termination charges: A x B x 30% where: A = the number of complete days remaining in the Initial Term under such Agreement after the date on which such Initial Term terminates pursuant to the terms of such Agreement; and B = the arithmetic average of the Charges payable in respect of each day by the Consumer to the Retailer under such Agreement during the period of the latest 2 months immediately preceding the termination.",
+    "changed": false,
+    "deposit": null,
+    "etf": null
+   }
+  },
+  {
+   "name": "FIXED24 Special",
+   "matches_id": "keppel-electric-fixed24-special",
+   "type": "fixed",
+   "contractMonths": 24,
+   "rate_incl_gst": 30.4,
+   "rate_excl_gst": 27.89,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": {
+    "title": "Card + referral rebate",
+    "value": "S$20 card + S$25 referral = up to S$45",
+    "code": null,
+    "expires": null
+   },
+   "source_url": "https://www.keppelelectric.com/api/AccountPlan/GetAllPlans",
+   "confidence": "medium",
+   "notes": "Unchanged on the page and in the plan feed (26 Oct); same fact sheet version as last week.",
+   "evidence": "\"planName\":\"FIXED24 Special\" ... \"rateWithGSTDesc\":\"Fixed Rate 30.40¢/kWh (w/GST)\",\"rateWithoutGSTDesc\":\"Fixed Rate 27.89¢/kWh (w/o GST)\"",
+   "terms": {
+    "factsheet_date": "2026-10-19",
+    "deposit_source": "Security Deposit (see footnote 7): Deposit will be billed via the first invoice as follows: Security Deposit ($) All New Sign-ups HDB 1/2 50 HDB 3/4/5/EA/Jumbo 90 Condo/HDUC/EC 120 Others (e.g. shophouse) 190 Landed 220",
+    "etf_source": "Early Termination Charge (see footnote 6): Early termination charges: A x B x 30% where: A = the number of complete days remaining in the Initial Term under such Agreement after the date on which such Initial Term terminates pursuant to the terms of such Agreement; and B = the arithmetic average of the Charges payable in respect of each day by the Consumer to the Retailer under such Agreement during the period of the latest 2 months immediately preceding the termination.",
+    "changed": false,
+    "deposit": null,
+    "etf": null
+   }
+  },
+  {
+   "name": "FIXED36",
+   "matches_id": "keppel-electric-fixed36",
+   "type": "fixed",
+   "contractMonths": 36,
+   "rate_incl_gst": 30.63,
+   "rate_excl_gst": 28.1,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": {
+    "title": "Bill rebate + Maybank card rebate",
+    "value": "S$100 bill rebate + S$20 Maybank card rebate = up to S$120",
+    "code": "NEW100",
+    "expires": null
+   },
+   "source_url": "https://www.keppelelectric.com/residential-price-plan",
+   "confidence": "high",
+   "notes": "Unchanged on the page and in the plan feed (26 Oct); same fact sheet version as last week.",
+   "evidence": "FIXED36 36 Months Fixed Rate 30.63¢/kWh (w/GST) Fixed Rate 28.10¢/kWh (w/o GST)",
+   "terms": {
+    "factsheet_date": "2026-10-19",
+    "deposit_source": "Security Deposit (see footnote 7): Deposit will be billed via the first invoice as follows: Security Deposit ($) All New Sign-ups HDB 1/2 50 HDB 3/4/5/EA/Jumbo 90 Condo/HDUC/EC 120 Others (e.g. shophouse) 190 Landed 220",
+    "etf_source": "Early Termination Charge (see footnote 6): Early termination charges: A x B x 30% where: A = the number of complete days remaining in the Initial Term under such Agreement after the date on which such Initial Term terminates pursuant to the terms of such Agreement; and B = the arithmetic average of the Charges payable in respect of each day by the Consumer to the Retailer under such Agreement during the period of the latest 2 months immediately preceding the termination.",
+    "changed": false,
+    "deposit": null,
+    "etf": null
+   }
+  },
+  {
+   "name": "FIXED12",
+   "matches_id": "keppel-electric-fixed12",
+   "type": "fixed",
+   "contractMonths": 12,
+   "rate_incl_gst": 31.15,
+   "rate_excl_gst": 28.58,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": {
+    "title": "Maybank recurring card payment rebate",
+    "value": "S$10 bill rebate (first 125)",
+    "code": null,
+    "expires": "2026-12-31"
+   },
+   "source_url": "https://www.keppelelectric.com/residential-price-plan",
+   "confidence": "high",
+   "notes": "Unchanged on the page and in the plan feed (26 Oct); same fact sheet version as last week.",
+   "evidence": "FIXED12 12 Months Fixed Rate 31.15¢/kWh (w/GST) Fixed Rate 28.58¢/kWh (w/o GST)",
+   "terms": {
+    "factsheet_date": "2026-10-01",
+    "deposit_source": "Security Deposit (see footnote 7): Deposit will be billed via the first invoice as follows: Security Deposit ($) All New Sign-ups HDB 1/2 50 HDB 3/4/5/EA/Jumbo 90 Condo/HDUC/EC 120 Others (e.g. shophouse) 190 Landed 220",
+    "etf_source": "Early Termination Charge (see footnote 6): Early termination charges: A x B x 30% where: A = the number of complete days remaining in the Initial Term under such Agreement after the date on which such Initial Term terminates pursuant to the terms of such Agreement; and B = the arithmetic average of the Charges payable in respect of each day by the Consumer to the Retailer under such Agreement during the period of the latest 2 months immediately preceding the termination.",
+    "changed": false,
+    "deposit": null,
+    "etf": null
+   }
+  },
+  {
+   "name": "WEEKEND SAVER",
+   "matches_id": "keppel-electric-weekend-saver",
+   "type": "tou",
+   "contractMonths": 24,
+   "rate_incl_gst": null,
+   "rate_excl_gst": null,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": {
+    "offPeak": {
+     "window": "Weekdays 21:00–09:00 + weekends all day",
+     "rate_incl_gst": 27.9
+    },
+    "peak": {
+     "window": "Weekdays 09:00–21:00",
+     "rate_incl_gst": 39.9
+    }
+   },
+   "tiers": null,
+   "category": "Standard",
+   "promo": {
+    "title": "Maybank recurring card payment rebate",
+    "value": "Up to S$20 bill rebate",
+    "code": null,
+    "expires": "2026-12-31"
+   },
+   "source_url": "https://www.keppelelectric.com/residential-price-plan",
+   "confidence": "high",
+   "notes": "Unchanged on the page and in the plan feed (26 Oct); same fact sheet version as last week.",
+   "evidence": "Weekend all day (off-peak): 27.90¢/kWh (w/GST) Weekdays 9am – 9pm (peak): 39.90¢/kWh (w/GST) Weekdays 9pm – 9am (off-peak): 27.90¢/kWh (w/GST)",
+   "terms": {
+    "factsheet_date": "2026-03-30",
+    "deposit_source": "Security Deposit (see footnote 7): Deposit will be billed via the first invoice as follows: Security Deposit ($) All New Sign-ups HDB 1/2 50 HDB 3/4/5/EA/Jumbo 90 Condo/HDUC/EC 120 Others (e.g. shophouse) 190 Landed 220",
+    "etf_source": "Early Termination Charge (see footnote 6): Early termination charges: A x B x 30% where: A = the number of complete days remaining in the Initial Term under such Agreement after the date on which such Initial Term terminates pursuant to the terms of such Agreement; and B = the arithmetic average of the Charges payable in respect of each day by the Consumer to the Retailer under such Agreement during the period of the latest 2 months immediately preceding the termination.",
+    "changed": false,
+    "deposit": null,
+    "etf": null
+   }
+  },
+  {
+   "name": "ecoGreen24",
+   "matches_id": "keppel-electric-ecogreen24",
+   "type": "fixed",
+   "contractMonths": 24,
+   "rate_incl_gst": 38.8,
+   "rate_excl_gst": 35.6,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Green",
+   "promo": {
+    "title": "Bill rebate + Maybank card rebate",
+    "value": "S$100 bill rebate (first 1,000) + S$20 Maybank card rebate = up to S$120",
+    "code": "NEW100",
+    "expires": null
+   },
+   "source_url": "https://www.keppelelectric.com/residential-price-plan",
+   "confidence": "high",
+   "notes": "Unchanged on the page and in the plan feed (26 Oct); same fact sheet version as last week.",
+   "evidence": "ecoGreen24 24 Months Fixed Rate 38.80¢/kWh (w/GST) Fixed Rate 35.60¢/kWh (w/o GST)",
+   "terms": {
+    "factsheet_date": "2026-03-14",
+    "deposit_source": "Security Deposit (see footnote 7): Deposit will be billed via the first invoice as follows: Security Deposit ($) All New Sign-ups HDB 1/2 50 HDB 3/4/5/EA/Jumbo 90 Condo/HDUC/EC 120 Others (e.g. shophouse) 190 Landed 220",
+    "etf_source": "Early Termination Charge (see footnote 6): Early termination charges: A x B x 30% where: A = the number of complete days remaining in the Initial Term under such Agreement after the date on which such Initial Term terminates pursuant to the terms of such Agreement; and B = the arithmetic average of the Charges payable in respect of each day by the Consumer to the Retailer under such Agreement during the period of the latest 2 months immediately preceding the termination.",
+    "changed": false,
+    "deposit": null,
+    "etf": null
+   }
+  }
+ ],
+ "not_found": [],
+ "issues": "None. Rates, fact sheet versions and promotions unchanged from last week."
+}

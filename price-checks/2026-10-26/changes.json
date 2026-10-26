@@ -1,0 +1,1839 @@
+{
+ "summary": {
+  "run_date": "2026-10-26",
+  "data_rates_as_at": "2026-10-19",
+  "tariff_now": 31.16,
+  "tariff_new": 31.16,
+  "best_now": [
+   118.35,
+   12,
+   "Flo Energy",
+   "Fixed 12"
+  ],
+  "best_new": [
+   118.35,
+   12,
+   "Flo Energy",
+   "Fixed 12"
+  ],
+  "saving_now": 262,
+  "saving_new": 262,
+  "counts": {
+   "changed": 5,
+   "same": 29,
+   "unverified": 0,
+   "removed": 0,
+   "new": 0
+  },
+  "promo_changes": 0,
+  "coverage": {
+   "confirmed": 33,
+   "total": 34,
+   "pct": 97
+  },
+  "blocked": 0,
+  "double_checked": 2,
+  "stale": [],
+  "terms_changes": 5,
+  "terms_checked": 33
+ },
+ "plans": [
+  {
+   "kind": "same",
+   "retailer": "Geneco",
+   "plan": "Get It Fixed 24",
+   "id": "geneco-get-it-fixed-24",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.geneco.sg/residential/electricity-plans/",
+   "notes": "Plan card read 26 Oct; unchanged. Page shows only incl. GST. Fact sheet (Google Drive file 165FkF_27bn2Q945tbgyenP1bcmPQIXXC, linked from the plan card) also notes the ETF is reimbursed on relocation under conditions; not in our wording.",
+   "old_bill": 130.5,
+   "new_bill": 130.5,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 29.0,
+    "discount": null,
+    "dailyCharge": 0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 24
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Geneco",
+   "plan": "Get It Fixed 12",
+   "id": "geneco-get-it-fixed-12",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.geneco.sg/residential/electricity-plans/",
+   "notes": "Plan card read 26 Oct; unchanged. Page shows only incl. GST. Fact sheet (Google Drive file 1-esZga-Svnc7YeBKl7tWI_Xxx676LmdF, linked from the plan card) also notes the ETF is reimbursed on relocation under conditions; not in our wording.",
+   "old_bill": 137.25,
+   "new_bill": 137.25,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 30.5,
+    "discount": null,
+    "dailyCharge": 0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 12
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Geneco",
+   "plan": "Give Us A Try",
+   "id": "geneco-give-us-a-try",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.geneco.sg/residential/electricity-plans/",
+   "notes": "Plan card read 26 Oct; unchanged. Page shows only incl. GST. Fact sheet (Google Drive file 1rAbOhMarW3NZD_2AOkP6PC71F-GfYqfW, linked from the plan card) also notes the ETF is reimbursed on relocation under conditions; not in our wording.",
+   "old_bill": 139.5,
+   "new_bill": 139.5,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 31.0,
+    "discount": null,
+    "dailyCharge": 0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 6
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Geneco",
+   "plan": "Get It 7 To 7",
+   "id": "geneco-get-it-7-to-7",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.geneco.sg/residential/electricity-plans/",
+   "notes": "Plan card read 26 Oct; unchanged. Page shows only incl. GST. Fact sheet (Google Drive file 1F6y3F6zOlakB_rLRIMpuoru4_e4Z6Ej9, linked from the plan card) also notes the ETF is reimbursed on relocation under conditions; not in our wording.",
+   "old_bill": 140.04,
+   "new_bill": 140.04,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": null,
+    "discount": null,
+    "dailyCharge": 0,
+    "tou": {
+     "offPeak": {
+      "window": "19:00–07:00",
+      "rate": 27.9
+     },
+     "peak": {
+      "window": "07:00–19:00",
+      "rate": 32.5
+     }
+    },
+    "tiers": null,
+    "contractMonths": 24
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Keppel Electric",
+   "plan": "FIXED24",
+   "id": "keppel-electric-fixed24",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.keppelelectric.com/residential-price-plan",
+   "notes": "Unchanged on the page and in the plan feed (26 Oct); same fact sheet version as last week.",
+   "old_bill": 139.05,
+   "new_bill": 139.05,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 30.9,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 24
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Keppel Electric",
+   "plan": "FIXED24 Special",
+   "id": "keppel-electric-fixed24-special",
+   "changes": [],
+   "confidence": "medium",
+   "source": "https://www.keppelelectric.com/api/AccountPlan/GetAllPlans",
+   "notes": "Unchanged on the page and in the plan feed (26 Oct); same fact sheet version as last week.",
+   "old_bill": 136.8,
+   "new_bill": 136.8,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 30.4,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 24
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Keppel Electric",
+   "plan": "FIXED36",
+   "id": "keppel-electric-fixed36",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.keppelelectric.com/residential-price-plan",
+   "notes": "Unchanged on the page and in the plan feed (26 Oct); same fact sheet version as last week.",
+   "old_bill": 137.84,
+   "new_bill": 137.84,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 30.63,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 36
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Keppel Electric",
+   "plan": "FIXED12",
+   "id": "keppel-electric-fixed12",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.keppelelectric.com/residential-price-plan",
+   "notes": "Unchanged on the page and in the plan feed (26 Oct); same fact sheet version as last week.",
+   "old_bill": 140.18,
+   "new_bill": 140.18,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 31.15,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 12
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Keppel Electric",
+   "plan": "WEEKEND SAVER",
+   "id": "keppel-electric-weekend-saver",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.keppelelectric.com/residential-price-plan",
+   "notes": "Unchanged on the page and in the plan feed (26 Oct); same fact sheet version as last week.",
+   "old_bill": 152.55,
+   "new_bill": 152.55,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": null,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": {
+     "offPeak": {
+      "window": "Weekdays 21:00–09:00 + weekends all day",
+      "rate": 27.9
+     },
+     "peak": {
+      "window": "Weekdays 09:00–21:00",
+      "rate": 39.9
+     },
+     "weekendOffPeak": true
+    },
+    "tiers": null,
+    "contractMonths": 24
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Keppel Electric",
+   "plan": "ecoGreen24",
+   "id": "keppel-electric-ecogreen24",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.keppelelectric.com/residential-price-plan",
+   "notes": "Unchanged on the page and in the plan feed (26 Oct); same fact sheet version as last week.",
+   "old_bill": 174.6,
+   "new_bill": 174.6,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 38.8,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 24
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "PacificLight",
+   "plan": "Savvy Saver 24",
+   "id": "pacificlight-savvy-saver-24",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/06-savvy-saver-24-8-oct-2026",
+   "notes": "Fact sheet re-read 26 Oct (same version as last week); price unchanged.",
+   "old_bill": 130.5,
+   "new_bill": 130.5,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 29.0,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 24
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "PacificLight",
+   "plan": "Savvy Saver 12",
+   "id": "pacificlight-savvy-saver-12",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/05-savvy-saver-12-8-oct-2026",
+   "notes": "Fact sheet re-read 26 Oct (same version as last week); price unchanged.",
+   "old_bill": 137.25,
+   "new_bill": 137.25,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 30.5,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 12
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "PacificLight",
+   "plan": "Savvy Saver 36",
+   "id": "pacificlight-savvy-saver-36",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/9-savvy-saver-36-8-oct-2026",
+   "notes": "Fact sheet re-read 26 Oct (same version as last week); price unchanged.",
+   "old_bill": 130.05,
+   "new_bill": 130.05,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 28.9,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 36
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "PacificLight",
+   "plan": "Sunny Side-Up 12",
+   "id": "pacificlight-sunny-side-up-12",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/04-sunny-side-up-12-01-oct-2026",
+   "notes": "Fact sheet re-read 26 Oct (same version as last week); price unchanged.",
+   "old_bill": 139.5,
+   "new_bill": 139.5,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 31.0,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 12
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "PacificLight",
+   "plan": "Stack It Up 24",
+   "id": "pacificlight-stack-it-up-24",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/08-Stack-It-Up-24-8-oct-2026",
+   "notes": "Fact sheet re-read 26 Oct (same version as last week); price unchanged.",
+   "old_bill": 130.5,
+   "new_bill": 130.5,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": null,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": [
+     {
+      "from": 0,
+      "to": 300,
+      "rate": 29.2
+     },
+     {
+      "from": 300,
+      "to": 600,
+      "rate": 28.6
+     },
+     {
+      "from": 600,
+      "to": null,
+      "rate": 27.6
+     }
+    ],
+    "contractMonths": 24
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "PacificLight",
+   "plan": "Save While Sleeping 24",
+   "id": "pacificlight-save-while-sleeping-24",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/07-save-while-sleeping-24-8-oct-2026",
+   "notes": "Fact sheet re-read 26 Oct (same version as last week); price unchanged.",
+   "old_bill": 135.0,
+   "new_bill": 135.0,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": null,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": {
+     "offPeak": {
+      "window": "23:00–07:00",
+      "rate": 23.0
+     },
+     "peak": {
+      "window": "07:00–23:00",
+      "rate": 33.0
+     }
+    },
+    "tiers": null,
+    "contractMonths": 24
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "PacificLight",
+   "plan": "Easy Peasy",
+   "id": "pacificlight-easy-peasy",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/02-easy-peasy-no-contract-7-oct-2026",
+   "notes": "Fact sheet re-read 26 Oct (same version as last week); price unchanged.",
+   "old_bill": 138.22,
+   "new_bill": 138.22,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 27.0,
+    "discount": null,
+    "dailyCharge": 0.55,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 0
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "PacificLight",
+   "plan": "Easy Save",
+   "id": "pacificlight-easy-save",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/1-easy-save-no-contract-1-july-2026",
+   "notes": "Fact sheet re-read 26 Oct (same version as last week); price unchanged.",
+   "old_bill": 131.7,
+   "new_bill": 131.7,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": null,
+    "discount": {
+     "value": 18,
+     "kind": "percent"
+    },
+    "dailyCharge": 0.55,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 0
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "PacificLight",
+   "plan": "9 to 9",
+   "id": "pacificlight-9-to-9",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/03-9-to-9-no-contract-7-oct-2026",
+   "notes": "Fact sheet re-read 26 Oct (same version as last week); price unchanged.",
+   "old_bill": 174.16,
+   "new_bill": 174.16,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": null,
+    "discount": null,
+    "dailyCharge": 1.01,
+    "tou": {
+     "offPeak": {
+      "window": "21:00–09:00",
+      "rate": 20.05
+     },
+     "peak": {
+      "window": "09:00–21:00",
+      "rate": 36.95
+     }
+    },
+    "tiers": null,
+    "contractMonths": 0
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "PacificLight",
+   "plan": "Classic 60",
+   "id": "pacificlight-classic-60",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/10-classic-60-20-aug-2026",
+   "notes": "Fact sheet re-read 26 Oct (same version as last week); price unchanged. Terms: the fact sheet waives the early termination charge on account closure (no outstanding bills); our ETF wording lists only the amounts.",
+   "old_bill": 136.01,
+   "new_bill": 136.01,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": null,
+    "discount": {
+     "value": 3,
+     "kind": "percent"
+    },
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 60
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Sembcorp Power",
+   "plan": "24M Fixed Price Plan Home",
+   "id": "sembcorp-power-24m-fixed-price-plan-home",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://sembcorppower.com/price-plan",
+   "notes": "Plan card read 26 Oct; unchanged; same fact sheet version as last week. The fact sheet text gives the ETF formula only (rate table not in the PDF text).",
+   "old_bill": 130.5,
+   "new_bill": 130.5,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 29.0,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 24
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Sembcorp Power",
+   "plan": "12M Fixed Price Plan Home",
+   "id": "sembcorp-power-12m-fixed-price-plan-home",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://sembcorppower.com/price-plan",
+   "notes": "Plan card read 26 Oct; unchanged; same fact sheet version as last week. The fact sheet text gives the ETF formula only (rate table not in the PDF text).",
+   "old_bill": 139.5,
+   "new_bill": 139.5,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 31.0,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 12
+   }
+  },
+  {
+   "kind": "changed",
+   "retailer": "Senoko Energy",
+   "plan": "LifePower36",
+   "id": "senoko-energy-lifepower36",
+   "changes": [
+    [
+     "Rate (¢/kWh)",
+     28.9,
+     29.95
+    ]
+   ],
+   "confidence": "high",
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXPG-36av1",
+   "notes": "New fact sheet version 22 Oct 2026 (plan code HH-GMOFIXPG-36av1); the price-plans page card shows the same rate. Promo codes still listed on /households/promotions (kept from last week, not re-read from T&Cs).",
+   "old_bill": 130.05,
+   "new_bill": 134.78,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 29.95,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 36
+   },
+   "high_impact": false
+  },
+  {
+   "kind": "changed",
+   "retailer": "Senoko Energy",
+   "plan": "LifePower24",
+   "id": "senoko-energy-lifepower24",
+   "changes": [
+    [
+     "Rate (¢/kWh)",
+     29.0,
+     30.5
+    ]
+   ],
+   "confidence": "high",
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXPG-24av1",
+   "notes": "New fact sheet version 22 Oct 2026 (plan code HH-GMOFIXPG-24av1); the price-plans page card shows the same rate. Promo codes still listed on /households/promotions (kept from last week, not re-read from T&Cs).",
+   "old_bill": 130.5,
+   "new_bill": 137.25,
+   "trust": {
+    "flags": [],
+    "second_read": "agrees",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 30.5,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 24
+   },
+   "high_impact": true
+  },
+  {
+   "kind": "changed",
+   "retailer": "Senoko Energy",
+   "plan": "LifePower12",
+   "id": "senoko-energy-lifepower12",
+   "changes": [
+    [
+     "Rate (¢/kWh)",
+     30.5,
+     31.15
+    ]
+   ],
+   "confidence": "high",
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXPG-12av1",
+   "notes": "New fact sheet version 22 Oct 2026 (plan code HH-GMOFIXPG-12av1); the price-plans page card shows the same rate. Promo codes still listed on /households/promotions (kept from last week, not re-read from T&Cs).",
+   "old_bill": 137.25,
+   "new_bill": 140.18,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 31.15,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 12
+   },
+   "high_impact": false
+  },
+  {
+   "kind": "changed",
+   "retailer": "Senoko Energy",
+   "plan": "LifeGreen24",
+   "id": "senoko-energy-lifegreen24",
+   "changes": [
+    [
+     "Rate (¢/kWh)",
+     29.68,
+     30.88
+    ]
+   ],
+   "confidence": "high",
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXFG-24av1",
+   "notes": "New fact sheet version 22 Oct 2026 (plan code HH-GMOFIXFG-24av1); the price-plans page card shows the same rate. Promo codes still listed on /households/promotions (kept from last week, not re-read from T&Cs).",
+   "old_bill": 133.56,
+   "new_bill": 138.96,
+   "trust": {
+    "flags": [],
+    "second_read": "agrees",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 30.88,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 24
+   },
+   "high_impact": true
+  },
+  {
+   "kind": "same",
+   "retailer": "Senoko Energy",
+   "plan": "LifeSteady24",
+   "id": "senoko-energy-lifesteady24",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFDOTPG-24al1",
+   "notes": "Fact sheet unchanged (16 Jun 2026); page card agrees. Promo codes still listed on /households/promotions (kept from last week, not re-read from T&Cs).",
+   "old_bill": 132.84,
+   "new_bill": 132.84,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": null,
+    "discount": {
+     "value": 1.64,
+     "kind": "cents"
+    },
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 24
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Senoko Energy",
+   "plan": "LifeSteady36",
+   "id": "senoko-energy-lifesteady36",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFDOTPG-36al1",
+   "notes": "Fact sheet unchanged (16 Jun 2026); page card agrees. Promo codes still listed on /households/promotions (kept from last week, not re-read from T&Cs).",
+   "old_bill": 132.84,
+   "new_bill": 132.84,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": null,
+    "discount": {
+     "value": 1.64,
+     "kind": "cents"
+    },
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 36
+   }
+  },
+  {
+   "kind": "changed",
+   "retailer": "Senoko Energy",
+   "plan": "LifeSavvy24",
+   "id": "senoko-energy-lifesavvy24",
+   "changes": [
+    [
+     "Off-peak (¢/kWh)",
+     20.05,
+     21.05
+    ],
+    [
+     "Peak (¢/kWh)",
+     36.95,
+     37.95
+    ]
+   ],
+   "confidence": "high",
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOPOPPG-24av1",
+   "notes": "New fact sheet version 22 Oct 2026 (plan code HH-GMOPOPPG-24av1); the price-plans page card shows the same rate. Promo codes still listed on /households/promotions (kept from last week, not re-read from T&Cs).",
+   "old_bill": 143.46,
+   "new_bill": 147.96,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": null,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": {
+     "offPeak": {
+      "window": "23:00–07:00",
+      "rate": 21.05
+     },
+     "peak": {
+      "window": "07:00–23:00",
+      "rate": 37.95
+     }
+    },
+    "tiers": null,
+    "contractMonths": 24
+   },
+   "high_impact": false
+  },
+  {
+   "kind": "same",
+   "retailer": "SP Group",
+   "plan": "Regulated Tariff",
+   "id": "sp-group-regulated-tariff",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.spgroup.com.sg/our-services/utilities/tariff-information",
+   "notes": "Oct-Dec 2026 tariff, unchanged (read 26 Oct). Regulated tariff: no retailer fact sheet, so no terms.",
+   "old_bill": 140.22,
+   "new_bill": 140.22,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 31.16,
+    "discount": null,
+    "dailyCharge": 0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 0
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Tuas Power",
+   "plan": "PowerFIX 24",
+   "id": "tuas-power-powerfix-24",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.savewithtuas.com/assets/pdf/2026/fs/powerfix_24_20261006(283.5)-$100_bill_rebate.pdf",
+   "notes": "Fact sheet (same version as last week) and plans page (26 Oct) agree; unchanged. Terms: the fact sheet says customers without an SP Services account pay 65% of SP's deposit; our wording says only that there is no separate deposit.",
+   "old_bill": 139.05,
+   "new_bill": 139.05,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 30.9,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 24
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Tuas Power",
+   "plan": "PowerFIX 36",
+   "id": "tuas-power-powerfix-36",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.savewithtuas.com/assets/pdf/2026/powerfix_36_20261008(281)-$160_bill_rebate.pdf",
+   "notes": "Fact sheet (same version as last week) and plans page (26 Oct) agree; unchanged. Terms: the fact sheet says customers without an SP Services account pay 65% of SP's deposit; our wording says only that there is no separate deposit.",
+   "old_bill": 137.84,
+   "new_bill": 137.84,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 30.63,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 36
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Tuas Power",
+   "plan": "PowerFIX 25 G+",
+   "id": "tuas-power-powerfix-25-g",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.savewithtuas.com/assets/pdf/2026/fs/powerfix_25_20260615(300)-$100_bill_rebate.pdf",
+   "notes": "Fact sheet (same version as last week) and plans page (26 Oct) agree; unchanged. Terms: the fact sheet says customers without an SP Services account pay 65% of SP's deposit; our wording says only that there is no separate deposit.",
+   "old_bill": 147.15,
+   "new_bill": 147.15,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 32.7,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 25
+   }
+  },
+  {
+   "kind": "same",
+   "retailer": "Tuas Power",
+   "plan": "PowerFIX 12",
+   "id": "tuas-power-powerfix-12",
+   "changes": [],
+   "confidence": "high",
+   "source": "https://www.savewithtuas.com/assets/pdf/2026/powerfix_12_20261006(285.8).pdf",
+   "notes": "Fact sheet (same version as last week) and plans page (26 Oct) agree; unchanged. Terms: the fact sheet says customers without an SP Services account pay 65% of SP's deposit; our wording says only that there is no separate deposit.",
+   "old_bill": 140.18,
+   "new_bill": 140.18,
+   "trust": {
+    "flags": [],
+    "second_read": "none",
+    "disagreements": [],
+    "quote": true,
+    "verified_by": null,
+    "blocked": false
+   },
+   "proposed": {
+    "rate": 31.15,
+    "discount": null,
+    "dailyCharge": 0.0,
+    "tou": null,
+    "tiers": null,
+    "contractMonths": 12
+   }
+  }
+ ],
+ "promotions": [],
+ "terms": [
+  {
+   "id": "geneco-get-it-fixed-24",
+   "retailer": "Geneco",
+   "plan": "Get It Fixed 24",
+   "source": "https://www.geneco.sg/residential/electricity-plans/",
+   "factsheet_date": "2026-09-30",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "HDB 1–2rm: S$50; HDB 3–5rm/Exec: S$90; Condo: S$120; Terrace/Semi-D: S$150; Bungalow: S$220",
+    "etf": "Per remaining month: HDB1-2rm S$10; HDB3-5rm/Exec S$15; Condo S$20; Terrace/Semi-D S$40; Bungalow S$75"
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit (see footnote 7): Dwelling Type Security Deposit Amount HDB 1 or 2 rooms S$50 HDB 3, 4 or 5 rooms / HDB Executive S$90 Executive Condominium / Condominium / Private Apartment S$120 Terrace House/ Semi- Detached House S$150 Bungalow S$220",
+    "etf": "Early Termination Fee (see footnote 6): Dwelling Type Early Termination Fee per remaining month HDB 1 or 2 rooms S$10 HDB 3, 4 or 5 rooms / HDB Executive S$15 Executive Condominium / Condominium / Private Apartment S$20 Terrace House/ Semi-Detached House S$40 Bungalow S$75"
+   },
+   "kind": "same"
+  },
+  {
+   "id": "geneco-get-it-fixed-12",
+   "retailer": "Geneco",
+   "plan": "Get It Fixed 12",
+   "source": "https://www.geneco.sg/residential/electricity-plans/",
+   "factsheet_date": "2026-10-09",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "HDB 1–2rm: S$50; HDB 3–5rm/Exec: S$90; Condo: S$120; Terrace/Semi-D: S$150; Bungalow: S$220",
+    "etf": "Per remaining month: HDB1-2rm S$10; HDB3-5rm/Exec S$15; Condo S$20; Terrace/Semi-D S$40; Bungalow S$75"
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit (see footnote 7): Dwelling Type Security Deposit Amount HDB 1 or 2 rooms S$50 HDB 3, 4 or 5 rooms / HDB Executive S$90 Executive Condominium / Condominium / Private Apartment S$120 Terrace House/ Semi- Detached House S$150 Bungalow S$220",
+    "etf": "Early Termination Fee (see footnote 6): Dwelling Type Early Termination Fee per remaining month HDB 1 or 2 rooms S$10 HDB 3, 4 or 5 rooms / HDB Executive S$15 Executive Condominium / Condominium / Private Apartment S$20 Terrace House/ Semi-Detached House S$40 Bungalow S$75"
+   },
+   "kind": "same"
+  },
+  {
+   "id": "geneco-give-us-a-try",
+   "retailer": "Geneco",
+   "plan": "Give Us A Try",
+   "source": "https://www.geneco.sg/residential/electricity-plans/",
+   "factsheet_date": "2026-08-04",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "HDB 1–2rm: S$50; HDB 3–5rm/Exec: S$90; Condo: S$120; Terrace/Semi-D: S$150; Bungalow: S$220",
+    "etf": "Per remaining month: HDB1-2rm S$10; HDB3-5rm/Exec S$15; Condo S$20; Terrace/Semi-D S$40; Bungalow S$75"
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit (see footnote 7): Dwelling Type Security Deposit Amount HDB 1 or 2 rooms S$50 HDB 3, 4 or 5 rooms / HDB Executive S$90 Executive Condominium / Condominium / Private Apartment S$120 Terrace House/ Semi- Detached House S$150 Bungalow S$220",
+    "etf": "Early Termination Fee (see footnote 6): Dwelling Type Early Termination Fee per remaining month HDB 1 or 2 rooms S$10 HDB 3, 4 or 5 rooms / HDB Executive S$15 Executive Condominium / Condominium / Private Apartment S$20 Terrace House/ Semi-Detached House S$40 Bungalow S$75"
+   },
+   "kind": "same"
+  },
+  {
+   "id": "geneco-get-it-7-to-7",
+   "retailer": "Geneco",
+   "plan": "Get It 7 To 7",
+   "source": "https://www.geneco.sg/residential/electricity-plans/",
+   "factsheet_date": "2026-08-24",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "HDB 1–2rm: S$50; HDB 3–5rm/Exec: S$90; Condo: S$120; Terrace/Semi-D: S$150; Bungalow: S$220",
+    "etf": "Per remaining month: HDB1-2rm S$10; HDB3-5rm/Exec S$15; Condo S$20; Terrace/Semi-D S$40; Bungalow S$75"
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit (see footnote 7): Dwelling Type Security Deposit Amount HDB 1 or 2 rooms S$50 HDB 3, 4 or 5 rooms / HDB Executive S$90 Executive Condominium / Condominium / Private Apartment S$120 Terrace House/ Semi-Detached House S$150 Bungalow S$220",
+    "etf": "Early Termination Fee (see footnote 6): Dwelling Type Early Termination Fee per remaining month HDB 1 or 2 rooms S$10 HDB 3, 4 or 5 rooms / HDB Executive S$15 Executive Condominium / Condominium / Private Apartment S$20 Terrace House/ Semi-Detached House S$40 Bungalow S$75"
+   },
+   "kind": "same"
+  },
+  {
+   "id": "keppel-electric-fixed24",
+   "retailer": "Keppel Electric",
+   "plan": "FIXED24",
+   "source": "https://www.keppelelectric.com/residential-price-plan",
+   "factsheet_date": "2026-10-19",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "Billed on your first bill for all new sign-ups: HDB 1–2 room S$50; HDB 3–5 room, Executive or Jumbo S$90; condo or EC S$120; other premises (e.g. shophouse) S$190; landed S$220.",
+    "etf": "30% of your average daily charge over the last 2 months, for each day left in the contract."
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit (see footnote 7): Deposit will be billed via the first invoice as follows: Security Deposit ($) All New Sign-ups HDB 1/2 50 HDB 3/4/5/EA/Jumbo 90 Condo/HDUC/EC 120 Others (e.g. shophouse) 190 Landed 220",
+    "etf": "Early Termination Charge (see footnote 6): Early termination charges: A x B x 30% where: A = the number of complete days remaining in the Initial Term under such Agreement after the date on which such Initial Term terminates pursuant to the terms of such Agreement; and B = the arithmetic average of the Charges payable in respect of each day by the Consumer to the Retailer under such Agreement during the period of the latest 2 months immediately preceding the termination."
+   },
+   "kind": "same"
+  },
+  {
+   "id": "keppel-electric-fixed24-special",
+   "retailer": "Keppel Electric",
+   "plan": "FIXED24 Special",
+   "source": "https://www.keppelelectric.com/api/AccountPlan/GetAllPlans",
+   "factsheet_date": "2026-10-19",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "Billed on your first bill for all new sign-ups: HDB 1–2 room S$50; HDB 3–5 room, Executive or Jumbo S$90; condo or EC S$120; other premises (e.g. shophouse) S$190; landed S$220.",
+    "etf": "30% of your average daily charge over the last 2 months, for each day left in the contract."
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit (see footnote 7): Deposit will be billed via the first invoice as follows: Security Deposit ($) All New Sign-ups HDB 1/2 50 HDB 3/4/5/EA/Jumbo 90 Condo/HDUC/EC 120 Others (e.g. shophouse) 190 Landed 220",
+    "etf": "Early Termination Charge (see footnote 6): Early termination charges: A x B x 30% where: A = the number of complete days remaining in the Initial Term under such Agreement after the date on which such Initial Term terminates pursuant to the terms of such Agreement; and B = the arithmetic average of the Charges payable in respect of each day by the Consumer to the Retailer under such Agreement during the period of the latest 2 months immediately preceding the termination."
+   },
+   "kind": "same"
+  },
+  {
+   "id": "keppel-electric-fixed36",
+   "retailer": "Keppel Electric",
+   "plan": "FIXED36",
+   "source": "https://www.keppelelectric.com/residential-price-plan",
+   "factsheet_date": "2026-10-19",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "Billed on your first bill for all new sign-ups: HDB 1–2 room S$50; HDB 3–5 room, Executive or Jumbo S$90; condo or EC S$120; other premises (e.g. shophouse) S$190; landed S$220.",
+    "etf": "30% of your average daily charge over the last 2 months, for each day left in the contract."
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit (see footnote 7): Deposit will be billed via the first invoice as follows: Security Deposit ($) All New Sign-ups HDB 1/2 50 HDB 3/4/5/EA/Jumbo 90 Condo/HDUC/EC 120 Others (e.g. shophouse) 190 Landed 220",
+    "etf": "Early Termination Charge (see footnote 6): Early termination charges: A x B x 30% where: A = the number of complete days remaining in the Initial Term under such Agreement after the date on which such Initial Term terminates pursuant to the terms of such Agreement; and B = the arithmetic average of the Charges payable in respect of each day by the Consumer to the Retailer under such Agreement during the period of the latest 2 months immediately preceding the termination."
+   },
+   "kind": "same"
+  },
+  {
+   "id": "keppel-electric-fixed12",
+   "retailer": "Keppel Electric",
+   "plan": "FIXED12",
+   "source": "https://www.keppelelectric.com/residential-price-plan",
+   "factsheet_date": "2026-10-01",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "Billed on your first bill for all new sign-ups: HDB 1–2 room S$50; HDB 3–5 room, Executive or Jumbo S$90; condo or EC S$120; other premises (e.g. shophouse) S$190; landed S$220.",
+    "etf": "30% of your average daily charge over the last 2 months, for each day left in the contract."
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit (see footnote 7): Deposit will be billed via the first invoice as follows: Security Deposit ($) All New Sign-ups HDB 1/2 50 HDB 3/4/5/EA/Jumbo 90 Condo/HDUC/EC 120 Others (e.g. shophouse) 190 Landed 220",
+    "etf": "Early Termination Charge (see footnote 6): Early termination charges: A x B x 30% where: A = the number of complete days remaining in the Initial Term under such Agreement after the date on which such Initial Term terminates pursuant to the terms of such Agreement; and B = the arithmetic average of the Charges payable in respect of each day by the Consumer to the Retailer under such Agreement during the period of the latest 2 months immediately preceding the termination."
+   },
+   "kind": "same"
+  },
+  {
+   "id": "keppel-electric-weekend-saver",
+   "retailer": "Keppel Electric",
+   "plan": "WEEKEND SAVER",
+   "source": "https://www.keppelelectric.com/residential-price-plan",
+   "factsheet_date": "2026-03-30",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "Billed on your first bill for all new sign-ups: HDB 1–2 room S$50; HDB 3–5 room, Executive or Jumbo S$90; condo or EC S$120; other premises (e.g. shophouse) S$190; landed S$220.",
+    "etf": "30% of your average daily charge over the last 2 months, for each day left in the contract."
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit (see footnote 7): Deposit will be billed via the first invoice as follows: Security Deposit ($) All New Sign-ups HDB 1/2 50 HDB 3/4/5/EA/Jumbo 90 Condo/HDUC/EC 120 Others (e.g. shophouse) 190 Landed 220",
+    "etf": "Early Termination Charge (see footnote 6): Early termination charges: A x B x 30% where: A = the number of complete days remaining in the Initial Term under such Agreement after the date on which such Initial Term terminates pursuant to the terms of such Agreement; and B = the arithmetic average of the Charges payable in respect of each day by the Consumer to the Retailer under such Agreement during the period of the latest 2 months immediately preceding the termination."
+   },
+   "kind": "same"
+  },
+  {
+   "id": "keppel-electric-ecogreen24",
+   "retailer": "Keppel Electric",
+   "plan": "ecoGreen24",
+   "source": "https://www.keppelelectric.com/residential-price-plan",
+   "factsheet_date": "2026-03-14",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "Billed on your first bill for all new sign-ups: HDB 1–2 room S$50; HDB 3–5 room, Executive or Jumbo S$90; condo or EC S$120; other premises (e.g. shophouse) S$190; landed S$220.",
+    "etf": "30% of your average daily charge over the last 2 months, for each day left in the contract."
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit (see footnote 7): Deposit will be billed via the first invoice as follows: Security Deposit ($) All New Sign-ups HDB 1/2 50 HDB 3/4/5/EA/Jumbo 90 Condo/HDUC/EC 120 Others (e.g. shophouse) 190 Landed 220",
+    "etf": "Early Termination Charge (see footnote 6): Early termination charges: A x B x 30% where: A = the number of complete days remaining in the Initial Term under such Agreement after the date on which such Initial Term terminates pursuant to the terms of such Agreement; and B = the arithmetic average of the Charges payable in respect of each day by the Consumer to the Retailer under such Agreement during the period of the latest 2 months immediately preceding the termination."
+   },
+   "kind": "same"
+  },
+  {
+   "id": "pacificlight-savvy-saver-24",
+   "retailer": "PacificLight",
+   "plan": "Savvy Saver 24",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/06-savvy-saver-24-8-oct-2026",
+   "factsheet_date": "2026-10-08",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "Varies by residential dwelling type",
+    "etf": "HDB1-2rm S$160; HDB3rm S$220; HDB4rm S$320; HDB5rm S$380; HDB Exec/Jumbo/Multi-Gen S$460; Condo/Apt/Shophouse S$480; Terrace S$720; Semi-D S$1,000; Bungalow/Penthouse S$2,000"
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit | (see footnote 7): | HDB 1 and 2 Room - $80 | HDB 3 Room - $110 | HDB 4 Room - $160 | HDB 5 Room - $190 | HDB Executive, Jumbo or Multi-Gen - $230 | Condominium, Apartment or Shophouse - $240 | Terrace - $360 | Semi-Detached - $500 | Bungalow or Penthouse - $1,000",
+    "etf": "Early Termination Charge | (see footnote 6): | HDB 1 and 2 Room - $160 | HDB 3 Room - $220 | HDB 4 Room - $320 | HDB 5 Room - $380 | HDB Executive, Jumbo or Multi-Gen - $460 | Condominium, Apartment or Shophouse - $480 | Terrace - $720 | Semi-Detached - $1,000 | Bungalow or Penthouse - $2,000"
+   },
+   "kind": "same"
+  },
+  {
+   "id": "pacificlight-savvy-saver-12",
+   "retailer": "PacificLight",
+   "plan": "Savvy Saver 12",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/05-savvy-saver-12-8-oct-2026",
+   "factsheet_date": "2026-10-08",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "Varies by residential dwelling type",
+    "etf": "HDB1-2rm S$160; HDB3rm S$220; HDB4rm S$320; HDB5rm S$380; HDB Exec/Jumbo/Multi-Gen S$460; Condo/Apt/Shophouse S$480; Terrace S$720; Semi-D S$1,000; Bungalow/Penthouse S$2,000"
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit | (see footnote 7): | HDB 1 and 2 Room - $80 | HDB 3 Room - $110 | HDB 4 Room - $160 | HDB 5 Room - $190 | HDB Executive, Jumbo or Multi-Gen - $230 | Condominium, Apartment or Shophouse - $240 | Terrace - $360 | Semi-Detached - $500 | Bungalow or Penthouse - $1,000",
+    "etf": "Early Termination Charge | (see footnote 6): | HDB 1 and 2 Room - $160 | HDB 3 Room - $220 | HDB 4 Room - $320 | HDB 5 Room - $380 | HDB Executive, Jumbo or Multi-Gen - $460 | Condominium, Apartment or Shophouse - $480 | Terrace - $720 | Semi-Detached - $1,000 | Bungalow or Penthouse - $2,000"
+   },
+   "kind": "same"
+  },
+  {
+   "id": "pacificlight-savvy-saver-36",
+   "retailer": "PacificLight",
+   "plan": "Savvy Saver 36",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/9-savvy-saver-36-8-oct-2026",
+   "factsheet_date": "2026-10-08",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "Varies by residential dwelling type",
+    "etf": "HDB1-2rm S$160; HDB3rm S$220; HDB4rm S$320; HDB5rm S$380; HDB Exec/Jumbo/Multi-Gen S$460; Condo/Apt/Shophouse S$480; Terrace S$720; Semi-D S$1,000; Bungalow/Penthouse S$2,000"
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit | (see footnote 7): | HDB 1 and 2 Room - $80 | HDB 3 Room - $110 | HDB 4 Room - $160 | HDB 5 Room - $190 | HDB Executive, Jumbo or Multi-Gen - $230 | Condominium, Apartment or Shophouse - $240 | Terrace - $360 | Semi-Detached - $500 | Bungalow or Penthouse - $1,000",
+    "etf": "Early Termination Charge | (see footnote 6): | HDB 1 and 2 Room - $160 | HDB 3 Room - $220 | HDB 4 Room - $320 | HDB 5 Room - $380 | HDB Executive, Jumbo or Multi-Gen - $460 | Condominium, Apartment or Shophouse - $480 | Terrace - $720 | Semi-Detached - $1,000 | Bungalow or Penthouse - $2,000"
+   },
+   "kind": "same"
+  },
+  {
+   "id": "pacificlight-sunny-side-up-12",
+   "retailer": "PacificLight",
+   "plan": "Sunny Side-Up 12",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/04-sunny-side-up-12-01-oct-2026",
+   "factsheet_date": "2026-10-01",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "Varies by residential dwelling type",
+    "etf": "HDB1-2rm S$160; HDB3rm S$220; HDB4rm S$320; HDB5rm S$380; HDB Exec/Jumbo/Multi-Gen S$460; Condo/Apt/Shophouse S$480; Terrace S$720; Semi-D S$1,000; Bungalow/Penthouse S$2,000"
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit | (see footnote 7): | HDB 1 and 2 Room - $80 | HDB 3 Room - $110 | HDB 4 Room - $160 | HDB 5 Room - $190 | HDB Executive, Jumbo or Multi-Gen - $230 | Condominium, Apartment or Shophouse - $240 | Terrace - $360 | Semi-Detached - $500 | Bungalow or Penthouse - $1,000",
+    "etf": "Early Termination Charge | (see footnote 6): | HDB 1 and 2 Room - $160 | HDB 3 Room - $220 | HDB 4 Room - $320 | HDB 5 Room - $380 | HDB Executive, Jumbo or Multi-Gen - $460 | Condominium, Apartment or Shophouse - $480 | Terrace - $720 | Semi-Detached - $1,000 | Bungalow or Penthouse - $2,000"
+   },
+   "kind": "same"
+  },
+  {
+   "id": "pacificlight-stack-it-up-24",
+   "retailer": "PacificLight",
+   "plan": "Stack It Up 24",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/08-Stack-It-Up-24-8-oct-2026",
+   "factsheet_date": "2026-10-08",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "Varies by residential dwelling type",
+    "etf": "HDB1-2rm S$160; HDB3rm S$220; HDB4rm S$320; HDB5rm S$380; HDB Exec/Jumbo/Multi-Gen S$460; Condo/Apt/Shophouse S$480; Terrace S$720; Semi-D S$1,000; Bungalow/Penthouse S$2,000"
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit | (see footnote 7): | HDB 1 and 2 Room - $80 | HDB 3 Room - $110 | HDB 4 Room - $160 | HDB 5 Room - $190 | HDB Executive, Jumbo or Multi-Gen - $230 | Condominium, Apartment or Shophouse - $240 | Terrace - $360 | Semi-Detached - $500 | Bungalow or Penthouse - $1,000",
+    "etf": "Early Termination Charge | (see footnote 6): | HDB 1 and 2 Room - $160 | HDB 3 Room - $220 | HDB 4 Room - $320 | HDB 5 Room - $380 | HDB Executive, Jumbo or Multi-Gen - $460 | Condominium, Apartment or Shophouse - $480 | Terrace - $720 | Semi-Detached - $1,000 | Bungalow or Penthouse - $2,000"
+   },
+   "kind": "same"
+  },
+  {
+   "id": "pacificlight-save-while-sleeping-24",
+   "retailer": "PacificLight",
+   "plan": "Save While Sleeping 24",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/07-save-while-sleeping-24-8-oct-2026",
+   "factsheet_date": "2026-10-08",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "Varies by residential dwelling type",
+    "etf": "HDB1-2rm S$160; HDB3rm S$220; HDB4rm S$320; HDB5rm S$380; HDB Exec/Jumbo/Multi-Gen S$460; Condo/Apt/Shophouse S$480; Terrace S$720; Semi-D S$1,000; Bungalow/Penthouse S$2,000"
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit | (see footnote 7): | HDB 1 and 2 Room - $80 | HDB 3 Room - $110 | HDB 4 Room - $160 | HDB 5 Room - $190 | HDB Executive, Jumbo or Multi-Gen - $230 | Condominium, Apartment or Shophouse - $240 | Terrace - $360 | Semi-Detached - $500 | Bungalow or Penthouse - $1,000",
+    "etf": "Early Termination Charge | (see footnote 6): | HDB 1 and 2 Room - $160 | HDB 3 Room - $220 | HDB 4 Room - $320 | HDB 5 Room - $380 | HDB Executive, Jumbo or Multi-Gen - $460 | Condominium, Apartment or Shophouse - $480 | Terrace - $720 | Semi-Detached - $1,000 | Bungalow or Penthouse - $2,000"
+   },
+   "kind": "same"
+  },
+  {
+   "id": "pacificlight-easy-peasy",
+   "retailer": "PacificLight",
+   "plan": "Easy Peasy",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/02-easy-peasy-no-contract-7-oct-2026",
+   "factsheet_date": "2026-10-07",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "Varies by residential dwelling type",
+    "etf": "None (no lock-in)"
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit | (see footnote 7): | HDB 1 and 2 Room - $80 | HDB 3 Room - $110 | HDB 4 Room - $160 | HDB 5 Room - $190 | HDB Executive, Jumbo or Multi-Gen - $230 | Condominium, Apartment or Shophouse - $240 | Terrace - $360 | Semi-Detached - $500 | Bungalow - $1,000 | Penthouse - $1,000",
+    "etf": "Early Termination Charge | (see footnote 6): | As per Termination Charges in Electricity Contract, not applicable for Easy Peasy plan."
+   },
+   "kind": "same"
+  },
+  {
+   "id": "pacificlight-easy-save",
+   "retailer": "PacificLight",
+   "plan": "Easy Save",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/1-easy-save-no-contract-1-july-2026",
+   "factsheet_date": "2026-07-01",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "Varies by residential dwelling type",
+    "etf": "None (no lock-in)"
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit | (see footnote 7): | HDB 1 and 2 Room - $80 | HDB 3 Room - $110 | HDB 4 Room - $160 | HDB 5 Room - $190 | HDB Executive, Jumbo or Multi-Gen - $230 | Condominium, Apartment or Shophouse - $240 | Terrace - $360 | Semi-Detached - $500 | Bungalow - $1,000 | Penthouse - $1,000",
+    "etf": "Early Termination Charge | (see footnote 6): | As per Termination Charges in Electricity Contract, not applicable for Easy Save plan."
+   },
+   "kind": "same"
+  },
+  {
+   "id": "pacificlight-9-to-9",
+   "retailer": "PacificLight",
+   "plan": "9 to 9",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/03-9-to-9-no-contract-7-oct-2026",
+   "factsheet_date": "2026-10-07",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "Varies by residential dwelling type",
+    "etf": "None (no lock-in)"
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit | (see footnote 7): | HDB 1 and 2 Room - $80 | HDB 3 Room - $110 | HDB 4 Room - $160 | HDB 5 Room - $190 | HDB Executive, Jumbo or Multi-Gen - $230 | Condominium, Apartment or Shophouse - $240 | Terrace - $360 | Semi-Detached - $500 | Bungalow - $1,000 | Penthouse - $1,000",
+    "etf": "Early Termination Charge | (see footnote 6): | As per Termination Charges in Electricity Contract, not applicable for 9 to 9 plan."
+   },
+   "kind": "same"
+  },
+  {
+   "id": "pacificlight-classic-60",
+   "retailer": "PacificLight",
+   "plan": "Classic 60",
+   "source": "https://pacificlight.com.sg/support/factsheet-detail/10-classic-60-20-aug-2026",
+   "factsheet_date": "2026-08-20",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "Varies by residential dwelling type",
+    "etf": "HDB1-2rm S$160; HDB3rm S$220; HDB4rm S$320; HDB5rm S$380; HDB Exec/Jumbo/Multi-Gen S$460; Condo/Apt/Shophouse S$480; Terrace S$720; Semi-D S$1,000; Bungalow/Penthouse S$2,000"
+   },
+   "new": {
+    "deposit": null,
+    "etf": "Waived when you close your account, as long as no bills are outstanding. Otherwise: HDB 1 and 2 room S$160; HDB 3 room S$220; HDB 4 room S$320; HDB 5 room S$380; HDB Executive, Jumbo or Multi-Gen S$460; condo, apartment or shophouse S$480; terrace S$720; semi-detached S$1,000; bungalow or penthouse S$2,000."
+   },
+   "evidence": {
+    "deposit": "Security Deposit | (see footnote 7): | HDB 1 and 2 Room - $80 | HDB 3 Room - $110 | HDB 4 Room - $160 | HDB 5 Room - $190 | HDB Executive, Jumbo or Multi-Gen - $230 | Condominium, Apartment or Shophouse - $240 | Terrace - $360 | Semi-Detached - $500 | Bungalow or Penthouse - $1,000",
+    "etf": "Early Termination Charge (ETC) | (see footnote 6): | The ETC for the Classic 60 Plan will be waived upon account closure, provided there are no outstanding bills. Otherwise, the following charges shall apply: | HDB 1 and 2 Room - $160 | HDB 3 Room - $220 | HDB 4 Room - $320 | HDB 5 Room - $380 | HDB Executive, Jumbo or Multi-Gen - $460 | Condominium, Apartment or Shophouse - $480 | Terrace - $720 | Semi-Detached - $1,000 | Bungalow or Penthouse - $2,000"
+   },
+   "kind": "changed",
+   "trust": {
+    "flags": [
+     "terms change: needs a second, independent read before approval"
+    ],
+    "second_read": "none",
+    "blocked": true
+   }
+  },
+  {
+   "id": "sembcorp-power-24m-fixed-price-plan-home",
+   "retailer": "Sembcorp Power",
+   "plan": "24M Fixed Price Plan Home",
+   "source": "https://sembcorppower.com/price-plan",
+   "factsheet_date": "2026-10-06",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "None at sign-up if you already have an SP Services account. Otherwise SP Services sets the amount and bills it on your first bill.",
+    "etf": "For each month left in the contract: HDB 1-room S$10, 2-room S$15, 3-room S$20, 4-room S$30, 5-room S$35, Executive S$40, private apartment S$40, terrace S$70, semi-detached S$95, bungalow S$200. Waived if you move home (with proof)."
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "For new Sembcorp Customer, you are not required to pay Security Deposit during your application. If you are a non-existing Customer with SP Services Ltd, the Security Deposit will be collected in your first consolidated invoice, amount determined by SP Services Ltd. For existing Customer with SP Services Ltd, you are not required to provide additional Security Deposit. Customer renewing with Sembcorp Power, should there be any top-up of Security Deposit due to consolidated billing with SP Services Ltd, there will be a Security Deposit recovery charge reflected in your SP Services Ltd invoice.",
+    "etf": "A) Early Termination Charge (“ETC”): ETC = Termination Rate x Unexpired Months i) Termination Rate for each Household Type as shown below ii) Unexpired Months refers to the number of months (inclusive of month at the date of termination) between the date of termination and the date the Contract Term would otherwise have expired."
+   },
+   "kind": "same"
+  },
+  {
+   "id": "sembcorp-power-12m-fixed-price-plan-home",
+   "retailer": "Sembcorp Power",
+   "plan": "12M Fixed Price Plan Home",
+   "source": "https://sembcorppower.com/price-plan",
+   "factsheet_date": "2026-08-03",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "None at sign-up if you already have an SP Services account. Otherwise SP Services sets the amount and bills it on your first bill.",
+    "etf": "For each month left in the contract: HDB 1-room S$10, 2-room S$15, 3-room S$20, 4-room S$30, 5-room S$35, Executive S$40, private apartment S$40, terrace S$70, semi-detached S$95, bungalow S$200. Waived if you move home (with proof)."
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "For new Sembcorp Customer, you are not required to pay Security Deposit during your application. If you are a non-existing Customer with SP Services Ltd, the Security Deposit will be collected in your first consolidated invoice, amount determined by SP Services Ltd. For existing Customer with SP Services Ltd, you are not required to provide additional Security Deposit. Customer renewing with Sembcorp Power, should there be any top-up of Security Deposit due to consolidated billing with SP Services Ltd, there will be a Security Deposit recovery charge reflected in your SP Services Ltd invoice. 3) 4) 1) Any other charges for ad-hoc MSS services requested by Consumer. Refer to Market Support Service Charges section at https://www.openelectricitymarket.sg/residential/resources/charges $10 (before GST) / $10.90 (after GST) per account per request is applicable for a request to close the account and any subsequent changes to the account closure request D. Bundled product or services (see footnote 9) There are other products or services bundled with the electricity price plan: No If yes, the electricity retailer should specify below what are the bundled products or services. You should discuss the details with the electricity retailer such as the applicable fees and charges as well as the terms and conditions for accepting the bundled products or services: N.A E. Footnotes Please note the differences between a Standard Price Plan and Non-Standard Price Plan. Standard Price Plan Non-Standard Price Plan Electricity Rates • Inclusive of all applicable charges that vary according to the level of consumption. • Will not change throughout the contract duration. • May not be inclusive of all applicable charges that vary according to the level of consumption. • May change in accordance with the terms and conditions of the contract. Other Fees and Charges • No recurring charges or fees throughout the contract duration • May include recurring charges or fees throughout the contract duration Contract Duration • 6, 12 or 24 months. • Not limited to 6, 12 or 24 months . Pricing Structure • Fixed Price. Pay a fixed rate (e.g. 20 cents/kWh) for electricity throughout the contract duration. OR • Discount Off the Regulated Tariff. Enjoy a discount off the prevailing regulated tariff (e.g. 5% off) throughout the contract duration. • The electricity retailer may set its own pricing structure. More Information • Visit the Price Comparison Tool at compare.openelectricitymarket.sg to compare the Standard Price Plans offered by different electricity retailers. • Visit the electricity retailer’s website to enquire on Non-Standard Price Plans. 2) 3) 4) 5) 6) 7) 8) The electricity retailer may offer you incentives if you contract for the electricity price plan. The incentives may include: • Free gifts, promotions, rewards or services; and/or • Conditional discount that reduces your electricity bill if you meet certain conditions. A contract with automatic renewal may be automatically renewed upon the expiry of the contract. For such contract: • The electricity retailer is required to inform you at least 10 business days before the existing contract expiry date, and you have the right not to proceed with the automatic renewal; • The electricity retailer must ensure that the electricity rate is better than the prevailing regulated tariff at the point of contract renewal; and • After the contract has been automatically renewed, you have the right to, within the first 30 calendar days from the start of the renewed contract term, terminate the renewed contract by giving the electricity retailer at least 30 calendar days’ notice without you being subject to any early termination charges or other applicable fees. From 19 June 2026, for residential contracts with automatic renewal, electricity retailers will be required to: • Remind residential consumers twice about the upcoming auto-renewal of their electricity contract. The first notification must be sent at least 10 business days before contract expiry, and the second notification must be sent within three calendar days before or on the day of the auto-renewal; • Notify residential consumers of the upcoming contract renewal via at least two different modes of communication. The two modes must include both mail communication (e.g. email or postal mail) and mobile communication (e.g. SMS, WhatsApp message or notification via the retailer’s app); • Ensure that the electricity rate is better than the prevailing regulated tariff at the point of contract renewal; and • After the contract has been automatically renewed, you have the right to, within the first 60 calendar days from the start of the renewed contract term, terminate the renewed contract without you being subject to any early termination charges or other applicable fees An advanced meter is a digital meter capable of measuring your electricity consumption every half-hour. It is optional to install an advanced meter to measure your half-hourly electricity consumption, unless the price plan you sign up for requires one. The Standard Price Plans do not require an advanced meter. With direct billing, the electricity retailer will bill you directly for electricity supply, and SP Group will send you a separate bill for the other utilities (such as water and gas supply). Your electricity retailer will advise you on the billing arrangement they offer. With indirect billing, you will receive a single monthly bill from SP Group covering the charges for electricity supply by the electricity retailer as well as the charges for the other utilities. The electricity retailer may charge you a fee if you terminate the contract before its expiry date. The electricity retailer may require you to provide a security deposit for the supply of electricity. If you are a residential consumer, the electricity retailer is allowed to collect not more than 2 months of your average monthly electricity bill at the point of contracting, contract renewal or during the term of the contract. The electricity retailer may require you to pay other fees and charges, including the prevailing market-related charges. You may refer to http://www.openelectricitymarket.sg for more information on the market-related charges. 9) 10) The electricity retailer may bundle the supply of electricity with other products and/or services, such as the provision of phone or internet services, home energy management systems, newspaper or magazine subscription, etc. Please note the terms and conditions of the bundled products or services. Consumers with Embedded Intermittent Generation Sources (i.e. solar) By switching from SP Group to buying electricity from a retailer of your choice, you will be receiving payments for excess solar electricity sold to the grid under the Enhanced Central Intermediary Scheme (“ECIS”) instead of the Simplified Credit Treatment (“SCT”) Scheme that applies to consumers on SP’s Regulated Tariff. Under ECIS, you will be paid based on wholesale electricity prices. ECIS and SCT export rates may differ depending on prevailing market conditions. Therefore, you should expect varying export rates if you proceed with the switch. For more details on the payment schemes and how this affects your net export rebate, please refer to EMA’s website: https://www.ema.gov.sg/consumer-information/solar/payment-schemes",
+    "etf": "A) Early Termination Charge (“ETC”): ETC = Termination Rate x Unexpired Months i) Termination Rate for each Household Type as shown below ii) Unexpired Months refers to the number of months (inclusive of month at the date of termination) between the date of termination and the date the Contract Term would otherwise have expired."
+   },
+   "kind": "same"
+  },
+  {
+   "id": "senoko-energy-lifepower36",
+   "retailer": "Senoko Energy",
+   "plan": "LifePower36",
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXPG-36av1",
+   "factsheet_date": "2026-10-22",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "Waived for residential customers; may apply in cases of payment default",
+    "etf": "36-mth contract: Yr1 S$872; Yr2 S$545; Yr3 S$327"
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit (see footnote 7): Waived",
+    "etf": "Early Termination Charge (Including 9% GST) (see footnote 6): S$872 if termination is before or within 1st to 12th month from contract start date. S$545 if termination is within 13th to 24th month from contract start date. S$327 if termination is within 25th to 36th month from contract start date."
+   },
+   "kind": "same"
+  },
+  {
+   "id": "senoko-energy-lifepower24",
+   "retailer": "Senoko Energy",
+   "plan": "LifePower24",
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXPG-24av1",
+   "factsheet_date": "2026-10-22",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "Waived for residential customers; may apply in cases of payment default",
+    "etf": "24-mth contract: Yr1 S$545; Yr2 S$327"
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit (see footnote 7): Waived",
+    "etf": "Early Termination Charge (Including 9% GST) (see footnote 6): S$545 if termination is before or within 1st to 12th month from contract start date. S$327 if termination is within 13th to 24th month from contract start date."
+   },
+   "kind": "same"
+  },
+  {
+   "id": "senoko-energy-lifepower12",
+   "retailer": "Senoko Energy",
+   "plan": "LifePower12",
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXPG-12av1",
+   "factsheet_date": "2026-10-22",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "Waived for residential customers; may apply in cases of payment default",
+    "etf": "12-mth contract: Yr1 S$327"
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit (see footnote 7): Waived",
+    "etf": "Early Termination Charge (Including 9% GST) (see footnote 6): S$327 if termination is before or within 1st to 12th month from contract start date."
+   },
+   "kind": "same"
+  },
+  {
+   "id": "senoko-energy-lifegreen24",
+   "retailer": "Senoko Energy",
+   "plan": "LifeGreen24",
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXFG-24av1",
+   "factsheet_date": "2026-10-22",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "Waived for residential customers; may apply in cases of payment default",
+    "etf": "24-mth contract: Yr1 S$545; Yr2 S$327"
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit (see footnote 7): Waived",
+    "etf": "Early Termination Charge (Including 9% GST) (see footnote 6): S$545 if termination is before or within 1st to 12th month from contract start date. S$327 if termination is within 13th to 24th month from contract start date."
+   },
+   "kind": "same"
+  },
+  {
+   "id": "senoko-energy-lifesteady24",
+   "retailer": "Senoko Energy",
+   "plan": "LifeSteady24",
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFDOTPG-24al1",
+   "factsheet_date": "2026-06-16",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "Waived for residential customers; may apply in cases of payment default",
+    "etf": "24-mth contract: Yr1 S$545; Yr2 S$327"
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit (see footnote 7): Waived",
+    "etf": "Early Termination Charge (Including 9% GST) (see footnote 6): S$545 if termination is before or within 1st to 12th month from contract start date. S$327 if termination is within 13th to 24th month from contract start date."
+   },
+   "kind": "same"
+  },
+  {
+   "id": "senoko-energy-lifesteady36",
+   "retailer": "Senoko Energy",
+   "plan": "LifeSteady36",
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFDOTPG-36al1",
+   "factsheet_date": "2026-06-16",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "Waived for residential customers; may apply in cases of payment default",
+    "etf": "36-mth contract: Yr1 S$872; Yr2 S$545; Yr3 S$327"
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit (see footnote 7): Waived",
+    "etf": "Early Termination Charge (Including 9% GST) (see footnote 6): S$872 if termination is before or within 1st to 12th month from contract start date. S$545 if termination is within 13th to 24th month from contract start date. S$327 if termination is within 25th to 36th month from contract start date."
+   },
+   "kind": "same"
+  },
+  {
+   "id": "senoko-energy-lifesavvy24",
+   "retailer": "Senoko Energy",
+   "plan": "LifeSavvy24",
+   "source": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOPOPPG-24av1",
+   "factsheet_date": "2026-10-22",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "Waived for residential customers; may apply in cases of payment default",
+    "etf": "24-mth contract: Yr1 S$545; Yr2 S$327"
+   },
+   "new": {
+    "deposit": null,
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit (see footnote 7): Waived",
+    "etf": "Early Termination Charge (Including 9% GST) (see footnote 6): S$545 if termination is before or within 1st to 12th month from contract start date. S$327 if termination is within 13th to 24th month from contract start date."
+   },
+   "kind": "same"
+  },
+  {
+   "id": "tuas-power-powerfix-24",
+   "retailer": "Tuas Power",
+   "plan": "PowerFIX 24",
+   "source": "https://www.savewithtuas.com/assets/pdf/2026/fs/powerfix_24_20261006(283.5)-$100_bill_rebate.pdf",
+   "factsheet_date": "2026-10-06",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "No separate deposit; existing SP Group deposit carries over",
+    "etf": "S$200 flat (all Tuas Power residential plans)"
+   },
+   "new": {
+    "deposit": "None if you already have an SP Services account. Otherwise you pay a deposit of 65% of the amount SP Services sets, collected by SP Services.",
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit (see footnote 7): Security Deposit (“SD”) shall be collected and retained on behalf of Retailer by SP Services Limited (“SP”). Existing SP’s customers will not be required to provide additional SD. Non-existing SP’s customers will be required to provide a SD equivalent to 65% of the SD as determined and published by SP.",
+    "etf": "Early Termination Charge (see footnote 6): $200.00 (no GST)"
+   },
+   "kind": "changed",
+   "trust": {
+    "flags": [
+     "terms change: needs a second, independent read before approval"
+    ],
+    "second_read": "none",
+    "blocked": true
+   }
+  },
+  {
+   "id": "tuas-power-powerfix-36",
+   "retailer": "Tuas Power",
+   "plan": "PowerFIX 36",
+   "source": "https://www.savewithtuas.com/assets/pdf/2026/powerfix_36_20261008(281)-$160_bill_rebate.pdf",
+   "factsheet_date": "2026-10-08",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "No separate deposit; existing SP Group deposit carries over",
+    "etf": "S$200 flat (all Tuas Power residential plans)"
+   },
+   "new": {
+    "deposit": "None if you already have an SP Services account. Otherwise you pay a deposit of 65% of the amount SP Services sets, collected by SP Services.",
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit (see footnote 7): Security Deposit (“SD”) shall be collected and retained on behalf of Retailer by SP Services Limited (“SP”). Existing SP’s customers will not be required to provide additional SD. Non-existing SP’s customers will be required to provide a SD equivalent to 65% of the SD as determined and published by SP.",
+    "etf": "Early Termination Charge (see footnote 6): $200.00 (no GST)"
+   },
+   "kind": "changed",
+   "trust": {
+    "flags": [
+     "terms change: needs a second, independent read before approval"
+    ],
+    "second_read": "none",
+    "blocked": true
+   }
+  },
+  {
+   "id": "tuas-power-powerfix-25-g",
+   "retailer": "Tuas Power",
+   "plan": "PowerFIX 25 G+",
+   "source": "https://www.savewithtuas.com/assets/pdf/2026/fs/powerfix_25_20260615(300)-$100_bill_rebate.pdf",
+   "factsheet_date": "2026-06-15",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "No separate deposit; existing SP Group deposit carries over",
+    "etf": "S$200 flat (all Tuas Power residential plans)"
+   },
+   "new": {
+    "deposit": "None if you already have an SP Services account. Otherwise you pay a deposit of 65% of the amount SP Services sets, collected by SP Services.",
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit (see footnote 7): Security Deposit (SD ) shall be collected and retained on behalf of Retailer by SP Services Limited ( SP ). Existing SPs customers will not be required to provide additional SD. Non-existing SP s customers will be required to provide a SD equivalent to 65% of the SD as determined and published by SP.",
+    "etf": "Early Termination Charge (see footnote 6): $200.00 (no GST)"
+   },
+   "kind": "changed",
+   "trust": {
+    "flags": [
+     "terms change: needs a second, independent read before approval"
+    ],
+    "second_read": "none",
+    "blocked": true
+   }
+  },
+  {
+   "id": "tuas-power-powerfix-12",
+   "retailer": "Tuas Power",
+   "plan": "PowerFIX 12",
+   "source": "https://www.savewithtuas.com/assets/pdf/2026/powerfix_12_20261006(285.8).pdf",
+   "factsheet_date": "2026-10-06",
+   "prev_factsheet_date": null,
+   "old": {
+    "deposit": "No separate deposit; existing SP Group deposit carries over",
+    "etf": "S$200 flat (all Tuas Power residential plans)"
+   },
+   "new": {
+    "deposit": "None if you already have an SP Services account. Otherwise you pay a deposit of 65% of the amount SP Services sets, collected by SP Services.",
+    "etf": null
+   },
+   "evidence": {
+    "deposit": "Security Deposit (see footnote 7): Security Deposit (“SD”) shall be collected and retained on behalf of Retailer by SP Services Limited (“SP”). Existing SP’s customers will not be required to provide additional SD. Non-existing SP’s customers will be required to provide a SD equivalent to 65% of the SD as determined and published by SP.",
+    "etf": "Early Termination Charge (see footnote 6): $200.00 (no GST)"
+   },
+   "kind": "changed",
+   "trust": {
+    "flags": [
+     "terms change: needs a second, independent read before approval"
+    ],
+    "second_read": "none",
+    "blocked": true
+   }
+  }
+ ]
+}
