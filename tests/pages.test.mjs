@@ -59,3 +59,18 @@ test('the HTML matches the current prices (run npm run seo if not)', () => {
   assert.equal(block('electricity-tariff.html', 'guide'), tariffPageMarkup());
   for (const [label, file] of Object.entries(HOME_PAGES)) assert.equal(block(file, 'guide'), homeTypePageMarkup(label), file);
 });
+
+test('every page starts with its doctype, with the header and footer copies inside <body>', () => {
+  // Anything before <!doctype html> puts browsers in quirks mode (27 Oct 2026: the
+  // footer copy landed there and pages looked unstyled while loading).
+  for (const file of fs.readdirSync(new URL('../', import.meta.url)).filter((f) => f.endsWith('.html'))) {
+    const s = fs.readFileSync(new URL(`../${file}`, import.meta.url), 'utf8');
+    assert.match(s, /^<!doctype html>/i, `${file} doesn't start with <!doctype html>`);
+    const body = s.indexOf('<body'), end = s.lastIndexOf('</body>');
+    for (const name of ['header', 'footer']) {
+      const at = s.indexOf(`<!-- prerender:${name} -->`);
+      assert.ok(at > body && at < end, `${file}: the ${name} copy isn't inside <body>`);
+    }
+    assert.ok(!/<(header|footer) class="site-(header|footer)"(?! data-static)/.test(s), `${file}: a header or footer copy without data-static`);
+  }
+});

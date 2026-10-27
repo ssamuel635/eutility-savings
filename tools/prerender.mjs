@@ -28,6 +28,12 @@ const { homeStories, storyCard, HOME_PAGES } = await load('assets/js/widgets/hom
 const { tariffPageMarkup, homeTypePageMarkup, calculatorFallbackMarkup } = await load('assets/js/widgets/guides.js');
 const { header, footer } = await load('assets/js/shell.js');
 
+// The copies are marked data-static: styles.css never draws them while scripts run
+// (initLayout() swaps in the live ones), and the <noscript> style shows them when
+// JavaScript is off.
+const asCopy = (html) => html.replace(/<(a class="skip-link"|header class="site-header"|footer class="site-footer")/g, '<$1 data-static');
+const NOSCRIPT = '<noscript><style>[data-static] { display: block !important; } html:not(.shell-ready) body { padding-top: 0 !important; }</style></noscript>';
+
 // Every page in the site root, with its body[data-page] key
 const PAGES = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html'))
   .map((file) => ({ file, page: fs.readFileSync(path.join(ROOT, file), 'utf8').match(/<body data-page="([^"]+)"/)?.[1] }))
@@ -46,8 +52,9 @@ const SPOTS = [
   { file: 'electricity-tariff.html', name: 'guide', html: () => tariffPageMarkup(), after: /<main id="main">/ },
   ...Object.entries(HOME_PAGES).map(([label, file]) => ({ file, name: 'guide', html: () => homeTypePageMarkup(label), after: /<main id="main">/ })),
   ...PAGES.flatMap(({ file, page }) => [
-    { file, name: 'header', html: () => header(page), after: /<body data-page="[^"]+">/ },
-    { file, name: 'footer', html: () => footer(), before: /<\/body>/ },
+    { file, name: 'noscript', html: () => NOSCRIPT, after: /<link rel="stylesheet" href="assets\/css\/styles.css">/ },
+    { file, name: 'header', html: () => asCopy(header(page)), after: /<body data-page="[^"]+">/ },
+    { file, name: 'footer', html: () => asCopy(footer()), before: /<\/body>/ },
   ]),
 ];
 
@@ -61,9 +68,9 @@ for (const spot of SPOTS) {
   if (s.includes(open)) {
     s = s.replace(new RegExp(`${open}[\\s\\S]*?${close}`), () => block);
   } else {
-    const m = s.match(spot.after);
+    const m = s.match(spot.after || spot.before);
     if (!m) { console.error(`${spot.file}: couldn't find where to put the ${spot.name} block`); failed = true; continue; }
-    s = s.replace(m[0], () => `${m[0]}\n  ${block}`);
+    s = s.replace(m[0], () => (spot.after ? `${m[0]}\n  ${block}` : `${block}\n${m[0]}`));
   }
   fs.writeFileSync(file, s);
   console.log(`${spot.file.padEnd(12)} ${spot.name} written`);

@@ -441,7 +441,7 @@ export function initLayout() {
   const account = customer.isSignedIn() ? { initials: initials(), firstName: customer.firstName() } : null;
   // The HTML carries a copy of the header and footer for search engines
   // (tools/prerender.mjs); swap it for the live one.
-  document.querySelectorAll('body > .skip-link, body > .site-header, body > .site-footer').forEach((n) => n.remove());
+  document.querySelectorAll('body > [data-static]').forEach((n) => n.remove());
   document.body.insertAdjacentHTML('afterbegin', header(page, account) + drawerMarkup(page, account));
   document.body.insertAdjacentHTML('beforeend', footer() + footerExtras());
   // Header now occupies its row for real — release the CSS placeholder in the
