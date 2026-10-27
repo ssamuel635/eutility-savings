@@ -145,6 +145,99 @@
    "keywords": [
     "electricity"
    ]
+  },
+  "ebd57bc77c6c": {
+   "id": "ebd57bc77c6c",
+   "title": "Tapping more fossil fuels, solar power among Singapore’s strategies to boost energy security",
+   "url": "https://www.straitstimes.com/singapore/environment/tapping-more-fossil-fuels-solar-power-among-singapores-strategies-to-boost-energy-security",
+   "date": "2026-10-26",
+   "source": "The Straits Times",
+   "source_key": "straits-times",
+   "kind": "news",
+   "snippet": "The Republic is also exploring new technologies like nuclear and geothermal energy.",
+   "keywords": [
+    "solar"
+   ]
+  },
+  "b1491efb799f": {
+   "id": "b1491efb799f",
+   "title": "S’pore to drill deeper into geothermal energy after promising results of its potential: Tan See Leng",
+   "url": "https://www.straitstimes.com/singapore/environment/spore-to-drill-deeper-into-geothermal-energy-after-promising-results-of-its-potential-tan-see-leng",
+   "date": "2026-10-26",
+   "source": "The Straits Times",
+   "source_key": "straits-times",
+   "kind": "news",
+   "snippet": "Singapore's geothermal resources could generate more than 60 times its annual electricity consumption.",
+   "keywords": [
+    "electricity"
+   ]
+  },
+  "13eef466cd60": {
+   "id": "13eef466cd60",
+   "title": "S’pore to tap diverse energy sources, explore new tech, to weather resource nationalism: Tan See Leng",
+   "url": "https://www.straitstimes.com/singapore/environment/spore-to-tap-diverse-energy-sources-explore-new-tech-to-weather-resource-nationalism-tan-see-leng",
+   "date": "2026-10-26",
+   "source": "The Straits Times",
+   "source_key": "straits-times",
+   "kind": "news",
+   "snippet": "Singapore is accelerating its solar push, while investing in research on geothermal and nuclear energy.",
+   "keywords": [
+    "solar"
+   ]
+  },
+  "a4e3304bc315": {
+   "id": "a4e3304bc315",
+   "title": "DBS, Maybank, IFC to collaborate on funding Johor-Singapore renewable energy project",
+   "url": "https://www.businesstimes.com.sg/international/asean/dbs-maybank-ifc-collaborate-funding-johor-singapore-renewable-energy-project",
+   "date": "2026-10-26",
+   "source": "The Business Times",
+   "source_key": "business-times",
+   "kind": "news",
+   "snippet": "The financing framework could be reference for future cross-border initiatives under Asean Power Grid",
+   "keywords": [
+    "Power Grid"
+   ]
+  },
+  "3533a0482f7c": {
+   "id": "3533a0482f7c",
+   "title": "Indonesia's gas cuts to Singapore put spotlight on domestic energy needs, economic trade-offs",
+   "url": "https://www.channelnewsasia.com/singapore/indonesia-gas-cut-singapore-energy-exports-6492596",
+   "date": "2026-10-26",
+   "source": "CNA",
+   "source_key": "cna",
+   "kind": "news",
+   "snippet": "While the reduction is unlikely to significantly affect Singapore's electricity supply or prices, analysts say it raises broader questions about energy security for both Singapore and Indonesia.",
+   "keywords": [
+    "electricity"
+   ]
+  },
+  "c701c45b5c11": {
+   "id": "c701c45b5c11",
+   "title": "Singapore’s estimated geothermal resource potential more than 60 times annual electricity consumption: EMA",
+   "url": "https://www.channelnewsasia.com/singapore/geothermal-energy-potential-siew-study-survey-6491981",
+   "date": "2026-10-26",
+   "source": "CNA",
+   "source_key": "cna",
+   "kind": "news",
+   "snippet": "A non-invasive geophysical survey found high-temperature geothermal resources several kilometres underground that may be suitable for electricity generation.",
+   "keywords": [
+    "electricity",
+    "EMA"
+   ]
+  },
+  "235c1a195166": {
+   "id": "235c1a195166",
+   "title": "Singapore launches five-year energy infrastructure plan to meet growing demand, sets new solar target",
+   "url": "https://www.channelnewsasia.com/singapore/energy-infrastructure-plan-electricity-demand-tan-see-leng-siew-6490666",
+   "date": "2026-10-26",
+   "source": "CNA",
+   "source_key": "cna",
+   "kind": "news",
+   "snippet": "Five new natural gas-fired power plants, an expanded power grid and increased energy storage capacity are among the key areas of development.",
+   "keywords": [
+    "solar",
+    "power grid"
+   ]
   }
  }
 }
