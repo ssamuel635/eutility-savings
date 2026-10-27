@@ -66,16 +66,19 @@ export const CONFIG = {
   maxKwh: 2000,
   daysPerMonth: 30.4,
 
-  // "Not sure of your usage?" presets — rounded, approximate monthly averages by home type
-  // (starting points only; the user can fine-tune with the slider).
-  // TODO: confirm against EMA's latest Singapore Energy Statistics (Chapter 3) before launch.
+  // "Not sure of your usage?" presets — average monthly use by home type, rounded to
+  // 10 kWh (starting points only; the user can fine-tune with the slider).
+  // Source: EMA, Singapore Energy Statistics 2026, table T3.5, 2025 annual averages
+  // (checked 27 Oct 2026): 3-room 266.5, 4-room 369.7, 5-room and Executive 452.6
+  // (EMA groups them; Executive flats are larger, so a little higher here),
+  // private apartments and condominiums 505.3, landed 1,178.2. Re-check each September.
   homePresets: [
-    { label: 'HDB 3-room', kwh: 280 },
+    { label: 'HDB 3-room', kwh: 270 },
     { label: 'HDB 4-room', kwh: 370 },
-    { label: 'HDB 5-room', kwh: 440 },
+    { label: 'HDB 5-room', kwh: 450 },
     { label: 'Executive', kwh: 500 },
-    { label: 'Condo', kwh: 500 },
-    { label: 'Landed', kwh: 1100 },
+    { label: 'Condo', kwh: 510 },
+    { label: 'Landed', kwh: 1180 },
   ],
 
   // Default share of usage that falls in off-peak hours, used for time-of-use plans.

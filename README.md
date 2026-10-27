@@ -307,7 +307,6 @@ Keep the same column layout. Rows with the same Retailer + Plan Name are merged 
 | Email and phone | `assets/js/config.js` |
 | **SME aggregation tiers and discounts (made up)** | `assets/js/config.js` → `smeTiers`. The baseline is the best ≤24-month fixed residential rate in the sheet, which is also an assumption |
 | Logo is in (314×112 PNG). A larger or SVG export would look sharper on high-resolution screens | `assets/img/eutility-logo.png`, symbol + favicons in `assets/img/` |
-| Home-type usage presets are rounded estimates | `assets/js/config.js` → `homePresets`. Confirm against EMA's latest statistics |
 | Hero illustration → real Singapore photography or cinemagraph | `assets/img/hero-hdb.svg` (made by `tools/make_hero_svg.py`) (removed 15 Oct 2026, photo source unconfirmed) |
 | Customer stories: the site shows "Homes like yours" (estimates worked out from the price sheet) instead of testimonials. Add real stories only with the customer's permission | `assets/js/widgets/home-story.js` |
 | Rewards: counts start at zero and there is no leaderboard until the referral backend reports real switches. Reward values, qualifying rules and the "next reward at 7" target still need Eutility to confirm | `assets/js/services/rewards.js`, `assets/js/config.js` → `rewards` |
@@ -362,4 +361,4 @@ tests/calc.test.mjs
 2. Confirm the SME pricing tiers with Eutility's commercial team.
 3. Decide on the CMS. Pages are plain HTML sections, so they can be moved into WordPress blocks or Webflow. `calc.js` + `plans.js` can be dropped in as-is.
 4. Build the referral backend: issue codes, attribute sign-ups, count rewards.
-5. Add analytics events: `calc_completed`, `switch_clicked`, `whatsapp_clicked`, `sme_lead`, `referral_shared`.
+5. Pick an analytics tool and connect it in `track()` (`assets/js/layout.js`). The events are already sent there: `calc_completed`, `switch_clicked`, `whatsapp_clicked`, `email_clicked`, `referral_shared`.
