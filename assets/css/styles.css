@@ -90,8 +90,13 @@ img, svg { max-width: 100%; display: block; }
    The space is reserved on <body>, not <main>: padding inside <main> keeps the
    content still but <main>'s own box still moves when the header lands, and
    that box movement is exactly what Cumulative Layout Shift counts. */
-html:not(.shell-ready) body { padding-top: 112px; }
-@media (min-width: 1024px) { html:not(.shell-ready) body { padding-top: 101px; } }
+html:not(.shell-ready) body:not(:has(> .site-header)) { padding-top: 112px; }
+@media (min-width: 1024px) { html:not(.shell-ready) body:not(:has(> .site-header)) { padding-top: 101px; } }
+/* Most pages carry a copy of the header and footer in their HTML, for search
+   engines and phones without JavaScript (tools/prerender.mjs). The copy holds
+   the header's row; it stays unpainted until initLayout() swaps in the live
+   one, with the same 1.2s failsafe as <main> below. */
+html:not(.shell-ready) body > .site-header, html:not(.shell-ready) body > .site-footer { visibility: hidden; animation: page-failsafe 0s linear 1.2s forwards; }
 
 /* Don't paint <main> until the page script has rendered into it. Every page
    fills containers from JS (calculator, plan grid, FAQ, leaderboard), and if
@@ -1185,7 +1190,7 @@ a, button, label, summary, select, input, .preset, .chip label { -webkit-tap-hig
 @media (max-width: 1023px) {
   /* Compact header: the tab strip is gone (the menu has every link). */
   :root { --header-row: 60px; --header-h: 60px; --wa-bar-h: 76px; }
-  html:not(.shell-ready) body { padding-top: 60px; }
+  html:not(.shell-ready) body:not(:has(> .site-header)) { padding-top: 60px; }
   .site-header__inner { padding-inline: 16px; gap: 10px; }
   .logo img { height: 34px; }
   .header-cta.btn { min-height: 44px; padding: 8px 14px; font-size: 14px; }

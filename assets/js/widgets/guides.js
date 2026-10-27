@@ -178,3 +178,32 @@ export function tariffPageMarkup() {
   </section>
   ${ctaBanner(null, "Hi Eutility, I'm on SP Group's tariff and I'd like to check my electricity savings.")}`;
 }
+
+/**
+ * What calculator.html shows before its script runs (search engines, link
+ * previews, phones without JavaScript): how the calculator works and what each
+ * home type could save. The calculator replaces it as soon as it mounts.
+ */
+export function calculatorFallbackMarkup() {
+  const homes = CONFIG.homePresets.map((p) => homeFacts(p.label)).filter(Boolean);
+  return `
+      <div class="stack" style="--stack:16px;grid-column:1/-1;max-width:820px">
+        <h2 class="h3">How the calculator works.</h2>
+        <p>Enter how much electricity your home uses a month, in kWh (your SP Group bill shows it under &ldquo;Electricity&rdquo;), and the plan you&rsquo;re on now. We price all ${PLAN_COUNT} residential plans we track at your usage, rank them by monthly bill and show what each would save you in a year. If you&rsquo;re with a retailer other than SP Group, enter your own rate for an exact comparison.</p>
+        <h2 class="h3">What a typical home could save.</h2>
+        <div class="table-scroll guide-table">
+          <table class="plan-table">
+            <thead><tr><th>Home</th><th class="num-cell">On the tariff</th><th>Lowest plan</th><th class="num-cell">Save/yr</th></tr></thead>
+            <tbody>${homes.map((h) => `
+              <tr>
+                <td><a href="${h.href}"><strong>${esc(cap(h.name))}</strong></a><span class="muted">about ${h.kwh} kWh a month</span></td>
+                <td class="num-cell">${fmtMoney(h.onTariff, 2)}</td>
+                <td>${h.best ? `${esc(h.best.plan.retailer)} · ${esc(h.best.plan.name)}<span class="muted">${esc(rateLabel(h.best.plan))}</span>` : '—'}</td>
+                <td class="num-cell save-pos">${h.best ? fmtMoney(Math.max(0, h.best.savingYearly)) : '—'}</td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+        <p class="small muted-note">Against SP Group&rsquo;s tariff of ${TARIFF}¢/kWh for ${esc(TARIFF_PERIOD)}, with retailer rates as at ${esc(RATES_DATE)}. Promotions are not included. See <a href="electricity-tariff.html">SP Group&rsquo;s tariff explained</a>, or send a photo of your bill on WhatsApp and we&rsquo;ll check it for you.</p>
+      </div>`;
+}
