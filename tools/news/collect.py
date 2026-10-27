@@ -14,6 +14,10 @@ them, for up to 7 days after they were published. So a day the computer was off
 loses nothing (some feeds only hold a day of stories), and only the newest
 review page ever needs looking at.
 
+The same story from several outlets is one item to review: a headline that
+repeats one already waiting (same_story) is listed under it as "also reported
+by", and takes the same decision when that item is approved or rejected.
+
 The daily run happens on GitHub (.github/workflows/news-collect.yml), which
 commits news-checks/ and the Review page on the website reads it from there.
 A run on this computer while both are running should use --folder
@@ -26,9 +30,10 @@ Usage:
 """
 import argparse
 import json
+import re
 import shutil
 import sys
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 
 import sources as S
 from review import render
@@ -37,16 +42,64 @@ from state import CHECKS, ROOT, load_state, record, save_state
 PARSERS = {"rss": S.parse_rss, "sp-group": S.parse_sp_group}
 
 
+_STOP = set("a an the of to in on for and or by with from at as is are be its it that this after over into "
+            "says said say will can than more less up new".split())
+_SAME = {"s'pore": "singapore", "spore": "singapore", "cuts": "cut", "reduces": "cut", "reduction": "cut",
+         "supplies": "supply", "exports": "supply"}
+
+
+def _words(title):
+    out = set()
+    for w in re.findall(r"[a-z0-9$%']+", title.lower().replace("\u2019", "'").replace("\u2018", "'")):
+        w = w.strip("'")
+        if w.endswith("'s"):
+            w = w[:-2]
+        w = _SAME.get(w, w)
+        if w and w not in _STOP:
+            out.add(w)
+    return out
+
+
+def same_story(a, b):
+    """True when two headlines from different outlets report the same story: published within two
+    days of each other, and at least 70% of the shorter headline's words are in the other.
+    (Tested on Oct 2026 headlines: catches word-for-word rewrites, keeps different angles apart.)"""
+    if a["source"] == b["source"]:
+        return False
+    if abs((date.fromisoformat(a["date"]) - date.fromisoformat(b["date"])).days) > 2:
+        return False
+    wa, wb = _words(a["title"]), _words(b["title"])
+    return bool(wa and wb) and len(wa & wb) / min(len(wa), len(wb)) >= 0.7
+
+
 def update_pending(state, found, today, days):
     """Add today's on-topic, undecided headlines to the waiting list; drop decided and expired ones.
+    A repeat of a waiting story goes under that item's "also" instead of becoming its own item.
     Returns the list to review, newest first (official sources first on the same day)."""
     oldest = (today - timedelta(days=days)).isoformat()
     newest = today.isoformat()
     pend, decided = state["pending"], state["decided"]
+    # A decided story's repeats take its decision, so they never come back on their own.
+    for k, v in pend.items():
+        if k in decided:
+            for a in v.get("also", []):
+                decided.setdefault(a["id"], decided[k])
+    listed = {a["id"] for v in pend.values() for a in v.get("also", [])}
     for it in found:
-        if it["keywords"] and it["id"] not in decided and oldest <= it["date"] <= newest:
+        if it["keywords"] and it["id"] not in decided and it["id"] not in listed and oldest <= it["date"] <= newest:
             pend.setdefault(it["id"], it)
-    state["pending"] = {k: v for k, v in pend.items() if k not in decided and v["date"] >= oldest}
+    # Fold repeats into the first report of the story (official sources first, then earliest).
+    leads = []
+    for k, v in sorted(pend.items(), key=lambda kv: (kv[1]["kind"] != "official", kv[1]["date"], kv[0])):
+        if k in decided:
+            continue
+        lead = next((x for x in leads if same_story(x, v)), None)
+        if lead is None:
+            leads.append(v)
+        else:
+            lead.setdefault("also", []).extend([{f: v[f] for f in ("id", "source", "title", "url", "date")}, *v.pop("also", [])])
+            pend[k] = None
+    state["pending"] = {k: v for k, v in pend.items() if v is not None and k not in decided and v["date"] >= oldest}
     return sorted(state["pending"].values(), key=lambda x: (x["date"], x["kind"] == "official", x["title"]), reverse=True)
 
 

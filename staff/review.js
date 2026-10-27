@@ -60,6 +60,7 @@ function itemRow(it) {
       el('p', { className: 'meta' }, tag, `${niceDate(it.date)} · ${it.source}`),
       title,
       it.snippet ? el('p', { className: 'snip', textContent: it.snippet }) : null,
+      it.also?.length ? el('p', { className: 'snip', textContent: `Also reported by ${it.also.map((x) => x.source).join(', ')}` }) : null,
       it.keywords?.length ? el('p', { className: 'snip', textContent: `Matched: ${it.keywords.join(', ')}` }) : null),
     choice);
 }

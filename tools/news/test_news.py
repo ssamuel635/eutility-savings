@@ -8,7 +8,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 import sources as S
 import alerts
 from apply import merge, read_news, split, write_news
-from collect import update_pending
+from collect import same_story, update_pending
 from review import render
 
 fails = 0
@@ -92,6 +92,25 @@ out = update_pending(state, [], today, 7)
 check("pending: decided headlines leave the list", [x["id"] for x in out] == [at[0]["id"]])
 out = update_pending(state, [], date(2026, 10, 30), 7)
 check("pending: headlines older than the window expire", out == [])
+
+# ── Same story from several outlets ──
+st = dict(a, id="s1", source="The Straits Times", date="2026-10-15", title="Gas supply cut from Indonesia accounts for less than 2% of S’pore’s daily gas demand: EMA")
+bt = dict(a, id="s2", source="The Business Times", date="2026-10-15", title="Gas supply cut from Indonesia accounts for less than 2% of Singapore’s daily gas demand: EMA")
+cna = dict(a, id="s3", source="CNA", date="2026-10-14", title="Reduction in Indonesia gas supply amounts to less than 2% of Singapore’s total daily demand: EMA")
+other = dict(a, id="s4", source="CNA", date="2026-10-15", title="S’pore to drill deeper into geothermal energy after promising results of its potential: Tan See Leng")
+diverse = dict(a, id="s5", source="The Straits Times", date="2026-10-15", title="S’pore to tap diverse energy sources, explore new tech, to weather resource nationalism: Tan See Leng")
+check("same story: word-for-word rewrites match", same_story(st, bt) and same_story(st, cna))
+check("same story: different angles stay apart", not same_story(other, diverse))
+check("same story: one outlet never merges with itself", not same_story(st, dict(bt, source=st["source"])))
+s2 = {"decided": {}, "pending": {}}
+out = update_pending(s2, [st, bt, cna, other, diverse], today, 7)
+also = lambda: sorted(x["id"] for x in s2["pending"]["s3"].get("also", []))
+check("same story: repeats listed under the first report", len(out) == 3 and "s3" in s2["pending"] and also() == ["s1", "s2"])
+out = update_pending(s2, [st, bt, cna], today, 7)
+check("same story: repeats aren't added twice", len(out) == 3 and also() == ["s1", "s2"])
+s2["decided"]["s3"] = "rejected"
+out = update_pending(s2, [st, bt], today, 7)
+check("same story: repeats take the decision and stay gone", s2["decided"].get("s1") == "rejected" and not {"s1", "s2"} & {x["id"] for x in out})
 
 # ── Review page ──
 page = render({"run": "2026-10-16", "collected_at": "2026-10-16T09:00:00+08:00", "days": 7, "items": [dict(a, title='<script>x</script>')],

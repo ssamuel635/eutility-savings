@@ -66,6 +66,7 @@ def render(data):
       <td><span class="tag {'tag--official' if it['kind'] == 'official' else ''}">{'Official' if it['kind'] == 'official' else 'News'}</span><div class="muted">{esc(it['source'])}</div></td>
       <td><a href="{esc(it['url'])}" target="_blank" rel="noopener"><b>{esc(it['title'])}</b></a>
         {f"<div class='snip'>{esc(it['snippet'])}</div>" if it.get('snippet') else ''}
+        {f"<div class='muted'>Also reported by {esc(', '.join(x['source'] for x in it['also']))}</div>" if it.get('also') else ''}
         <div class="muted">Matched: {esc(', '.join(it['keywords']))}</div></td>
     </tr>""" for it in items)
 
