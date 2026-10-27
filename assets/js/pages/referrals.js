@@ -1,5 +1,5 @@
 // Eutility Rewards: the member's progress, their link, then what's happened on it.
-import { initLayout, toast, observeReveals, openWhatsApp } from '../layout.js';
+import { initLayout, toast, observeReveals, openWhatsApp, track } from '../layout.js';
 import { CONFIG } from '../config.js';
 import { countUp } from '../fx.js';
 import * as rewards from '../services/rewards.js';
@@ -88,6 +88,7 @@ Referral code: ${rewards.myCode()}
 
 const copyBtn = document.getElementById('ref-copy');
 copyBtn.addEventListener('click', async () => {
+  track('referral_shared', { how: 'copy' });
   try {
     await navigator.clipboard.writeText(link);
   } catch {
@@ -100,6 +101,7 @@ copyBtn.addEventListener('click', async () => {
 });
 
 document.getElementById('ref-share').addEventListener('click', () => {
+  track('referral_shared', { how: 'whatsapp' });
   const text = `I checked my electricity plan with Eutility. See what you could save: ${link}`;
   window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
 });

@@ -8,7 +8,7 @@ import {
   PLAN_COUNT, RETAILER_COUNT, RATES_DATE, TARIFF, TARIFF_PERIOD, parseRate, RATE_RANGE,
 } from '../calc.js';
 import { countUp, confetti, ding, wait, soundEnabled, setSound, reducedMotion } from '../fx.js';
-import { openWhatsApp, openEmail, toast, setBarAction } from '../layout.js';
+import { openWhatsApp, openEmail, toast, setBarAction, track } from '../layout.js';
 import * as customer from '../services/customer.js';
 import * as crm from '../services/crm.js';
 import * as I from '../icons.js';
@@ -326,6 +326,7 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
     btn.textContent = 'Calculating…';
     const inputs = readInputs();
     const res = compare(inputs);
+    track('calc_completed', { kwh: inputs.kwh, current: inputs.currentId, savingYearly: Math.round(res.best?.savingYearly ?? 0) });
     await thinking(resultsEl, full, res.results);
     if (full) {
       renderFull(resultsEl, res, inputs);
@@ -435,6 +436,7 @@ function barFor(res, inputs, el, reference) {
 
 /** Record the comparison in the CRM when someone taps Switch (no account needed). */
 function logSwitch(res, inputs, reference, channel) {
+  track('switch_clicked', { channel, plan: res.best.plan.id });
   crm.logComparison(reference, channel === 'email' ? 'switch_email' : 'switch_whatsapp', {
     kwh: inputs.kwh,
     currentPlanName: `${res.current.plan.retailer} · ${res.current.plan.name}${res.current.customRate ? ` (${res.current.customRate}¢/kWh)` : ''}`,
