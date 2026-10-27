@@ -178,8 +178,8 @@ ul { margin: 0; padding: 0; }
 /* Secondary action on the navy footer */
 .btn--ghost-light { --btn-bg: transparent; --btn-fg: #fff; box-shadow: inset 0 0 0 1px rgba(255,255,255,.45); }
 .btn--ghost-light:hover { --btn-bg: rgba(255,255,255,.12); --btn-fg: #fff; }
-.btn--orange { --btn-bg: var(--orange); --btn-fg: var(--ink); }  /* navy on orange 5.8:1; white was 2.7:1 */
-.btn--orange:hover { --btn-bg: #ff8a14; --btn-fg: var(--ink); }
+.btn--orange { --btn-bg: var(--orange); --btn-fg: #16233a; }  /* deep navy on orange 5.8:1 (brand navy is 3.5:1, white 2.7:1) */
+.btn--orange:hover { --btn-bg: #ff8a14; --btn-fg: #16233a; }
 .btn--urgent { --btn-bg: var(--blue); }
 .btn--urgent:hover { --btn-bg: var(--deep); }
 /* WhatsApp buttons (see "WhatsApp green" at the end of the file) */
@@ -1780,6 +1780,7 @@ main > section:first-of-type::before, main > section:first-of-type::after { cont
 .auth-side::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(41,70,113,.25) 0%, rgba(41,70,113,.8) 55%, rgba(41,70,113,.96) 100%); }
 .auth-side__text { position: relative; z-index: 1; padding: var(--s6); display: grid; gap: var(--s4); }
 .auth-side .eyebrow { color: #FFD7A8; }
+.auth-side, .section--navy { --eyebrow-ink: #FFD7A8; } /* the first-section eyebrow rule reads this */
 .auth-side .h1 { color: #fff; }
 .auth-perks { list-style: none; display: grid; gap: 14px; }
 .auth-perks li { display: flex; gap: 12px; align-items: flex-start; font-size: 14.5px; color: #DCE6F2; }
