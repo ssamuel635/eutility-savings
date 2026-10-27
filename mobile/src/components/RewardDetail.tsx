@@ -68,7 +68,7 @@ export function RewardDetail({ item, balance, onClose, onRedeem, onShare }: Prop
         </ScrollView>
         <View style={s.footer}>
           {ready
-            ? <Button label="Redeem on WhatsApp" icon="logo-whatsapp" onPress={() => onRedeem(item)} />
+            ? <Button label="Redeem on WhatsApp" variant="whatsapp" icon="logo-whatsapp" onPress={() => onRedeem(item)} />
             : <Button label="Share my code to earn points" icon="share-social-outline" onPress={onShare} />}
         </View>
       </SafeAreaView>

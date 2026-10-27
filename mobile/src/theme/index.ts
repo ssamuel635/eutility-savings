@@ -31,6 +31,10 @@ export const colors = {
   success: '#1E7B44',     // text and ticks (5.6:1 on white)
   successTint: '#EDF7F0', // light fill behind status tags and ticks
   successLine: '#A3D9B8', // their border
+  // WhatsApp buttons only (27 Oct 2026, matching the website's .btn--wa): green
+  // with navy text, since white on this green fails contrast.
+  whatsapp: '#25D366',
+  whatsappPressed: '#1FB859',
 } as const;
 
 /** Icon tiles (actions, menus): white, with the glyph and a fine border in
