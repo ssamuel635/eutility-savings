@@ -26,7 +26,7 @@ export const TAB_ITEMS: Record<string, { label: string; icon: Icon; active: Icon
 /** The bar is docked (not floating), so screens need only their normal bottom padding. */
 export const TAB_BAR_SPACE = 40;
 
-export function TabBar({ state, navigation, insets }: TabBarProps) {
+export function TabBar({ state, emitter, navigateToTab, insets }: TabBarProps) {
   return (
     <View style={[s.wrap, { paddingBottom: Math.max(insets.bottom, 6) }]} accessibilityRole="tablist">
       {state.routes.map((route, i) => {
@@ -39,10 +39,10 @@ export function TabBar({ state, navigation, insets }: TabBarProps) {
             item={item}
             focused={focused}
             onPress={() => {
-              const e = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
+              const e = emitter.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
               if (!focused && !e.defaultPrevented) {
                 Haptics.selectionAsync().catch(() => {});
-                navigation.navigate(route.name, route.params);
+                navigateToTab(route.key);
               }
             }}
           />

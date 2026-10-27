@@ -1,7 +1,7 @@
 // Inputs: text fields, selectable chips, toggles.
 
 import { forwardRef, useState } from 'react';
-import { Pressable, StyleSheet, Switch, TextInput, View, type TextInputProps } from 'react-native';
+import { Pressable, StyleSheet, Switch, TextInput, View, type TextInputInstance, type TextInputProps } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { colors, fonts, radius, space, TOUCH } from '@/theme';
 import { Text } from './Text';
@@ -13,7 +13,7 @@ interface FieldProps extends TextInputProps {
   prefix?: string;
 }
 
-export const Field = forwardRef<TextInput, FieldProps>(function Field({ label, hint, error, prefix, style, onFocus, onBlur, ...rest }, ref) {
+export const Field = forwardRef<TextInputInstance, FieldProps>(function Field({ label, hint, error, prefix, style, onFocus, onBlur, ...rest }, ref) {
   const [focused, setFocused] = useState(false);
   return (
     <View style={{ gap: 6 }}>
