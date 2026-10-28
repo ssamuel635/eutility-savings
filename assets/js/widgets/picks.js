@@ -17,7 +17,8 @@ export function picks(kwh = CONFIG.defaultKwh) {
   const only = featured();
   const pool = (opts = {}) => plans.list({ kwh, sort: 'price', ...opts }).filter((r) => !only || only.includes(r.plan.retailer));
   const cheapest = pool()[0];
-  const longest = pool().filter((r) => r.plan.pricingType === 'fixed')
+  // the next longest when the cheapest is also the longest, so there are still three cards
+  const longest = pool().filter((r) => r.plan.pricingType === 'fixed' && r.id !== cheapest?.id)
     .sort((a, b) => (b.plan.contractMonths ?? 0) - (a.plan.contractMonths ?? 0) || a.monthly - b.monthly)[0];
   const green = pool({ type: 'green' })[0];
   return [

@@ -17,10 +17,11 @@ const block = (file, name) => {
   return m ? m[1] : null;
 };
 
-test('picks come only from the featured retailers, no plan twice', () => {
+test('picks come only from the featured retailers (any, when none are set), no plan twice', () => {
   const list = picks();
   assert.ok(list.length > 0);
-  for (const [, r] of list) assert.ok(CONFIG.featuredRetailers.includes(r.plan.retailer), r.plan.retailer);
+  const only = CONFIG.featuredRetailers;
+  for (const [, r] of list) assert.ok(!only.length || only.includes(r.plan.retailer), r.plan.retailer);
   assert.equal(new Set(list.map(([, r]) => r.id)).size, list.length);
 });
 

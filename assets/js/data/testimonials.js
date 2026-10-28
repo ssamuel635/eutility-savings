@@ -1,6 +1,6 @@
 // Home customers in their own words.
 //
-// SAMPLES (23 Oct 2026, for the Flo Energy demo): the entries below are sample
+// SAMPLES (23 Oct 2026, written for the Flo Energy demo; Flo's sample plan removed 28 Oct): the entries below are sample
 // testimonials written to show how real ones will look. They are not real
 // customers (sample: true). The cards don't show a "Sample" tag for the demo,
 // by the owner's choice (23 Oct): replace every one with a real customer's
@@ -22,7 +22,7 @@ export const TESTIMONIALS = [
     name: 'Mdm Tan',
     home: '4-room HDB flat',
     area: 'Tampines',
-    planId: 'flo-energy-fixed-12',
+    planId: 'senoko-energy-lifesteady24',
     kwh: 370,
   },
   {
@@ -40,7 +40,7 @@ export const TESTIMONIALS = [
     name: 'Mrs Priya Nair',
     home: 'Condo',
     area: 'Clementi',
-    planId: 'flo-energy-fixed-12',
+    planId: 'senoko-energy-lifesteady36',
     kwh: 500,
   },
   {
@@ -67,7 +67,7 @@ export const TESTIMONIALS = [
     name: 'Mr and Mrs Lim',
     home: 'Landed home',
     area: 'Serangoon',
-    planId: 'flo-energy-fixed-12',
+    planId: 'senoko-energy-lifesteady36',
     kwh: 1100,
   },
 ];

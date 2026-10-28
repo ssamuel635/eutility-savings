@@ -2,12 +2,12 @@
 // Source: price-comparison-sheet.xlsx
 export const META = {
   "source": "price-comparison-sheet.xlsx",
-  "generated": "2026-10-26",
+  "generated": "2026-10-28",
   "ratesAsAt": "2026-10-26",
   "regulatedTariff": 31.16,
   "tariffPeriod": "Oct–Dec 2026",
-  "planCount": 33,
-  "retailerCount": 7
+  "planCount": 32,
+  "retailerCount": 6
 };
 
 export const PLANS = [
@@ -629,13 +629,7 @@ export const PLANS = [
     "etf": "HDB1-2rm S$160; HDB3rm S$220; HDB4rm S$320; HDB5rm S$380; HDB Exec/Jumbo/Multi-Gen S$460; Condo/Apt/Shophouse S$480; Terrace S$720; Semi-D S$1,000; Bungalow/Penthouse S$2,000",
     "source": "PacificLight",
     "available": true,
-    "promo": {
-      "title": "yuu promotion",
-      "code": "YUU12",
-      "conditions": "First 500 sign-ups",
-      "value": "500 yuu Points",
-      "expires": "2026-10-26"
-    },
+    "promo": null,
     "notes": []
   },
   {
@@ -681,13 +675,7 @@ export const PLANS = [
     "etf": "HDB1-2rm S$160; HDB3rm S$220; HDB4rm S$320; HDB5rm S$380; HDB Exec/Jumbo/Multi-Gen S$460; Condo/Apt/Shophouse S$480; Terrace S$720; Semi-D S$1,000; Bungalow/Penthouse S$2,000",
     "source": "PacificLight",
     "available": true,
-    "promo": {
-      "title": "yuu promotion",
-      "code": "YUU12",
-      "conditions": "First 500 sign-ups",
-      "value": "500 yuu Points",
-      "expires": "2026-10-26"
-    },
+    "promo": null,
     "notes": []
   },
   {
@@ -953,26 +941,6 @@ export const PLANS = [
     "etf": "N/A - plan not yet launched",
     "source": "Flo Energy",
     "available": false,
-    "promo": null,
-    "notes": []
-  },
-  {
-    "id": "flo-energy-fixed-12",
-    "retailer": "Flo Energy",
-    "name": "Fixed 12",
-    "category": "Standard",
-    "pricingType": "fixed",
-    "pricingLabel": "Fixed",
-    "contractMonths": 12,
-    "rate": 26.3,
-    "discount": null,
-    "dailyCharge": 0.0,
-    "tou": null,
-    "tiers": null,
-    "deposit": "To be confirmed by Flo Energy",
-    "etf": "To be confirmed by Flo Energy",
-    "source": "SAMPLE ROW for the Flo Energy demo (26 Oct 2026): made-up estimate, not a published Flo Energy plan. Delete this row after the demo.",
-    "available": true,
     "promo": null,
     "notes": []
   }
