@@ -16,19 +16,6 @@
   "Tuas Power Supply Pte Ltd"
  ],
  "pending": {
-  "90e48190d7f5": {
-   "id": "90e48190d7f5",
-   "title": "Google Cloud services largely restored in UK; Revolut services back up in Singapore",
-   "url": "https://www.channelnewsasia.com/business/google-cloud-service-outage-london-revolut-6475076",
-   "date": "2026-10-20",
-   "source": "CNA",
-   "source_key": "cna",
-   "kind": "news",
-   "snippet": "A power outage at a Google Cloud data centre near London disrupted several UK banks and Revolut services, including in Singapore.",
-   "keywords": [
-    "power outage"
-   ]
-  },
   "856e65a58d72": {
    "id": "856e65a58d72",
    "title": "Singapore launches S$143 million initiative to help industries cut emissions",
@@ -40,32 +27,6 @@
    "snippet": "Three companies have also been approved to import and supply biomethane, a renewable alternative to natural gas, as Singapore explores ways to help industries decarbonise.",
    "keywords": [
     "natural gas"
-   ]
-  },
-  "7a1b7a57d257": {
-   "id": "7a1b7a57d257",
-   "title": "Gas supply cut from Indonesia accounts for less than 2% of S’pore’s daily gas demand: EMA",
-   "url": "https://www.straitstimes.com/singapore/environment/gas-supply-cut-from-indonesia-accounts-for-less-than-2-of-spore-s-daily-gas-demand-ema",
-   "date": "2026-10-24",
-   "source": "The Straits Times",
-   "source_key": "straits-times",
-   "kind": "news",
-   "snippet": "Singapore has also been moving to further diversify its energy sources.",
-   "keywords": [
-    "EMA"
-   ]
-  },
-  "623f46c5d3c2": {
-   "id": "623f46c5d3c2",
-   "title": "Gas supply cut from Indonesia accounts for less than 2% of Singapore’s daily gas demand: EMA",
-   "url": "https://www.businesstimes.com.sg/singapore/gas-supply-cut-indonesia-accounts-less-2-singapores-daily-gas-demand-ema",
-   "date": "2026-10-25",
-   "source": "The Business Times",
-   "source_key": "business-times",
-   "kind": "news",
-   "snippet": "The authority has contingency plans in place to deal with such reductions",
-   "keywords": [
-    "EMA"
    ]
   },
   "f7b34ba0dac6": {
@@ -93,6 +54,22 @@
    "keywords": [
     "EMA",
     "Energy Market Authority"
+   ],
+   "also": [
+    {
+     "id": "7a1b7a57d257",
+     "source": "The Straits Times",
+     "title": "Gas supply cut from Indonesia accounts for less than 2% of S’pore’s daily gas demand: EMA",
+     "url": "https://www.straitstimes.com/singapore/environment/gas-supply-cut-from-indonesia-accounts-for-less-than-2-of-spore-s-daily-gas-demand-ema",
+     "date": "2026-10-24"
+    },
+    {
+     "id": "623f46c5d3c2",
+     "source": "The Business Times",
+     "title": "Gas supply cut from Indonesia accounts for less than 2% of Singapore’s daily gas demand: EMA",
+     "url": "https://www.businesstimes.com.sg/singapore/gas-supply-cut-indonesia-accounts-less-2-singapores-daily-gas-demand-ema",
+     "date": "2026-10-25"
+    }
    ]
   },
   "d642b1a840b9": {
@@ -106,19 +83,6 @@
    "snippet": "Indonesia's diversion of exports to meet domestic needs involves 31 million standard cubic feet of natural gas a day from Natuna and Sumatra, Indonesia’s upstream oil and gas regulator told CNA.",
    "keywords": [
     "natural gas"
-   ]
-  },
-  "53518e234072": {
-   "id": "53518e234072",
-   "title": "Indonesia’s gas supply cuts unlikely to affect electricity prices that much: Tan See Leng",
-   "url": "https://www.straitstimes.com/singapore/politics/gas-supply-may-pursue-remedies-if-contract-breached-following-indonesias-export-cuts-tan-see-leng",
-   "date": "2026-10-25",
-   "source": "The Straits Times",
-   "source_key": "straits-times",
-   "kind": "news",
-   "snippet": "Tan said electricity prices would not be affected that much in the short term due to the move.",
-   "keywords": [
-    "electricity"
    ]
   },
   "8dad585ae1e9": {
@@ -145,6 +109,15 @@
    "snippet": "Global gas prices are a bigger factor in costs, says Minister for Energy, Trade and Industry (Energy and Industry) Tan See Leng.",
    "keywords": [
     "electricity"
+   ],
+   "also": [
+    {
+     "id": "53518e234072",
+     "source": "The Straits Times",
+     "title": "Indonesia’s gas supply cuts unlikely to affect electricity prices that much: Tan See Leng",
+     "url": "https://www.straitstimes.com/singapore/politics/gas-supply-may-pursue-remedies-if-contract-breached-following-indonesias-export-cuts-tan-see-leng",
+     "date": "2026-10-25"
+    }
    ]
   },
   "ebd57bc77c6c": {
@@ -212,20 +185,6 @@
     "electricity"
    ]
   },
-  "c701c45b5c11": {
-   "id": "c701c45b5c11",
-   "title": "Singapore’s estimated geothermal resource potential more than 60 times annual electricity consumption: EMA",
-   "url": "https://www.channelnewsasia.com/singapore/geothermal-energy-potential-siew-study-survey-6491981",
-   "date": "2026-10-26",
-   "source": "CNA",
-   "source_key": "cna",
-   "kind": "news",
-   "snippet": "A non-invasive geophysical survey found high-temperature geothermal resources several kilometres underground that may be suitable for electricity generation.",
-   "keywords": [
-    "electricity",
-    "EMA"
-   ]
-  },
   "235c1a195166": {
    "id": "235c1a195166",
    "title": "Singapore launches five-year energy infrastructure plan to meet growing demand, sets new solar target",
@@ -238,6 +197,45 @@
    "keywords": [
     "solar",
     "power grid"
+   ]
+  },
+  "6926a55f6e9e": {
+   "id": "6926a55f6e9e",
+   "title": "Nuclear consultants, law firms appointed by EMA to prepare S’pore for 2027 mission by UN watchdog",
+   "url": "https://www.straitstimes.com/singapore/environment/nuclear-consultants-law-firms-appointed-by-ema-to-prepare-spore-for-2027-mission-by-un-watchdog",
+   "date": "2026-10-27",
+   "source": "The Straits Times",
+   "source_key": "straits-times",
+   "kind": "news",
+   "snippet": "The UN mission will evaluate Singapore’s capabilities in 19 areas.",
+   "keywords": [
+    "EMA"
+   ]
+  },
+  "54894c43c135": {
+   "id": "54894c43c135",
+   "title": "Singapore’s renewed solar push: Hanging panels, clay-like tiles for heritage buildings among plans",
+   "url": "https://www.straitstimes.com/singapore/environment/singapores-renewed-solar-push-hanging-panels-clay-like-tiles-for-heritage-buildings-among-plans",
+   "date": "2026-10-27",
+   "source": "The Straits Times",
+   "source_key": "straits-times",
+   "kind": "news",
+   "snippet": "Help will also be provided to private home owners wishing to install solar panels on their roofs.",
+   "keywords": [
+    "solar"
+   ]
+  },
+  "4e965269ad38": {
+   "id": "4e965269ad38",
+   "title": "Singapore aiming for more solar panels in public spaces to hit new 2035 target",
+   "url": "https://www.channelnewsasia.com/singapore/solar-energy-panels-target-2035-6494786",
+   "date": "2026-10-27",
+   "source": "CNA",
+   "source_key": "cna",
+   "kind": "news",
+   "snippet": "The government will also look to develop a one-stop digital portal to encourage owners of landed homes to install solar panels.",
+   "keywords": [
+    "solar"
    ]
   }
  }
