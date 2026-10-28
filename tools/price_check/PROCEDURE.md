@@ -79,6 +79,8 @@ promotions as they are) and no deposit/ETF wording, just each plan's fact sheet 
 fact sheet still shows in the report for a person to read. Wording it doesn't recognise is marked
 low confidence with no price, never guessed. It respects robots.txt and needs `pip install pypdf`.
 It doesn't replace a retailer file that's already there unless given `--force`.
+`--against price-checks/<date>` compares its prices with another run's raw files (the side-by-side the
+Monday task runs from 2 Nov 2026 for two weeks: `--folder price-checks-script --force --against price-checks/<date>`).
 First checked 28 Oct 2026: all 14 plans matched the approved 26 Oct run exactly. Geneco, Tuas,
 PacificLight and Sembcorp still need the agent or a person (Sembcorp blocks scripts).
 

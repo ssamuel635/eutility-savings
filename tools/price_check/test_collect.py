@@ -3,7 +3,7 @@ Run: python3 tools/price_check/test_collect.py   (no network: the samples below 
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
-from collect import clock, fs_date, parse_keppel, parse_senoko_factsheet, parse_sp, senoko_codes
+from collect import against, clock, fs_date, parse_keppel, parse_senoko_factsheet, parse_sp, senoko_codes
 from compare import as_plan, sanity
 
 fails = 0
@@ -81,6 +81,13 @@ for f in [p["FIXED24"], fixed]:
     check(f"guards: {f['name']} passes (number in its quote, GST pair consistent)", not flags)
 bad = dict(fixed, rate_incl_gst=29.59)
 check("guards: a number not in the copied text is still caught", bool(sanity(bad, as_plan(bad), {"pricingType": "fixed", "rate": 29.95})))
+
+# ── Side-by-side with the agent's read ──
+agent = {"plans": [dict(p["FIXED24"], rate_incl_gst=31.4, rate_excl_gst=28.81), p["WEEKEND SAVER"]]}
+d = against(k, agent)
+check("side-by-side: a different rate is reported, matching plans aren't",
+      len(d) == 1 and d[0].startswith("keppel-electric-fixed24:") and "31.4" in d[0])
+check("side-by-side: two identical reads agree", against(k, k) == [])
 
 # ── Helpers ──
 check("clock: 7am, 11pm, 12am, 9:30pm", [clock(x) for x in ("7am", "11pm", "12am", "9:30pm")] == ["07:00", "23:00", "00:00", "21:30"])

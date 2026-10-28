@@ -236,6 +236,30 @@ COLLECTORS = {
     "sp-group": lambda cur: parse_sp(fetch(SP_PAGE), cur),
 }
 RETAILER = {"keppel": "Keppel Electric", "senoko": "Senoko Energy", "sp-group": "SP Group"}
+PRICE_FIELDS = ("type", "contractMonths", "rate_incl_gst", "rate_excl_gst", "discount", "dailyCharge_incl_gst")
+
+
+def prices(p):
+    """A plan's price fields, peak/off-peak rates included, for comparing two reads."""
+    out = {f: p.get(f) for f in PRICE_FIELDS}
+    for band in ("peak", "offPeak"):
+        out[band] = ((p.get("tou") or {}).get(band) or {}).get("rate_incl_gst")
+    return out
+
+
+def against(mine, other):
+    """Differences between this script's read and another read of the same retailer (e.g. the agent's)."""
+    a = {p["matches_id"]: prices(p) for p in mine.get("plans", []) if p.get("matches_id")}
+    b = {p["matches_id"]: prices(p) for p in other.get("plans", []) if p.get("matches_id")}
+    out = []
+    for pid in sorted(set(a) | set(b)):
+        if pid not in a or pid not in b:
+            out.append(f"{pid}: only in the {'script' if pid in a else 'other'} read")
+            continue
+        diff = {f: (b[pid][f], a[pid][f]) for f in a[pid] if a[pid][f] != b[pid][f] and b[pid][f] is not None}
+        if diff:
+            out.append(f"{pid}: " + ", ".join(f"{f} other {o} / script {s}" for f, (o, s) in diff.items()))
+    return out
 
 
 def main():
@@ -245,6 +269,7 @@ def main():
     ap.add_argument("--only", default=",".join(COLLECTORS), help="comma-separated keys: " + ", ".join(COLLECTORS))
     ap.add_argument("--folder", default="price-checks", help="where run folders go (default price-checks)")
     ap.add_argument("--force", action="store_true", help="replace a retailer file that's already there")
+    ap.add_argument("--against", help="another run folder (e.g. price-checks/<date>) whose raw files to compare prices with")
     a = ap.parse_args()
 
     _, current = load_current()
@@ -267,6 +292,20 @@ def main():
         print(f"  {key:10} {len(f['plans'])} plan(s), {low} unreadable, not found: {f['not_found'] or 'none'}"
               + (f"  ISSUE: {f['issues']}" if f["issues"] else ""))
     print(f"Wrote {raw.relative_to(ROOT)}. Next: python tools/price_check/compare.py {raw.parent.relative_to(ROOT)}")
+    if a.against:
+        # Side-by-side: does the script read the same prices as the other run (the agent's)?
+        print(f"\nScript vs {a.against}:")
+        for key in [k.strip() for k in a.only.split(",") if k.strip()]:
+            theirs = ROOT / a.against / "raw" / f"{key}.json"
+            mine = raw / f"{key}.json"
+            if not theirs.exists() or not mine.exists():
+                print(f"  {key:10} not compared: {'no file in ' + a.against if not theirs.exists() else 'no script file'}")
+                continue
+            d = against(json.loads(mine.read_text(encoding="utf-8")), json.loads(theirs.read_text(encoding="utf-8")))
+            n = len(json.loads(mine.read_text(encoding="utf-8"))["plans"])
+            print(f"  {key:10} " + ("agree on all {} plan(s)".format(n) if not d else f"{len(d)} difference(s):"))
+            for line in d:
+                print(f"             {line}")
     sys.exit(1 if failed else 0)
 
 
