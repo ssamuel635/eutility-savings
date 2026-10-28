@@ -63,13 +63,14 @@ JSON format (one file per retailer):
  "not_found":["our ids no longer offered"],"issues":"…"}
 ```
 
-### Script collector (Keppel, Senoko, SP Group)
+### Script collector (Keppel, Senoko, SP Group, Tuas, PacificLight)
 
-Three retailers publish their prices in a form a plain script can read, with no browser and no
-AI: Keppel's plan feed, Senoko's EMA fact sheets (PDF) and SP Group's tariff page.
+Five retailers publish their prices in a form a plain script can read, with no browser and no
+AI: Keppel's plan feed, Senoko's and Tuas's EMA fact sheets (PDF), PacificLight's EMA fact sheets
+(web pages, one per plan, listed on its fact sheet index) and SP Group's tariff page.
 
 ```bash
-python3 tools/price_check/collect.py                 # writes raw/keppel.json, raw/senoko.json, raw/sp-group.json
+python3 tools/price_check/collect.py                 # writes raw/keppel.json, senoko, sp-group, tuas, pacificlight
 python3 tools/price_check/collect.py --folder price-checks-script   # a side copy, for comparing with the agent's run
 ```
 
@@ -81,8 +82,11 @@ low confidence with no price, never guessed. It respects robots.txt and needs `p
 It doesn't replace a retailer file that's already there unless given `--force`.
 `--against price-checks/<date>` compares its prices with another run's raw files (the side-by-side the
 Monday task runs from 2 Nov 2026 for two weeks: `--folder price-checks-script --force --against price-checks/<date>`).
-First checked 28 Oct 2026: all 14 plans matched the approved 26 Oct run exactly. Geneco, Tuas,
-PacificLight and Sembcorp still need the agent or a person (Sembcorp blocks scripts).
+First checked 28 Oct 2026: all 28 plans (14 for Keppel, Senoko and SP Group; 4 Tuas; 10 PacificLight)
+matched the approved 26 Oct run exactly. Notes: Tuas names its fact sheets "PowerFIX 24 Bill Rebate"
+(read as our "PowerFIX 24"); PacificLight's Classic 60 is stored as 3% off tariff, its extra 5% prompt
+payment discount goes in the notes, as in the sheet. Geneco and Sembcorp still need the agent or a
+person (Sembcorp blocks scripts).
 
 ## Step 1b: second read (separate pass)
 

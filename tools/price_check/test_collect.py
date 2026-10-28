@@ -3,7 +3,8 @@ Run: python3 tools/price_check/test_collect.py   (no network: the samples below 
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
-from collect import against, clock, fs_date, parse_keppel, parse_senoko_factsheet, parse_sp, senoko_codes
+from collect import (against, clock, fs_date, parse_keppel, parse_pl_factsheet, parse_senoko_factsheet, parse_sp,
+                     parse_tuas_factsheet, pl_slugs, senoko_codes, tuas_factsheets)
 from compare import as_plan, sanity
 
 fails = 0
@@ -21,6 +22,10 @@ current = {
     "keppel-electric-gone": {"retailer": "Keppel Electric", "name": "FIXED6", "available": True, "pricingType": "fixed", "rate": 31.0},
     "senoko-energy-lifepower36": {"retailer": "Senoko Energy", "name": "LifePower36", "available": True},
     "sp-group-regulated-tariff": {"retailer": "SP Group", "name": "Regulated Tariff", "available": True},
+    "tuas-power-powerfix-24": {"retailer": "Tuas Power", "name": "PowerFIX 24", "available": True, "category": "Standard"},
+    "tuas-power-powerfix-25-g": {"retailer": "Tuas Power", "name": "PowerFIX 25 G+", "available": True, "category": "Green"},
+    "pacificlight-savvy-saver-24": {"retailer": "PacificLight", "name": "Savvy Saver 24", "available": True},
+    "pacificlight-sunny-side-up-12": {"retailer": "PacificLight", "name": "Sunny Side-Up 12", "available": True, "category": "Green"},
 }
 
 # ── Keppel's plan feed ──
@@ -75,8 +80,73 @@ check("sp: tariff with and without GST", sp["plans"][0]["rate_incl_gst"] == 31.1
 check("sp: a changed page layout gives a low-confidence read, not a guess",
       parse_sp("<p>Tariff coming soon</p>", current)["plans"][0]["confidence"] == "low")
 
+# ── Tuas Power's fact sheets (PDF text) ──
+tuas_head = "A. General Information Name of Electricity Retailer: Tuas Power Supply Pte Ltd Fact Sheet Version Date: 06/Oct/2026 " \
+            "B. Electricity Price Plan Information Name of Price Plan: {} Type of Price Plan (see footnote 1): Standard "
+tuas_rate = "Fixed rate plan: Duration Rates (before GST) Rates (after GST) 24 month/s 28.35 cents/kWh 30.90 cents/kWh " \
+            "The electricity retailer must clearly state any incentives ... Contract Duration: 24 months Automatic Renewal"
+tu = parse_tuas_factsheet(tuas_head.format("PowerFIX 24 Bill Rebate") + tuas_rate, "https://x/fs/powerfix_24.pdf", current)
+check("tuas: 'PowerFIX 24 Bill Rebate' is our PowerFIX 24, both GST figures, fact sheet date",
+      (tu["name"], tu["matches_id"], tu["rate_incl_gst"], tu["rate_excl_gst"], tu["contractMonths"], tu["terms"]["factsheet_date"])
+      == ("PowerFIX 24", "tuas-power-powerfix-24", 30.9, 28.35, 24, "2026-10-06"))
+tg = parse_tuas_factsheet(tuas_head.format("PowerFIX 25 G+ Bill Rebate") + tuas_rate.replace("24 months", "25 months"), "x", current)
+check("tuas: green plan keeps our sheet's category", (tg["matches_id"], tg["category"]) == ("tuas-power-powerfix-25-g", "Green"))
+check("tuas: unrecognised price wording is low confidence, no price",
+      parse_tuas_factsheet(tuas_head.format("PowerFIX 12") + "Rates: see table. Contract Duration: 12 months", "x", current)["confidence"] == "low")
+check("tuas: fact sheet PDFs from the plans page, T&C PDFs left out",
+      tuas_factsheets('<a href="/assets/pdf/2026/fs/powerfix_24.pdf"></a><a href="/assets/pdf/2026/standard_tnc_v190626.pdf"></a>'
+                      '<a href="/assets/pdf/2026/fs/powerfix_24.pdf"></a>') == ["https://savewithtuas.com/assets/pdf/2026/fs/powerfix_24.pdf"])
+
+
+# ── PacificLight's fact sheets (web page text) ──
+def pl(name, rate_text, months="24 months"):
+    text = f"Fact Sheet Version Date: 8 October 2026 B. Electricity Price Plan Information Name of Price Plan: {name} " \
+           f"Type of Price Plan (see footnote 1): Standard This is a Standard Price Plan. The electricity rate to be paid by you is: " \
+           f"{rate_text} The electricity retailer must clearly state any incentives ... Contract Duration: {months} Automatic Renewal"
+    return parse_pl_factsheet(text, "https://x/" + name, current)
+
+
+ss = pl("Savvy Saver 24", "Fixed price plan: 29.00¢/kWh (Rate excl. 9% GST is 26.605¢/kWh)")
+check("pacificlight: fixed plan, before-GST rate to 3 decimals, fact sheet date",
+      (ss["matches_id"], ss["type"], ss["rate_incl_gst"], ss["rate_excl_gst"], ss["dailyCharge_incl_gst"], ss["terms"]["factsheet_date"])
+      == ("pacificlight-savvy-saver-24", "fixed", 29.0, 26.605, None, "2026-10-08"))
+ep = parse_pl_factsheet("Name of Price Plan: Easy Peasy Type of Price Plan (see footnote 1): Non-Standard Fixed price plan: 27.00¢/kWh "
+                        "+ Daily Charge 55¢/day (Rate excl. 9% GST is 24.77¢/kWh + Daily Charge is 50¢/day). The electricity retailer "
+                        "must clearly state ... Contract Duration: Not applicable Automatic", "x", current)
+check("pacificlight: sheet without the 'rate to be paid' line, no contract, daily charge in cents",
+      (ep["type"], ep["rate_incl_gst"], ep["contractMonths"], ep["dailyCharge_incl_gst"]) == ("fixed", 27.0, 0, 0.55))
+sw = pl("Save While Sleeping 24", "Peak/off-peak fixed-rate plan: (i) 33.00¢/kWh during peak periods from 7 am to 11 pm (Day) "
+        "(ii) 23.00¢/kWh during off-peak periods from 11 pm to 7 am (Night) (Rates excl. 9% GST are 30.275¢/kWh and 21.10¢/kWh).")
+check("pacificlight: peak and off-peak rates and windows",
+      sw["tou"] == {"peak": {"window": "07:00–23:00", "rate_incl_gst": 33.0}, "offPeak": {"window": "23:00–07:00", "rate_incl_gst": 23.0}})
+nn = pl("9 to 9", "Two-tiered fixed-rate plan: (i) 36.95¢/kWh from 9 am to 9 pm; (ii) 20.05¢/kWh from 9 pm to 9 am; and Daily Charge "
+        "of $1.01/day applies. (Rates excl. 9% GST are 33.899¢/kWh and 18.394¢/kWh, with a Daily Charge of 92.52¢/day).", "Not applicable")
+check("pacificlight: 9am-9pm plan, the dearer band is peak, daily charge in dollars",
+      (nn["type"], nn["tou"]["peak"]["rate_incl_gst"], nn["tou"]["peak"]["window"], nn["tou"]["offPeak"]["rate_incl_gst"], nn["dailyCharge_incl_gst"])
+      == ("tou", 36.95, "09:00–21:00", 20.05, 1.01))
+st = pl("Stack It Up 24", "Fixed-price plan based on usage per billing period: (i) Stack 1 - First 300 kWh @29.20¢/kWh (ii) Stack 2 - "
+        "Usage between 301 to 600 kWh @28.60¢/kWh (iii) Stack 3 - Above 600 kWh @27.60¢/kWh (Rates excl. 9% GST are 26.788¢/kWh)")
+check("pacificlight: usage stacks become tiers 0-300, 300-600, 600+",
+      st["tiers"] == [{"from": 0, "to": 300, "rate_incl_gst": 29.2}, {"from": 300, "to": 600, "rate_incl_gst": 28.6},
+                      {"from": 600, "to": None, "rate_incl_gst": 27.6}])
+es = pl("Easy Save", "Discount-off Regulated Tariff Plan: 18% Discount Off Tariff + Daily Charge 55¢/day (Rate excl. 9% GST for Daily "
+        "Charge is 50¢/day).", "Not applicable")
+check("pacificlight: discount off tariff with a daily charge", (es["type"], es["discount"], es["dailyCharge_incl_gst"])
+      == ("dot", {"value": 18.0, "kind": "percent"}, 0.55))
+c60 = pl("Classic 60", "Discount off SP Regulated Tariff plan: Up to 8% off ( 3% off SP Regulated Tariff + 5% Prompt Payment Discount*)",
+         "60 months")
+check("pacificlight: 'up to 8%' plan stores the 3% off tariff and notes the prompt payment discount",
+      c60["discount"] == {"value": 3.0, "kind": "percent"} and "prompt payment" in c60["notes"] and c60["contractMonths"] == 60)
+check("pacificlight: unrecognised price wording is low confidence, no price",
+      pl("Savvy Saver 24", "Please call us for today's rate.")["confidence"] == "low")
+check("pacificlight: green plan keeps our sheet's category", pl("Sunny Side-Up 12", "Fixed price plan: 31.00¢/kWh "
+      "(Rate excl. 9% GST is 28.44¢/kWh)", "12 months")["category"] == "Green")
+check("pacificlight: fact sheet pages from the index, no repeats",
+      pl_slugs('<a href="/support/factsheet-detail/06-savvy-saver-24-8-oct-2026">x</a><a href="factsheet-detail/1-easy-save">'
+               '<a href="/support/factsheet-detail/06-savvy-saver-24-8-oct-2026">') == ["06-savvy-saver-24-8-oct-2026", "1-easy-save"])
+
 # ── The script's reads pass the same accuracy guards as the agent's ──
-for f in [p["FIXED24"], fixed]:
+for f in [p["FIXED24"], fixed, tu, ss, ep]:
     flags = sanity(f, as_plan(f), {"pricingType": f["type"], "rate": f["rate_incl_gst"]})
     check(f"guards: {f['name']} passes (number in its quote, GST pair consistent)", not flags)
 bad = dict(fixed, rate_incl_gst=29.59)
@@ -88,9 +158,16 @@ d = against(k, agent)
 check("side-by-side: a different rate is reported, matching plans aren't",
       len(d) == 1 and d[0].startswith("keppel-electric-fixed24:") and "31.4" in d[0])
 check("side-by-side: two identical reads agree", against(k, k) == [])
+st2 = dict(st, matches_id="pacificlight-stack-it-up-24", tiers=[dict(b) for b in st["tiers"]])
+st2["tiers"][1]["rate_incl_gst"] = 28.9
+check("side-by-side: a different tier rate is reported", len(against({"plans": [dict(st, matches_id="pacificlight-stack-it-up-24")]},
+                                                                      {"plans": [st2]})) == 1)
+for f in (sw, st):
+    check(f"guards: {f['name']} passes (every rate in its quote)", not sanity(f, as_plan(f), {"pricingType": f["type"]}))
 
 # ── Helpers ──
 check("clock: 7am, 11pm, 12am, 9:30pm", [clock(x) for x in ("7am", "11pm", "12am", "9:30pm")] == ["07:00", "23:00", "00:00", "21:30"])
-check("fact sheet dates: '22 Oct 26' and '16 June 2026'", (fs_date("22 Oct 26"), fs_date("16 June 2026")) == ("2026-10-22", "2026-06-16"))
+check("fact sheet dates: '22 Oct 26', '16 June 2026' and '06/Oct/2026'",
+      (fs_date("22 Oct 26"), fs_date("16 June 2026"), fs_date("06/Oct/2026")) == ("2026-10-22", "2026-06-16", "2026-10-06"))
 
 sys.exit(1 if fails else 0)
