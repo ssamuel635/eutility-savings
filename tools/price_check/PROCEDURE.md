@@ -63,6 +63,25 @@ JSON format (one file per retailer):
  "not_found":["our ids no longer offered"],"issues":"…"}
 ```
 
+### Script collector (Keppel, Senoko, SP Group)
+
+Three retailers publish their prices in a form a plain script can read, with no browser and no
+AI: Keppel's plan feed, Senoko's EMA fact sheets (PDF) and SP Group's tariff page.
+
+```bash
+python3 tools/price_check/collect.py                 # writes raw/keppel.json, raw/senoko.json, raw/sp-group.json
+python3 tools/price_check/collect.py --folder price-checks-script   # a side copy, for comparing with the agent's run
+```
+
+It writes the same format as above with the exact source text in `evidence`, so every accuracy
+guard applies. It reads **prices only**: the files have no `promo` field (compare.py then leaves
+promotions as they are) and no deposit/ETF wording, just each plan's fact sheet date, so a newer
+fact sheet still shows in the report for a person to read. Wording it doesn't recognise is marked
+low confidence with no price, never guessed. It respects robots.txt and needs `pip install pypdf`.
+It doesn't replace a retailer file that's already there unless given `--force`.
+First checked 28 Oct 2026: all 14 plans matched the approved 26 Oct run exactly. Geneco, Tuas,
+PacificLight and Sembcorp still need the agent or a person (Sembcorp blocks scripts).
+
 ## Step 1b: second read (separate pass)
 
 Run `compare.py` once. Every row marked **high impact** (it would change the top 3
@@ -104,7 +123,8 @@ Gaps: a plan that can't be read keeps its current price and shows **when it was 
 confirmed**. After 21 days unconfirmed it is marked **stale**; check it by hand or hide it.
 The report's coverage card shows how many plans were confirmed this week.
 
-Test the guards: `python3 tools/price_check/test_compare.py` and `python3 tools/price_check/test_terms.py`
+Test the guards: `python3 tools/price_check/test_compare.py` and `python3 tools/price_check/test_terms.py`;
+the script collector: `python3 tools/price_check/test_collect.py`
 
 ## Step 3: approve (person)
 
@@ -128,7 +148,7 @@ are added to the sheet by hand.
 (coverage, changes, blocked, double-checked). apply.py adds who approved, how much, and when it
 went live. Together they show how reliable the agent is over time.
 
-Tests: `python3 tools/price_check/test_compare.py`, `test_terms.py` and `test_runlog.py`
+Tests: `python3 tools/price_check/test_compare.py`, `test_terms.py`, `test_runlog.py` and `test_collect.py`
 
 ## Weekly schedule
 

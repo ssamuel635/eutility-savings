@@ -11,3 +11,5 @@ __pycache__/
 
 # Side copy of the daily news run made on the PC while the GitHub run takes over (see tools/news/collect.py --folder).
 /news-checks-local/
+# Side copy of the price check made by the script collector while it runs alongside the agent (tools/price_check/collect.py --folder).
+/price-checks-script/

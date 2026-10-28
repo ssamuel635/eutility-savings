@@ -288,9 +288,9 @@ def compare(run_dir):
                              "confidence": pl.get("confidence"), "source": pl.get("source_url"), "notes": pl.get("notes", ""),
                              "old_bill": monthly(cur, tariff_now), "new_bill": monthly(merged, tariff_new), "trust": trust,
                              "proposed": {k: merged.get(k) for k in ("rate", "discount", "dailyCharge", "tou", "tiers", "contractMonths")}})
-            # promotions
+            # promotions (a file without a "promo" field didn't read them: collect.py)
             old_p = cur.get("promo")
-            if promo_key(old_p) != promo_key(pl.get("promo")):
+            if "promo" in pl and promo_key(old_p) != promo_key(pl.get("promo")):
                 promo_rows.append({"retailer": r, "plan": cur["name"], "id": pid, "old": old_p, "new": pl.get("promo"),
                                    "source": pl.get("source_url")})
         for pid in f.get("not_found", []):
