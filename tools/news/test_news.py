@@ -132,6 +132,10 @@ with tempfile.TemporaryDirectory() as d:
     check("news.js: is a JS module", "export const NEWS = [" in f.read_text(encoding="utf-8"))
     write_news([], f)
     check("news.js: empty list round-trips", read_news(f) == [])
+    write_news([dict(pub, topic="solar"), dict(pub, id="x3", topic=""), dict(pub, id="x4", extra="dropped")], f)
+    back = read_news(f)
+    check("news.js: a chosen photo topic is kept, an empty one and unknown fields aren't",
+          back[0].get("topic") == "solar" and "topic" not in back[1] and "extra" not in back[2])
 
 # ── Approvals from the Review page: reject only what's rejected ──
 three = [dict(pub, id=i) for i in ("p1", "p2", "p3")]

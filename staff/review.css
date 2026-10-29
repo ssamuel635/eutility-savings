@@ -19,6 +19,8 @@ section { border: 1px solid var(--line); padding: 18px; margin: 16px 0; }
 .note.is-ok { background: var(--ok-tint); border-color: #abefc6; color: var(--ok); }
 .items { list-style: none; margin: 0; padding: 0; }
 .item { display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; padding: 14px 0; border-top: 1px solid var(--line); }
+.topic-row { display: flex; align-items: center; gap: 8px; }
+.topic { font: inherit; padding: 2px 6px; border: 1px solid var(--line); border-radius: 2px; background: #fff; }
 .item:first-child { border-top: 0; }
 .item .meta { font-size: 13px; color: var(--muted); margin: 0 0 2px; }
 .item .title { font-weight: 600; }

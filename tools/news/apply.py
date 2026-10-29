@@ -35,6 +35,7 @@ NEWS_JS = ROOT / "assets" / "js" / "data" / "news.js"
 SGT = timezone(timedelta(hours=8))
 KEEP = 100  # newest headlines kept on the site
 FIELDS = ("id", "date", "title", "source", "kind", "url")
+OPTIONAL = ("topic",)  # photo topic chosen on the staff Review page (assets/js/data/news-topics.js)
 
 HEADER = """// Market news: the headlines on news.html and the homepage, newest first.
 // Written by tools/news/apply.py from headlines approved in the review page.
@@ -51,7 +52,8 @@ def read_news(path=NEWS_JS):
 
 
 def write_news(items, path=NEWS_JS):
-    lines = ",\n".join("  " + json.dumps({k: it[k] for k in FIELDS}, ensure_ascii=False) for it in items)
+    keep = lambda it: {**{k: it[k] for k in FIELDS}, **{k: it[k] for k in OPTIONAL if it.get(k)}}
+    lines = ",\n".join("  " + json.dumps(keep(it), ensure_ascii=False) for it in items)
     body = f"[\n{lines}\n]" if items else "[]"
     Path(path).write_text(f"{HEADER}export const NEWS = {body};\n", encoding="utf-8")
 
@@ -112,6 +114,8 @@ def main():
         print("Dry run: nothing saved.")
         return
 
+    chosen = appr.get("topics") or {}
+    approved = [dict(it, topic=chosen[it["id"]]) if isinstance(chosen.get(it["id"]), str) else it for it in approved]
     write_news(merge(read_news(), approved))
     state = load_state()
     state["decided"].update({it["id"]: "approved" for it in approved})

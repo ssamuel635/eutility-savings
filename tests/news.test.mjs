@@ -26,8 +26,32 @@ test('news page groups by month, newest month first', () => {
 
 test('headlines are escaped and only https links are used', () => {
   const html = newsPageMarkup([item('x', '2026-10-01', { title: '<img src=x onerror=alert(1)>', url: 'javascript:alert(1)' })]);
-  assert.ok(!html.includes('<img'));
+  assert.ok(!html.includes('<img src=x'), 'the headline is escaped');
+  assert.ok(html.includes('&lt;img src=x onerror=alert(1)&gt;'));
   assert.ok(!html.includes('javascript:'));
+  assert.equal((html.match(/<img /g) || []).length, 1, 'the only image is our topic photo');
+});
+
+test('each headline gets its topic photo; a topic staff chose wins over the keywords', async () => {
+  const { topicOf } = await import('../assets/js/data/news-topics.js');
+  const t = (title, topic) => topicOf({ title, topic }).key;
+  assert.equal(t('Electricity Tariff Revision for the Period 1 October to 31 December 2026'), 'tariff');
+  assert.equal(t('Indonesia gas cut unlikely to hit Singapore electricity prices'), 'gas', 'the story is the gas cut');
+  assert.equal(t('Singapore launches five-year energy infrastructure plan to meet growing demand, sets new solar target'), 'grid');
+  assert.equal(t('Singapore aiming for more solar panels in public spaces'), 'solar');
+  assert.equal(t('S’pore to drill deeper into geothermal energy'), 'climate');
+  assert.equal(t('New retailer joins the Open Electricity Market'), 'retailer');
+  assert.equal(t('Minister speaks on energy security'), 'policy', 'no match: the general photo');
+  assert.equal(t('Minister speaks on energy security', 'solar'), 'solar', 'staff choice');
+  assert.equal(t('Minister speaks', 'bogus'), 'policy', 'an unknown topic is ignored');
+  const html = newsPageMarkup([item('x', '2026-10-01', { title: 'Electricity tariff to rise' })]);
+  assert.match(html, /srcset="assets\/img\/news\/tariff-400\.webp 400w, assets\/img\/news\/tariff-800\.webp 800w"/);
+  assert.match(html, /src="assets\/img\/news\/tariff\.jpg" alt=""/);
+  for (const topic of (await import('../assets/js/data/news-topics.js')).NEWS_TOPICS) {
+    for (const f of [`${topic.photo.name}.jpg`, `${topic.photo.name}-400.webp`, `${topic.photo.name}-800.webp`]) {
+      assert.ok(fs.existsSync(new URL(`../assets/img/news/${f}`, import.meta.url)), `${f} is missing`);
+    }
+  }
 });
 
 test('no news: the page says so and the homepage shows nothing', () => {

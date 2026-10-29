@@ -1,7 +1,9 @@
 // Market news: the markup for news.html and the homepage, from assets/js/data/news.js.
 // tools/prerender.mjs writes it into the HTML, so the pages need no script to show it.
-// Headlines only: each links to the original on the publisher's site.
+// Headlines only: each links to the original on the publisher's site. The photo
+// is our own stock photo for the headline's topic (data/news-topics.js), not the outlet's.
 import { NEWS } from '../data/news.js';
+import { topicOf, topicPhoto } from '../data/news-topics.js';
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const MONTHS_LONG = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -19,11 +21,21 @@ export function latest(n = Infinity, items = NEWS) {
   return [...items].sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0)).slice(0, n);
 }
 
+/** The topic photo: decorative (the headline says what the story is), so no alt text. */
+function photoMarkup(it, sizes) {
+  const p = topicPhoto(topicOf(it));
+  return `<picture class="news-photo"><source type="image/webp" srcset="${p.webp}" sizes="${sizes}"><img src="${p.jpg}" alt="" width="800" height="500" loading="lazy" decoding="async"></picture>`;
+}
+
 function itemMarkup(it, cls) {
   const official = it.kind === 'official';
+  const sizes = cls === 'news-card' ? '(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw' : '120px';
   return `<li class="${cls}">
+          ${photoMarkup(it, sizes)}
+          <div class="news-body">
           <p class="news-meta"><span class="tag${official ? ' tag--official' : ''}">${official ? 'Official' : 'News'}</span><span>${esc(it.source)}</span><time datetime="${esc(it.date)}">${niceDate(it.date)}</time></p>
           <a class="news-title" href="${esc(safeUrl(it.url))}" target="_blank" rel="noopener">${esc(it.title)}<span class="visually-hidden"> (${esc(it.source)}, opens in a new tab)</span><span aria-hidden="true"> ↗</span></a>
+          </div>
         </li>`;
 }
 

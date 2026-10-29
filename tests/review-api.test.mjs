@@ -127,6 +127,11 @@ test('decision checks', () => {
   assert.match(checkDecision({ kind: 'price', run: '2026-10-22', approved: ['aaaaaaaaaaaa'] }), /Unknown kind/);
   assert.match(checkDecision({ kind: 'news', run: '2026-10-22' }), /at least one/);
   assert.match(checkDecision({ kind: 'news', run: '2026-10-22', approved: ['aaaaaaaaaaaa'], rejected: ['aaaaaaaaaaaa'] }), /both/);
+  const d = (topics) => checkDecision({ kind: 'news', run: '2026-10-22', approved: ['aaaaaaaaaaaa'], rejected: ['bbbbbbbbbbbb'], topics });
+  assert.equal(d({ aaaaaaaaaaaa: 'solar' }), '', 'a photo topic for an approved headline');
+  assert.match(d({ bbbbbbbbbbbb: 'solar' }), /only for approved/, 'not for a rejected one');
+  assert.match(d({ aaaaaaaaaaaa: '<script>' }), /only for approved/, 'topic keys are plain words');
+  assert.match(d(['solar']), /must be an object/);
 });
 
 test('staff pages are for admins only', async () => {

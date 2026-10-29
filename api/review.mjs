@@ -4,7 +4,7 @@
 //   GET   the market news headlines waiting for a decision, read from
 //         news-checks/ on GitHub (the daily collect workflow commits there),
 //         plus the last few publishing runs
-//   POST  { kind: "news", run, approved: [ids], rejected: [ids] }
+//   POST  { kind: "news", run, approved: [ids], rejected: [ids], topics?: { id: topic } }
 //         saves the decision as news-checks/<run>/approved-news-<run>-<time>.json
 //         (who, when, what) and starts .github/workflows/publish.yml
 //
@@ -138,6 +138,11 @@ export function checkDecision(body, candidateIds) {
   if (all.length > 200 || !all.every((x) => typeof x === 'string' && ID.test(x))) return 'Those headline ids aren’t valid.';
   if (new Set(all).size !== all.length) return 'A headline can’t be both approved and rejected.';
   if (candidateIds && !all.every((x) => candidateIds.has(x))) return 'Some of those headlines aren’t in that run any more. Reload the page.';
+  const { topics = {} } = body;
+  if (typeof topics !== 'object' || Array.isArray(topics) || !topics) return 'topics must be an object.';
+  if (!Object.entries(topics).every(([id, t]) => approved.includes(id) && typeof t === 'string' && /^[a-z]{2,20}$/.test(t))) {
+    return 'Photo topics are only for approved headlines.';
+  }
   return '';
 }
 
@@ -164,7 +169,7 @@ export async function POST(request) {
 
   const bad = checkDecision(body);
   if (bad) return json(400, { error: bad });
-  const { kind, run, approved = [], rejected = [] } = body;
+  const { kind, run, approved = [], rejected = [], topics = {} } = body;
   const { folder, file: name } = KINDS[kind];
   const { branch, workflowRef, repo } = cfg();
 
@@ -177,7 +182,7 @@ export async function POST(request) {
 
   const t = sgNow();
   const path = `${folder}/${run}/${name(run, t.stamp)}`;
-  const record = { run, approved_by: who.name, approved_at: t.iso, items: approved, rejected, via: 'staff Review page' };
+  const record = { run, approved_by: who.name, approved_at: t.iso, items: approved, rejected, topics, via: 'staff Review page' };
   try {
     await github(`/contents/${path}`, {
       method: 'PUT',

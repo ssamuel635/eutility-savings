@@ -1,7 +1,10 @@
 // Staff Review page: lists what's waiting (from /api/review), records Approve /
 // Reject per item, and sends the decisions, which saves them on GitHub and starts
 // the publish workflow. Everything shown is built with textContent (no HTML from
-// the feeds reaches the page).
+// the feeds reaches the page). Each headline also gets a photo topic, suggested
+// from its words (assets/js/data/news-topics.js); staff can change it.
+
+import { NEWS_TOPICS, topicOf } from '/assets/js/data/news-topics.js';
 
 const $ = (id) => document.getElementById(id);
 function el(tag, props = {}, ...kids) {
@@ -14,6 +17,7 @@ const when = (iso) => new Date(iso).toLocaleString('en-SG', { dateStyle: 'medium
 const safeUrl = (u) => (/^https:\/\//i.test(u || '') ? u : null);
 
 const choices = new Map(); // id -> 'approved' | 'rejected'
+const topics = new Map();  // id -> topic key, as shown in its menu
 let review = null;
 
 function note(text, kind = '') {
@@ -55,19 +59,25 @@ function itemRow(it) {
   const url = safeUrl(it.url);
   const title = url ? el('a', { href: url, target: '_blank', rel: 'noopener', className: 'title', textContent: it.title }) : el('span', { className: 'title', textContent: it.title });
   const tag = el('span', { className: 'tag' + (it.kind === 'official' ? ' tag--official' : ''), textContent: it.kind === 'official' ? 'Official' : 'News' });
+  topics.set(it.id, topicOf(it).key);
+  const menu = el('select', { className: 'topic', ariaLabel: `Photo topic for ${it.title}` },
+    ...NEWS_TOPICS.map((t) => el('option', { value: t.key, textContent: t.label, selected: t.key === topics.get(it.id) })));
+  menu.addEventListener('change', () => topics.set(it.id, menu.value));
   return el('li', { className: 'item' },
     el('div', {},
       el('p', { className: 'meta' }, tag, `${niceDate(it.date)} · ${it.source}`),
       title,
       it.snippet ? el('p', { className: 'snip', textContent: it.snippet }) : null,
       it.also?.length ? el('p', { className: 'snip', textContent: `Also reported by ${it.also.map((x) => x.source).join(', ')}` }) : null,
-      it.keywords?.length ? el('p', { className: 'snip', textContent: `Matched: ${it.keywords.join(', ')}` }) : null),
+      it.keywords?.length ? el('p', { className: 'snip', textContent: `Matched: ${it.keywords.join(', ')}` }) : null,
+      el('label', { className: 'snip topic-row' }, 'Photo: ', menu)),
     choice);
 }
 
 function showNews(r) {
   review = r;
   choices.clear();
+  topics.clear();
   $('news').hidden = false;
   $('news-count').textContent = String(r.items.length);
   $('news-blurb').textContent = r.run
@@ -104,7 +114,8 @@ async function load() {
 
 $('publish').addEventListener('click', async () => {
   const pick = (v) => [...choices].filter(([, x]) => x === v).map(([id]) => id);
-  const body = { kind: 'news', run: review.run, approved: pick('approved'), rejected: pick('rejected') };
+  const approved = pick('approved');
+  const body = { kind: 'news', run: review.run, approved, rejected: pick('rejected'), topics: Object.fromEntries(approved.map((id) => [id, topics.get(id)])) };
   const btn = $('publish'), msg = $('msg');
   btn.disabled = true;
   msg.textContent = 'Saving…';
