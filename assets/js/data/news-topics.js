@@ -41,7 +41,10 @@ export const NEWS_TOPICS = [
   {
     key: 'solar', label: 'Solar',
     words: [[/\bsolar\b/i, 2], [/\bpanels?\b/i, 1], [/\bphotovoltaic\b/i, 2]],
-    photos: [{ name: 'solar', alt: 'Solar panels on a city rooftop', credit: 'Jeroen van de Water', page: 'https://unsplash.com/photos/aQOzmgcT6sI' }],
+    photos: [
+      { name: 'solar', alt: 'Solar panels on a city rooftop', credit: 'Jeroen van de Water', page: 'https://unsplash.com/photos/aQOzmgcT6sI' },
+      { name: 'solar-2', alt: 'Rows of solar panels under a blue sky', credit: 'Soren H', page: 'https://unsplash.com/photos/omfN1pW-n2Y' },
+    ],
   },
   {
     key: 'climate', label: 'Clean energy and climate',

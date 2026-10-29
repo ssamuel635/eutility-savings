@@ -62,8 +62,8 @@ test('a topic with two photos: each headline keeps its own, and neighbours diffe
   assert.equal(names.length, 6);
   assert.ok(names.every((n, i) => !i || n !== names[i - 1]), `no two in a row: ${names}`);
   assert.deepEqual([...new Set(names)].sort(), ['gas', 'gas-2']);
-  const solar = [item('s1', '2026-10-21', { title: 'More solar' }), item('s2', '2026-10-20', { title: 'Solar again' })];
-  assert.equal(new Set([...newsPageMarkup(solar).matchAll(/news\/(\w+)\.jpg/g)].map((m) => m[1])).size, 1, 'one photo: it repeats');
+  const tariff = [item('t1', '2026-10-21', { title: 'Tariff to rise' }), item('t2', '2026-10-20', { title: 'Tariff explained' })];
+  assert.deepEqual([...newsPageMarkup(tariff).matchAll(/news\/([\w-]+)\.jpg/g)].map((m) => m[1]), ['tariff', 'tariff'], 'one photo: it repeats');
 });
 
 test('no news: the page says so and the homepage shows nothing', () => {
