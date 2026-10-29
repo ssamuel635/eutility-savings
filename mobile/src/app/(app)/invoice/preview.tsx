@@ -29,7 +29,9 @@ export default function InvoicePreview() {
     (async () => {
       const [cat, latest] = await Promise.all([api.plans.catalogue(), api.savings.latest().catch(() => null)]);
       const id = p.planId || latest?.recommended?.plan.id || null;
-      const plan = cat.plans.find((x) => x.id === id) ?? null;
+      // FXMedia's plans aren't in the price sheet: those come from the check itself
+      const quoted = latest ? [latest.recommended, ...latest.alternatives].find((x) => x?.plan.id === id)?.plan : undefined;
+      const plan = cat.plans.find((x) => x.id === id) ?? quoted ?? null;
       const saving = p.planId ? Number(p.saving) || 0 : latest?.recommended?.savingYearly ?? 0;
       setTarget({ plan, quoteId: p.quoteId || latest?.id || null, saving: plan ? saving : 0 });
     })().catch(() => setTarget({ plan: null, quoteId: null, saving: 0 }));

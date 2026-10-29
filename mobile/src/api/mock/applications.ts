@@ -14,7 +14,7 @@ export const STAGES: { key: StageKey; label: string; doing: (retailer: string) =
 ];
 
 export function toApplication(row: ApplicationRow): Application {
-  const plan = planById(row.planId);
+  const plan = row.plan ?? planById(row.planId);
   const retailer = plan?.retailer ?? 'Your new retailer';
   const firstMissing = STAGES.findIndex((s) => !row.reached[s.key]);
   const stages: Stage[] = STAGES.map((s, i) => {

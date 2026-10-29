@@ -1,13 +1,18 @@
 // The app's single entry to data. Screens import `api` from here only.
 //
-// Sign-in and the profile come from Eutility's server (./http.ts); everything
-// the server doesn't serve yet (savings, bills, switches, rewards, notices)
-// still comes from the on-device mock (./mock). EXPO_PUBLIC_API=mock makes
-// the whole app mock again — no server needed.
+// Sign-in and the profile come from Eutility's server (./http.ts). When the
+// server uses FXMedia (CUSTOMER_SOURCE=fxmedia), so do the savings check and
+// the switch: FXMedia's plans and prices, and a sign-up FXMedia records, the
+// same as the WhatsApp chatbot's. Everything else (bills, switch progress,
+// rewards, notices) still comes from the on-device mock (./mock), as does
+// pricing when the server doesn't use FXMedia. EXPO_PUBLIC_API=mock makes the
+// whole app mock again — no server needed.
 
-import { httpApi } from './http';
-import { mockApi } from './mock';
-import { ApiError, type Api } from './types';
+import { longDate } from '@/lib/format';
+import { fxmedia, httpApi, type FxQuote } from './http';
+import { mockApi, rememberQuote } from './mock';
+import { planById, quote } from './mock/pricing';
+import { ApiError, type Api, type SavingsQuote } from './types';
 
 export const MOCK = process.env.EXPO_PUBLIC_API === 'mock';
 
@@ -60,6 +65,30 @@ async function sync(patch: { monthlyKwh?: number; currentPlanId?: string }) {
   await httpApi.customer.update(patch).catch(() => { /* offline: the next check sets it */ });
 }
 
+const cents = (n: number) => Math.round(n * 100) / 100;
+
+/**
+ * FXMedia's plans, priced against what the customer pays now. FXMedia compares
+ * with the SP tariff (it doesn't know a customer's own rate); `local` prices
+ * the customer's current plan from the price sheet, as the device always has.
+ */
+function fromFxmedia(local: SavingsQuote, fx: FxQuote): SavingsQuote {
+  const now = local.current.monthly;
+  const priced = fx.plans
+    .filter((p) => typeof p.monthly === 'number')
+    .map((p) => ({ ...p, savingMonthly: cents(now - p.monthly), savingYearly: cents((now - p.monthly) * 12) }))
+    .sort((a, b) => a.monthly - b.monthly);
+  const best = priced[0];
+  const alreadyBest = !best || best.savingMonthly <= 0;
+  return {
+    ...local,
+    recommended: alreadyBest ? null : best,
+    alternatives: alreadyBest ? priced.slice(0, 5) : priced.slice(1, 6),
+    alreadyBest,
+    ratesAsAt: fx.calculatedOn ? longDate(fx.calculatedOn) : local.ratesAsAt,
+  };
+}
+
 const liveApi: Api = {
   ...mockApi,
   auth,
@@ -67,9 +96,30 @@ const liveApi: Api = {
   savings: {
     ...mockApi.savings,
     async quote(input) {
+      if (!(await deviceSession())) {
+        const local = quote(input);
+        const fx = await fxmedia.quote({
+          kwh: input.kwh, currentRetailer: local.current.plan.retailer, currentPlanId: local.input.currentPlanId,
+          contract: input.contract, greenOnly: input.greenOnly,
+        });
+        if (fx) { // the server saved usage and current plan on the contact already
+          const q = fromFxmedia(local, fx);
+          await rememberQuote(q);
+          return q;
+        }
+      }
       const q = await mockApi.savings.quote(input);
       await sync({ monthlyKwh: input.kwh, currentPlanId: q.input.currentPlanId });
       return q;
+    },
+  },
+  applications: {
+    ...mockApi.applications,
+    async create(input) {
+      // An FXMedia plan (not in the price sheet): FXMedia records the sign-up first, then
+      // the device tracks the switch as before. A plan they no longer offer stops here.
+      if (input.planId && !planById(input.planId) && !(await deviceSession())) await fxmedia.signUp(input.planId);
+      return mockApi.applications.create(input);
     },
   },
   demo: mockApi.demo && {

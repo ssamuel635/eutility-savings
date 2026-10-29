@@ -3,6 +3,7 @@
 //
 //   POST  /api/auth/otp · /api/auth/otp/verify · /api/auth/register · /api/auth/logout
 //   GET / PATCH  /api/customers/me
+//   POST  /api/savings/quote · /api/switch   (when the server uses FXMedia; see `fxmedia` below)
 //
 // The mobile number (+65XXXXXXXX) is the customer ID everywhere. The session
 // token is kept where the mock keeps it (its on-device store), and a copy of
@@ -17,7 +18,7 @@ import { Platform } from 'react-native';
 import Constants from 'expo-constants';
 import { linkCustomer } from './mock';
 import { db, save } from './mock/db';
-import { ApiError, type Api, type ApiErrorCode, type Customer, type Session } from './types';
+import { ApiError, type Api, type ApiErrorCode, type ContractFilter, type Customer, type PricedPlan, type Session } from './types';
 
 function baseUrl() {
   const set = process.env.EXPO_PUBLIC_API_URL || process.env.EXPO_PUBLIC_CRM_URL;
@@ -62,6 +63,7 @@ async function request<T>(method: string, path: string, body?: unknown, auth = f
   if (res.status === 204) return undefined as T;
   const data = await res.json().catch(() => ({}));
   if (res.ok) return data as T;
+  if (res.status === 404 && (!data.code || data.code === 'not_available')) throw new NotAvailable();
 
   const message = typeof data.error === 'string' && data.error ? data.error : OFFLINE;
   if (res.status === 401) {
@@ -73,6 +75,31 @@ async function request<T>(method: string, path: string, body?: unknown, auth = f
 }
 
 type Signed = { session: Session; customer: Customer };
+
+/** The server doesn't serve this (it isn't using FXMedia): the caller does it on the device. */
+export class NotAvailable extends Error {}
+
+/** FXMedia's comparison as the server returns it; savings are against the SP tariff. */
+export interface FxQuote {
+  calculatedOn: string | null;
+  current: { provider: string | null; monthly: number | null };
+  plans: PricedPlan[];
+}
+
+/** Savings check and switch through FXMedia (server/fxmedia/routes.js). null = not available here. */
+export const fxmedia = {
+  async quote(input: { kwh: number; currentRetailer: string; currentPlanId: string; contract: ContractFilter; greenOnly: boolean }) {
+    try {
+      return await request<FxQuote>('POST', '/api/savings/quote', input, true);
+    } catch (e) {
+      if (e instanceof NotAvailable) return null;
+      throw e;
+    }
+  },
+  async signUp(planId: string, promoCode = '') {
+    return request<{ reference: string; duplicate: boolean; signedAt: string | null }>('POST', '/api/switch', { planId, promoCode }, true);
+  },
+};
 
 export const httpApi: Pick<Api, 'auth' | 'customer'> = {
   auth: {

@@ -13,7 +13,7 @@ const { createCustomers } = require('../server/auth/customers.js');
 const { createConsoleSms } = require('../server/auth/sms.js');
 const { createTokens } = require('../server/auth/tokens.js');
 const { createAuthRoutes } = require('../server/auth/routes.js');
-import { CHATBOT_CONTACT, createFakeFxmedia, FAKE_KEY, UNIT_TYPES } from '../tools/fake-fxmedia.mjs';
+import { CHATBOT_CONTACT, createFakeFxmedia, FAKE_KEY, FAKE_PLANS, UNIT_TYPES } from '../tools/fake-fxmedia.mjs';
 
 const KEY = FAKE_KEY;
 const TEST = '+6591234567';
@@ -130,6 +130,70 @@ test('sign-in end to end with CUSTOMER_SOURCE=fxmedia', async () => {
     const other = await call('POST', '/api/auth/otp', { phone: '9876 5432' });
     const refused = await call('POST', '/api/auth/otp/verify', { phone: '98765432', code: other.body.demoCode });
     assert.equal(refused.status, 403, 'a real customer\'s number never reaches the live CRM from a dev machine');
+  } finally {
+    server.close();
+  }
+});
+
+test('FXMedia plans map to the app\'s plans; contract and green filters work like the app\'s', async () => {
+  const { toPlan, toQuote } = require('../server/fxmedia/routes.js');
+  const [classic, geneco, , green, flex] = FAKE_PLANS.map(toPlan);
+  assert.deepEqual([classic.contractLabel, classic.tags, classic.priceLabel], ['60-month contract', ['Follows SP tariff'], '28.67¢/kWh']);
+  assert.deepEqual(geneco.promo, { title: 'S$100 bill rebate', value: 'S$100', conditions: 'New customers', code: 'GENECO100', expires: null });
+  assert.equal(green.green, true);
+  assert.deepEqual([flex.contractMonths, flex.contractLabel, flex.tags], [null, 'No lock-in', ['No lock-in']]);
+  assert.equal(geneco.id, '6ad175dcaa71aa1c2b071e04', 'FXMedia\'s plan id, which sign-up needs');
+
+  const data = { calculated_on: '2026-10-29', current: { provider: 'SP Group', monthly_cost_sgd: 140.22 },
+    top_plans: FAKE_PLANS.map((p) => ({ ...p, monthly_cost_sgd: 130, monthly_saving_sgd: 10.22, annual_saving_sgd: 122.64 })) };
+  assert.deepEqual(toQuote(data, { contract: '12' }).plans.map((p) => p.plan.name), ['FIXED12', 'PowerFIX Flex'], 'up to 12 months, no lock-in included');
+  assert.deepEqual(toQuote(data, { contract: 'none' }).plans.map((p) => p.plan.name), ['PowerFIX Flex']);
+  assert.deepEqual(toQuote(data, { greenOnly: true }).plans.map((p) => p.plan.name), ['LifeGreen24']);
+  assert.deepEqual(toQuote(data).current, { provider: 'SP Group', monthly: 140.22 });
+});
+
+test('the app\'s savings check and switch through FXMedia, signed in', async () => {
+  const { createFxmediaRoutes } = require('../server/fxmedia/routes.js');
+  const fx = fakeFxmedia();
+  const client = createFxmediaClient({ env, fetch: fx.fetch });
+  const tokens = createTokens(env);
+  const routes = createFxmediaRoutes({ client, tokens, env });
+  const off = createFxmediaRoutes({ client: null, tokens, env });
+  const server = http.createServer((req, res) => (req.url.startsWith('/off') ? off(req, res, new URL(req.url.slice(4), 'http://x'))
+    : routes(req, res, new URL(req.url, 'http://x'))));
+  await new Promise((r) => server.listen(0, '127.0.0.1', r));
+  const base = `http://127.0.0.1:${server.address().port}`;
+  const call = async (p, body, token) => {
+    const res = await fetch(base + p, { method: 'POST', body: JSON.stringify(body),
+      headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) } });
+    return { status: res.status, body: await res.json() };
+  };
+  try {
+    await client.saveContact({ phone: TEST, full_name: 'Test Eutility Dev', terms_accepted: true });
+    const token = tokens.session('FX-6591234567', TEST);
+
+    const q = await call('/api/savings/quote', { kwh: 450, currentRetailer: 'SP Group', currentPlanId: 'sp-group-regulated-tariff', contract: '24' }, token);
+    assert.equal(q.status, 200);
+    assert.deepEqual([fx.contacts.get(TEST).monthly_usage_kwh, fx.contacts.get(TEST).current_retailer], [450, 'SP Group'], 'saved on the contact first');
+    assert.ok(q.body.plans.length >= 3 && q.body.plans.every((p) => (p.plan.contractMonths ?? 0) <= 24), 'the 60-month plan is filtered out');
+    assert.equal(q.body.current.monthly, 140.22);
+    assert.equal(fx.calls.find((c) => c.path.endsWith('/comparison')).body.limit, 'all');
+
+    const planId = q.body.plans[0].plan.id;
+    const s = await call('/api/switch', { planId }, token);
+    assert.deepEqual([s.status, s.body.duplicate, typeof s.body.reference], [200, false, 'string']);
+    assert.equal((await call('/api/switch', { planId }, token)).body.duplicate, true, 'a retry records nothing new');
+    const gone = await call('/api/switch', { planId: 'gone' }, token);
+    assert.deepEqual([gone.status, gone.body.code], [409, 'validation'], 'shown to the customer: choose again');
+    const badPromo = await call('/api/switch', { planId, promoCode: 'NOPE' }, token);
+    assert.equal(badPromo.status, 409);
+
+    assert.equal((await call('/api/savings/quote', { kwh: 450 })).status, 401, 'signed-in customers only');
+    assert.equal((await call('/api/savings/quote', { kwh: 0 }, token)).status, 400);
+    const other = await call('/api/switch', { planId }, tokens.session('FX-6598765432', '+6598765432'));
+    assert.equal(other.status, 403, 'the test-number rule holds here too');
+    const local = await call('/off/api/savings/quote', { kwh: 450 }, token);
+    assert.deepEqual([local.status, local.body.code], [404, 'not_available'], 'without FXMedia the app prices on the device');
   } finally {
     server.close();
   }

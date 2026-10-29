@@ -21,9 +21,27 @@ export const CHATBOT_CONTACT = {
   monthly_usage_kwh: 300, source: 'Chatbot', lead_type: '', referral_code: '', contact_consent: true, created_at: '2026-10-20T02:00:00.000Z',
 };
 
+// Plans in the shape of FXMedia's comparison (fields from the Postman example of 19 Oct 2026); made-up prices.
+const SP_TARIFF = 31.16;
+const plan = (id, retailer, name, rate, months, extra = {}) => ({
+  plan_id: id, retailer_id: `r-${id}`, retailer, retailer_code: retailer.toUpperCase().replace(/\W/g, ''), plan: name,
+  plan_type: 'fixed', pricing_types: ['fixed'], contract_term_months: months, early_termination_fee: 'S$15 per remaining month',
+  is_green: false, rate_is_average: false, price_is_estimate: false, base_rate_cents_kwh: rate, effective_rate_cents_kwh: rate,
+  monthly_fixed_charges_sgd: 0, promotions: [], needs_human_review: false, review_reasons: [], rate, ...extra,
+});
+export const FAKE_PLANS = [
+  plan('6ad175dcaa71aa1c2b071f82', 'PacificLight', 'Classic 60', 28.6672, 60, { plan_type: 'discount', pricing_types: ['dot'] }),
+  plan('6ad175dcaa71aa1c2b071e04', 'Geneco', 'Get It Fixed 24', 29, 24, { promotions: [{ name: 'S$100 bill rebate', type: 'credit', value: 100,
+    end_date: '', description: '', promo_code: 'GENECO100', eligibility: 'New customers', display_value: 'S$100' }] }),
+  plan('6ad175dcaa71aa1c2b071e84', 'Keppel Electric', 'FIXED12', 29.9, 12),
+  plan('6ad175dcaa71aa1c2b071e99', 'Senoko Energy', 'LifeGreen24', 30.4, 24, { is_green: true }),
+  plan('6ad175dcaa71aa1c2b071ea0', 'Tuas Power', 'PowerFIX Flex', 30.9, 0),
+];
+
 /** The fake: contacts by phone, the documented checks and error shapes. fetch() is a drop-in for global fetch. */
 export function createFakeFxmedia({ key = FAKE_KEY, seed = [] } = {}) {
   const contacts = new Map(seed.map((c) => [c.phone, { ...c }]));
+  const signUps = new Set();
   const calls = [];
   const fail = (http, error_code, message) => ({ http, body: { status: false, error_code, message, next_action: 'retry' } });
   const ok = (data, extra = {}) => ({ http: 200, body: { status: true, ...extra, data } });
@@ -50,11 +68,31 @@ export function createFakeFxmedia({ key = FAKE_KEY, seed = [] } = {}) {
       for (const [k, v] of Object.entries(b)) if (k !== 'phone') c[k] = k === 'monthly_usage_kwh' && v === '' ? null : v;
       return ok({ contact: c });
     },
-    'POST /comparison': (b) => (contacts.get(norm(b.phone))?.monthly_usage_kwh
-      ? ok({ current_rate_source: 'sp_tariff', top_plans: [{ rank: 1, plan_id: 'p1', retailer: 'PacificLight', plan: 'Classic 60' }] })
-      : fail(409, 'CONTACT_USAGE_MISSING', 'No usage saved')),
-    'POST /sign-up': (b) => (b.plan_id === 'gone' ? fail(409, 'PLAN_NOT_AVAILABLE', 'Plan no longer offered')
-      : ok({ customer_id: 'c1', duplicate: false, status: 'signed' }, { message: 'OK' })),
+    'POST /comparison': (b) => {
+      const kwh = contacts.get(norm(b.phone))?.monthly_usage_kwh;
+      if (!kwh) return fail(409, 'CONTACT_USAGE_MISSING', 'No usage saved');
+      const current = Math.round(kwh * SP_TARIFF) / 100;
+      const top = FAKE_PLANS.filter((p) => b.preference !== 'green' || p.is_green).map((p, i) => {
+        const monthly = Math.round(kwh * p.effective_rate_cents_kwh) / 100;
+        const saving = Math.round((current - monthly) * 100) / 100;
+        return { rank: i + 1, ...p, monthly_cost_sgd: monthly, monthly_saving_sgd: saving, annual_saving_sgd: Math.round(saving * 1200) / 100, saves_money: saving > 0 };
+      });
+      return ok({ calculated_on: '2026-10-29', current_rate_source: 'sp_tariff', prices_exclude_gst: true,
+        current: { provider: 'SP Group', rate_cents_kwh: SP_TARIFF, monthly_cost_sgd: current }, recommended: top[0] || null,
+        top_plans: b.limit === 'all' ? top : top.slice(0, Number(b.limit) || 3), display_text: '' });
+    },
+    'POST /sign-up': (b) => {
+      if (!contacts.has(norm(b.phone))) return fail(404, 'CONTACT_NOT_FOUND', 'No contact with this phone number.');
+      if (!FAKE_PLANS.some((p) => p.plan_id === b.plan_id)) return fail(409, 'PLAN_NOT_AVAILABLE', 'This plan is not available any more.');
+      if (b.promo_code && !FAKE_PLANS.some((p) => p.plan_id === b.plan_id && p.promotions.some((x) => x.promo_code === b.promo_code))) {
+        return fail(409, 'PROMO_CODE_INVALID', 'Wrong code for this plan.');
+      }
+      const key = `${norm(b.phone)} ${b.plan_id}`;
+      const duplicate = signUps.has(key);
+      signUps.add(key);
+      return ok({ customer_id: 'fake-' + norm(b.phone).slice(-4), duplicate, status: 'signed', signed_at: new Date().toISOString() },
+        { message: duplicate ? 'Already signed (duplicate request ignored).' : 'OK' });
+    },
   };
   function answer(method, pathname, apiKey, body) {
     calls.push({ method, path: pathname, key: apiKey, body });

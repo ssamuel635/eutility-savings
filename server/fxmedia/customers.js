@@ -104,6 +104,7 @@ function createFxmediaCustomers({ client }) {
   return {
     source: 'fxmedia',
     where: client.where,
+    client, // for the savings and switch routes (server/fxmedia/routes.js)
 
     async findByPhone(phone) {
       return toCustomer(await client.lookup(phone));

@@ -3,7 +3,7 @@
 // NOT SECURITY: passwords are compared in plain text on the device.
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import type { Channel, Customer, InvoiceStatus, Notice, ReferralStatus, SavingsQuote, StageKey } from '../types';
+import type { Channel, Customer, InvoiceStatus, Notice, Plan, ReferralStatus, SavingsQuote, StageKey } from '../types';
 
 const KEY = 'eutility:mobile:v1:db';
 
@@ -23,6 +23,8 @@ export interface ApplicationRow {
   customerId: string;
   reference: string;
   planId: string | null;
+  /** The plan as quoted, when it isn't one of the price sheet's (FXMedia's plans). */
+  plan?: Plan;
   estimatedSavingYearly: number;
   invoiceId: string | null;
   quoteId: string | null;

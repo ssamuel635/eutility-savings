@@ -6,7 +6,7 @@
 
 import { CONFIG, CONTRACT_FILTERS, TARIFF_PERIOD } from '@/engine';
 import { crm, flushOutbox, toCrmContact, type CrmAction } from '../crm';
-import { ApiError, type Api, type Customer, type Invoice, type Notice, type Session } from '../types';
+import { ApiError, type Api, type Customer, type Invoice, type Notice, type Plan, type SavingsQuote, type Session } from '../types';
 import { advance, applyCrmStage, toApplication } from './applications';
 import { db, delay, normEmail, normPhone, nowISO, reset, save, uid, type Db } from './db';
 import { catalogue, planById, quote } from './pricing';
@@ -72,6 +72,21 @@ async function syncStages(d: Db, c: Customer) {
  * the customer ID, so anything this device already holds for the same
  * number (e.g. the demo account) moves to the server's customer id.
  */
+/** A plan from the customer's latest quote (FXMedia's plans aren't in the price sheet). */
+function planFromQuote(q: SavingsQuote | undefined, id: string): Plan | null {
+  return (q && [q.recommended, ...q.alternatives].find((x) => x?.plan.id === id)?.plan) ?? null;
+}
+
+/** Keep a quote the server made, so latest() and switching work as with the device's own. */
+export async function rememberQuote(q: SavingsQuote) {
+  const d = await db();
+  const c = d.session && d.customers[d.session.customerId];
+  if (!c) return;
+  d.quotes[c.id] = q;
+  d.customers[c.id] = { ...c, monthlyKwh: q.input.kwh, currentPlanId: q.input.currentPlanId };
+  await save();
+}
+
 export async function linkCustomer(customer: Customer, session?: Session, opts: { welcome?: boolean } = {}) {
   const d = await db();
   const old = d.byPhone[customer.phone];
@@ -260,11 +275,13 @@ export const mockApi: Api = {
     async create({ planId, invoiceId, quoteId, estimatedSavingYearly }) {
       await delay();
       const { d, c } = await me();
-      const plan = planById(planId);
+      const quoted = planId ? planFromQuote(d.quotes[c.id], planId) : null;
+      const plan = planById(planId) ?? quoted;
       if (planId && !plan) throw new ApiError('validation', 'That plan is no longer available. Please check your savings again.');
       const at = nowISO();
       const row = {
-        id: 'APP-' + uid(6), customerId: c.id, reference: 'EU-' + uid(6), planId, estimatedSavingYearly: Math.round(estimatedSavingYearly),
+        id: 'APP-' + uid(6), customerId: c.id, reference: 'EU-' + uid(6), planId, ...(quoted && !planById(planId) ? { plan: quoted } : {}),
+        estimatedSavingYearly: Math.round(estimatedSavingYearly),
         invoiceId, quoteId, channel: 'mobile_app' as const, createdAt: at, reached: { submitted: at },
       };
       d.applications.unshift(row);

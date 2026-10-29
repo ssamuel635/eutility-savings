@@ -4,6 +4,7 @@
 // - Referral links: /r/ABC123 → /?ref=ABC123
 // - Customer data API: /api/crm/* → the CRM in server/crm (Excel by default)
 // - Customer sign-in: /api/auth/*, /api/customers/me → server/auth
+// - The app's savings check and switch: /api/savings/quote, /api/switch → server/fxmedia
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
@@ -42,6 +43,9 @@ try {
   console.warn(`  Sign-in disabled: ${e.message}`);
 }
 
+// The app's savings check and switch through FXMedia, when sign-in uses FXMedia's contacts.
+const fxRoutes = auth ? require('./server/fxmedia/routes').createFxmediaRoutes({ client: auth.customers.client || null, tokens: auth.tokens }) : null;
+
 // The CRM routes use sign-in to tell a customer acting for themselves from anyone else.
 const crmRoutes = crm ? require('./server/crm/routes').createCrmRoutes(crm, process.env, auth) : null;
 
@@ -69,6 +73,7 @@ http.createServer((req, res) => {
     res.writeHead(503, { 'Content-Type': 'application/json' });
     return res.end(JSON.stringify({ error: 'CRM is not set up on this server' }));
   }
+  if ((p === '/api/savings/quote' || p === '/api/switch') && fxRoutes) return fxRoutes(req, res, url);
   if (p.startsWith('/api/auth/') || p === '/api/customers/me') {
     if (authRoutes) return authRoutes(req, res, url);
     res.writeHead(503, { 'Content-Type': 'application/json' });
