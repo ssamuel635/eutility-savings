@@ -3,7 +3,7 @@
 // Headlines only: each links to the original on the publisher's site. The photo
 // is our own stock photo for the headline's topic (data/news-topics.js), not the outlet's.
 import { NEWS } from '../data/news.js';
-import { topicOf, topicPhoto } from '../data/news-topics.js';
+import { photoFor } from '../data/news-topics.js';
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const MONTHS_LONG = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -22,16 +22,25 @@ export function latest(n = Infinity, items = NEWS) {
 }
 
 /** The topic photo: decorative (the headline says what the story is), so no alt text. */
-function photoMarkup(it, sizes) {
-  const p = topicPhoto(topicOf(it));
+function photoMarkup(p, sizes) {
   return `<picture class="news-photo"><source type="image/webp" srcset="${p.webp}" sizes="${sizes}"><img src="${p.jpg}" alt="" width="800" height="500" loading="lazy" decoding="async"></picture>`;
 }
 
-function itemMarkup(it, cls) {
+/** The list items, each photo different from the one above it where the topic allows. */
+function itemsMarkup(items, cls, join) {
+  let prev = '';
+  return items.map((it) => {
+    const p = photoFor(it, prev);
+    prev = p.name;
+    return itemMarkup(it, cls, p);
+  }).join(join);
+}
+
+function itemMarkup(it, cls, photo) {
   const official = it.kind === 'official';
   const sizes = cls === 'news-card' ? '(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw' : '120px';
   return `<li class="${cls}">
-          ${photoMarkup(it, sizes)}
+          ${photoMarkup(photo, sizes)}
           <div class="news-body">
           <p class="news-meta"><span class="tag${official ? ' tag--official' : ''}">${official ? 'Official' : 'News'}</span><span>${esc(it.source)}</span><time datetime="${esc(it.date)}">${niceDate(it.date)}</time></p>
           <a class="news-title" href="${esc(safeUrl(it.url))}" target="_blank" rel="noopener">${esc(it.title)}<span class="visually-hidden"> (${esc(it.source)}, opens in a new tab)</span><span aria-hidden="true"> ↗</span></a>
@@ -55,7 +64,7 @@ export function newsPageMarkup(items = NEWS) {
       <section class="news-month" aria-label="${g.label}">
         <h2 class="h4">${g.label}</h2>
         <ul class="news-list">
-        ${g.items.map((it) => itemMarkup(it, 'news-item')).join('\n        ')}
+        ${itemsMarkup(g.items, 'news-item', '\n        ')}
         </ul>
       </section>`).join('');
 }
@@ -65,7 +74,7 @@ export function tariffNewsMarkup(n = 4, items = NEWS) {
   const top = latest(Infinity, items).filter((it) => /tariff/i.test(it.title)).slice(0, n);
   if (!top.length) return '';
   return `<ul class="news-list">
-        ${top.map((it) => itemMarkup(it, 'news-item')).join('\n        ')}
+        ${itemsMarkup(top, 'news-item', '\n        ')}
         </ul>`;
 }
 
@@ -74,7 +83,7 @@ export function homeNewsMarkup(items = NEWS) {
   const top = latest(3, items);
   const body = top.length
     ? `<ul class="news-cards">
-        ${top.map((it) => itemMarkup(it, 'news-card')).join('\n        ')}
+        ${itemsMarkup(top, 'news-card', '\n        ')}
     </ul>`
     : `<div class="news-empty card"><p class="h4">No market news yet.</p><p>We check SP Group, the Open Electricity Market and Singapore&rsquo;s news sites every day. Tariff changes and retailer news will appear here.</p></div>`;
   return `

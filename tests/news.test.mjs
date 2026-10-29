@@ -47,11 +47,23 @@ test('each headline gets its topic photo; a topic staff chose wins over the keyw
   const html = newsPageMarkup([item('x', '2026-10-01', { title: 'Electricity tariff to rise' })]);
   assert.match(html, /srcset="assets\/img\/news\/tariff-400\.webp 400w, assets\/img\/news\/tariff-800\.webp 800w"/);
   assert.match(html, /src="assets\/img\/news\/tariff\.jpg" alt=""/);
-  for (const topic of (await import('../assets/js/data/news-topics.js')).NEWS_TOPICS) {
-    for (const f of [`${topic.photo.name}.jpg`, `${topic.photo.name}-400.webp`, `${topic.photo.name}-800.webp`]) {
+  for (const photo of (await import('../assets/js/data/news-topics.js')).NEWS_PHOTOS) {
+    for (const f of [`${photo.name}.jpg`, `${photo.name}-400.webp`, `${photo.name}-800.webp`]) {
       assert.ok(fs.existsSync(new URL(`../assets/img/news/${f}`, import.meta.url)), `${f} is missing`);
     }
   }
+});
+
+test('a topic with two photos: each headline keeps its own, and neighbours differ', async () => {
+  const { photoFor } = await import('../assets/js/data/news-topics.js');
+  const gas = Array.from({ length: 6 }, (_, i) => item(`g${i}`, `2026-10-2${i}`, { title: `Indonesia gas supply update ${i}` }));
+  assert.equal(photoFor(gas[0]).name, photoFor(gas[0]).name, 'stable for a headline');
+  const names = [...newsPageMarkup(gas).matchAll(/src="assets\/img\/news\/([\w-]+)\.jpg"/g)].map((m) => m[1]);
+  assert.equal(names.length, 6);
+  assert.ok(names.every((n, i) => !i || n !== names[i - 1]), `no two in a row: ${names}`);
+  assert.deepEqual([...new Set(names)].sort(), ['gas', 'gas-2']);
+  const solar = [item('s1', '2026-10-21', { title: 'More solar' }), item('s2', '2026-10-20', { title: 'Solar again' })];
+  assert.equal(new Set([...newsPageMarkup(solar).matchAll(/news\/(\w+)\.jpg/g)].map((m) => m[1])).size, 1, 'one photo: it repeats');
 });
 
 test('no news: the page says so and the homepage shows nothing', () => {
