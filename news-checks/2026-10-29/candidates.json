@@ -1,0 +1,162 @@
+{
+ "run": "2026-10-29",
+ "collected_at": "2026-10-29T09:30:45+08:00",
+ "days": 7,
+ "sources": [
+  {
+   "source": "SP Group",
+   "kind": "official",
+   "url": "https://www.spgroup.com.sg/about-us/media-resources/news-and-media-releases",
+   "read": 10,
+   "error": ""
+  },
+  {
+   "source": "Open Electricity Market",
+   "kind": "official",
+   "url": "https://www.openelectricitymarket.sg/residential/list-of-retailers",
+   "read": 7,
+   "error": "",
+   "note": "7 retailers listed, no change"
+  },
+  {
+   "source": "The Straits Times",
+   "kind": "news",
+   "url": "https://www.straitstimes.com/news/singapore/rss.xml",
+   "read": 50,
+   "error": ""
+  },
+  {
+   "source": "The Business Times",
+   "kind": "news",
+   "url": "https://www.businesstimes.com.sg/rss/singapore",
+   "read": 56,
+   "error": ""
+  },
+  {
+   "source": "CNA",
+   "kind": "news",
+   "url": "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml&category=10416",
+   "read": 20,
+   "error": ""
+  }
+ ],
+ "items": [
+  {
+   "id": "22359a4a8920",
+   "title": "Uncertainties in approvals and laws can significantly delay subsea cables for ASEAN Power Grid",
+   "url": "https://www.straitstimes.com/singapore/environment/uncertainties-in-approvals-and-laws-can-significantly-delay-subsea-cables-for-asean-power-grid",
+   "date": "2026-10-28",
+   "source": "The Straits Times",
+   "source_key": "straits-times",
+   "kind": "news",
+   "snippet": "Streamlining regulatory frameworks that build on existing international laws can help reduce friction or disputes: US expert",
+   "keywords": [
+    "Power Grid"
+   ]
+  },
+  {
+   "id": "54894c43c135",
+   "title": "Singapore’s renewed solar push: Hanging panels, clay-like tiles for heritage buildings among plans",
+   "url": "https://www.straitstimes.com/singapore/environment/singapores-renewed-solar-push-hanging-panels-clay-like-tiles-for-heritage-buildings-among-plans",
+   "date": "2026-10-27",
+   "source": "The Straits Times",
+   "source_key": "straits-times",
+   "kind": "news",
+   "snippet": "Help will also be provided to private home owners wishing to install solar panels on their roofs.",
+   "keywords": [
+    "solar"
+   ]
+  },
+  {
+   "id": "6926a55f6e9e",
+   "title": "Nuclear consultants, law firms appointed by EMA to prepare S’pore for 2027 mission by UN watchdog",
+   "url": "https://www.straitstimes.com/singapore/environment/nuclear-consultants-law-firms-appointed-by-ema-to-prepare-spore-for-2027-mission-by-un-watchdog",
+   "date": "2026-10-27",
+   "source": "The Straits Times",
+   "source_key": "straits-times",
+   "kind": "news",
+   "snippet": "The UN mission will evaluate Singapore’s capabilities in 19 areas.",
+   "keywords": [
+    "EMA"
+   ]
+  },
+  {
+   "id": "ebd57bc77c6c",
+   "title": "Tapping more fossil fuels, solar power among Singapore’s strategies to boost energy security",
+   "url": "https://www.straitstimes.com/singapore/environment/tapping-more-fossil-fuels-solar-power-among-singapores-strategies-to-boost-energy-security",
+   "date": "2026-10-26",
+   "source": "The Straits Times",
+   "source_key": "straits-times",
+   "kind": "news",
+   "snippet": "The Republic is also exploring new technologies like nuclear and geothermal energy.",
+   "keywords": [
+    "solar"
+   ]
+  },
+  {
+   "id": "a4e3304bc315",
+   "title": "DBS, Maybank, IFC to collaborate on funding Johor-Singapore renewable energy project",
+   "url": "https://www.businesstimes.com.sg/international/asean/dbs-maybank-ifc-collaborate-funding-johor-singapore-renewable-energy-project",
+   "date": "2026-10-26",
+   "source": "The Business Times",
+   "source_key": "business-times",
+   "kind": "news",
+   "snippet": "The financing framework could be reference for future cross-border initiatives under Asean Power Grid",
+   "keywords": [
+    "Power Grid"
+   ]
+  },
+  {
+   "id": "8dad585ae1e9",
+   "title": "Singapore expects all parties to honour commitments, says PM Wong after Indonesia cuts gas exports",
+   "url": "https://www.businesstimes.com.sg/singapore/singapore-expects-all-parties-honour-commitments-says-pm-wong-after-indonesia-cuts-gas-exports",
+   "date": "2026-10-25",
+   "source": "The Business Times",
+   "source_key": "business-times",
+   "kind": "news",
+   "snippet": "The Republic needs ‘cleaner sources of power that can provide reliable electricity around the clock’, he adds",
+   "keywords": [
+    "electricity"
+   ]
+  },
+  {
+   "id": "d642b1a840b9",
+   "title": "Indonesia reduces gas exports to Singapore in order to 'safeguard reliability' of domestic supplies",
+   "url": "https://www.channelnewsasia.com/singapore/indonesia-gas-singapore-supply-diversion-6488391",
+   "date": "2026-10-24",
+   "source": "CNA",
+   "source_key": "cna",
+   "kind": "news",
+   "snippet": "Indonesia's diversion of exports to meet domestic needs involves 31 million standard cubic feet of natural gas a day from Natuna and Sumatra, Indonesia’s upstream oil and gas regulator told CNA.",
+   "keywords": [
+    "natural gas"
+   ]
+  },
+  {
+   "id": "f7b34ba0dac6",
+   "title": "Indonesia begins cutting natural gas exports to Singapore from Oct 24: reports",
+   "url": "https://www.businesstimes.com.sg/singapore/indonesia-begins-cutting-natural-gas-exports-singapore-oct-24-reports",
+   "date": "2026-10-24",
+   "source": "The Business Times",
+   "source_key": "business-times",
+   "kind": "news",
+   "snippet": "The cut is equivalent to about 8% of the pipeline gas Indonesia exported to Singapore in 2024",
+   "keywords": [
+    "natural gas"
+   ]
+  },
+  {
+   "id": "856e65a58d72",
+   "title": "Singapore launches S$143 million initiative to help industries cut emissions",
+   "url": "https://www.channelnewsasia.com/singapore/decarbonisation-initiative-funding-manufacturing-industries-6482846",
+   "date": "2026-10-23",
+   "source": "CNA",
+   "source_key": "cna",
+   "kind": "news",
+   "snippet": "Three companies have also been approved to import and supply biomethane, a renewable alternative to natural gas, as Singapore explores ways to help industries decarbonise.",
+   "keywords": [
+    "natural gas"
+   ]
+  }
+ ]
+}
