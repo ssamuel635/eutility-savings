@@ -47,7 +47,7 @@ export interface Customer {
   email: string;
   address: string;
   postal: string;
-  dwelling: Dwelling;
+  dwelling: Dwelling | null;  // null: not given yet (e.g. a contact the WhatsApp chatbot made)
   monthlyKwh: number | null;
   currentPlanId: string | null;
   referralCode: string;

@@ -22,6 +22,14 @@
         "server.js"
       ],
       "port": 5173
+    },
+    {
+      "name": "eutility-website-fake-fxmedia",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "tools/fake-fxmedia.mjs"
+      ],
+      "port": 5173
     }
   ]
 }

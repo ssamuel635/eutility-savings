@@ -25,8 +25,8 @@ const CONTRACTS: { value: ContractFilter; label: string }[] = [
 ];
 
 /** Registration's home type → the matching "Pick your home" chip. */
-const presetFor = (d: Dwelling) =>
-  ({ 'HDB Executive': 'Executive', 'Condominium / Apartment': 'Condo', 'Landed property': 'Landed' } as Record<string, string>)[d] ?? d;
+const presetFor = (d: Dwelling | null) =>
+  d ? (({ 'HDB Executive': 'Executive', 'Condominium / Apartment': 'Condo', 'Landed property': 'Landed' } as Record<string, string>)[d] ?? d) : undefined;
 
 export default function Savings() {
   const customer = useCustomer();

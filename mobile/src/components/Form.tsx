@@ -56,7 +56,7 @@ export function Chip({ label, selected, onPress }: { label: string; selected: bo
   );
 }
 
-export function ChipGroup<T extends string>({ label, options, value, onChange }: { label?: string; options: { value: T; label: string }[]; value: T; onChange: (v: T) => void }) {
+export function ChipGroup<T extends string>({ label, options, value, onChange }: { label?: string; options: { value: T; label: string }[]; value: T | null; onChange: (v: T) => void }) {
   return (
     <View style={{ gap: 8 }} accessibilityRole="radiogroup" accessibilityLabel={label}>
       {label ? <Text variant="small" color={colors.ink} style={{ fontFamily: fonts.medium }}>{label}</Text> : null}

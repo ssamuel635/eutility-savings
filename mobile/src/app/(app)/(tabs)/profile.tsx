@@ -17,6 +17,7 @@ import { useCustomer, useSession } from '@/state/session';
 import { colors, fonts, space } from '@/theme';
 
 const SITE = 'https://eutility-savings.vercel.app';
+const NOT_ADDED = 'Not added yet';
 
 /** Alert.alert has no buttons on web, so fall back to confirm() there. */
 function confirmThen(title: string, message: string, action: string, run: () => void) {
@@ -59,7 +60,7 @@ export default function Profile() {
       <View style={{ gap: 2, marginTop: -space.sm }}>
         <Text variant="h2">{customer.fullName}</Text>
         <Text variant="small">+65 {displayPhone(customer.phone)}</Text>
-        <Text variant="caption">Member since {monthLabel(customer.createdAt.slice(0, 7))} · {customer.id}</Text>
+        <Text variant="caption">{customer.createdAt ? `Member since ${monthLabel(customer.createdAt.slice(0, 7))} · ` : ''}{customer.id}</Text>
       </View>
       <View style={s.actions}>
         <Button label="Edit profile" variant="secondary" small style={{ flex: 1 }} onPress={() => router.push('/profile-edit')} />
@@ -68,9 +69,9 @@ export default function Profile() {
 
       <Section title="Your details">
         <Card>
-          <ListRow icon="mail-outline" tone="blue" label="Email" value={customer.email} />
-          <ListRow icon="home-outline" tone="blue" label="Address" value={`${customer.address}, Singapore ${customer.postal}`} />
-          <ListRow icon="business-outline" tone="blue" label="Home type" value={customer.dwelling} last />
+          <ListRow icon="mail-outline" tone="blue" label="Email" value={customer.email || NOT_ADDED} />
+          <ListRow icon="home-outline" tone="blue" label="Address" value={[customer.address, customer.postal && `Singapore ${customer.postal}`].filter(Boolean).join(', ') || NOT_ADDED} />
+          <ListRow icon="business-outline" tone="blue" label="Home type" value={customer.dwelling ?? NOT_ADDED} last />
         </Card>
       </Section>
 

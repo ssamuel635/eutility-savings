@@ -37,7 +37,7 @@ export interface CrmContact {
   phone: string;
   address: string;
   postal: string;
-  dwelling: Dwelling;
+  dwelling?: Dwelling;
   monthlyKwh: number | null;
   currentPlan: string;
   referralCode: string;
@@ -80,7 +80,7 @@ export function toCrmContact(c: Customer, currentPlan = '', referredBy?: string,
     phone: c.phone,
     address: c.address,
     postal: c.postal,
-    dwelling: c.dwelling,
+    dwelling: c.dwelling ?? undefined,
     monthlyKwh: c.monthlyKwh,
     currentPlan,
     referralCode: c.referralCode,

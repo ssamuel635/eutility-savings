@@ -12,9 +12,11 @@
 // - Home type: FXMedia's unit-type codes are matched to our home types by
 //   their labels (fetched once from /unit-types).
 // - Address and postal code travel as one address ("…, Singapore 560123").
-// - currentPlanId is FXMedia's current_plan text as is, until plans come from
-//   FXMedia's comparison (step 3); pushNotifications isn't stored there, so
-//   it reads as on.
+// - currentPlanId is FXMedia's current_plan when it's one of our plan ids
+//   (what the app saves), else null, until plans come from FXMedia's
+//   comparison (step 3). pushNotifications isn't stored there: it reads as on.
+// - A contact the chatbot made may have no email, address or home type yet:
+//   those read as '' / null and the app asks for them on Edit profile.
 // ─────────────────────────────────────────────────────────────
 
 const crypto = require('crypto');
@@ -70,7 +72,8 @@ function createFxmediaCustomers({ client }) {
       postal: m ? m[2] : '',
       dwelling,
       monthlyKwh: c.monthly_usage_kwh ?? null,
-      currentPlanId: c.current_plan || null,
+      // only one of our plan ids (the app writes those); the chatbot's plan wording isn't one
+      currentPlanId: /^[a-z0-9]+(-[a-z0-9]+)+$/.test(c.current_plan || '') ? c.current_plan : null,
       referralCode: referralCodeOf(c.full_name, c.phone),
       source: channelOf(c),
       createdAt: c.created_at || '',

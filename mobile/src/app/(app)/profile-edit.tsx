@@ -10,7 +10,7 @@ export default function ProfileEdit() {
   const customer = useCustomer();
   const { update } = useSession();
   const [form, setForm] = useState({ fullName: customer.fullName, email: customer.email, address: customer.address, postal: customer.postal });
-  const [dwelling, setDwelling] = useState<Dwelling>(customer.dwelling);
+  const [dwelling, setDwelling] = useState<Dwelling | null>(customer.dwelling);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const set = (k: keyof typeof form) => (v: string) => setForm((f) => ({ ...f, [k]: v }));
@@ -20,6 +20,7 @@ export default function ProfileEdit() {
     !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email.trim()) && 'Enter a valid email address.',
     form.address.trim().length < 5 && 'Enter your street address.',
     !/^\d{6}$/.test(form.postal) && 'Singapore postal codes have 6 digits.',
+    !dwelling && 'Choose your home type.',
   ].filter(Boolean) as string[];
 
   async function save() {
@@ -27,7 +28,7 @@ export default function ProfileEdit() {
     setBusy(true);
     setError('');
     try {
-      await update({ ...form, fullName: form.fullName.trim(), address: form.address.trim(), dwelling });
+      await update({ ...form, fullName: form.fullName.trim(), address: form.address.trim(), dwelling: dwelling ?? undefined });
       router.back();
     } catch (e) {
       setError(e instanceof ApiError ? e.message : 'We couldn’t save your changes. Please try again.');

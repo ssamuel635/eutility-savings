@@ -1,5 +1,5 @@
-// FXMedia's Website API (server/fxmedia) against a fake FXMedia that answers
-// like their v1.0 docs. Nothing here calls the real API: its dev environment
+// FXMedia's Website API (server/fxmedia) against the fake FXMedia in
+// tools/fake-fxmedia.mjs, which answers like their v1.0 docs. Nothing here calls the real API: its dev environment
 // writes to the live Freshworks account. Run: npm test
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -13,61 +13,12 @@ const { createCustomers } = require('../server/auth/customers.js');
 const { createConsoleSms } = require('../server/auth/sms.js');
 const { createTokens } = require('../server/auth/tokens.js');
 const { createAuthRoutes } = require('../server/auth/routes.js');
+import { CHATBOT_CONTACT, createFakeFxmedia, FAKE_KEY, UNIT_TYPES } from '../tools/fake-fxmedia.mjs';
 
-const KEY = 'test-key-123';
+const KEY = FAKE_KEY;
 const TEST = '+6591234567';
 const env = { FXMEDIA_BASE_URL: 'https://fx.example/', FXMEDIA_API_KEY: KEY, FXMEDIA_TEST_PHONES: '9123 4567, 8123 4567', AUTH_SECRET: 'test-secret' };
-const UNIT_TYPES = [
-  { code: 'hdb_1_2rm', label: 'HDB 1-Room / 2-Room' }, { code: 'hdb_3rm', label: 'HDB 3-Room' }, { code: 'hdb_4rm', label: 'HDB 4-Room' },
-  { code: 'hdb_5rm', label: 'HDB 5-Room' }, { code: 'hdb_exec', label: 'HDB Executive' }, { code: 'condo', label: 'Condominium / Apartment' },
-  { code: 'landed', label: 'Landed Property' },
-];
-
-/** A fake FXMedia: contacts by phone, the documented checks and error shapes. */
-function fakeFxmedia() {
-  const contacts = new Map();
-  const calls = [];
-  const fail = (http, error_code, message) => ({ http, body: { status: false, error_code, message, next_action: 'retry' } });
-  const ok = (data, extra = {}) => ({ http: 200, body: { status: true, ...extra, data } });
-  const norm = (p) => { const d = String(p).replace(/\D/g, ''); return d.length === 8 ? `+65${d}` : `+${d}`; };
-  const routes = {
-    'GET /providers': () => ok({ providers: [{ code: 'SP_GROUP', name: 'SP Group' }], others_code: 'OTHERS' }),
-    'GET /unit-types': () => ok({ unit_types: UNIT_TYPES }),
-    'POST /contacts/lookup': (b) => (contacts.has(norm(b.phone)) ? ok({ contact: contacts.get(norm(b.phone)) }) : fail(404, 'CONTACT_NOT_FOUND', 'No contact')),
-    'POST /contacts': (b) => {
-      const phone = norm(b.phone);
-      const had = contacts.get(phone);
-      if (!had && !b.full_name) return fail(400, 'CUSTOMER_NAME_REQUIRED', 'Full name is required.');
-      if (!had && b.terms_accepted !== true) return fail(400, 'CONSENT_REQUIRED', 'Terms must be accepted.');
-      if (b.email && !/@/.test(b.email)) return fail(400, 'INVALID_EMAIL', 'Email is not valid.');
-      const c = { phone, full_name: '', email: '', address: '', unit_type: '', current_plan: '', monthly_usage_kwh: null, source: 'Web',
-        lead_type: '', referral_code: '', contact_consent: true, created_at: '2026-10-29T01:00:00.000Z', ...had };
-      for (const [k, v] of Object.entries(b)) if (k !== 'phone' && k !== 'terms_accepted' && v !== undefined) c[k] = v;
-      contacts.set(phone, c);
-      return ok({ created: !had, contact: c });
-    },
-    'PUT /contacts': (b) => {
-      const c = contacts.get(norm(b.phone));
-      if (!c) return fail(404, 'CONTACT_NOT_FOUND', 'No contact');
-      for (const [k, v] of Object.entries(b)) if (k !== 'phone') c[k] = k === 'monthly_usage_kwh' && v === '' ? null : v;
-      return ok({ contact: c });
-    },
-    'POST /comparison': (b) => (contacts.get(norm(b.phone))?.monthly_usage_kwh
-      ? ok({ current_rate_source: 'sp_tariff', top_plans: [{ rank: 1, plan_id: 'p1', retailer: 'PacificLight', plan: 'Classic 60' }] })
-      : fail(409, 'CONTACT_USAGE_MISSING', 'No usage saved')),
-    'POST /sign-up': (b) => (b.plan_id === 'gone' ? fail(409, 'PLAN_NOT_AVAILABLE', 'Plan no longer offered')
-      : ok({ customer_id: 'c1', duplicate: false, status: 'signed' }, { message: 'OK' })),
-  };
-  async function fetch(url, init) {
-    const u = new URL(url);
-    const body = init.body ? JSON.parse(init.body) : {};
-    calls.push({ method: init.method, path: u.pathname, key: init.headers['X-API-Key'], body });
-    const route = routes[`${init.method} ${u.pathname.replace('/api/web/v1', '')}`];
-    const r = init.headers['X-API-Key'] !== KEY ? fail(401, 'UNAUTHORIZED', 'Bad key') : route ? route(body) : fail(404, 'NOT_FOUND', 'No route');
-    return new Response(JSON.stringify(r.body), { status: r.http, headers: { 'Content-Type': 'application/json' } });
-  }
-  return { fetch, contacts, calls };
-}
+const fakeFxmedia = () => createFakeFxmedia();
 
 test('the client sends the key, normalises numbers and reads the lists', async () => {
   const fx = fakeFxmedia();
@@ -142,10 +93,13 @@ test('customers: register, read back, update; a chatbot contact signs straight i
   assert.equal(await customers.get('CUST-ABCDEF'), null, 'a local id isn\'t an FXMedia one');
   assert.equal(await customers.crmIdOf(alex.id), null);
 
-  fx.contacts.set('+6581234567', { phone: '+6581234567', full_name: 'Mei Ling', email: '', address: '', unit_type: 'hdb_3rm',
-    monthly_usage_kwh: 300, source: 'Chatbot', contact_consent: true, created_at: '' });
+  fx.contacts.set(CHATBOT_CONTACT.phone, { ...CHATBOT_CONTACT });
   const mei = await customers.findByPhone('81234567');
-  assert.deepEqual([mei.fullName, mei.dwelling, mei.monthlyKwh, mei.source], ['Mei Ling', 'HDB 3-room', 300, 'whatsapp']);
+  assert.deepEqual([mei.fullName, mei.dwelling, mei.monthlyKwh, mei.source, mei.email, mei.address, mei.postal],
+    ['Mei Ling', 'HDB 3-room', 300, 'whatsapp', '', '', ''], 'a chatbot contact with gaps reads cleanly');
+  assert.equal(mei.currentPlanId, null, 'the chatbot\'s plan wording isn\'t one of our plan ids');
+  await customers.update(mei.id, { currentPlanId: 'sp-group-regulated-tariff' });
+  assert.equal((await customers.get(mei.id)).currentPlanId, 'sp-group-regulated-tariff', 'a plan id the app saved reads back');
 });
 
 test('sign-in end to end with CUSTOMER_SOURCE=fxmedia', async () => {
