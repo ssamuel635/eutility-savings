@@ -71,7 +71,7 @@ function panel() {
       return `
         ${field('su-name', 'Full name', form.fullName, { autocomplete: 'name', placeholder: 'As per NRIC' })}
         ${field('su-email', 'Email', form.email, { type: 'email', autocomplete: 'email', placeholder: 'you@example.com' })}
-        ${field('su-phone', 'Mobile number', form.phone, { type: 'tel', autocomplete: 'tel', placeholder: '9123 4567', help: 'We reply on WhatsApp to this number, or by email if you prefer.' })}
+        ${field('su-phone', 'Mobile number', form.phone, { type: 'tel', autocomplete: 'tel', placeholder: '9123 4567', help: 'Message us on WhatsApp from this number, so we can find your details. We can also reply by email.' })}
         ${field('su-pw', updating ? 'New password (optional)' : 'Create a password', form.password, { type: 'password', autocomplete: 'new-password', help: updating ? 'Leave blank to keep your current password.' : 'At least 8 characters. This is how you get back into your account.' })}`;
     case 1:
       return `

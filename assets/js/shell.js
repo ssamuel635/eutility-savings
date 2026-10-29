@@ -150,6 +150,7 @@ export function footerExtras() {
       <button class="modal__close" type="button" aria-label="Close" data-close>×</button>
       <h2 class="h3" id="wa-modal-title">Send this to Eutility</h2>
       <p class="small">Scan with your phone camera to open the chat with your message ready to send, or email the same details instead.</p>
+      <p class="small">${CONFIG.whatsappSameNumber}</p>
       <div class="qr" id="wa-qr" role="img" aria-label="QR code linking to Eutility on WhatsApp"></div>
       <a class="btn btn--wa btn--block" id="wa-open" href="#" target="_blank" rel="noopener">${I.chat}<span>Open WhatsApp on this computer</span></a>
       <a class="btn btn--neutral btn--block" id="wa-mail" href="#">${I.mail}<span>Email us instead</span></a>

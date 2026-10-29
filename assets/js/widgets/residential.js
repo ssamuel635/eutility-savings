@@ -129,7 +129,7 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
       <p class="bill-alt__or" aria-hidden="true"><span>or</span></p>
       <a class="bill-alt__link" href="#" data-bill-wa>
         <span class="bill-alt__icon" aria-hidden="true">${I.file}</span>
-        <span class="bill-alt__copy"><strong>Send your bill instead</strong><span>Photo or PDF on WhatsApp. We’ll read it and reply with your savings.</span></span>
+        <span class="bill-alt__copy"><strong>Send your bill instead</strong><span>Photo or PDF on WhatsApp, from your own mobile number. We’ll read it and reply with your savings.</span></span>
         <span class="bill-alt__go" aria-hidden="true">${I.chevron}</span>
       </a>
     </div>
@@ -507,6 +507,7 @@ async function renderCompact(el, res, inputs) {
         <a class="btn btn--secondary" href="calculator.html?${params}">See the full comparison</a>
       </div>
       <p class="small">No account needed. <a href="signup.html?plan=${encodeURIComponent(res.best.plan.id)}&kwh=${inputs.kwh}">Save this result to an account</a> if you’d like to come back to it.</p>
+      <p class="small">${esc(CONFIG.whatsappSameNumber)}</p>
       <p class="small muted-note">${ratesNote}</p>
     </div>`;
   const r = el.getBoundingClientRect();
@@ -582,7 +583,7 @@ function renderFull(el, res, inputs) {
           <button class="btn btn--wa" type="button" data-switch data-wa-switch>${I.chat}<span>Switch on WhatsApp</span></button>
           <button class="btn btn--secondary" type="button" data-mail-switch>${I.mail}<span>Switch by email</span></button>
         </div>
-        <p class="res-actions-note">No account needed. We confirm the plan with you before anything is submitted.${customer.isSignedIn() ? ' · Saved to <a href="account.html">your account</a>' : ` · <a href="signup.html?plan=${encodeURIComponent(b.id)}&kwh=${inputs.kwh}">Save this to an account</a>`}</p>
+        <p class="res-actions-note">No account needed. We confirm the plan with you before anything is submitted. ${esc(CONFIG.whatsappSameNumber)}${customer.isSignedIn() ? ' · Saved to <a href="account.html">your account</a>' : ` · <a href="signup.html?plan=${encodeURIComponent(b.id)}&kwh=${inputs.kwh}">Save this to an account</a>`}</p>
         <details class="disclosure">
           <summary>Plan details and fine print</summary>
           <div class="disclosure__body">

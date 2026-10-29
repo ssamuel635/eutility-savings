@@ -35,6 +35,10 @@ export const CONFIG = {
   // (+65 8227 7121, 23 Oct); the office phone below stays separate.
   whatsappNumber: '6582277121',
 
+  // Shown beside the WhatsApp buttons. The chatbot finds a customer's details
+  // in the CRM by the number they message from (FXMedia, 28 Oct 2026).
+  whatsappSameNumber: 'Please message us from your own mobile number (the one you signed up with, if you have an account) so we can find your details.',
+
   // Pre-filled message for the WhatsApp handoff (from the creative brief §6).
   whatsappDefaultMessage: "Hi Eutility, I'd like to check my electricity savings.",
 
