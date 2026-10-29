@@ -10,7 +10,7 @@ import { openWhatsApp } from '@/lib/whatsapp';
 import { colors, space } from '@/theme';
 
 export default function InvoiceDone() {
-  const { reference = '', mode = 'new', plan = '' } = useLocalSearchParams<{ reference: string; mode: 'new' | 'attached'; plan?: string }>();
+  const { reference = '', mode = 'new', plan = '' } = useLocalSearchParams<{ reference: string; mode: 'new' | 'attached' | 'changed'; plan?: string }>();
 
   function track() {
     router.dismissAll();
@@ -34,9 +34,11 @@ export default function InvoiceDone() {
     >
       <View style={s.hero}>
         <PopIn><View style={s.tick}><Ionicons name="checkmark" size={40} color={colors.white} /></View></PopIn>
-        <Text variant="h1" center>{mode === 'attached' ? 'Bill added' : 'Bill received'}</Text>
+        <Text variant="h1" center>{mode === 'changed' ? 'Plan updated' : mode === 'attached' ? 'Bill added' : 'Bill received'}</Text>
         <Text variant="body" center>
-          {mode === 'attached'
+          {mode === 'changed'
+            ? `We’ve added your bill and changed your switch ${reference} to ${plan}.`
+            : mode === 'attached'
             ? `We’ve added it to your application ${reference}.`
             : plan
               ? `We’ve started your switch to ${plan}.`

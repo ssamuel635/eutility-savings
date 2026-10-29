@@ -309,6 +309,24 @@ export const mockApi: Api = {
       const row = d.applications.find((a) => a.id === id && a.customerId === c.id);
       return row ? toApplication(row) : null;
     },
+    async changePlan(id, planId, estimatedSavingYearly) {
+      await delay();
+      const { d, c } = await me();
+      const row = d.applications.find((a) => a.id === id && a.customerId === c.id);
+      if (!row) throw new ApiError('validation', 'We couldn’t find that switch. Please check the Track tab.');
+      if (row.reached.retailer) throw new ApiError('validation', 'Your switch is already with the retailer, so the plan can’t be changed here. Message us on WhatsApp.');
+      const quoted = planFromQuote(d.quotes[c.id], planId);
+      const plan = planById(planId) ?? quoted;
+      if (!plan) throw new ApiError('validation', 'That plan is no longer available. Please check your savings again.');
+      row.planId = planId;
+      if (quoted && !planById(planId)) row.plan = quoted; else delete row.plan;
+      row.estimatedSavingYearly = Math.round(estimatedSavingYearly);
+      notify(d, c.id, { title: 'Plan updated', body: `Your switch ${row.reference} is now for ${plan.retailer} ${plan.name}.`, link: '/application' });
+      await save();
+      // The staff workbook keeps an application's first plan (it records each reference once);
+      // with FXMedia the sign-up below (../index.ts) is what carries the change.
+      return toApplication(row);
+    },
   },
 
   referrals: {

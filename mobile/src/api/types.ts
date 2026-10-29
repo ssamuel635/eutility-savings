@@ -251,6 +251,12 @@ export interface Api {
     list(): Promise<Application[]>;
     /** → GET  /applications/:id */
     get(id: string): Promise<Application | null>;
+    /**
+     * → PATCH /applications/:id  { planId }
+     * A different plan picked for a switch that's still with Eutility (the retailer
+     * hasn't got it yet). Refused once the retailer is processing it.
+     */
+    changePlan(id: string, planId: string, estimatedSavingYearly: number): Promise<Application>;
   };
   referrals: {
     /** → GET /customers/me/referrals */

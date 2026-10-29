@@ -121,6 +121,12 @@ const liveApi: Api = {
       if (input.planId && !planById(input.planId) && !(await deviceSession())) await fxmedia.signUp(input.planId);
       return mockApi.applications.create(input);
     },
+    async changePlan(id, planId, saving) {
+      const app = await mockApi.applications.get(id);
+      if (app?.stages.some((s) => s.key === 'retailer' && s.state !== 'upcoming')) return mockApi.applications.changePlan(id, planId, saving); // refuses
+      if (!planById(planId) && !(await deviceSession())) await fxmedia.signUp(planId);
+      return mockApi.applications.changePlan(id, planId, saving);
+    },
   },
   demo: mockApi.demo && {
     ...mockApi.demo,

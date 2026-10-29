@@ -46,6 +46,14 @@ export default function InvoicePreview() {
       const invoice = await api.invoices.submit({ uri: p.uri, fileName: p.name, mimeType: p.mime, size: Number(p.size) || null }, month);
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
       if (open) {
+        // A different plan picked while the switch is still with Eutility: the switch takes
+        // the new plan (and FXMedia records it). Once the retailer has it, the bill is just added.
+        const early = open.stages.some((s) => s.key === 'retailer' && s.state === 'upcoming');
+        if (target.plan && target.plan.id !== open.plan?.id && early) {
+          const app = await api.applications.changePlan(open.id, target.plan.id, target.saving);
+          router.replace({ pathname: '/invoice/done', params: { reference: app.reference, mode: 'changed', plan: app.plan ? `${app.plan.retailer} ${app.plan.name}` : '' } });
+          return;
+        }
         router.replace({ pathname: '/invoice/done', params: { reference: open.reference, mode: 'attached' } });
         return;
       }
