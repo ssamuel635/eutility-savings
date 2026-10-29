@@ -8,6 +8,10 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
+// Settings from .env (git-ignored) when there is one, e.g. FXMEDIA_API_KEY.
+// Variables already set in the shell win.
+try { process.loadEnvFile?.(path.join(__dirname, '.env')); } catch (e) { if (e.code !== 'ENOENT') console.warn(`  .env not read: ${e.message}`); }
+
 const PORT = Number(process.env.PORT) || 5173;
 const ROOT = __dirname;
 const TYPES = {

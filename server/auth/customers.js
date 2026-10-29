@@ -5,10 +5,11 @@
 //                            the CRM workbook, so also never committed.
 //                            Every change is copied to the CRM (Excel or
 //                            Freshworks) as a contact.
-//   CUSTOMER_SOURCE=fxmedia  FXMedia's customer API — agreed 15 Oct 2026 that
-//                            our server calls it once a customer has signed
-//                            in, but the API isn't published yet. Add the
-//                            adapter here (same five calls) when it is.
+//   CUSTOMER_SOURCE=fxmedia  FXMedia's Website API (server/fxmedia): the
+//                            contact in Freshworks, shared with the WhatsApp
+//                            chatbot. Our server calls it once a customer has
+//                            signed in (agreed 15 Oct 2026). Settings and the
+//                            test-number safety rule: server/fxmedia/client.js.
 //
 // Interface: findByPhone(phone), get(id), create(phone, details), update(id, patch)
 // all resolve to a customer in the app's shape (mobile/src/api/types.ts), or null.
@@ -150,11 +151,16 @@ function createLocalCustomers({ file, crm = null, log = console } = {}) {
   };
 }
 
-function createCustomers({ env = process.env, crm = null } = {}) {
+function createCustomers({ env = process.env, crm = null, fetch } = {}) {
   const source = (env.CUSTOMER_SOURCE || 'local').toLowerCase();
   if (source === 'local') return createLocalCustomers({ file: env.CUSTOMERS_FILE || undefined, crm });
-  if (source === 'fxmedia') throw new Error('CUSTOMER_SOURCE=fxmedia: FXMedia\'s customer API is not available yet — use local');
-  throw new Error(`Unknown CUSTOMER_SOURCE "${source}" — use local`);
+  if (source === 'fxmedia') {
+    // required here, not at the top: server/fxmedia/customers.js uses profile() from this file
+    const { createFxmediaClient } = require('../fxmedia/client');
+    const { createFxmediaCustomers } = require('../fxmedia/customers');
+    return createFxmediaCustomers({ client: createFxmediaClient({ env, fetch }) });
+  }
+  throw new Error(`Unknown CUSTOMER_SOURCE "${source}" — use local or fxmedia`);
 }
 
 module.exports = { createCustomers, createLocalCustomers, profile };

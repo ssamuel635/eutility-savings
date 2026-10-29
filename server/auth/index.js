@@ -1,6 +1,6 @@
 // Customer sign-in: SMS provider + signed tokens + customer directory → routes.
 // Settings (all optional locally): SMS_PROVIDER, AUTH_SECRET, CUSTOMER_SOURCE —
-// see sms.js, tokens.js and customers.js.
+// see sms.js, tokens.js and customers.js (and server/fxmedia for FXMedia).
 
 const { createSms } = require('./sms');
 const { createTokens } = require('./tokens');
