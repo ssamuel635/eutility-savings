@@ -7,7 +7,7 @@ import { Image, StyleSheet, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import * as Haptics from 'expo-haptics';
-import { Button, Card, ChipGroup, ErrorNote, Screen, Text } from '@/components';
+import { Button, Card, ChipGroup, ErrorNote, Screen, Text, Toggle } from '@/components';
 import { api, ApiError, type Plan } from '@/api';
 import { money, recentMonths } from '@/lib/format';
 import { colors, radius, space } from '@/theme';
@@ -19,6 +19,7 @@ export default function InvoicePreview() {
   const months = recentMonths(4);
   const [month, setMonth] = useState(months[1].value); // last month's bill is the usual one
   const [target, setTarget] = useState<{ plan: Plan | null; quoteId: string | null; saving: number } | null>(null);
+  const [usePromo, setUsePromo] = useState(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const isImage = p.mime?.startsWith('image/');
@@ -37,6 +38,11 @@ export default function InvoicePreview() {
     })().catch(() => setTarget({ plan: null, quoteId: null, saving: 0 }));
   }, [p.planId, p.quoteId, p.saving]);
 
+  // The plan's promotion code, used unless the customer switches it off (FXMedia checks it)
+  const promo = target?.plan?.promo?.code ? target.plan.promo : null;
+  const promoCode = promo && usePromo ? promo.code! : undefined;
+  const promoParams = (app: { promoCode: string | null }) => (promoCode ? { promo: promoCode, promoApplied: app.promoCode ? '1' : '0' } : {});
+
   async function send() {
     if (!target) return;
     setBusy(true);
@@ -50,17 +56,17 @@ export default function InvoicePreview() {
         // the new plan (and FXMedia records it). Once the retailer has it, the bill is just added.
         const early = open.stages.some((s) => s.key === 'retailer' && s.state === 'upcoming');
         if (target.plan && target.plan.id !== open.plan?.id && early) {
-          const app = await api.applications.changePlan(open.id, target.plan.id, target.saving);
-          router.replace({ pathname: '/invoice/done', params: { reference: app.reference, mode: 'changed', plan: app.plan ? `${app.plan.retailer} ${app.plan.name}` : '' } });
+          const app = await api.applications.changePlan(open.id, target.plan.id, target.saving, promoCode);
+          router.replace({ pathname: '/invoice/done', params: { reference: app.reference, mode: 'changed', plan: app.plan ? `${app.plan.retailer} ${app.plan.name}` : '', ...promoParams(app) } });
           return;
         }
         router.replace({ pathname: '/invoice/done', params: { reference: open.reference, mode: 'attached' } });
         return;
       }
       const app = await api.applications.create({
-        planId: target.plan?.id ?? null, invoiceId: invoice.id, quoteId: target.quoteId, estimatedSavingYearly: target.saving,
+        planId: target.plan?.id ?? null, invoiceId: invoice.id, quoteId: target.quoteId, estimatedSavingYearly: target.saving, promoCode,
       });
-      router.replace({ pathname: '/invoice/done', params: { reference: app.reference, mode: 'new', plan: app.plan ? `${app.plan.retailer} ${app.plan.name}` : '' } });
+      router.replace({ pathname: '/invoice/done', params: { reference: app.reference, mode: 'new', plan: app.plan ? `${app.plan.retailer} ${app.plan.name}` : '', ...promoParams(app) } });
     } catch (e) {
       setError(e instanceof ApiError ? e.message : 'We couldn’t send your bill. Check your connection and try again.');
     } finally {
@@ -102,6 +108,14 @@ export default function InvoicePreview() {
             <Text variant="h3">{target.plan.retailer} · {target.plan.name}</Text>
             <Text variant="small">{target.plan.priceLabel} · {target.plan.contractLabel}</Text>
             {target.saving > 0 ? <Text variant="bodyStrong" color={colors.orangeAA}>Estimated savings {money(target.saving)}/year</Text> : null}
+            {promo ? (
+              <Toggle
+                label={`Use promo code ${promo.code}`}
+                hint={[promo.value, promo.conditions].filter(Boolean).join(' · ') || 'The retailer checks you qualify.'}
+                value={usePromo}
+                onChange={setUsePromo}
+              />
+            ) : null}
           </>
         ) : (
           <Text variant="small">You haven’t picked a plan yet — that’s fine. We’ll read your bill and recommend the best plan before anything changes.</Text>

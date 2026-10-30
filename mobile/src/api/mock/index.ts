@@ -9,7 +9,7 @@ import { crm, flushOutbox, toCrmContact, type CrmAction } from '../crm';
 import { ApiError, type Api, type Customer, type Invoice, type Notice, type Plan, type SavingsQuote, type Session } from '../types';
 import { advance, applyCrmStage, toApplication } from './applications';
 import { db, delay, normEmail, normPhone, nowISO, reset, save, uid, type Db } from './db';
-import { catalogue, planById, quote } from './pricing';
+import { catalogue, planById, quote, sheetIdFor } from './pricing';
 import { DEMO } from './seed';
 
 const REFERRAL_BASE = 'https://eutility-savings.vercel.app/r/';
@@ -46,6 +46,13 @@ function remember(customerId: string) {
 }
 
 /** Pull stages staff set in the CRM onto this customer's applications. */
+/** A switch is activated: its plan becomes the customer's current plan (the sheet's id where it has one). */
+function nowOnPlan(d: Db, c: Customer, row: Db['applications'][number]) {
+  const plan = row.plan ?? planById(row.planId);
+  const id = sheetIdFor(plan) ?? row.planId;
+  if (id && d.customers[c.id]?.currentPlanId !== id) d.customers[c.id] = { ...d.customers[c.id], currentPlanId: id };
+}
+
 async function syncStages(d: Db, c: Customer) {
   const contactId = d.crmIds[c.id];
   if (!contactId) return;
@@ -59,6 +66,7 @@ async function syncStages(d: Db, c: Customer) {
     const wasFlagged = !!row.needsAttention;
     const moved = applyCrmStage(row, r);
     if (moved) notify(d, c.id, { title: moved, body: `Your switch (${row.reference}) has moved on.`, link: '/application' });
+    if (moved && row.reached.activated) nowOnPlan(d, c, row);
     if (row.needsAttention && !wasFlagged) notify(d, c.id, { title: 'We need something from you', body: r.staffNote || `About your switch ${row.reference}.`, link: '/application' });
     changed ||= before !== JSON.stringify([row.reached, row.staffNote, row.needsAttention]);
   }
@@ -272,7 +280,7 @@ export const mockApi: Api = {
   },
 
   applications: {
-    async create({ planId, invoiceId, quoteId, estimatedSavingYearly }) {
+    async create({ planId, invoiceId, quoteId, estimatedSavingYearly, promoCode }) {
       await delay();
       const { d, c } = await me();
       const quoted = planId ? planFromQuote(d.quotes[c.id], planId) : null;
@@ -283,6 +291,7 @@ export const mockApi: Api = {
         id: 'APP-' + uid(6), customerId: c.id, reference: 'EU-' + uid(6), planId, ...(quoted && !planById(planId) ? { plan: quoted } : {}),
         estimatedSavingYearly: Math.round(estimatedSavingYearly),
         invoiceId, quoteId, channel: 'mobile_app' as const, createdAt: at, reached: { submitted: at },
+        ...(promoCode ? { promoCode } : {}),
       };
       d.applications.unshift(row);
       notify(d, c.id, { title: 'Switch request sent', body: plan
@@ -309,7 +318,7 @@ export const mockApi: Api = {
       const row = d.applications.find((a) => a.id === id && a.customerId === c.id);
       return row ? toApplication(row) : null;
     },
-    async changePlan(id, planId, estimatedSavingYearly) {
+    async changePlan(id, planId, estimatedSavingYearly, promoCode) {
       await delay();
       const { d, c } = await me();
       const row = d.applications.find((a) => a.id === id && a.customerId === c.id);
@@ -321,6 +330,7 @@ export const mockApi: Api = {
       row.planId = planId;
       if (quoted && !planById(planId)) row.plan = quoted; else delete row.plan;
       row.estimatedSavingYearly = Math.round(estimatedSavingYearly);
+      if (promoCode) row.promoCode = promoCode; else delete row.promoCode;
       notify(d, c.id, { title: 'Plan updated', body: `Your switch ${row.reference} is now for ${plan.retailer} ${plan.name}.`, link: '/application' });
       await save();
       // The staff workbook keeps an application's first plan (it records each reference once);
@@ -369,7 +379,7 @@ export const mockApi: Api = {
       const app = toApplication(row);
       const stage = app.stages.find((s) => s.key === key);
       if (stage) notify(d, c.id, { title: stage.label, body: stage.detail, link: '/application' });
-      if (key === 'activated' && row.planId) d.customers[c.id] = { ...c, currentPlanId: row.planId };
+      if (key === 'activated') nowOnPlan(d, c, row);
       await save();
       return app;
     },

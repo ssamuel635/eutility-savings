@@ -97,7 +97,7 @@ export const fxmedia = {
     }
   },
   async signUp(planId: string, promoCode = '') {
-    return request<{ reference: string; duplicate: boolean; signedAt: string | null }>('POST', '/api/switch', { planId, promoCode }, true);
+    return request<{ reference: string; duplicate: boolean; signedAt: string | null; promoApplied: boolean }>('POST', '/api/switch', { planId, promoCode }, true);
   },
 };
 

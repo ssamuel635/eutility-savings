@@ -35,6 +35,8 @@ export interface ApplicationRow {
   /** Set from the CRM by Eutility staff. */
   staffNote?: string;
   needsAttention?: boolean;
+  /** The promotion code the sign-up used. */
+  promoCode?: string;
 }
 
 export interface ReferralRow { id: string; referrerId: string; name: string; status: ReferralStatus; at: string }

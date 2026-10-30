@@ -13,7 +13,7 @@ import { SavingsResult } from '@/components/SavingsResult';
 import { api, type ContractFilter, type Dwelling, type Plan, type PlanCatalogue, type PricedPlan, type SavingsQuote } from '@/api';
 import { CONFIG } from '@/engine';
 import { money } from '@/lib/format';
-import { openEmail, openWhatsApp, quoteMessage } from '@/lib/whatsapp';
+import { openEmail, openWhatsApp, quoteEmail, quoteMessage } from '@/lib/whatsapp';
 import { useCustomer, useSession } from '@/state/session';
 import { colors, fonts, radius, space } from '@/theme';
 
@@ -137,8 +137,8 @@ export default function Savings() {
           setShowResult(false);
           router.push({ pathname: '/invoice', params: { planId: chosen.plan.id, quoteId: quote!.id, saving: String(chosen.savingYearly) } });
         }}
-        onWhatsApp={(chosen) => openWhatsApp(quoteMessage(withChoice(quote!, chosen), customer))}
-        onEmail={(chosen) => openEmail(quoteMessage(withChoice(quote!, chosen), customer))}
+        onWhatsApp={(chosen) => openWhatsApp(quoteMessage(withChoice(quote!, chosen)))}
+        onEmail={(chosen) => openEmail(quoteEmail(withChoice(quote!, chosen), customer))}
       />
 
       <PlanPicker visible={picking} plans={catalogue?.plans ?? []} selectedId={currentId} onSelect={setCurrentId} onClose={() => setPicking(false)} />

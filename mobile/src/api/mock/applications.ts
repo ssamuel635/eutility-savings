@@ -39,6 +39,7 @@ export function toApplication(row: ApplicationRow): Application {
     stages,
     status: row.needsAttention ? 'needs_attention' : firstMissing === -1 ? 'active' : 'in_progress',
     staffNote: row.staffNote || null,
+    promoCode: row.promoCode ?? null,
     createdAt: row.createdAt,
     updatedAt: times.sort().at(-1) ?? row.createdAt,
   };

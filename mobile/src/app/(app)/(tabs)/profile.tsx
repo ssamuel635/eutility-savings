@@ -38,7 +38,12 @@ export default function Profile() {
   });
 
   useEffect(() => {
-    api.plans.catalogue().then((c) => setPlan(c.plans.find((p) => p.id === customer.currentPlanId) ?? null), () => {});
+    (async () => {
+      const id = customer.currentPlanId;
+      const sheet = (await api.plans.catalogue()).plans.find((p) => p.id === id);
+      // FXMedia's plans aren't in the price sheet: take it from the switch that put them on it
+      setPlan(sheet ?? (id ? (await api.applications.list()).find((a) => a.plan?.id === id)?.plan ?? null : null));
+    })().catch(() => {});
   }, [customer.currentPlanId]);
 
   const initials = customer.fullName.split(/\s+/).map((w) => w[0]).slice(0, 2).join('').toUpperCase();

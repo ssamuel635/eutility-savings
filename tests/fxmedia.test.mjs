@@ -186,7 +186,12 @@ test('the app\'s savings check and switch through FXMedia, signed in', async () 
     const gone = await call('/api/switch', { planId: 'gone' }, token);
     assert.deepEqual([gone.status, gone.body.code], [409, 'validation'], 'shown to the customer: choose again');
     const badPromo = await call('/api/switch', { planId, promoCode: 'NOPE' }, token);
-    assert.equal(badPromo.status, 409);
+    assert.deepEqual([badPromo.status, badPromo.body.promoApplied], [200, false], 'a code that doesn\'t apply: signed up without it');
+    assert.equal(fx.calls.filter((c) => c.path.endsWith('/sign-up')).at(-1).body.promo_code, '', 'the retry sends no code');
+    const geneco = q.body.plans.find((p) => p.plan.promo?.code === 'GENECO100').plan.id;
+    const goodPromo = await call('/api/switch', { planId: geneco, promoCode: 'GENECO100' }, token);
+    assert.deepEqual([goodPromo.status, goodPromo.body.promoApplied], [200, true]);
+    assert.equal((await call('/api/switch', { planId: geneco }, token)).body.promoApplied, false, 'no code asked for, none applied');
 
     assert.equal((await call('/api/savings/quote', { kwh: 450 })).status, 401, 'signed-in customers only');
     assert.equal((await call('/api/savings/quote', { kwh: 0 }, token)).status, 400);

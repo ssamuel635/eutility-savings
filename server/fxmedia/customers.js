@@ -72,8 +72,8 @@ function createFxmediaCustomers({ client }) {
       postal: m ? m[2] : '',
       dwelling,
       monthlyKwh: c.monthly_usage_kwh ?? null,
-      // only one of our plan ids (the app writes those); the chatbot's plan wording isn't one
-      currentPlanId: /^[a-z0-9]+(-[a-z0-9]+)+$/.test(c.current_plan || '') ? c.current_plan : null,
+      // only a plan id the app wrote (ours, or FXMedia's 24-character one); the chatbot's plan wording isn't one
+      currentPlanId: /^([a-z0-9]+(-[a-z0-9]+)+|[0-9a-f]{24})$/.test(c.current_plan || '') ? c.current_plan : null,
       referralCode: referralCodeOf(c.full_name, c.phone),
       source: channelOf(c),
       createdAt: c.created_at || '',

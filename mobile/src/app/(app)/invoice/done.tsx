@@ -10,7 +10,9 @@ import { openWhatsApp } from '@/lib/whatsapp';
 import { colors, space } from '@/theme';
 
 export default function InvoiceDone() {
-  const { reference = '', mode = 'new', plan = '' } = useLocalSearchParams<{ reference: string; mode: 'new' | 'attached' | 'changed'; plan?: string }>();
+  const { reference = '', mode = 'new', plan = '', promo = '', promoApplied = '' } = useLocalSearchParams<{
+    reference: string; mode: 'new' | 'attached' | 'changed'; plan?: string; promo?: string; promoApplied?: string;
+  }>();
 
   function track() {
     router.dismissAll();
@@ -44,6 +46,13 @@ export default function InvoiceDone() {
               ? `We’ve started your switch to ${plan}.`
               : 'We’ll read your bill and recommend the best plan for you.'}
         </Text>
+        {promo ? (
+          <Text variant="small" center>
+            {promoApplied === '1'
+              ? `Promo code ${promo} is included.`
+              : `Promo code ${promo} doesn’t apply to your switch, so we’ve gone ahead without it. Ask us on WhatsApp if you think you qualify.`}
+          </Text>
+        ) : null}
       </View>
       <Card>
         <Text variant="caption">Your reference</Text>

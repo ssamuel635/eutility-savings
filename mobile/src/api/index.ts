@@ -11,7 +11,7 @@
 import { longDate } from '@/lib/format';
 import { fxmedia, httpApi, type FxQuote } from './http';
 import { mockApi, rememberQuote } from './mock';
-import { planById, quote } from './mock/pricing';
+import { planById, quote, sheetIdFor } from './mock/pricing';
 import { ApiError, type Api, type SavingsQuote } from './types';
 
 export const MOCK = process.env.EXPO_PUBLIC_API === 'mock';
@@ -118,21 +118,28 @@ const liveApi: Api = {
     async create(input) {
       // An FXMedia plan (not in the price sheet): FXMedia records the sign-up first, then
       // the device tracks the switch as before. A plan they no longer offer stops here.
-      if (input.planId && !planById(input.planId) && !(await deviceSession())) await fxmedia.signUp(input.planId);
+      // A promotion code FXMedia doesn't accept for this plan is dropped (the sign-up goes ahead without it).
+      if (input.planId && !planById(input.planId) && !(await deviceSession())) {
+        const r = await fxmedia.signUp(input.planId, input.promoCode);
+        return mockApi.applications.create({ ...input, promoCode: r.promoApplied ? input.promoCode : undefined });
+      }
       return mockApi.applications.create(input);
     },
-    async changePlan(id, planId, saving) {
+    async changePlan(id, planId, saving, promoCode) {
       const app = await mockApi.applications.get(id);
       if (app?.stages.some((s) => s.key === 'retailer' && s.state !== 'upcoming')) return mockApi.applications.changePlan(id, planId, saving); // refuses
-      if (!planById(planId) && !(await deviceSession())) await fxmedia.signUp(planId);
-      return mockApi.applications.changePlan(id, planId, saving);
+      if (!planById(planId) && !(await deviceSession())) {
+        const r = await fxmedia.signUp(planId, promoCode);
+        return mockApi.applications.changePlan(id, planId, saving, r.promoApplied ? promoCode : undefined);
+      }
+      return mockApi.applications.changePlan(id, planId, saving, promoCode);
     },
   },
   demo: mockApi.demo && {
     ...mockApi.demo,
     async advanceApplication(id) {
       const app = await mockApi.demo!.advanceApplication(id);
-      if (app?.status === 'active' && app.plan) await sync({ currentPlanId: app.plan.id });
+      if (app?.status === 'active' && app.plan) await sync({ currentPlanId: sheetIdFor(app.plan) ?? app.plan.id });
       return app;
     },
   },

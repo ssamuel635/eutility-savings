@@ -163,6 +163,8 @@ export interface Application {
   status: 'in_progress' | 'active' | 'needs_attention';
   /** A message from Eutility staff, e.g. "Please send page 2 of your bill". */
   staffNote: string | null;
+  /** The retailer's promotion code the sign-up used, when one was accepted. */
+  promoCode: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -172,6 +174,8 @@ export interface NewApplication {
   invoiceId: string;
   quoteId: string | null;
   estimatedSavingYearly: number;
+  /** The plan's promotion code, when the customer chose to use it. */
+  promoCode?: string;
 }
 
 // ── Referrals ────────────────────────────────────────────────
@@ -256,7 +260,7 @@ export interface Api {
      * A different plan picked for a switch that's still with Eutility (the retailer
      * hasn't got it yet). Refused once the retailer is processing it.
      */
-    changePlan(id: string, planId: string, estimatedSavingYearly: number): Promise<Application>;
+    changePlan(id: string, planId: string, estimatedSavingYearly: number, promoCode?: string): Promise<Application>;
   };
   referrals: {
     /** → GET /customers/me/referrals */

@@ -49,6 +49,18 @@ export function planById(id: string | null | undefined): Plan | null {
   return p ? toPlan(p) : null;
 }
 
+/**
+ * The price sheet's id for a plan: its own id, or the sheet plan with the same
+ * retailer and name (FXMedia's plans carry their own ids). null when the sheet
+ * doesn't have it.
+ */
+export function sheetIdFor(plan: Pick<Plan, 'id' | 'retailer' | 'name'> | null | undefined): string | null {
+  if (!plan) return null;
+  if (getPlan(plan.id)) return plan.id;
+  const key = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+  return AVAILABLE_PLANS.find((p) => key(p.retailer) === key(plan.retailer) && key(p.name) === key(plan.name))?.id ?? null;
+}
+
 const priced = (r: CompareRow): PricedPlan => ({
   plan: toPlan(r.plan),
   monthly: r.total,
