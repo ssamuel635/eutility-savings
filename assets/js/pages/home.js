@@ -3,7 +3,7 @@ import { mountResidential } from '../widgets/residential.js';
 import { homeStories, storyCard } from '../widgets/home-story.js';
 import { MARKET_PLANS, CONTRACT_FILTERS, compare, fmtMoney, rateLabel, PLAN_COUNT, RETAILER_COUNT, TARIFF, TARIFF_PERIOD } from '../calc.js';
 import { CONFIG } from '../config.js';
-import { photo } from '../data/photos.js';
+import { HERO_SIZES, photo } from '../data/photos.js';
 import { TESTIMONIALS, quoteCard } from '../data/testimonials.js';
 import * as rewards from '../services/rewards.js';
 import { picksMarkup, picksLead } from '../widgets/picks.js';
@@ -41,8 +41,10 @@ const VALUE = [
 document.getElementById('why-list').innerHTML = VALUE.map((v) => `
   <li>${I[v.icon]}<strong>${v.title}</strong><p>${v.text}</p><a class="link-arrow" href="${v.href}">${v.link}</a></li>`).join('');
 
-// Hero photo: behind the top of the page on desktop, above the headline on phones
-document.getElementById('hero-photo').innerHTML = photo('sofa', { eager: true, sizes: '(min-width: 1024px) 62vw, 100vw' });
+// Hero photo: behind the top of the page on desktop, above the headline on phones.
+// Usually already in the HTML (tools/prerender.mjs); written here only if not.
+const heroPhoto = document.getElementById('hero-photo');
+if (!heroPhoto.querySelector('img')) heroPhoto.innerHTML = photo('sofa', { eager: true, sizes: HERO_SIZES });
 
 // Our picks (also written into index.html by tools/prerender.mjs)
 const kwh = CONFIG.defaultKwh;

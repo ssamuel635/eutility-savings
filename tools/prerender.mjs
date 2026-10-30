@@ -27,12 +27,12 @@ const { picksMarkup, picksLead } = await load('assets/js/widgets/picks.js');
 const { homeStories, storyCard, HOME_PAGES } = await load('assets/js/widgets/home-story.js');
 const { tariffPageMarkup, homeTypePageMarkup, calculatorFallbackMarkup } = await load('assets/js/widgets/guides.js');
 const { header, footer } = await load('assets/js/shell.js');
+const { photo, HERO_SIZES } = await load('assets/js/data/photos.js');
 
-// The copies are marked data-static: styles.css never draws them while scripts run
-// (initLayout() swaps in the live ones), and the <noscript> style shows them when
-// JavaScript is off.
+// The copies are marked data-static: styles.css shows them until the page script runs
+// (initLayout() swaps in the live ones) and, with the <noscript> style, when JavaScript is off.
 const asCopy = (html) => html.replace(/<(a class="skip-link"|header class="site-header"|footer class="site-footer")/g, '<$1 data-static');
-const NOSCRIPT = '<noscript><style>[data-static] { display: block !important; } html:not(.shell-ready) body { padding-top: 0 !important; }</style></noscript>';
+const NOSCRIPT = '<noscript><style>[data-static] { display: block !important; } html:not(.shell-ready) body { padding-top: 0 !important; } .no-js body::after { content: none; }</style></noscript>';
 
 // Every page in the site root, with its body[data-page] key
 const PAGES = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html'))
@@ -43,6 +43,8 @@ const SPOTS = [
   { file: 'faq.html', name: 'faq', html: () => faqMarkup(FAQ), after: /<div id="faq-list"[^>]*>/ },
   { file: 'news.html', name: 'news', html: () => newsPageMarkup(), after: /<div class="news-feed" id="news-feed">/ },
   { file: 'index.html', name: 'news', html: () => homeNewsMarkup(), after: /<!-- Market news[^>]*-->/ },
+  // Same photo as pages/home.js: in the HTML it starts downloading with the page, scripts or not
+  { file: 'index.html', name: 'hero-photo', html: () => photo('sofa', { eager: true, sizes: HERO_SIZES }), after: /<div class="hero__photo photo-frame" id="hero-photo">/ },
   { file: 'index.html', name: 'picks-lead', html: () => picksLead(), after: /<p class="lead" id="picks-lead">/ },
   { file: 'index.html', name: 'picks', html: () => picksMarkup(), after: /<div class="picks" id="plan-teaser">/ },
   // Same three homes as pages/home.js

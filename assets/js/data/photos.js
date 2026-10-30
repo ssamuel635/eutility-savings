@@ -32,6 +32,9 @@ export const PHOTOS = {
  * is the fallback. If the file isn't there yet, layout.js swaps it for a
  * tinted panel, so a missing photo never shows a broken image.
  */
+/** The home page photo's sizes (pages/home.js and tools/prerender.mjs). */
+export const HERO_SIZES = '(min-width: 1024px) 62vw, 100vw';
+
 export function photo(key, { cls = '', eager = false, sizes = '100vw' } = {}) {
   const p = PHOTOS[key];
   if (!p) return '';
