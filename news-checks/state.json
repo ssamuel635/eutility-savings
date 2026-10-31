@@ -30,19 +30,6 @@
   "Tuas Power Supply Pte Ltd"
  ],
  "pending": {
-  "856e65a58d72": {
-   "id": "856e65a58d72",
-   "title": "Singapore launches S$143 million initiative to help industries cut emissions",
-   "url": "https://www.channelnewsasia.com/singapore/decarbonisation-initiative-funding-manufacturing-industries-6482846",
-   "date": "2026-10-23",
-   "source": "CNA",
-   "source_key": "cna",
-   "kind": "news",
-   "snippet": "Three companies have also been approved to import and supply biomethane, a renewable alternative to natural gas, as Singapore explores ways to help industries decarbonise.",
-   "keywords": [
-    "natural gas"
-   ]
-  },
   "f7b34ba0dac6": {
    "id": "f7b34ba0dac6",
    "title": "Indonesia begins cutting natural gas exports to Singapore from Oct 24: reports",
@@ -93,6 +80,46 @@
    "snippet": "The financing framework could be reference for future cross-border initiatives under Asean Power Grid",
    "keywords": [
     "Power Grid"
+   ]
+  },
+  "e01d688abf3c": {
+   "id": "e01d688abf3c",
+   "title": "askST: Should I install solar panels at home? How much can I save on electricity?",
+   "url": "https://www.straitstimes.com/singapore/environment/askst-should-i-install-solar-panels-at-home-how-much-can-i-save-on-electricity",
+   "date": "2026-10-31",
+   "source": "The Straits Times",
+   "source_key": "straits-times",
+   "kind": "news",
+   "snippet": "Experts say switching to solar power makes financial sense for landed homeowners in Singapore, though savings and costs vary.",
+   "keywords": [
+    "solar",
+    "electricity"
+   ]
+  },
+  "8d83e1dee3b9": {
+   "id": "8d83e1dee3b9",
+   "title": "Proposal to import 500MW of renewable electricity from Laos to S’pore mooted",
+   "url": "https://www.straitstimes.com/singapore/environment/proposal-to-import-500mw-renewable-electricity-from-laos-to-spore-mooted-boosting-energy-security",
+   "date": "2026-10-30",
+   "source": "The Straits Times",
+   "source_key": "straits-times",
+   "kind": "news",
+   "snippet": "A memorandum of understanding was signed on the sidelines of Singapore International Energy Week.",
+   "keywords": [
+    "electricity"
+   ]
+  },
+  "6b93eebce072": {
+   "id": "6b93eebce072",
+   "title": "LNG traded by Singapore-based firms usually does not physically pass through Singapore, says METI",
+   "url": "https://www.channelnewsasia.com/singapore/lng-singapore-indonesia-ship-export-6507706",
+   "date": "2026-10-30",
+   "source": "CNA",
+   "source_key": "cna",
+   "kind": "news",
+   "snippet": "The Ministry of Energy, Trade and Industry was responding to claims by Indonesian Energy and Mineral Resources Minister Bahlil Lahadalia that some LNG shipped from Indonesia to Singapore was subsequently resold to other countries.",
+   "keywords": [
+    "LNG"
    ]
   }
  }

@@ -1,0 +1,137 @@
+{
+ "run": "2026-10-31",
+ "collected_at": "2026-10-31T09:30:49+08:00",
+ "days": 7,
+ "sources": [
+  {
+   "source": "SP Group",
+   "kind": "official",
+   "url": "https://www.spgroup.com.sg/about-us/media-resources/news-and-media-releases",
+   "read": 10,
+   "error": ""
+  },
+  {
+   "source": "Open Electricity Market",
+   "kind": "official",
+   "url": "https://www.openelectricitymarket.sg/residential/list-of-retailers",
+   "read": 7,
+   "error": "",
+   "note": "7 retailers listed, no change"
+  },
+  {
+   "source": "The Straits Times",
+   "kind": "news",
+   "url": "https://www.straitstimes.com/news/singapore/rss.xml",
+   "read": 50,
+   "error": ""
+  },
+  {
+   "source": "The Business Times",
+   "kind": "news",
+   "url": "https://www.businesstimes.com.sg/rss/singapore",
+   "read": 49,
+   "error": ""
+  },
+  {
+   "source": "CNA",
+   "kind": "news",
+   "url": "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml&category=10416",
+   "read": 20,
+   "error": ""
+  }
+ ],
+ "items": [
+  {
+   "id": "e01d688abf3c",
+   "title": "askST: Should I install solar panels at home? How much can I save on electricity?",
+   "url": "https://www.straitstimes.com/singapore/environment/askst-should-i-install-solar-panels-at-home-how-much-can-i-save-on-electricity",
+   "date": "2026-10-31",
+   "source": "The Straits Times",
+   "source_key": "straits-times",
+   "kind": "news",
+   "snippet": "Experts say switching to solar power makes financial sense for landed homeowners in Singapore, though savings and costs vary.",
+   "keywords": [
+    "solar",
+    "electricity"
+   ]
+  },
+  {
+   "id": "8d83e1dee3b9",
+   "title": "Proposal to import 500MW of renewable electricity from Laos to S’pore mooted",
+   "url": "https://www.straitstimes.com/singapore/environment/proposal-to-import-500mw-renewable-electricity-from-laos-to-spore-mooted-boosting-energy-security",
+   "date": "2026-10-30",
+   "source": "The Straits Times",
+   "source_key": "straits-times",
+   "kind": "news",
+   "snippet": "A memorandum of understanding was signed on the sidelines of Singapore International Energy Week.",
+   "keywords": [
+    "electricity"
+   ]
+  },
+  {
+   "id": "6b93eebce072",
+   "title": "LNG traded by Singapore-based firms usually does not physically pass through Singapore, says METI",
+   "url": "https://www.channelnewsasia.com/singapore/lng-singapore-indonesia-ship-export-6507706",
+   "date": "2026-10-30",
+   "source": "CNA",
+   "source_key": "cna",
+   "kind": "news",
+   "snippet": "The Ministry of Energy, Trade and Industry was responding to claims by Indonesian Energy and Mineral Resources Minister Bahlil Lahadalia that some LNG shipped from Indonesia to Singapore was subsequently resold to other countries.",
+   "keywords": [
+    "LNG"
+   ]
+  },
+  {
+   "id": "a4e3304bc315",
+   "title": "DBS, Maybank, IFC to collaborate on funding Johor-Singapore renewable energy project",
+   "url": "https://www.businesstimes.com.sg/international/asean/dbs-maybank-ifc-collaborate-funding-johor-singapore-renewable-energy-project",
+   "date": "2026-10-26",
+   "source": "The Business Times",
+   "source_key": "business-times",
+   "kind": "news",
+   "snippet": "The financing framework could be reference for future cross-border initiatives under Asean Power Grid",
+   "keywords": [
+    "Power Grid"
+   ]
+  },
+  {
+   "id": "8dad585ae1e9",
+   "title": "Singapore expects all parties to honour commitments, says PM Wong after Indonesia cuts gas exports",
+   "url": "https://www.businesstimes.com.sg/singapore/singapore-expects-all-parties-honour-commitments-says-pm-wong-after-indonesia-cuts-gas-exports",
+   "date": "2026-10-25",
+   "source": "The Business Times",
+   "source_key": "business-times",
+   "kind": "news",
+   "snippet": "The Republic needs ‘cleaner sources of power that can provide reliable electricity around the clock’, he adds",
+   "keywords": [
+    "electricity"
+   ]
+  },
+  {
+   "id": "d642b1a840b9",
+   "title": "Indonesia reduces gas exports to Singapore in order to 'safeguard reliability' of domestic supplies",
+   "url": "https://www.channelnewsasia.com/singapore/indonesia-gas-singapore-supply-diversion-6488391",
+   "date": "2026-10-24",
+   "source": "CNA",
+   "source_key": "cna",
+   "kind": "news",
+   "snippet": "Indonesia's diversion of exports to meet domestic needs involves 31 million standard cubic feet of natural gas a day from Natuna and Sumatra, Indonesia’s upstream oil and gas regulator told CNA.",
+   "keywords": [
+    "natural gas"
+   ]
+  },
+  {
+   "id": "f7b34ba0dac6",
+   "title": "Indonesia begins cutting natural gas exports to Singapore from Oct 24: reports",
+   "url": "https://www.businesstimes.com.sg/singapore/indonesia-begins-cutting-natural-gas-exports-singapore-oct-24-reports",
+   "date": "2026-10-24",
+   "source": "The Business Times",
+   "source_key": "business-times",
+   "kind": "news",
+   "snippet": "The cut is equivalent to about 8% of the pipeline gas Indonesia exported to Singapore in 2024",
+   "keywords": [
+    "natural gas"
+   ]
+  }
+ ]
+}
