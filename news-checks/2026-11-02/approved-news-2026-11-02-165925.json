@@ -1,0 +1,15 @@
+{
+ "run": "2026-11-02",
+ "approved_by": "ebin",
+ "approved_at": "2026-11-02T16:59:25+08:00",
+ "items": [
+  "e01d688abf3c",
+  "8d83e1dee3b9"
+ ],
+ "rejected": [],
+ "topics": {
+  "e01d688abf3c": "solar",
+  "8d83e1dee3b9": "climate"
+ },
+ "via": "staff Review page"
+}
