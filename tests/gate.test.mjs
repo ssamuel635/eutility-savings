@@ -148,3 +148,14 @@ test('changing a password ends existing sessions', async () => {
   assert.equal((await middleware(page('/', { headers: { cookie: viewer } }))).status, 401);
   process.env.GATE_USERS = saved;
 });
+
+test('a page whose sign-in lapsed can still recover: boot.js and the status check', async () => {
+  // Kenneth's iPhone, 29 Oct 2026: a saved page showed, every script got a 401 and it stayed half-built.
+  assert.ok(passes(await middleware(new Request(B + '/assets/js/boot.js'))));
+  const out = await middleware(new Request(B + '/__gate/status'));
+  assert.equal(out.status, 401);
+  assert.equal(out.headers.get('cache-control'), 'no-store');
+  const res = await login('kenneth', 'viewer-pass-123');
+  const ok = await middleware(new Request(B + '/__gate/status', { headers: { cookie: cookieFrom(res) } }));
+  assert.equal(ok.status, 204);
+});

@@ -155,7 +155,10 @@ function openLayer(el, trigger) {
   el._trigger = trigger || document.activeElement;
   lockBackground(el);
   const focusable = el.querySelector('a, button');
-  setTimeout(() => focusable?.focus(), 50);
+  // preventScroll: focusing a link while the panel is still sliding in made the
+  // browser scroll the drawer sideways to show it, so the menu shot left and
+  // sprang back. (The drawer also uses overflow: clip, which can't be scrolled.)
+  setTimeout(() => focusable?.focus({ preventScroll: true }), 50);
 }
 function closeLayer(el) {
   if (!el || !el.classList.contains('is-open')) return;

@@ -17,6 +17,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const START = '<!-- modulepreload -->';
 const END = '<!-- /modulepreload -->';
+const BOOT = '<script src="assets/js/boot.js" defer></script>';
 
 function deps(file) {
   const src = fs.readFileSync(file, 'utf8');
@@ -49,6 +50,9 @@ for (const html of fs.readdirSync(ROOT).filter((f) => f.endsWith('.html'))) {
   } else {
     s = s.replace(m[0], `${block}\n  ${m[0]}`);
   }
+  // boot.js reloads the page if its modules never start (see the file). It goes
+  // just before the module: deferred scripts run in order, so it's listening first.
+  if (!s.includes(BOOT)) s = s.replace(m[0], `${BOOT}\n  ${m[0]}`);
   fs.writeFileSync(file, s);
   changed++;
   console.log(`${html.padEnd(20)} ${mods.length} modules preloaded`);

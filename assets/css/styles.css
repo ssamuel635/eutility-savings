@@ -258,7 +258,7 @@ ul { margin: 0; padding: 0; }
 }
 
 /* Mobile drawer */
-.drawer { position: fixed; inset: 0; z-index: 90; visibility: hidden; overflow: hidden; }
+.drawer { position: fixed; inset: 0; z-index: 90; visibility: hidden; overflow: hidden; overflow: clip; }
 .drawer.is-open { visibility: visible; }
 .drawer__scrim { position: absolute; inset: 0; background: rgba(13, 26, 51, .4); opacity: 0; transition: opacity .25s; }
 .drawer.is-open .drawer__scrim { opacity: 1; }

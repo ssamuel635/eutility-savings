@@ -24,6 +24,7 @@ const PBKDF2_ITERATIONS = 60000;
 const PUBLIC = [
   /^\/assets\/fonts\/inter-var\.woff2$/,
   /^\/assets\/img\/(eutility-logo\.png|favicon-64\.png|apple-touch-icon\.png)$/,
+  /^\/assets\/js\/boot\.js$/, // recovers a page whose sign-in lapsed (it has no data)
   /^\/robots\.txt$/,
   /^\/site\.webmanifest$/, // browsers fetch this without cookies
 ];
@@ -239,6 +240,9 @@ export default async function middleware(request) {
   }
 
   const session = await readSession(request);
+
+  // boot.js asks this when a page's scripts didn't start: 401 means the sign-in lapsed.
+  if (path === '/__gate/status') return new Response(null, { status: session ? 204 : 401, headers: { 'cache-control': 'no-store' } });
 
   if (path === '/__gate' || path === '/__gate/admin') {
     if (!session) return html(gatePage(path), 401);

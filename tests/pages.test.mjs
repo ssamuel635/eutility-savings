@@ -75,3 +75,15 @@ test('every page starts with its doctype, with the header and footer copies insi
     assert.ok(!/<(header|footer) class="site-(header|footer)"(?! data-static)/.test(s), `${file}: a header or footer copy without data-static`);
   }
 });
+
+test('every page loads boot.js just before its module, so a page whose scripts fail reloads itself', () => {
+  // Kenneth's iPhone, 29 Oct 2026. tools/preload.mjs adds it; run npm run preload if this fails.
+  for (const file of fs.readdirSync(new URL('../', import.meta.url)).filter((f) => f.endsWith('.html'))) {
+    const s = fs.readFileSync(new URL(`../${file}`, import.meta.url), 'utf8');
+    const mod = s.search(/<script type="module" src=/);
+    if (mod === -1) continue;
+    assert.match(s, /<html[^>]*class="[^"]*no-js/, `${file}: <html> needs the no-js class`);
+    const boot = s.indexOf('<script src="assets/js/boot.js" defer></script>');
+    assert.ok(boot !== -1 && boot < mod, `${file}: boot.js missing or after the module`);
+  }
+});
