@@ -7,8 +7,10 @@ import { compare, TARIFF, fmtMoney, PLAN_COUNT, rateLabel } from '../calc.js';
 import { countUp, reducedMotion } from '../fx.js';
 import * as I from '../icons.js';
 import { playChat } from '../widgets/wa-chat.js';
+import { photo } from '../data/photos.js';
 
 initLayout();
+document.querySelectorAll('[data-photo-slot]').forEach((el) => { el.innerHTML = photo(el.dataset.photoSlot, { eager: true, sizes: '(min-width: 768px) 50vw, 100vw' }); });
 
 // Example: a home using 450 kWh a month on SP Group's tariff.
 const example = compare({ kwh: 450, contract: '24' });

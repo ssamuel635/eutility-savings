@@ -25,6 +25,7 @@
   <!-- modulepreload -->
   <link rel="modulepreload" href="assets/js/calc.js">
   <link rel="modulepreload" href="assets/js/config.js">
+  <link rel="modulepreload" href="assets/js/data/photos.js">
   <link rel="modulepreload" href="assets/js/data/plans.js">
   <link rel="modulepreload" href="assets/js/fx.js">
   <link rel="modulepreload" href="assets/js/icons.js">
@@ -58,15 +59,18 @@
        the timings (1–2 working days, next billing cycle, 60-day reminder,
        specialist hours) with Eutility and FXMedia before launch. -->
   <section class="hero container">
-    <div class="stack" style="--stack:20px;max-width:820px">
-      <p class="eyebrow reveal">How it works</p>
-      <h1 class="display reveal reveal-delay-1">Check, compare and switch, all in one WhatsApp chat.</h1>
-      <p class="lead reveal reveal-delay-2">Our WhatsApp assistant reads your bill, compares every plan and handles the switch. Mostly you just tap buttons. Prefer to do it yourself? The calculator here does the same comparison.</p>
+    <div class="grid-2">
+      <div class="stack" style="--stack:20px;max-width:820px">
+        <p class="eyebrow reveal">How it works</p>
+        <h1 class="display reveal reveal-delay-1">Check, compare and switch, all in one WhatsApp chat.</h1>
+        <p class="lead reveal reveal-delay-2">Our WhatsApp assistant reads your bill, compares every plan and handles the switch. Mostly you just tap buttons. Prefer to do it yourself? The calculator here does the same comparison.</p>
+      </div>
+      <div class="hero__art hero__art--short photo-frame reveal" data-photo-slot="livingRoom"></div>
     </div>
   </section>
 
   <section class="container" style="padding-bottom:clamp(64px,10vw,120px)">
-    <ol class="journey" style="list-style:none;padding:0;margin:0">
+    <ol class="journey swipe" style="list-style:none;padding:0;margin:0">
 
       <li class="journey__item">
         <div class="journey__copy reveal">
@@ -197,7 +201,7 @@
     <div class="section-head">
       <h2 class="h2">Not ready to switch yet?</h2>
     </div>
-    <div class="grid-3">
+    <div class="grid-3 swipe">
       <div class="dash-card"><span class="ico-tile ico-tile--blue" data-icon="bolt"></span><h3 class="h4">We’ll remind you</h3><p>Tell us when your contract ends and we’ll message you 60 days before, with the best plan at that time.</p></div>
       <div class="dash-card"><span class="ico-tile ico-tile--navy" data-icon="chat"></span><h3 class="h4">Talk to a person</h3><p>Tap <strong>I Have Question</strong> and a specialist replies on WhatsApp, usually within an hour (9am to 6pm, Monday to Friday).</p></div>
       <div class="dash-card"><span class="ico-tile ico-tile--orange" data-icon="gift"></span><h3 class="h4">Share it with friends</h3><p>After you switch, share your link. You earn reward points when friends switch too. <a href="referrals.html">See the rewards</a></p></div>

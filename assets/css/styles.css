@@ -2239,19 +2239,20 @@ a.story-card__home:hover { color: var(--blue); }
    The home page was over 14 phone screens long. Below 1024px, rows of cards
    swipe sideways instead of stacking, with the next card peeking in so it's
    clear there's more (the way Flo Energy and most apps lay out card rows).
-   Sections also sit closer together. Desktop is unchanged. */
+   Sections also sit closer together. Desktop is unchanged.
+   Add class="swipe" to any grid or list of cards to get this. */
 @media (max-width: 1023px) {
-  #plan-teaser, #home-testimonials, #home-quotes, #home-steps, #home-rewards, [data-page="home"] .news-cards {
+  .swipe, [data-page="home"] .news-cards {
     display: grid; grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: min(84%, 340px);
     gap: 12px; align-items: stretch; overflow-x: auto; overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory; scrollbar-width: none;
     margin-inline: calc(var(--gutter) * -1); padding: 2px var(--gutter) 6px; scroll-padding-inline: var(--gutter);
   }
-  #home-rewards { grid-auto-columns: min(42%, 180px); }
-  :is(#plan-teaser, #home-testimonials, #home-quotes, #home-steps, #home-rewards, [data-page="home"] .news-cards)::-webkit-scrollbar { display: none; }
-  :is(#plan-teaser, #home-testimonials, #home-quotes, #home-steps, #home-rewards, [data-page="home"] .news-cards) > * { scroll-snap-align: start; }
+  .swipe--small { grid-auto-columns: min(42%, 180px); }
+  :is(.swipe, [data-page="home"] .news-cards)::-webkit-scrollbar { display: none; }
+  :is(.swipe, [data-page="home"] .news-cards) > * { scroll-snap-align: start; }
   /* Cards off to the side would wait for a scroll that never comes: show them as they are. */
-  :is(#plan-teaser, #home-testimonials, #home-quotes, #home-steps, #home-rewards, [data-page="home"] .news-cards) > .reveal { opacity: 1; transform: none; filter: none; }
+  :is(.swipe, [data-page="home"] .news-cards) > .reveal { opacity: 1; transform: none; filter: none; }
 }
 @media (max-width: 767px) {
   .section { padding-block: 36px; }
@@ -2296,4 +2297,26 @@ a.story-card__home:hover { color: var(--blue); }
   .why-list a { grid-column: 1; margin-top: auto; font-size: 13px; }
   /* Account teaser: the paragraph above says what's in it. */
   .account-teaser .review-list { display: none; }
+}
+/* How it works: the four WhatsApp steps swipe sideways below 1024px, each a card
+   with its chat underneath. The phone mockup is a little smaller to fit. */
+@media (max-width: 1023px) {
+  .journey.swipe { gap: 12px; grid-auto-columns: min(88%, 380px); align-items: start; }
+  .journey.swipe .journey__item { align-content: start; gap: 16px; padding: 18px; border: 1px solid var(--border); border-radius: var(--radius); background: #fff; }
+  .journey.swipe .journey__copy > * + * { margin-top: 10px; }
+  .journey.swipe .journey__copy .h1 { font-size: 24px; }
+  .journey.swipe .journey__copy .lead { font-size: 15px; }
+  .journey.swipe .journey__visual { min-height: 0; padding: 14px 0; }
+  .journey.swipe .phone.wac { width: 252px; }
+  .journey.swipe .phone__screen { height: 470px; }
+}
+@media (max-width: 1023px) { .swipe--catalogue { grid-auto-columns: min(46%, 220px); } }
+/* A wide local photo above a closing banner (calculator page). */
+.photo-strip { aspect-ratio: 21 / 9; margin-bottom: -1px; }
+.photo-strip + .banner { border-top-left-radius: 0; border-top-right-radius: 0; }
+@media (min-width: 1024px) { .photo-strip { aspect-ratio: 4 / 1; } .photo-strip > img { object-position: center 30%; } }
+@media (max-width: 767px) {
+  /* Short numbered steps (Rewards page): the number beside the text, not above it. */
+  .steps:not(.swipe):not(.steps--photos) .step { grid-template-columns: auto minmax(0, 1fr); column-gap: 14px; row-gap: 2px; padding: 14px 16px; }
+  .steps:not(.swipe):not(.steps--photos) .step__num { grid-row: span 2; font-size: 30px; }
 }

@@ -2,8 +2,10 @@ import { initLayout, pauseBarAction, resumeBarAction } from '../layout.js';
 import { PLAN_COUNT, RETAILER_COUNT } from '../calc.js';
 import { mountResidential } from '../widgets/residential.js';
 import { mountSme } from '../widgets/sme.js';
+import { photo } from '../data/photos.js';
 
 initLayout();
+document.querySelectorAll('[data-photo-slot]').forEach((el) => { el.innerHTML = photo(el.dataset.photoSlot, { sizes: '(min-width: 1024px) 80vw, 100vw' }); });
 
 const q = new URLSearchParams(location.search);
 const resMount = document.getElementById('res-mount');
