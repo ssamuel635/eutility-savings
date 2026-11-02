@@ -2320,3 +2320,12 @@ a.story-card__home:hover { color: var(--blue); }
   .steps:not(.swipe):not(.steps--photos) .step { grid-template-columns: auto minmax(0, 1fr); column-gap: 14px; row-gap: 2px; padding: 14px 16px; }
   .steps:not(.swipe):not(.steps--photos) .step__num { grid-row: span 2; font-size: 30px; }
 }
+/* How it works: on phones and tablets the photo opens the page, edge to edge
+   above the heading, like the home page (it sits beside the heading on desktop). */
+@media (max-width: 1023px) {
+  .hero--photo-top { padding-top: 0; }
+  .hero--photo-top .grid-2 { gap: 20px; }
+  .hero--photo-top .hero__art { order: -1; margin-inline: calc(var(--gutter) * -1); border-radius: 0; aspect-ratio: 16 / 9; }
+  .hero--photo-top .hero__art > img { object-position: center 35%; }
+}
+@media (min-width: 768px) and (max-width: 1023px) { .hero--photo-top .hero__art { aspect-ratio: 21 / 9; } }
