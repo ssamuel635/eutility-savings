@@ -1,0 +1,54 @@
+{
+ "retailer": "Sembcorp Power",
+ "checked_at": "2026-11-02",
+ "method": "Second read by a different route: the first read used the /price-plan cards and the linked EMA fact sheets; this read used the plan widget on Sembcorp's home page (sembcorppower.com), rendered in the built-in browser. The site serves no separate data feed (prices are server-rendered). With-GST rates only.",
+ "gst_basis_on_site": "incl",
+ "sources": [
+  {
+   "url": "https://sembcorppower.com/",
+   "what": "Home page plan widget, built-in browser 2 Nov"
+  }
+ ],
+ "plans": [
+  {
+   "name": "24M Fixed Price Plan",
+   "matches_id": "sembcorp-power-24m-fixed-price-plan-home",
+   "type": "fixed",
+   "contractMonths": 24,
+   "rate_incl_gst": 30.9,
+   "rate_excl_gst": null,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": null,
+   "source_url": "https://sembcorppower.com/",
+   "evidence": "24M Fixed Price Plan | 24 Month | 30.90c/kWh | -(w/ GST)- | SIGN UP NOW",
+   "confidence": "high",
+   "notes": "Home page plan widget, built-in browser 2 Nov.",
+   "method": "Second read by a different route: the first read used the /price-plan cards and the linked EMA fact sheets; this read used the plan widget on Sembcorp's home page (sembcorppower.com), rendered in the built-in browser. The site serves no separate data feed (prices are server-rendered). With-GST rates only."
+  },
+  {
+   "name": "12M Fixed Price Plan",
+   "matches_id": "sembcorp-power-12m-fixed-price-plan-home",
+   "type": "fixed",
+   "contractMonths": 12,
+   "rate_incl_gst": 31.15,
+   "rate_excl_gst": null,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": null,
+   "source_url": "https://sembcorppower.com/",
+   "evidence": "12M Fixed Price Plan | 12 Month | 31.15c/kWh | -(w/ GST)- | SIGN UP NOW",
+   "confidence": "high",
+   "notes": "Home page plan widget, built-in browser 2 Nov.",
+   "method": "Second read by a different route: the first read used the /price-plan cards and the linked EMA fact sheets; this read used the plan widget on Sembcorp's home page (sembcorppower.com), rendered in the built-in browser. The site serves no separate data feed (prices are server-rendered). With-GST rates only."
+  }
+ ],
+ "not_found": [],
+ "issues": ""
+}

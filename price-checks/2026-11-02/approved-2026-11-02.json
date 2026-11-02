@@ -1,0 +1,21 @@
+{
+ "run": "2026-11-02",
+ "approved_by": "ebin",
+ "approved_at": "2026-11-02T09:01:00.652Z",
+ "plans": [
+  "sembcorp-power-12m-fixed-price-plan-home",
+  "sembcorp-power-24m-fixed-price-plan-home"
+ ],
+ "promotions": [
+  "tuas-power-powerfix-24",
+  "tuas-power-powerfix-36",
+  "tuas-power-powerfix-25-g"
+ ],
+ "terms": [
+  "pacificlight-classic-60",
+  "tuas-power-powerfix-12",
+  "tuas-power-powerfix-24",
+  "tuas-power-powerfix-25-g",
+  "tuas-power-powerfix-36"
+ ]
+}

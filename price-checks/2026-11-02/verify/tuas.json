@@ -1,0 +1,128 @@
+{
+ "retailer": "Tuas Power",
+ "checked_at": "2026-11-02",
+ "method": "Terms second read: re-read the 'Security Deposit' and 'Early Termination Charge' boxes of each current EMA fact sheet (downloaded again 2 Nov from the links on savewithtuas.com/our-electricity-plans) and wrote the wording independently. Other official sources checked: the Standard and Non-Standard Conditions of Supply (v190626) confirm the S$200 early termination charge (clause 3.3) but do not state the deposit percentage; the residential FAQ (savewithtuas.com/faq) only says SP Group may ask for a deposit top-up. No other official page states the 65%, so the fact sheet is the only source for it.",
+ "gst_basis_on_site": "both",
+ "sources": [
+  {
+   "url": "https://www.savewithtuas.com/our-electricity-plans/",
+   "what": "fact sheet links"
+  },
+  {
+   "url": "https://www.savewithtuas.com/assets/pdf/2026/standard_tnc_v190626.pdf",
+   "what": "Conditions of Supply clause 3.3: early termination charges of S$200 (GST is not applicable)"
+  },
+  {
+   "url": "https://www.savewithtuas.com/faq/",
+   "what": "Residential FAQ: deposit top-up with SP Group"
+  }
+ ],
+ "plans": [
+  {
+   "name": "PowerFIX 24",
+   "matches_id": "tuas-power-powerfix-24",
+   "type": "fixed",
+   "contractMonths": null,
+   "rate_incl_gst": null,
+   "rate_excl_gst": null,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": null,
+   "terms": {
+    "deposit_source": "Security Deposit (see footnote 7): Security Deposit (“SD”) shall be collected and retained on behalf of Retailer by SP Services Limited (“SP”). Existing SP’s customers will not be required to provide additional SD. Non-existing SP’s customers will be required to provide a SD equivalent to 65% of the SD as determined and published by SP.",
+    "etf_source": "Early Termination Charge (see footnote 6): $200.00 (no GST)",
+    "changed": true,
+    "deposit": "Collected by SP Services, not Tuas Power. If you already have an SP Services account you pay nothing more; new SP Services customers pay 65% of SP's published deposit.",
+    "etf": null
+   },
+   "source_url": "",
+   "evidence": "",
+   "confidence": "high",
+   "notes": "Terms-only second read; price not re-read here.",
+   "method": "Terms second read: re-read the 'Security Deposit' and 'Early Termination Charge' boxes of each current EMA fact sheet (downloaded again 2 Nov from the links on savewithtuas.com/our-electricity-plans) and wrote the wording independently. Other official sources checked: the Standard and Non-Standard Conditions of Supply (v190626) confirm the S$200 early termination charge (clause 3.3) but do not state the deposit percentage; the residential FAQ (savewithtuas.com/faq) only says SP Group may ask for a deposit top-up. No other official page states the 65%, so the fact sheet is the only source for it."
+  },
+  {
+   "name": "PowerFIX 36",
+   "matches_id": "tuas-power-powerfix-36",
+   "type": "fixed",
+   "contractMonths": null,
+   "rate_incl_gst": null,
+   "rate_excl_gst": null,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": null,
+   "terms": {
+    "deposit_source": "Security Deposit (see footnote 7): Security Deposit (“SD”) shall be collected and retained on behalf of Retailer by SP Services Limited (“SP”). Existing SP’s customers will not be required to provide additional SD. Non-existing SP’s customers will be required to provide a SD equivalent to 65% of the SD as determined and published by SP.",
+    "etf_source": "Early Termination Charge (see footnote 6): $200.00 (no GST)",
+    "changed": true,
+    "deposit": "Collected by SP Services, not Tuas Power. If you already have an SP Services account you pay nothing more; new SP Services customers pay 65% of SP's published deposit.",
+    "etf": null
+   },
+   "source_url": "",
+   "evidence": "",
+   "confidence": "high",
+   "notes": "Terms-only second read; price not re-read here.",
+   "method": "Terms second read: re-read the 'Security Deposit' and 'Early Termination Charge' boxes of each current EMA fact sheet (downloaded again 2 Nov from the links on savewithtuas.com/our-electricity-plans) and wrote the wording independently. Other official sources checked: the Standard and Non-Standard Conditions of Supply (v190626) confirm the S$200 early termination charge (clause 3.3) but do not state the deposit percentage; the residential FAQ (savewithtuas.com/faq) only says SP Group may ask for a deposit top-up. No other official page states the 65%, so the fact sheet is the only source for it."
+  },
+  {
+   "name": "PowerFIX 25 G+",
+   "matches_id": "tuas-power-powerfix-25-g",
+   "type": "fixed",
+   "contractMonths": null,
+   "rate_incl_gst": null,
+   "rate_excl_gst": null,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": null,
+   "terms": {
+    "deposit_source": "Security Deposit (see footnote 7): Security Deposit (“SD”) shall be collected and retained on behalf of Retailer by SP Services Limited (“SP”). Existing SP’s customers will not be required to provide additional SD. Non-existing SP’s customers will be required to provide a SD equivalent to 65% of the SD as determined and published by SP.",
+    "etf_source": "Early Termination Charge (see footnote 6): $200.00 (no GST)",
+    "changed": true,
+    "deposit": "Collected by SP Services, not Tuas Power. If you already have an SP Services account you pay nothing more; new SP Services customers pay 65% of SP's published deposit.",
+    "etf": null
+   },
+   "source_url": "",
+   "evidence": "",
+   "confidence": "high",
+   "notes": "Terms-only second read; price not re-read here.",
+   "method": "Terms second read: re-read the 'Security Deposit' and 'Early Termination Charge' boxes of each current EMA fact sheet (downloaded again 2 Nov from the links on savewithtuas.com/our-electricity-plans) and wrote the wording independently. Other official sources checked: the Standard and Non-Standard Conditions of Supply (v190626) confirm the S$200 early termination charge (clause 3.3) but do not state the deposit percentage; the residential FAQ (savewithtuas.com/faq) only says SP Group may ask for a deposit top-up. No other official page states the 65%, so the fact sheet is the only source for it."
+  },
+  {
+   "name": "PowerFIX 12",
+   "matches_id": "tuas-power-powerfix-12",
+   "type": "fixed",
+   "contractMonths": null,
+   "rate_incl_gst": null,
+   "rate_excl_gst": null,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": null,
+   "terms": {
+    "deposit_source": "Security Deposit (see footnote 7): Security Deposit (“SD”) shall be collected and retained on behalf of Retailer by SP Services Limited (“SP”). Existing SP’s customers will not be required to provide additional SD. Non-existing SP’s customers will be required to provide a SD equivalent to 65% of the SD as determined and published by SP.",
+    "etf_source": "Early Termination Charge (see footnote 6): $200.00 (no GST)",
+    "changed": true,
+    "deposit": "Collected by SP Services, not Tuas Power. If you already have an SP Services account you pay nothing more; new SP Services customers pay 65% of SP's published deposit.",
+    "etf": null
+   },
+   "source_url": "",
+   "evidence": "",
+   "confidence": "high",
+   "notes": "Terms-only second read; price not re-read here.",
+   "method": "Terms second read: re-read the 'Security Deposit' and 'Early Termination Charge' boxes of each current EMA fact sheet (downloaded again 2 Nov from the links on savewithtuas.com/our-electricity-plans) and wrote the wording independently. Other official sources checked: the Standard and Non-Standard Conditions of Supply (v190626) confirm the S$200 early termination charge (clause 3.3) but do not state the deposit percentage; the residential FAQ (savewithtuas.com/faq) only says SP Group may ask for a deposit top-up. No other official page states the 65%, so the fact sheet is the only source for it."
+  }
+ ],
+ "not_found": [],
+ "issues": ""
+}

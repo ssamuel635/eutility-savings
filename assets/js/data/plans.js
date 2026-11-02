@@ -2,8 +2,8 @@
 // Source: price-comparison-sheet.xlsx
 export const META = {
   "source": "price-comparison-sheet.xlsx",
-  "generated": "2026-10-28",
-  "ratesAsAt": "2026-10-26",
+  "generated": "2026-11-02",
+  "ratesAsAt": "2026-11-02",
   "regulatedTariff": 31.16,
   "tariffPeriod": "Oct–Dec 2026",
   "planCount": 32,
@@ -501,16 +501,16 @@ export const PLANS = [
     "dailyCharge": 0.0,
     "tou": null,
     "tiers": null,
-    "deposit": "No separate deposit; existing SP Group deposit carries over",
+    "deposit": "None if you already have an SP Services account. Otherwise you pay a deposit of 65% of the amount SP Services sets, collected by SP Services.",
     "etf": "S$200 flat (all Tuas Power residential plans)",
     "source": "Tuas Power",
     "available": true,
     "promo": {
       "title": "Bill rebate",
       "code": "ONLINE",
-      "conditions": "Sign up online with code ONLINE",
-      "value": "S$100",
-      "expires": null
+      "conditions": null,
+      "value": "S$120",
+      "expires": "2026-12-06"
     },
     "notes": []
   },
@@ -527,7 +527,7 @@ export const PLANS = [
     "dailyCharge": 0.0,
     "tou": null,
     "tiers": null,
-    "deposit": "No separate deposit; existing SP Group deposit carries over",
+    "deposit": "None if you already have an SP Services account. Otherwise you pay a deposit of 65% of the amount SP Services sets, collected by SP Services.",
     "etf": "S$200 flat (all Tuas Power residential plans)",
     "source": "Tuas Power",
     "available": true,
@@ -547,16 +547,16 @@ export const PLANS = [
     "dailyCharge": 0.0,
     "tou": null,
     "tiers": null,
-    "deposit": "No separate deposit; existing SP Group deposit carries over",
+    "deposit": "None if you already have an SP Services account. Otherwise you pay a deposit of 65% of the amount SP Services sets, collected by SP Services.",
     "etf": "S$200 flat (all Tuas Power residential plans)",
     "source": "Tuas Power",
     "available": true,
     "promo": {
       "title": "Bill rebate",
       "code": "ONLINE",
-      "conditions": "Sign up online with code ONLINE",
-      "value": "S$160",
-      "expires": null
+      "conditions": null,
+      "value": "S$200",
+      "expires": "2026-12-06"
     },
     "notes": []
   },
@@ -573,16 +573,16 @@ export const PLANS = [
     "dailyCharge": 0.0,
     "tou": null,
     "tiers": null,
-    "deposit": "No separate deposit; existing SP Group deposit carries over",
+    "deposit": "None if you already have an SP Services account. Otherwise you pay a deposit of 65% of the amount SP Services sets, collected by SP Services.",
     "etf": "S$200 flat (all Tuas Power residential plans)",
     "source": "Tuas Power",
     "available": true,
     "promo": {
       "title": "Bill rebate",
       "code": "ONGREEN",
-      "conditions": "Sign up online with code ONGREEN",
-      "value": "S$100",
-      "expires": null
+      "conditions": null,
+      "value": "S$120",
+      "expires": "2026-12-06"
     },
     "notes": []
   },
@@ -850,7 +850,7 @@ export const PLANS = [
     "tou": null,
     "tiers": null,
     "deposit": "Varies by residential dwelling type",
-    "etf": "HDB1-2rm S$160; HDB3rm S$220; HDB4rm S$320; HDB5rm S$380; HDB Exec/Jumbo/Multi-Gen S$460; Condo/Apt/Shophouse S$480; Terrace S$720; Semi-D S$1,000; Bungalow/Penthouse S$2,000",
+    "etf": "Waived when you close your account, as long as no bills are outstanding. Otherwise: HDB 1 and 2 room S$160; HDB 3 room S$220; HDB 4 room S$320; HDB 5 room S$380; HDB Executive, Jumbo or Multi-Gen S$460; condo, apartment or shophouse S$480; terrace S$720; semi-detached S$1,000; bungalow or penthouse S$2,000.",
     "source": "PacificLight",
     "available": true,
     "promo": {
@@ -872,7 +872,7 @@ export const PLANS = [
     "pricingType": "fixed",
     "pricingLabel": "Fixed",
     "contractMonths": 24,
-    "rate": 29.0,
+    "rate": 30.9,
     "discount": null,
     "dailyCharge": 0.0,
     "tou": null,
@@ -892,7 +892,7 @@ export const PLANS = [
     "pricingType": "fixed",
     "pricingLabel": "Fixed",
     "contractMonths": 12,
-    "rate": 31.0,
+    "rate": 31.15,
     "discount": null,
     "dailyCharge": 0.0,
     "tou": null,

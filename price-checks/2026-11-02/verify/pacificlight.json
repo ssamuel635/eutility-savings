@@ -1,0 +1,46 @@
+{
+ "retailer": "PacificLight",
+ "checked_at": "2026-11-02",
+ "method": "Terms second read: re-read the Classic 60 EMA fact sheet page (pacificlight.com.sg/support/factsheet-detail/10-classic-60-20-aug-2026, fetched again 2 Nov), both the plan-description line on the waiver and the Early Termination Charge box, and wrote the wording independently. The PacificLight residential T&Cs (notices-terms/terms-conditions, clause 13.2) say termination charges are 'as stipulated in the initial pages of the contract', i.e. the fact sheet, so no other official page restates them.",
+ "gst_basis_on_site": "both",
+ "sources": [
+  {
+   "url": "https://pacificlight.com.sg/support/factsheet-detail/10-classic-60-20-aug-2026",
+   "what": "Classic 60 fact sheet"
+  },
+  {
+   "url": "https://pacificlight.com.sg/notices-terms/terms-conditions",
+   "what": "Residential T&Cs clause 13.2 (defers to the contract's initial pages)"
+  }
+ ],
+ "plans": [
+  {
+   "name": "Classic 60",
+   "matches_id": "pacificlight-classic-60",
+   "type": "dot",
+   "contractMonths": 60,
+   "rate_incl_gst": null,
+   "rate_excl_gst": null,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": null,
+   "terms": {
+    "deposit_source": "Security Deposit | (see footnote 7): | HDB 1 and 2 Room - $80 | HDB 3 Room - $110 | HDB 4 Room - $160 | HDB 5 Room - $190 | HDB Executive, Jumbo or Multi-Gen - $230 | Condominium, Apartment or Shophouse - $240 | Terrace - $360 | Semi-Detached - $500 | Bungalow or Penthouse - $1,000",
+    "etf_source": "The Early Termination Charge will be waived upon account closure for relocation or electricity supply termination, provided there are no outstanding bills. || Early Termination Charge (ETC) | (see footnote 6): | The ETC for the Classic 60 Plan will be waived upon account closure, provided there are no outstanding bills. Otherwise, the following charges shall apply: | HDB 1 and 2 Room - $160 | HDB 3 Room - $220 | HDB 4 Room - $320 | HDB 5 Room - $380 | HDB Executive, Jumbo or Multi-Gen - $460 | Condominium, Apartment or Shophouse - $480 | Terrace - $720 | Semi-Detached - $1,000 | Bungalow or Penthouse - $2,000",
+    "changed": true,
+    "deposit": null,
+    "etf": "No charge if you close your account with no unpaid bills. If a charge applies it depends on your home: S$160 (HDB 1-2 room), S$220 (HDB 3 room), S$320 (HDB 4 room), S$380 (HDB 5 room), S$460 (HDB Executive, Jumbo or Multi-Gen), S$480 (condo, apartment or shophouse), S$720 (terrace), S$1,000 (semi-detached), S$2,000 (bungalow or penthouse)."
+   },
+   "source_url": "",
+   "evidence": "",
+   "confidence": "high",
+   "notes": "Terms-only second read; price not re-read here.",
+   "method": "Terms second read: re-read the Classic 60 EMA fact sheet page (pacificlight.com.sg/support/factsheet-detail/10-classic-60-20-aug-2026, fetched again 2 Nov), both the plan-description line on the waiver and the Early Termination Charge box, and wrote the wording independently. The PacificLight residential T&Cs (notices-terms/terms-conditions, clause 13.2) say termination charges are 'as stipulated in the initial pages of the contract', i.e. the fact sheet, so no other official page restates them."
+  }
+ ],
+ "not_found": [],
+ "issues": "The plan-description line says the waiver is 'upon account closure for relocation or electricity supply termination'; the ETC box says 'upon account closure'. Both require no outstanding bills."
+}
