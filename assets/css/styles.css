@@ -2234,3 +2234,66 @@ a.rate-vs__label { text-decoration: underline; text-decoration-color: var(--bord
 a.rate-vs__label:hover { color: var(--blue); }
 a.story-card__home { color: var(--ink); text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 3px; }
 a.story-card__home:hover { color: var(--blue); }
+
+/* ── Shorter pages on phones and tablets (2 Nov 2026) ──
+   The home page was over 14 phone screens long. Below 1024px, rows of cards
+   swipe sideways instead of stacking, with the next card peeking in so it's
+   clear there's more (the way Flo Energy and most apps lay out card rows).
+   Sections also sit closer together. Desktop is unchanged. */
+@media (max-width: 1023px) {
+  #plan-teaser, #home-testimonials, #home-quotes, #home-steps, #home-rewards, [data-page="home"] .news-cards {
+    display: grid; grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: min(84%, 340px);
+    gap: 12px; align-items: stretch; overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory; scrollbar-width: none;
+    margin-inline: calc(var(--gutter) * -1); padding: 2px var(--gutter) 6px; scroll-padding-inline: var(--gutter);
+  }
+  #home-rewards { grid-auto-columns: min(42%, 180px); }
+  :is(#plan-teaser, #home-testimonials, #home-quotes, #home-steps, #home-rewards, [data-page="home"] .news-cards)::-webkit-scrollbar { display: none; }
+  :is(#plan-teaser, #home-testimonials, #home-quotes, #home-steps, #home-rewards, [data-page="home"] .news-cards) > * { scroll-snap-align: start; }
+  /* Cards off to the side would wait for a scroll that never comes: show them as they are. */
+  :is(#plan-teaser, #home-testimonials, #home-quotes, #home-steps, #home-rewards, [data-page="home"] .news-cards) > .reveal { opacity: 1; transform: none; filter: none; }
+}
+@media (max-width: 767px) {
+  .section { padding-block: 36px; }
+  .section-head { margin-bottom: 20px; }
+  .section-head > * + * { margin-top: 8px; }
+  .section-head .lead, .lead { font-size: 15.5px; }
+  .hero__photo { aspect-ratio: 16 / 9; margin-bottom: 16px; }
+  .hero__copy--top > * + * { margin-top: 14px; }
+  .hero-calc .range-scale, .hero-calc .field__help { display: none; }
+  .trust-strip { padding-block: 16px; gap: 10px; }
+  [data-page="home"] .trust-strip + * { margin-top: 0; }
+  .why { gap: 20px; }
+  .why .photo-frame { aspect-ratio: 16 / 9; }
+  .why-list { margin-top: 12px; }
+  .why-list li { padding: 12px 0; }
+  .account-teaser .review-list > div { padding-block: 10px; }
+  .rewards-teaser { gap: 20px; }
+  .photo-band-wrap { padding-bottom: 36px; }
+  .photo-band .photo-frame { aspect-ratio: 4 / 3; }
+  .photo-band__text { padding: 20px; }
+  .step__chat .wac__screen { height: 270px; }
+}
+@media (max-width: 767px) {
+  /* Pick cards: the logo box was a third of each card. */
+  .pick-card__logo { height: 92px; padding: 34px 16px 10px; }
+  .pick-card__logo .retailer-logo { max-height: 40px; }
+  .pick-card__body { gap: 6px; }
+  .pick-card__rate { font-size: 30px; }
+  /* Footer: the Product and Support links side by side instead of one long column. */
+  .site-footer { padding-top: 36px; }
+  .site-footer__grid { grid-template-columns: 1fr 1fr; gap: 28px 20px; }
+  .site-footer__grid > :first-child, .site-footer__grid > :nth-child(n+4) { grid-column: 1 / -1; }
+  .site-footer__legal { margin-top: 28px; }
+}
+@media (max-width: 767px) {
+  /* "We check, you decide": four short tiles; the descriptions are on the pages they link to. */
+  .why-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .why-list li { grid-template-columns: minmax(0, 1fr); align-content: start; gap: 6px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius); }
+  .why-list li > svg { grid-row: auto; margin: 0; }
+  .why-list li p { display: none; }
+  .why-list strong { font-size: 15px; line-height: 1.3; }
+  .why-list a { grid-column: 1; margin-top: auto; font-size: 13px; }
+  /* Account teaser: the paragraph above says what's in it. */
+  .account-teaser .review-list { display: none; }
+}
