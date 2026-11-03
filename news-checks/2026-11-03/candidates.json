@@ -1,0 +1,58 @@
+{
+ "run": "2026-11-03",
+ "collected_at": "2026-11-03T09:38:05+08:00",
+ "days": 7,
+ "sources": [
+  {
+   "source": "SP Group",
+   "kind": "official",
+   "url": "https://www.spgroup.com.sg/about-us/media-resources/news-and-media-releases",
+   "read": 10,
+   "error": ""
+  },
+  {
+   "source": "Open Electricity Market",
+   "kind": "official",
+   "url": "https://www.openelectricitymarket.sg/residential/list-of-retailers",
+   "read": 7,
+   "error": "",
+   "note": "7 retailers listed, no change"
+  },
+  {
+   "source": "The Straits Times",
+   "kind": "news",
+   "url": "https://www.straitstimes.com/news/singapore/rss.xml",
+   "read": 48,
+   "error": ""
+  },
+  {
+   "source": "The Business Times",
+   "kind": "news",
+   "url": "https://www.businesstimes.com.sg/rss/singapore",
+   "read": 46,
+   "error": ""
+  },
+  {
+   "source": "CNA",
+   "kind": "news",
+   "url": "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml&category=10416",
+   "read": 20,
+   "error": ""
+  }
+ ],
+ "items": [
+  {
+   "id": "6b93eebce072",
+   "title": "LNG traded by Singapore-based firms usually does not physically pass through Singapore, says METI",
+   "url": "https://www.channelnewsasia.com/singapore/lng-singapore-indonesia-ship-export-6507706",
+   "date": "2026-10-30",
+   "source": "CNA",
+   "source_key": "cna",
+   "kind": "news",
+   "snippet": "The Ministry of Energy, Trade and Industry was responding to claims by Indonesian Energy and Mineral Resources Minister Bahlil Lahadalia that some LNG shipped from Indonesia to Singapore was subsequently resold to other countries.",
+   "keywords": [
+    "LNG"
+   ]
+  }
+ ]
+}
