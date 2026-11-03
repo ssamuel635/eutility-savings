@@ -2,7 +2,7 @@
 // Source: price-comparison-sheet.xlsx
 export const META = {
   "source": "price-comparison-sheet.xlsx",
-  "generated": "2026-11-02",
+  "generated": "2026-11-03",
   "ratesAsAt": "2026-11-02",
   "regulatedTariff": 31.16,
   "tariffPeriod": "Oct–Dec 2026",
@@ -28,13 +28,7 @@ export const PLANS = [
     "etf": "Per remaining month: HDB1-2rm S$10; HDB3-5rm/Exec S$15; Condo S$20; Terrace/Semi-D S$40; Bungalow S$75",
     "source": "Geneco",
     "available": true,
-    "promo": {
-      "title": "Bill rebate for new sign-ups (online only)",
-      "code": "GENECO200 / GENECO100",
-      "conditions": null,
-      "value": "S$200 for current SP Group customers (GENECO200); S$100 for others (GENECO100)",
-      "expires": "2026-11-02"
-    },
+    "promo": null,
     "notes": []
   },
   {
@@ -54,13 +48,7 @@ export const PLANS = [
     "etf": "Per remaining month: HDB1-2rm S$10; HDB3-5rm/Exec S$15; Condo S$20; Terrace/Semi-D S$40; Bungalow S$75",
     "source": "Geneco",
     "available": true,
-    "promo": {
-      "title": "Bill rebate (online sign-ups)",
-      "code": "GENECO15",
-      "conditions": null,
-      "value": "S$15 (first 250 customers)",
-      "expires": "2026-11-02"
-    },
+    "promo": null,
     "notes": []
   },
   {
