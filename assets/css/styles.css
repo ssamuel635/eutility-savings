@@ -1931,11 +1931,11 @@ main > section:first-of-type::before, main > section:first-of-type::after { cont
 .drawer-account a + a { margin: 0; }
 .drawer-account a:only-child > svg:last-child { margin-left: auto; }
 
-/* Things you browse and pick one of (rewards, home-type stories): rounded and
-   softly lifted, so a row of them reads as cards. Page sections stay square. */
-.story-card, .reward-item, .reward-mini, .acct-rewards figure { border: 0; border-radius: 14px; box-shadow: 0 6px 18px rgba(16, 38, 70, .1); }
-.story-card:hover, .reward-item:hover { box-shadow: 0 10px 26px rgba(16, 38, 70, .16); transform: translateY(-2px); }
-.story-card, .reward-item { transition: box-shadow .25s var(--ease), transform .25s var(--ease); }
+/* Things you browse and pick one of (rewards, home-type stories): square cards
+   with a 1px border and no shadow, like every other card (design rule, 3 Nov). */
+.story-card, .reward-item, .reward-mini, .acct-rewards figure { border: 1px solid var(--border); border-radius: var(--radius); box-shadow: none; }
+.story-card:hover, .reward-item:hover { border-color: var(--blue); }
+.story-card, .reward-item { transition: border-color .2s; }
 .story-card__photo { border-radius: 0; }
 .drawer-account .ico-tile { width: 36px; height: 36px; border-radius: 11px; }
 .drawer-account .ico-tile svg { width: 18px; height: 18px; }
