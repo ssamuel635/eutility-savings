@@ -18,6 +18,10 @@
 
 const COOKIE = 'eu_gate';
 const SESSION_DAYS = 14;
+// Someone who keeps using the preview stays signed in: once a session is more
+// than this many days old, the next page visit renews it for SESSION_DAYS.
+// (Kenneth, Nov 2026: a lapsed sign-in left pages half-built on his iPhone.)
+const RENEW_AFTER_DAYS = 7;
 const PBKDF2_ITERATIONS = 60000;
 
 // Served without signing in: only what the gate page itself needs.
@@ -93,7 +97,7 @@ export async function readSession(request, now = Date.now()) {
     if (!data.exp || data.exp < now) return null;
     // The account must still exist with the same role (removing it from GATE_USERS locks it out).
     const user = parseUsers().get(String(data.u).toLowerCase());
-    return user && user.role === data.r && data.h === user.hash.slice(0, 16) ? { name: user.name, role: user.role, exp: data.exp } : null;
+    return user && user.role === data.r && data.h === user.hash.slice(0, 16) ? { name: user.name, role: user.role, exp: data.exp, user } : null;
   } catch {
     return null;
   }
@@ -128,7 +132,7 @@ function sameOriginPost(request, url) {
   return true;
 }
 
-const continueRequest = () => new Response(null, { headers: { 'x-middleware-next': '1' } });
+const continueRequest = (extra = {}) => new Response(null, { headers: { 'x-middleware-next': '1', ...extra } });
 
 function html(body, status = 200, extra = {}) {
   return new Response(body, {
@@ -255,11 +259,17 @@ export default async function middleware(request) {
     return html(page('Not allowed — Eutility', '<h1>Admins only</h1><p>This page is for the site admin.</p><a class="btn" href="/">Go to the site</a>'), 403);
   }
 
-  if (session) return continueRequest();
+  const wantsPage = request.method === 'GET' && (request.headers.get('accept') || '').includes('text/html');
+
+  if (session) {
+    // Renew on page visits only, not on every script and photo.
+    const age = SESSION_DAYS * 864e5 - (session.exp - Date.now());
+    if (!wantsPage || age <= RENEW_AFTER_DAYS * 864e5) return continueRequest();
+    return continueRequest({ 'set-cookie': cookie(await makeSession(session.user), SESSION_DAYS * 86400) });
+  }
 
   // Page visits get the sign-in form at the same address (so they land back
   // here after signing in); everything else — scripts, data, images — is refused.
-  const wantsPage = request.method === 'GET' && (request.headers.get('accept') || '').includes('text/html');
   if (wantsPage) return html(gatePage(path + url.search), 401);
   return new Response('Sign-in required', { status: 401, headers: { 'content-type': 'text/plain', 'cache-control': 'no-store' } });
 }

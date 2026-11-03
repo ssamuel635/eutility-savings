@@ -3,7 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomBytes } from 'node:crypto';
 
-const { default: middleware, hashPassword, parseUsers } = await import('../middleware.js');
+const { default: middleware, hashPassword, parseUsers, makeSession } = await import('../middleware.js');
 
 const salt = randomBytes(16).toString('hex');
 const salt2 = randomBytes(16).toString('hex');
@@ -14,7 +14,7 @@ process.env.GATE_USERS = [
 ].join(',');
 
 const B = 'https://site.test';
-const page = (path, init = {}) => new Request(B + path, { headers: { accept: 'text/html', ...(init.headers || {}) }, ...init });
+const page = (path, init = {}) => new Request(B + path, { ...init, headers: { accept: 'text/html', ...(init.headers || {}) } });
 const passes = (res) => res.headers.get('x-middleware-next') === '1';
 async function login(username, password, next = '/') {
   const body = new URLSearchParams({ username, password, next });
@@ -158,4 +158,28 @@ test('a page whose sign-in lapsed can still recover: boot.js and the status chec
   const res = await login('kenneth', 'viewer-pass-123');
   const ok = await middleware(new Request(B + '/__gate/status', { headers: { cookie: cookieFrom(res) } }));
   assert.equal(ok.status, 204);
+});
+
+test('someone who keeps using the preview stays signed in', async () => {
+  const kenneth = parseUsers().get('kenneth');
+  const day = 864e5;
+  const sessionFrom = async (daysAgo) => `eu_gate=${await makeSession(kenneth, Date.now() - daysAgo * day)}`;
+  // A fresh sign-in isn't re-issued on every page.
+  const fresh = await middleware(page('/', { headers: { cookie: await sessionFrom(1) } }));
+  assert.ok(passes(fresh));
+  assert.equal(fresh.headers.get('set-cookie'), null);
+  // Past the halfway point, a page visit renews it for another 14 days.
+  const old = await middleware(page('/', { headers: { cookie: await sessionFrom(10) } }));
+  assert.ok(passes(old));
+  const renewed = old.headers.get('set-cookie');
+  assert.match(renewed, /^eu_gate=.+; Path=\/; HttpOnly; Secure; SameSite=Lax; Max-Age=1209600$/);
+  const payload = JSON.parse(Buffer.from(renewed.split('=')[1].split('.')[0], 'base64url').toString());
+  assert.ok(payload.exp > Date.now() + 13.9 * day);
+  // Scripts and photos don't renew it, and an expired session isn't revived.
+  const js = await middleware(new Request(B + '/assets/js/layout.js', { headers: { cookie: await sessionFrom(10) } }));
+  assert.ok(passes(js));
+  assert.equal(js.headers.get('set-cookie'), null);
+  const expired = await middleware(page('/', { headers: { cookie: await sessionFrom(15) } }));
+  assert.equal(expired.status, 401);
+  assert.equal(expired.headers.get('set-cookie'), null);
 });
