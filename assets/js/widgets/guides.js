@@ -8,6 +8,20 @@ import { CONFIG } from '../config.js';
 import { HOME_NAMES, IN_SENTENCE, HOME_PAGES } from './home-story.js';
 import { tariffNewsMarkup } from '../services/news-service.js';
 import * as I from '../icons.js';
+import { photo } from '../data/photos.js';
+
+// A local photo beside each guide page's heading (on phones it opens the page).
+// There's no cleared condo or landed-house photo yet: both pages use the estate
+// view (condo towers behind, landed houses in front), framed on the towers or
+// the houses, until cleared ones arrive (3 Nov 2026).
+const HOME_PHOTOS = { 'HDB 3-room': ['hdb'], 'HDB 4-room': ['hdbBlocks'], 'HDB 5-room': ['voidDeck'], Executive: ['neighbours'], Condo: ['estate', 'center 12%'], Landed: ['estate', 'center 88%'] };
+function homePhoto(label) {
+  const [key, pos] = HOME_PHOTOS[label] || ['hdb'];
+  const img = photo(key, { eager: true, sizes: '(min-width: 1024px) 50vw, 100vw' });
+  return pos ? img.replace('<img ', `<img style="object-position:${pos}" `) : img;
+}
+const heroPhoto = (inner) => `<div class="hero__art hero__art--short photo-frame reveal">${inner}</div>`;
+const TARIFF_PHOTO = '<picture><source type="image/webp" srcset="assets/img/news/grid-400.webp 400w, assets/img/news/grid-800.webp 800w" sizes="(min-width: 1024px) 50vw, 100vw"><img class="photo" src="assets/img/news/grid.jpg" alt="An electricity pylon against a blue sky" fetchpriority="high" decoding="async" width="800" height="500"></picture>';
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const cap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
@@ -71,11 +85,14 @@ export function homeTypePageMarkup(label, { rows = 8 } = {}) {
   const best = top[0];
   const save = best ? Math.max(0, best.savingYearly) : 0;
   return `
-  <section class="hero container" style="padding-bottom:32px">
+  <section class="hero hero--photo-top container" style="padding-bottom:32px">
+    <div class="grid-2">
     <div class="stack" style="--stack:20px;max-width:820px">
       <p class="eyebrow reveal">Electricity plans by home</p>
       <h1 class="display reveal reveal-delay-1">Electricity plans for ${esc(f.inSentence)}.</h1>
       <p class="lead reveal reveal-delay-2">${esc(cap(f.inSentence))} uses about ${f.kwh} kWh of electricity a month. On SP Group&rsquo;s tariff (${TARIFF}¢/kWh for ${esc(TARIFF_PERIOD)}) that comes to about ${fmtMoney(f.onTariff)} a month. These are the plans that cost least at that usage.</p>
+    </div>
+    ${heroPhoto(homePhoto(label))}
     </div>
     <div class="stats guide-stats reveal" style="margin-top:32px">
       <div class="stat"><span class="stat__num">${fmtMoney(f.onTariff)}</span><span class="stat__label">a month on SP Group&rsquo;s tariff</span></div>
@@ -123,11 +140,14 @@ export function tariffPageMarkup() {
   const homes = CONFIG.homePresets.map((p) => homeFacts(p.label)).filter(Boolean);
   const news = tariffNewsMarkup();
   return `
-  <section class="hero container" style="padding-bottom:32px">
+  <section class="hero hero--photo-top container" style="padding-bottom:32px">
+    <div class="grid-2">
     <div class="stack" style="--stack:20px;max-width:820px">
       <p class="eyebrow reveal">SP Group tariff</p>
       <h1 class="display reveal reveal-delay-1">SP Group&rsquo;s electricity tariff for ${esc(TARIFF_PERIOD)}.</h1>
       <p class="lead reveal reveal-delay-2">If you&rsquo;ve never switched electricity retailer, you pay SP Group&rsquo;s regulated tariff: ${TARIFF}¢ per kWh, including GST, for ${esc(TARIFF_PERIOD)}. It changes every quarter. Here&rsquo;s what it costs a typical home, and what the plans on the market cost instead.</p>
+    </div>
+    ${heroPhoto(TARIFF_PHOTO)}
     </div>
     <div class="stats guide-stats reveal" style="margin-top:32px">
       <div class="stat"><span class="stat__num">${TARIFF}¢</span><span class="stat__label">per kWh, incl. GST, ${esc(TARIFF_PERIOD)}</span></div>
