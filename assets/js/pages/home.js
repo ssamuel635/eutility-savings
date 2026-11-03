@@ -36,7 +36,7 @@ const VALUE = [
   { icon: 'compare', title: 'Every plan, side by side', text: `${PLAN_COUNT} home plans from ${RETAILER_COUNT} retailers, priced for your usage.`, href: 'calculator.html', link: 'Check my savings' },
   { icon: 'shield', title: 'Independent, not a retailer', text: 'We have no plan of our own to sell. If yours already wins, we say so.', href: 'about.html', link: 'About Eutility' },
   { icon: 'chat', title: 'We do the switching', text: 'Send your bill on WhatsApp. We confirm the plan with you and sign you up.', href: 'how-it-works.html', link: 'How it works' },
-  { icon: 'bolt', title: 'Running a business?', text: 'Message or call us and a consultant quotes your sites.', href: 'calculator.html#sme', link: 'For businesses' },
+  { icon: 'gift', title: 'Rewards for referrals', text: 'Share your link. Every friend who switches earns you points for things for the home.', href: 'referrals.html', link: 'See the rewards' },
 ];
 document.getElementById('why-list').innerHTML = VALUE.map((v) => `
   <li>${I[v.icon]}<strong>${v.title}</strong><p>${v.text}</p><a class="link-arrow" href="${v.href}">${v.link}</a></li>`).join('');
