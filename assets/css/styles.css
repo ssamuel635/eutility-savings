@@ -2056,22 +2056,31 @@ body { line-height: 1.65; }
   100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
 }
 
-/* Retailer logos (22 Oct): the switching examples (home-type stories, "Our
-   picks") show who you'd move from and to by their official logos, in place of
-   stock photos. Files in assets/img/retailers/. */
-.retailer-logo { display: block; max-width: 100%; max-height: 44px; width: auto; height: auto; object-fit: contain; }
-.retailer-logo--text { font: 700 17px/1.2 var(--font-head); color: var(--heading); text-align: center; }
+/* Plan-type badges (3 Nov, were retailer logos until Eutility confirmed it has
+   no rights to them): the switching examples (home-type stories, "Our picks")
+   show the kind of plan you'd move from and to, as a line icon in the logo's
+   colours and the plan type's name. home-story.js planBadge(). */
+.plan-badge { display: grid; justify-items: center; gap: 6px; color: var(--blue); text-align: center; }
+.plan-badge svg { width: 28px; height: 28px; }
+.plan-badge > span { font: 600 14px/1.2 var(--font-head); color: var(--heading); }
+.plan-badge--dot, .plan-badge--green { color: var(--orange); }
+.plan-badge--tou, .plan-badge--tiered { color: var(--heading); }
+.plan-badge--regulated { color: var(--muted); }
 .story-card__switch { display: grid; gap: 14px; padding: 18px 18px 16px; border-bottom: 1px solid var(--border); }
 .story-card__switch .story-card__home { position: static; font-size: 15px; }
-.switch-logos { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.25fr); align-items: center; gap: 10px; }
-.switch-logos > span:not(.switch-logos__arrow) { display: grid; gap: 6px; justify-items: center; align-content: center; height: 88px; padding: 10px; border: 1px solid var(--border); border-radius: 2px; background: #fff; }
+.switch-logos { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.25fr); align-items: stretch; gap: 10px; }
+.switch-logos > span:not(.switch-logos__arrow) { display: grid; gap: 6px; justify-items: center; align-content: center; min-height: 88px; padding: 10px; border: 1px solid var(--border); border-radius: 2px; background: #fff; }
 .switch-logos small { font: 600 11px/1 var(--font-head); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-.switch-logos__from .retailer-logo { max-height: 34px; }
+.switch-logos .plan-badge { gap: 4px; }
+.switch-logos .plan-badge svg { width: 24px; height: 24px; }
+.switch-logos .plan-badge > span { font-size: 13px; }
 .switch-logos__to { border-color: var(--blue) !important; }
-.switch-logos__arrow { color: var(--blue); }
+.switch-logos__arrow { align-self: center; color: var(--blue); }
 .story-card__body { padding-top: 16px; }
 .pick-card__logo { display: grid; place-items: center; height: 136px; padding: 44px 20px 16px; border: 1px solid var(--border); border-radius: 2px; background: #fff; }
-.pick-card__logo .retailer-logo { max-height: 52px; }
+.pick-card__logo .plan-badge { gap: 10px; }
+.pick-card__logo .plan-badge svg { width: 40px; height: 40px; }
+.pick-card__logo .plan-badge > span { font-size: 17px; }
 
 /* How it works as the real WhatsApp chat (22 Oct): each step is the WhatsApp
    conversation customers have with Eutility's assistant (FXMedia's chatbot),
@@ -2276,9 +2285,10 @@ a.story-card__home:hover { color: var(--blue); }
   .step__chat .wac__screen { height: 270px; }
 }
 @media (max-width: 767px) {
-  /* Pick cards: the logo box was a third of each card. */
+  /* Pick cards: the plan-type box was a third of each card; icon beside the name. */
   .pick-card__logo { height: 92px; padding: 34px 16px 10px; }
-  .pick-card__logo .retailer-logo { max-height: 40px; }
+  .pick-card__logo .plan-badge { grid-auto-flow: column; align-items: center; }
+  .pick-card__logo .plan-badge svg { width: 30px; height: 30px; }
   .pick-card__body { gap: 6px; }
   .pick-card__rate { font-size: 30px; }
   /* Footer: the Product and Support links side by side instead of one long column. */

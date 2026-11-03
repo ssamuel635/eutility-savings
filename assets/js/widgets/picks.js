@@ -1,11 +1,11 @@
 // Our picks: three plans worth a look from the featured retailers (CONFIG),
-// priced for a typical home, each with its retailer's logo. Shared by the home
+// priced for a typical home, each with its kind of plan. Shared by the home
 // page and tools/prerender.mjs, which writes the same cards into index.html so
 // search engines and phones see them before any script runs.
 import { fmtMoney } from '../calc.js';
 import { CONFIG } from '../config.js';
 import * as plans from '../services/plans-service.js';
-import { retailerLogo } from './home-story.js';
+import { planBadge } from './home-story.js';
 import * as I from '../icons.js';
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -38,7 +38,7 @@ export function picksMarkup(kwh = CONFIG.defaultKwh) {
   return picks(kwh).map(([label, r], i) => `
   <article class="pick-card reveal" style="--d:${i * 0.06}s">
     <span class="pick-card__ribbon">${esc(label)}</span>
-    <div class="pick-card__logo">${retailerLogo(r.plan.retailer)}</div>
+    <div class="pick-card__logo">${planBadge(r.plan)}</div>
     <div class="pick-card__body">
       <p class="pick-card__retailer">${esc(r.plan.retailer)}</p>
       <p class="pick-card__name">${esc(r.plan.name)}</p>

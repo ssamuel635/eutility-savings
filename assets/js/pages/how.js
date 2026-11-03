@@ -9,8 +9,9 @@ import * as I from '../icons.js';
 import { playChat } from '../widgets/wa-chat.js';
 import { photo } from '../data/photos.js';
 
-initLayout();
+// Before initLayout(), so its fade-in and missing-photo handling see the photo
 document.querySelectorAll('[data-photo-slot]').forEach((el) => { el.innerHTML = photo(el.dataset.photoSlot, { eager: true, sizes: '(min-width: 768px) 50vw, 100vw' }); });
+initLayout();
 
 // Example: a home using 450 kWh a month on SP Group's tariff.
 const example = compare({ kwh: 450, contract: '24' });
