@@ -71,7 +71,7 @@ const BY_KEY = Object.fromEntries(NEWS_TOPICS.map((t) => [t.key, t]));
 /** The topic for a headline: the one staff chose, else the best keyword match, else the general one. */
 export function topicOf(item) {
   if (item?.topic && BY_KEY[item.topic]) return BY_KEY[item.topic];
-  let best = NEWS_TOPICS.at(-1), top = 0;
+  let best = NEWS_TOPICS[NEWS_TOPICS.length - 1], top = 0;
   for (const t of NEWS_TOPICS) {
     const score = t.words.reduce((n, [re, w]) => n + (re.test(item?.title || '') ? w : 0), 0);
     if (score > top) { best = t; top = score; }

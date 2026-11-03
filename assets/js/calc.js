@@ -137,7 +137,7 @@ export function compare({
   const current = ownRate
     ? { plan: currentPlan, customRate: ownRate, ...monthlyCost({ pricingType: 'fixed', rate: ownRate }, kwh, opts) }
     : { plan: currentPlan, ...monthlyCost(currentPlan, kwh, opts) };
-  const filter = Object.hasOwn(CONTRACT_FILTERS, contract) ? CONTRACT_FILTERS[contract] : CONTRACT_FILTERS.any;
+  const filter = Object.prototype.hasOwnProperty.call(CONTRACT_FILTERS, contract) ? CONTRACT_FILTERS[contract] : CONTRACT_FILTERS.any;
 
   const results = AVAILABLE_PLANS
     .filter((p) => p.pricingType !== 'regulated')

@@ -57,8 +57,8 @@ export function newsPageMarkup(items = NEWS) {
   for (const it of latest(Infinity, items)) {
     const [y, m] = it.date.split('-').map(Number);
     const label = `${MONTHS_LONG[m - 1]} ${y}`;
-    if (groups.at(-1)?.label !== label) groups.push({ label, items: [] });
-    groups.at(-1).items.push(it);
+    if (groups[groups.length - 1]?.label !== label) groups.push({ label, items: [] });
+    groups[groups.length - 1].items.push(it);
   }
   return groups.map((g) => `
       <section class="news-month" aria-label="${g.label}">

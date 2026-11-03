@@ -43,7 +43,7 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
   const start = {
     kwh: clampKwh(Number(initial.kwh) || CONFIG.defaultKwh),
     currentId: getPlan(initial.plan)?.id || DEFAULT_CURRENT_ID,
-    contract: Object.hasOwn(CONTRACT_FILTERS, initial.contract || '') ? initial.contract : '24',
+    contract: Object.prototype.hasOwnProperty.call(CONTRACT_FILTERS, initial.contract || '') ? initial.contract : '24',
     rate: parseRate(initial.rate),
   };
   const startRetailer = getPlan(start.currentId).retailer;

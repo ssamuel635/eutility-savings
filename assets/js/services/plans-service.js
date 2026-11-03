@@ -23,12 +23,12 @@ export const SORTS = {
 
 /** Every plan, priced at the given usage, with display-ready fields. */
 export function list({ kwh = CONFIG.defaultKwh, type = 'all', retailer = 'all', sort = 'price', offPeakShare = CONFIG.defaultOffPeakShare } = {}) {
-  const typeTest = (Object.hasOwn(PLAN_TYPES, type) ? PLAN_TYPES[type] : PLAN_TYPES.all).test;
+  const typeTest = (Object.prototype.hasOwnProperty.call(PLAN_TYPES, type) ? PLAN_TYPES[type] : PLAN_TYPES.all).test;
   const rows = MARKET_PLANS
     .filter(typeTest)
     .filter((p) => retailer === 'all' || p.retailer === retailer)
     .map((p) => decorate(p, kwh, offPeakShare));
-  return rows.sort((Object.hasOwn(SORTS, sort) ? SORTS[sort] : SORTS.price).cmp);
+  return rows.sort((Object.prototype.hasOwnProperty.call(SORTS, sort) ? SORTS[sort] : SORTS.price).cmp);
 }
 
 export function retailers() {
