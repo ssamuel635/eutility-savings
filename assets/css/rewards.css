@@ -8,27 +8,6 @@
 /* ── Draw page ── */
 .draw-section { padding-top: clamp(28px, 4vw, 56px); padding-bottom: clamp(40px, 6vw, 72px); }
 .draw-app { min-height: 320px; }
-/* Phones: words, then the wheel, then the button, so the wheel is in view when it turns. */
-.draw-grid { display: grid; gap: 24px; grid-template-areas: "text" "wheel" "action"; }
-.draw-grid__text { grid-area: text; }
-.draw-grid__action { grid-area: action; }
-.draw-grid .wheel { grid-area: wheel; width: min(100%, 250px); }
-@media (min-width: 900px) {
-  .draw-grid { grid-template-columns: 1.1fr 0.9fr; grid-template-areas: "text wheel" "action wheel"; column-gap: clamp(28px, 4vw, 56px); align-items: end; }
-  .draw-grid__action { align-self: start; }
-  .draw-grid .wheel { width: min(100%, 420px); }
-}
-.draw-grid .btn--lg, .draw-grid #spin { justify-self: start; min-width: 240px; font-size: 18px; padding-block: 16px; }
-.draw-grid #spin svg { width: 22px; height: 22px; }
-
-.wheel { position: relative; width: min(100%, 420px); margin-inline: auto; aspect-ratio: 1; }
-.wheel__svg { width: 100%; height: 100%; display: block; }
-.wheel__spin { transform-origin: 100px 100px; transform-box: view-box; }
-.wheel__label { fill: #fff; font: 700 13px var(--font-head); letter-spacing: -0.01em; }
-.wheel__pointer { position: absolute; top: -6px; left: 50%; width: 0; height: 0; transform: translateX(-50%);
-  border-left: 16px solid transparent; border-right: 16px solid transparent; border-top: 30px solid var(--orange-display); }
-.wheel__pointer::after { content: ""; position: absolute; left: -6px; top: -27px; width: 12px; height: 12px; border-radius: 50%; background: #fff; }
-
 .draw-sample { display: inline-block; justify-self: start; margin: 0; padding: 6px 12px; border: 1px dashed var(--orange-aa);
   color: var(--orange-aa); background: var(--orange-tint); font-size: 14px; font-weight: 600; border-radius: var(--radius-xs); }
 
@@ -94,3 +73,109 @@
 .story__save span { display: block; font: 500 14px var(--font-sans); color: var(--slate); letter-spacing: 0; }
 .story__won { font-size: 14px; color: var(--slate); }
 .story__tag { justify-self: start; font-size: 12px; font-weight: 600; color: var(--orange-aa); border: 1px dashed var(--orange-aa); padding: 2px 8px; border-radius: var(--radius-xs); }
+.story { padding: 0; overflow: hidden; }
+.story > :not(.story__photo) { margin-inline: var(--s5); }
+.story > :last-child { margin-bottom: var(--s5); }
+.story__photo { aspect-ratio: 16 / 9; border-radius: 0; }
+.story__won { display: flex; align-items: center; gap: 10px; }
+.story__won .voucher--mini { --vw: 46px; flex: none; }
+
+/* ── Voucher cards (widgets/voucher.js): our own artwork, colour = prize tier ── */
+.voucher { --vw: 120px; --base: calc(var(--vw) / 10); position: relative; flex: none; width: var(--vw); aspect-ratio: 4 / 5;
+  display: flex; flex-direction: column; justify-content: space-between; padding: calc(var(--base) * 1.1);
+  border-radius: 10px; color: #fff; font-size: var(--base); line-height: 1.15; overflow: hidden; isolation: isolate;
+  background: linear-gradient(150deg, #2f7fc1, #1d4f86);
+  -webkit-mask: radial-gradient(circle at 0 62%, transparent calc(var(--base) * .7), #000 calc(var(--base) * .75)) left / 51% 100% no-repeat,
+                radial-gradient(circle at 100% 62%, transparent calc(var(--base) * .7), #000 calc(var(--base) * .75)) right / 51% 100% no-repeat;
+          mask: radial-gradient(circle at 0 62%, transparent calc(var(--base) * .7), #000 calc(var(--base) * .75)) left / 51% 100% no-repeat,
+                radial-gradient(circle at 100% 62%, transparent calc(var(--base) * .7), #000 calc(var(--base) * .75)) right / 51% 100% no-repeat; }
+.voucher::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: .14;
+  background: repeating-linear-gradient(135deg, #fff 0 2px, transparent 2px 12px); }
+.voucher::after { content: ""; position: absolute; left: 0; right: 0; top: 62%; border-top: 1.5px dashed rgba(255, 255, 255, .45); }
+.voucher--teal { background: linear-gradient(150deg, #19a7a4, #0c6a6e); }
+.voucher--purple { background: linear-gradient(150deg, #8456d8, #4a2a94); }
+.voucher--gold { background: linear-gradient(150deg, #ffe08a, #f5b400 45%, #c97a00); color: #3b2500; }
+.voucher--gold::after { border-top-color: rgba(59, 37, 0, .35); }
+.voucher__top { display: flex; justify-content: space-between; align-items: center; gap: 4px; }
+.voucher__brand { font: 700 .78em/1.1 var(--font-head); letter-spacing: .02em; text-transform: uppercase; opacity: .9; }
+.voucher__icon { width: 1.6em; height: 1.6em; display: grid; place-items: center; border-radius: 50%; background: rgba(255, 255, 255, .2); }
+.voucher__icon svg { width: 1em; height: 1em; }
+.voucher__value { font: 800 3.3em/1 var(--font-head); letter-spacing: -.04em; }
+.voucher__value small { font-size: .42em; letter-spacing: 0; margin-right: .08em; vertical-align: .9em; }
+.voucher__label { font: 600 .9em/1.2 var(--font-sans); opacity: .95; }
+.voucher--mini { --vw: 56px; padding: 0; justify-content: center; align-items: center; }
+.voucher--mini .voucher__top, .voucher--mini .voucher__label { display: none; }
+.voucher--mini .voucher__value { font-size: 2.7em; }
+.voucher--mini::after { display: none; }
+.voucher--big { --vw: min(84vw, 380px); --base: calc(var(--vw) / 17); aspect-ratio: 1.55; padding: calc(var(--base) * 1.2) calc(var(--base) * 1.4); }
+.voucher--big .voucher__value { font-size: 3.6em; }
+.voucher--big::after { top: auto; bottom: 28%; }
+.voucher__code { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-size: .8em; }
+.voucher__code span { opacity: .8; }
+.voucher__code strong { font: 700 1.05em var(--font-head); letter-spacing: .06em; }
+.voucher__stamp { position: absolute; right: 8%; top: 30%; transform: rotate(-12deg); padding: .15em .6em; border: 2px solid currentColor;
+  border-radius: 6px; font: 800 1.1em var(--font-head); letter-spacing: .12em; text-transform: uppercase; opacity: .55; }
+
+/* ── The prize reel (widgets/prize-reel.js) ── */
+.draw-stage { display: grid; gap: 22px; }
+.draw-stage__text { max-width: 760px; }
+.draw-stage__action { display: grid; gap: 12px; justify-items: start; max-width: 760px; }
+.draw-go { min-width: 260px; font-size: 18px; padding-block: 16px; animation: go-pulse 2.2s ease-in-out infinite; }
+.draw-go svg { width: 22px; height: 22px; }
+.draw-go:disabled { animation: none; opacity: .85; }
+@keyframes go-pulse { 0%, 100% { transform: none; } 50% { transform: scale(1.035); } }
+.reel { position: relative; padding: 26px 0; border-radius: var(--radius); overflow: hidden;
+  background: radial-gradient(ellipse 60% 120% at 50% 50%, #3d6aa6 0%, #294671 55%, #1b3050 100%); }
+.reel::before { content: ""; position: absolute; inset: 0; opacity: .08; background: repeating-linear-gradient(90deg, #fff 0 1px, transparent 1px 28px); }
+.reel__window { position: relative; overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); }
+.reel__strip { display: flex; column-gap: 12px; width: max-content; padding: 10px 0; will-change: transform; }
+.reel .voucher { --vw: 96px; transition: transform .35s var(--ease), outline-color .35s; outline: 3px solid transparent; outline-offset: 3px; }
+@media (min-width: 640px) { .reel .voucher { --vw: 132px; } }
+.reel .voucher.is-win { transform: scale(1.1); outline-color: #ffd25a; }
+.reel__marker { position: absolute; top: 10px; bottom: 10px; left: 50%; width: 3px; transform: translateX(-50%); background: #ffb300; border-radius: 2px; z-index: 2; }
+.reel__marker::before, .reel__marker::after { content: ""; position: absolute; left: 50%; transform: translateX(-50%); border-left: 11px solid transparent; border-right: 11px solid transparent; }
+.reel__marker::before { top: -10px; border-top: 14px solid #ffb300; }
+.reel__marker::after { bottom: -10px; border-bottom: 14px solid #ffb300; }
+
+/* ── The prize ── */
+.prize { display: grid; gap: clamp(24px, 4vw, 56px); align-items: center; }
+@media (min-width: 900px) { .prize { grid-template-columns: auto 1fr; } }
+.prize__card { position: relative; justify-self: center; padding: clamp(16px, 3vw, 36px); border-radius: 50%;
+  background: radial-gradient(circle, rgba(38, 100, 155, .22), transparent 68%); }
+.prize--gold .prize__card { background: radial-gradient(circle, rgba(255, 196, 0, .4), transparent 68%); }
+.prize--purple .prize__card { background: radial-gradient(circle, rgba(132, 86, 216, .28), transparent 68%); }
+.prize--teal .prize__card { background: radial-gradient(circle, rgba(25, 167, 164, .26), transparent 68%); }
+.prize__card .voucher { animation: prize-in .9s var(--ease) both; }
+@keyframes prize-in { from { transform: scale(.35) rotate(-10deg); opacity: 0; } 60% { transform: scale(1.06) rotate(2deg); opacity: 1; } to { transform: none; } }
+.prize__card .voucher__value { position: relative; }
+.prize__card .voucher::before { animation: prize-shine 1.6s .7s ease-out both; }
+@keyframes prize-shine { from { background-position: -200px 0; opacity: .14; } 50% { opacity: .3; } to { background-position: 200px 0; opacity: .14; } }
+.prize-steps { display: grid; gap: 10px; margin: 4px 0; padding: 0; list-style: none; }
+.prize-steps li { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; color: var(--slate); }
+.prize-steps strong { display: block; color: var(--heading); font-family: var(--font-head); }
+.prize-steps__icon { width: 38px; height: 38px; flex: none; display: grid; place-items: center; border-radius: var(--radius-sm); background: var(--blue-tint); color: var(--blue); }
+.prize-steps__icon svg { width: 20px; height: 20px; }
+.prize .btn-row { width: 100%; }
+.prize .btn-row .btn svg { width: 20px; height: 20px; }
+@media (min-width: 640px) { .prize .btn-row { flex-direction: row; width: auto; } }
+
+/* ── Draw page without a link, and problem links: words beside a photo ── */
+.draw-split { display: grid; gap: clamp(24px, 4vw, 56px); align-items: center; }
+@media (min-width: 900px) { .draw-split { grid-template-columns: 1.1fr .9fr; } }
+.draw-split__photo { aspect-ratio: 4 / 3; }
+.voucher-fan { display: flex; padding: 6px 0 4px 10px; }
+.voucher-fan .voucher { --vw: 70px; margin-left: -10px; transform: rotate(var(--r, 0deg)); }
+.voucher-fan .voucher:nth-child(1) { --r: -8deg; } .voucher-fan .voucher:nth-child(2) { --r: -3deg; }
+.voucher-fan .voucher:nth-child(3) { --r: 3deg; } .voucher-fan .voucher:nth-child(4) { --r: 8deg; }
+.odds-prize { display: inline-flex; align-items: center; gap: 10px; }
+.odds-prize .voucher--mini { --vw: 40px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .draw-go, .prize__card .voucher, .prize__card .voucher::before { animation: none; }
+}
+.ref-photo { aspect-ratio: 16 / 9; margin-top: 6px; }
+.draw-item__voucher.voucher--mini { --vw: 38px; }
+.draw-sample { max-width: 100%; }
+.prize > *, .draw-stage > *, .draw-split > * { min-width: 0; }

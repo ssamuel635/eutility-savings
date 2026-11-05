@@ -1,12 +1,15 @@
 // Referral lucky draw page.
 // Opened from the WhatsApp message (draw.html?t=TOKEN). The server checks the
-// link first; only a valid, unused link shows the wheel. The prize is picked on
-// the server, and the wheel just turns to it. Without a link, the page explains
-// the draw and its rules (safe to share).
+// link first; only a valid, unused link shows the prize reel. The prize is
+// picked on the server, and the reel just slides to it. Without a link, the
+// page explains the draw and its rules (safe to share).
 import { initLayout, openWhatsApp, track } from '../layout.js';
 import { CONFIG } from '../config.js';
-import { confetti, reducedMotion } from '../fx.js';
+import { confetti } from '../fx.js';
 import { prizeMin, prizeMax, money } from '../services/draws.js';
+import { photo } from '../data/photos.js';
+import { voucherCard, tier } from '../widgets/voucher.js';
+import { reelMarkup, createReel } from '../widgets/prize-reel.js';
 import * as I from '../icons.js';
 
 initLayout();
@@ -19,60 +22,37 @@ const range = `${money(prizeMin())} to ${money(prizeMax())}`;
 const fmtDate = (iso) => new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Singapore' });
 
 const HEAD = {
-  referrer: ['Your friend has switched!', 'Thanks for sharing Eutility. Spin the wheel for your prize.'],
-  friend: ['Welcome to Eutility!', 'Your new plan has started. Spin the wheel for your prize.'],
-  bonus: ['You’ve unlocked a bonus draw!', 'Thanks for bringing so many friends over. Spin for your bonus prize.'],
+  referrer: ['Your friend has switched!', 'Thanks for sharing Eutility. Open your prize below.'],
+  friend: ['Welcome to Eutility!', 'Your new plan has started. Open your welcome prize below.'],
+  bonus: ['You’ve unlocked a bonus draw!', 'Thanks for bringing so many friends over. Open your bonus prize below.'],
 };
-
-// ── The wheel: one equal slice per prize, drawn as SVG ──
-function wheelSvg(prizes) {
-  const n = prizes.length;
-  const slice = 360 / n;
-  const pt = (deg, r) => {
-    const a = ((deg - 90) * Math.PI) / 180;
-    return `${(100 + r * Math.cos(a)).toFixed(2)} ${(100 + r * Math.sin(a)).toFixed(2)}`;
-  };
-  const top = Math.max(...prizes.map((p) => p.value));
-  const slices = prizes.map((p, i) => {
-    const a0 = i * slice;
-    const fill = p.value === top ? 'var(--orange-display)' : i % 2 ? 'var(--deep)' : 'var(--blue)';
-    const mid = a0 + slice / 2;
-    return `<path d="M100 100 L${pt(a0, 96)} A96 96 0 0 1 ${pt(a0 + slice, 96)} Z" fill="${fill}"/>
-      <text x="100" y="40" transform="rotate(${mid} 100 100)" text-anchor="middle" class="wheel__label">${esc(p.label)}</text>`;
-  }).join('');
-  return `
-    <div class="wheel" aria-hidden="true">
-      <svg viewBox="0 0 200 200" class="wheel__svg"><g class="wheel__spin" id="wheel-spin">${slices}<circle cx="100" cy="100" r="96" fill="none" stroke="#fff" stroke-width="3"/></g>
-        <circle cx="100" cy="100" r="16" fill="#fff"/><circle cx="100" cy="100" r="7" fill="var(--deep)"/></svg>
-      <span class="wheel__pointer"></span>
-    </div>`;
-}
 
 const sampleNote = (sample) => (sample ? '<p class="draw-sample">Sample draw for previews only. No voucher is sent.</p>' : '');
 
 function showReady(d) {
   const [h, lead] = HEAD[d.kind] || HEAD.referrer;
   app.innerHTML = `
-    <div class="draw-grid">
-      <div class="stack draw-grid__text" style="--stack:16px">
+    <div class="draw-stage">
+      <div class="stack draw-stage__text" style="--stack:14px">
         <p class="eyebrow eyebrow--orange">${esc(R.programmeName)} · Lucky draw</p>
         <h1 class="display">${esc(h)}</h1>
-        <p class="lead">${esc(lead)} Every spin wins a grocery voucher from ${range}.</p>
+        <p class="lead">${esc(lead)} Every draw wins a grocery voucher from ${range}.</p>
         ${sampleNote(d.sample)}
       </div>
-      <div class="stack draw-grid__action" style="--stack:16px">
-        <button class="btn btn--orange btn--lg" type="button" id="spin">${I.gift}<span>Spin the wheel</span></button>
-        <p class="small">Run by Eutility Singapore Pte Ltd. Your prize is set by our system with fixed odds and shown as soon as you spin. This link works once, until ${esc(fmtDate(d.expires))}. <a href="#rules">Read the draw rules</a>.</p>
+      ${reelMarkup()}
+      <div class="draw-stage__action">
+        <button class="btn btn--orange btn--lg draw-go" type="button" id="spin">${I.gift}<span>Tap to open your prize</span></button>
+        <p class="small">Run by Eutility Singapore Pte Ltd. Your prize is set by our system with fixed odds and shown as soon as the roll stops. This link works once, until ${esc(fmtDate(d.expires))}. <a href="#rules">Read the draw rules</a>.</p>
       </div>
-      ${wheelSvg(d.prizes)}
     </div>`;
-  document.getElementById('spin').addEventListener('click', () => spin(d), { once: true });
+  const reel = createReel(app.querySelector('.reel'), d.prizes);
+  document.getElementById('spin').addEventListener('click', () => spin(d, reel), { once: true });
 }
 
-async function spin(d) {
+async function spin(d, reel) {
   const btn = document.getElementById('spin');
   btn.disabled = true;
-  btn.querySelector('span').textContent = 'Spinning…';
+  btn.querySelector('span').textContent = 'Rolling…';
   let r;
   try {
     const res = await fetch('/api/draw', { method: 'POST', headers: { 'content-type': 'application/json', accept: 'application/json' }, body: JSON.stringify({ t: token }) });
@@ -81,67 +61,81 @@ async function spin(d) {
   } catch (e) {
     btn.disabled = false;
     btn.querySelector('span').textContent = 'Try again';
-    btn.addEventListener('click', () => spin(d), { once: true });
+    btn.addEventListener('click', () => spin(d, reel), { once: true });
     btn.insertAdjacentHTML('afterend', '<p class="small" role="alert">We couldn’t reach the draw just now. Check your connection and try again. Your draw is still saved.</p>');
     return;
   }
   track('draw_spun', { kind: d.kind, sample: !!d.sample });
-  // Turn a few times, then stop with the prize's slice under the pointer.
-  const slice = 360 / d.prizes.length;
-  const jitter = (Math.random() - 0.5) * slice * 0.6;
-  const turn = 360 * 6 - (r.result.index * slice + slice / 2) + jitter;
-  const wheel = document.getElementById('wheel-spin');
-  const ms = reducedMotion() ? 300 : 4200;
-  wheel.style.transition = `transform ${ms}ms cubic-bezier(0.17, 0.67, 0.12, 1)`;
-  wheel.style.transform = `rotate(${turn}deg)`;
-  setTimeout(() => showResult(r.result, d.sample, false), ms + 200);
+  app.querySelector('.reel').classList.add('is-rolling');
+  await reel.spinTo(r.result.index);
+  showResult(r.result, d.sample, false);
 }
 
+// The prize: a big voucher card, then how it reaches you.
 function showResult(result, sample, already) {
+  const value = result.value ?? Number(String(result.label).replace(/\D/g, ''));
+  const steps = [
+    [I.chat, 'We send it on WhatsApp', sample ? 'In the live draw, your voucher code arrives on WhatsApp.' : 'Your voucher code arrives on WhatsApp, usually within a few working days.'],
+    [I.ticket, 'Show it at the till', `Use it at ${esc(R.voucherShops)}.`],
+    [I.userPlus, 'Win again', 'Every friend who switches gets you another draw.'],
+  ];
   app.innerHTML = `
-    <div class="draw-result">
-      <span class="draw-result__icon">${I.gift}</span>
-      <p class="eyebrow eyebrow--orange">${already ? 'You’ve already used this draw' : 'You won'}</p>
-      <h1 class="display">${esc(result.label)} grocery voucher</h1>
-      <p class="lead">${sample ? 'In the live draw, we’d send it to you on WhatsApp.' : `We’ll send your voucher (${esc(R.voucherShops)}) to you on WhatsApp.`}</p>
-      ${sampleNote(sample)}
-      <div class="btn-row">
-        <a class="btn" href="referrals.html">Refer another friend</a>
-        <a class="btn btn--secondary" href="calculator.html">Check my savings</a>
+    <div class="prize prize--${tier(value)}">
+      <div class="prize__card">${voucherCard(value, { size: 'big', sample })}</div>
+      <div class="stack prize__text" style="--stack:14px">
+        <p class="eyebrow eyebrow--orange">${already ? 'You’ve already opened this draw' : 'You won'}</p>
+        <h1 class="display">${money(value)} grocery voucher</h1>
+        ${sampleNote(sample)}
+        <ol class="prize-steps">${steps.map(([icon, h, p]) => `<li><span class="prize-steps__icon">${icon}</span><span><strong>${h}</strong>${p}</span></li>`).join('')}</ol>
+        <div class="btn-row">
+          <a class="btn btn--orange" href="referrals.html">${I.gift}<span>Tell a friend, win again</span></a>
+          <a class="btn btn--secondary" href="calculator.html">Check my savings</a>
+        </div>
       </div>
     </div>`;
-  if (!already) confetti();
+  if (!already) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    confetti({ count: tier(value) === 'gold' ? 320 : 180 });
+  }
 }
 
 function showProblem(status) {
   const expired = status === 'expired';
   app.innerHTML = `
-    <div class="draw-result">
-      <span class="draw-result__icon draw-result__icon--muted">${I.info}</span>
-      <h1 class="h1">${expired ? 'This draw link has expired' : 'This draw link isn’t valid'}</h1>
-      <p class="lead">${expired ? `Draw links work for ${R.drawDays} days.` : 'It may be incomplete. Open it again from the WhatsApp message we sent you.'} If you think something’s wrong, message us and we’ll check.</p>
-      <div class="btn-row">
-        <button class="btn btn--wa" type="button" id="draw-help">${I.chat}<span>Message us on WhatsApp</span></button>
-        <a class="btn btn--secondary" href="referrals.html">About Eutility Rewards</a>
+    <div class="draw-split">
+      <div class="draw-result">
+        <span class="draw-result__icon draw-result__icon--muted">${I.info}</span>
+        <h1 class="h1">${expired ? 'This draw link has expired' : 'This draw link isn’t valid'}</h1>
+        <p class="lead">${expired ? `Draw links work for ${R.drawDays} days.` : 'It may be incomplete. Open it again from the WhatsApp message we sent you.'} If you think something’s wrong, message us and we’ll check.</p>
+        <div class="btn-row">
+          <button class="btn btn--wa" type="button" id="draw-help">${I.chat}<span>Message us on WhatsApp</span></button>
+          <a class="btn btn--secondary" href="referrals.html">About Eutility Rewards</a>
+        </div>
       </div>
+      <div class="photo-frame draw-split__photo">${photo('shopkeeper', { sizes: '(min-width: 900px) 45vw, 100vw' })}</div>
     </div>`;
   document.getElementById('draw-help').addEventListener('click', () => openWhatsApp(`Hi Eutility, my lucky draw link says it ${expired ? 'has expired' : 'isn’t valid'}. Could you check it for me?`));
 }
 
-// Without a link: explain the draw, no wheel.
+// Without a link: explain the draw, no reel.
 function showAbout() {
+  const fan = [5, 20, 100, 500];
   app.innerHTML = `
-    <div class="stack" style="--stack:16px;max-width:720px">
-      <p class="eyebrow eyebrow--orange">${esc(R.programmeName)} · Lucky draw</p>
-      <h1 class="display">A prize for every friend who switches.</h1>
-      <p class="lead">When a friend you referred starts their new electricity plan, you both get a lucky draw. Every draw wins a grocery voucher from ${range}. We send your draw link on WhatsApp.</p>
-      <div class="btn-row"><a class="btn" href="referrals.html">Get my referral link</a><a class="btn btn--secondary" href="#rules">Read the draw rules</a></div>
+    <div class="draw-split">
+      <div class="stack" style="--stack:16px">
+        <p class="eyebrow eyebrow--orange">${esc(R.programmeName)} · Lucky draw</p>
+        <h1 class="display">A prize for every friend who switches.</h1>
+        <p class="lead">When a friend you referred starts their new electricity plan, you both get a lucky draw. Every draw wins a grocery voucher from ${range}. We send your draw link on WhatsApp.</p>
+        <div class="voucher-fan" aria-hidden="true">${fan.map((v) => voucherCard(v, { size: 'mini' })).join('')}</div>
+        <div class="btn-row"><a class="btn" href="referrals.html">Get my referral link</a><a class="btn btn--secondary" href="#rules">Read the draw rules</a></div>
+      </div>
+      <div class="photo-frame draw-split__photo">${photo('familyMeal', { eager: true, sizes: '(min-width: 900px) 45vw, 100vw' })}</div>
     </div>`;
 }
 
 // ── The rules, shown before anyone spins (TODO: legal review) ──
 function rules(prizes) {
-  const odds = prizes.map((p) => `<tr><td>${esc(p.label)} grocery voucher</td><td>${esc(p.odds)}</td></tr>`).join('');
+  const odds = prizes.map((p) => `<tr><td><span class="odds-prize">${voucherCard(p.value, { size: 'mini' })}<span>${esc(p.label)} grocery voucher</span></span></td><td>${esc(p.odds)}</td></tr>`).join('');
   const bonus = R.bonusDraws.map((b) => `+${b.extra} at your ${ordinal(b.at)} friend`).join(', ');
   document.getElementById('draw-rules').innerHTML = `
     ${R.rulesDraft ? '<p class="draw-sample">Draft rules: being reviewed before launch.</p>' : ''}

@@ -7,6 +7,8 @@ import * as rewards from '../services/rewards.js';
 import { prizeMin, prizeMax, topOdds, money, plural, bonusAt } from '../services/draws.js';
 import * as customer from '../services/customer.js';
 import * as I from '../icons.js';
+import { photo } from '../data/photos.js';
+import { voucherCard } from '../widgets/voucher.js';
 
 initLayout();
 
@@ -19,6 +21,7 @@ const range = `${money(prizeMin())} to ${money(prizeMax())}`;
 const STEPS = R.friendSteps;
 const LAST = STEPS.length - 1;
 
+document.getElementById('ref-photo').innerHTML = photo('neighbours', { eager: true, sizes: '(min-width: 1024px) 45vw, 100vw' });
 document.getElementById('ref-lead').textContent = `When a friend you referred starts their new electricity plan, you each get a lucky draw. Every draw wins a grocery voucher from ${range}.`;
 
 if (me.sample) {
@@ -32,7 +35,7 @@ while (prev > 0 && !bonusAt(prev)) prev--;
 const pct = Math.round(((me.switched - prev) / (next.at - prev)) * 100);
 const drawRow = (d) => `
   <li class="draw-item${d.status === 'drawn' ? ' draw-item--used' : ''}">
-    <span class="draw-item__icon">${d.status === 'drawn' ? I.check : I.gift}</span>
+    ${d.status === 'drawn' ? voucherCard(d.prize, { size: 'mini', cls: 'draw-item__voucher' }) : `<span class="draw-item__icon">${I.gift}</span>`}
     <span class="draw-item__text">
       <strong>${d.kind === 'bonus' ? 'Bonus draw' : `Friend ${d.friend} switched`}</strong>
       <span class="small">${d.status === 'drawn' ? `Won a ${money(d.prize)} voucher` : `Ready since ${esc(fmtDate(d.at))}`}</span>
@@ -119,13 +122,15 @@ document.getElementById('ref-share').addEventListener('click', () => {
 });
 
 // ── Recent winners: hidden until there are real ones ──
+const HOME_PHOTO = { 'HDB 3-room': 'hdb', 'HDB 4-room': 'hdbBlocks', 'HDB 5-room': 'voidDeck', Executive: 'neighbours', Condo: 'estate', Landed: 'estate' };
 const stories = rewards.stories();
 if (stories.length) {
   document.getElementById('stories').innerHTML = stories.map((s) => `
     <article class="story reveal">
+      <div class="photo-frame story__photo">${photo(HOME_PHOTO[s.home] || 'hdb', { sizes: '(min-width: 768px) 33vw, 100vw' })}</div>
       <div class="story__who"><strong>${esc(s.name)}</strong><span>${esc(s.area)} · ${esc(s.ago)}</span></div>
       ${s.saving ? `<p class="story__save">${money(s.saving)}<span>a year saved vs the SP tariff (est.)</span></p>` : ''}
-      <p class="story__won">Switched their ${esc(s.home)} and won a <strong>${money(s.prize)} voucher</strong>.</p>
+      <p class="story__won">${voucherCard(s.prize, { size: 'mini' })}<span>Switched their ${esc(s.home)} and won a <strong>${money(s.prize)} voucher</strong>.</span></p>
       ${s.sample ? '<span class="story__tag">Sample</span>' : ''}
     </article>`).join('');
   document.getElementById('stories-section').hidden = false;
