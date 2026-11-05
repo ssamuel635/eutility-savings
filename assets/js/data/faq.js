@@ -106,11 +106,11 @@ export const FAQ = [
     items: [
       {
         q: 'How does the referral programme work?',
-        a: '<p>Get your personal link on the <a href="referrals.html">Rewards</a> page and share it. When a friend checks their savings and switches through Eutility, the referral counts towards your rewards.</p>',
+        a: '<p>Get your personal link on the <a href="referrals.html">Rewards</a> page and share it. When a friend who used your link starts their new plan through Eutility, you each get a lucky draw, and every draw wins a grocery voucher. We send your draw link on WhatsApp. See the <a href="draw.html#rules">draw rules</a>.</p>',
       },
       {
-        q: 'What rewards are available?',
-        a: '<p>Rewards and campaigns may include product gifts, vouchers or special prizes. Current campaign details are announced on the Rewards page and on WhatsApp. Terms apply.</p>',
+        q: 'What can I win in the lucky draw?',
+        a: '<p>Every draw wins a grocery voucher (FairPrice or Sheng Siong), from S$5 up to S$500. You also get bonus draws at your 3rd and 5th friend, then for every 5 more. The prizes and the chance of each are on the <a href="draw.html#rules">draw rules</a> page. Terms apply.</p>',
       },
     ],
   },

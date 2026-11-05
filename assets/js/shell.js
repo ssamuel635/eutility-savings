@@ -20,7 +20,7 @@ const NAV = [
 const DRAWER = [
   { href: 'index.html', label: 'Home', hint: 'Start here', key: 'home', icon: 'home', tone: 'blue' },
   { href: 'calculator.html', label: 'Savings calculator', hint: 'In 30 seconds', key: 'calculator', icon: 'calc', tone: 'blue' },
-  { href: 'referrals.html', label: 'Rewards', hint: 'Points for referrals', key: 'referrals', icon: 'gift', tone: 'red' },
+  { href: 'referrals.html', label: 'Rewards', hint: 'A lucky draw for referrals', key: 'referrals', icon: 'gift', tone: 'red' },
   { href: 'how-it-works.html', label: 'How it works', hint: 'Three steps', key: 'how', icon: 'bolt', tone: 'teal' },
   { href: 'testimonials.html', label: 'Testimonials', hint: 'What clients say', key: 'testimonials', icon: 'quote', tone: 'orange' },
   { href: 'faq.html', label: 'FAQ', hint: 'Quick answers', key: 'faq', icon: 'help', tone: 'green' },
@@ -73,7 +73,7 @@ export function drawer(page, account = null) {
       </nav>
       <div class="drawer-account">
         ${account
-          ? `<a href="account.html"${page === 'account' ? ' aria-current="page"' : ''}><span class="account-chip__avatar">${esc(account.initials)}</span><span><strong>My account</strong><small>Checks, bills and points</small></span>${I.chevron}</a>`
+          ? `<a href="account.html"${page === 'account' ? ' aria-current="page"' : ''}><span class="account-chip__avatar">${esc(account.initials)}</span><span><strong>My account</strong><small>Checks, bills and draws</small></span>${I.chevron}</a>`
           : `<a href="login.html"${page === 'login' ? ' aria-current="page"' : ''}><span class="ico-tile ico-tile--blue">${I.login}</span><span><strong>Log in</strong></span></a><a href="signup.html"${page === 'signup' ? ' aria-current="page"' : ''}><span class="ico-tile ico-tile--green">${I.userPlus}</span><span><strong>Sign up</strong></span></a>`}
       </div>
       <div class="drawer__actions">

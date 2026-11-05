@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Refer a Friend, Earn Rewards — Eutility</title>
-  <meta name="description" content="Get your friends switched to a better electricity plan, climb the leaderboard and earn rewards with Eutility.">
+  <title>Refer a Friend, You Both Win — Eutility</title>
+  <meta name="description" content="Refer a friend to Eutility. When their new electricity plan starts, you both get a lucky draw, and every draw wins a grocery voucher.">
   <!-- social -->
   <link rel="canonical" href="https://eutility-savings.vercel.app/referrals.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Eutility Singapore">
   <meta property="og:locale" content="en_SG">
-  <meta property="og:title" content="Refer a Friend, Earn Rewards — Eutility">
-  <meta property="og:description" content="Get your friends switched to a better electricity plan, climb the leaderboard and earn rewards with Eutility.">
+  <meta property="og:title" content="Refer a Friend, You Both Win — Eutility">
+  <meta property="og:description" content="Refer a friend to Eutility. When their new electricity plan starts, you both get a lucky draw, and every draw wins a grocery voucher.">
   <meta property="og:url" content="https://eutility-savings.vercel.app/referrals.html">
   <meta name="twitter:card" content="summary">
   <!-- /social -->
@@ -21,16 +21,17 @@
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="preload" href="assets/fonts/montserrat-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/rewards.css">
   <!-- prerender:noscript --><noscript><style>[data-static] { display: block !important; } html:not(.shell-ready) body { padding-top: 0 !important; } .no-js body::after { content: none; }</style></noscript><!-- /prerender:noscript -->
   <!-- modulepreload -->
   <link rel="modulepreload" href="assets/js/calc.js">
   <link rel="modulepreload" href="assets/js/config.js">
   <link rel="modulepreload" href="assets/js/data/plans.js">
-  <link rel="modulepreload" href="assets/js/fx.js">
   <link rel="modulepreload" href="assets/js/icons.js">
   <link rel="modulepreload" href="assets/js/layout.js">
   <link rel="modulepreload" href="assets/js/services/crm.js">
   <link rel="modulepreload" href="assets/js/services/customer.js">
+  <link rel="modulepreload" href="assets/js/services/draws.js">
   <link rel="modulepreload" href="assets/js/services/rewards.js">
   <link rel="modulepreload" href="assets/js/services/store.js">
   <link rel="modulepreload" href="assets/js/shell.js">
@@ -53,50 +54,51 @@
     </div>
   </header><!-- /prerender:header -->
 <main id="main">
-  <!-- 1. Your progress first -->
+  <!-- 1. The draw, and where you're up to -->
   <section class="container" style="padding-top:clamp(28px,4vw,56px);padding-bottom:clamp(40px,6vw,72px)">
+    <div id="sample-note"></div>
     <div class="grid-2 grid-2--card grid-2--top">
       <div class="stack" style="--stack:18px">
         <p class="eyebrow eyebrow--orange">Eutility Rewards</p>
-        <h1 class="display">Share it. Get rewarded.</h1>
-        <p class="lead">Send your link to whoever’s still overpaying — family group chat, neighbours, the office. Every friend who switches earns you points for vouchers, appliances and more.</p>
-        <div class="trust"><span>Free to join</span><span>Share with anyone</span><span>Terms apply</span></div>
+        <h1 class="display">Share it. You both win.</h1>
+        <p class="lead" id="ref-lead">When a friend you referred starts their new electricity plan, you each get a lucky draw. Every draw wins a grocery voucher.</p>
+        <div class="trust"><span>Free to join</span><span>Every draw wins</span><span><a href="draw.html#rules">Draw rules</a></span></div>
       </div>
-      <div class="board-hero" id="leaderboard"></div>
+      <div class="ref-panel" id="ref-summary"></div>
     </div>
   </section>
 
-  <!-- 2. Your status and your link -->
+  <!-- 2. Your friends' progress (never named) and your link -->
   <section class="container" style="padding-bottom:clamp(48px,7vw,88px)">
     <div id="my-status"></div>
   </section>
 
-  <!-- 3. The catalogue: what points buy -->
-  <section class="section section--cloud container">
+  <!-- 3. Recent winners: real customers only, hidden until there are any -->
+  <section class="section section--cloud container" id="stories-section" hidden>
     <div class="section-head">
-      <p class="eyebrow">Redeem your points</p>
-      <h2 class="h2">What your points can get you.</h2>
-      <p class="lead" id="catalogue-lead">Every friend who switches earns you points. Swap them for vouchers and things for the home.</p>
+      <p class="eyebrow">Recent winners</p>
+      <h2 class="h2">They switched, saved and won.</h2>
+      <p class="lead">Eutility customers, shared with their permission. Savings are estimates against SP Group&rsquo;s tariff.</p>
     </div>
-    <div class="catalogue swipe swipe--catalogue" id="catalogue"></div>
-    <p class="small" style="margin-top:20px">Points are awarded once a friend&rsquo;s new plan starts. Items are subject to availability and may be swapped for one of similar value. Terms apply.</p>
+    <div class="stories" id="stories"></div>
   </section>
 
-  <!-- 4. Activity + 5. How it works -->
+  <!-- 4. How it works + bonus draws -->
   <section class="section container">
     <div class="grid-2 grid-2--top">
-      <div class="stack" style="--stack:16px">
-        <h2 class="h2">Recent activity</h2>
-        <p class="lead">What’s been happening on your link.</p>
-        <div id="activity"></div>
-      </div>
       <div class="stack" style="--stack:16px">
         <h2 class="h2">How it works</h2>
         <ol class="steps">
           <li class="step"><span class="step__num">1</span><h3 class="h4">Share your link</h3><p>Send it on WhatsApp or copy it anywhere.</p></li>
-          <li class="step"><span class="step__num">2</span><h3 class="h4">Your friend switches</h3><p>They check their bill, like the number, and move over.</p></li>
-          <li class="step"><span class="step__num">3</span><h3 class="h4">You earn points</h3><p>Once their switch goes through, the points are yours to spend on anything in the catalogue.</p></li>
+          <li class="step"><span class="step__num">2</span><h3 class="h4">Your friend switches</h3><p>They check their bill and move to a better plan with our help.</p></li>
+          <li class="step"><span class="step__num">3</span><h3 class="h4">You both get a draw</h3><p>Once their new plan starts, we send you each a lucky draw link on WhatsApp. Spin it and see what you&rsquo;ve won.</p></li>
         </ol>
+      </div>
+      <div class="stack" style="--stack:16px">
+        <h2 class="h2">Bonus draws</h2>
+        <p class="lead">The more friends you bring, the more you can win.</p>
+        <ul class="bonus-ladder" id="bonus-ladder"></ul>
+        <p class="small" id="prize-note"></p>
       </div>
     </div>
   </section>

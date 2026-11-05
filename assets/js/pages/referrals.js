@@ -1,55 +1,95 @@
-// Eutility Rewards: the member's progress, their link, then what's happened on it.
-import { initLayout, toast, observeReveals, openWhatsApp, track } from '../layout.js';
+// Eutility Rewards: the referral lucky draw.
+// Draws waiting, progress to the next bonus draw, each friend's progress
+// (numbered, never named), the member's link, and recent winners.
+import { initLayout, toast, observeReveals, track } from '../layout.js';
 import { CONFIG } from '../config.js';
-import { countUp } from '../fx.js';
 import * as rewards from '../services/rewards.js';
+import { prizeMin, prizeMax, topOdds, money, plural, bonusAt } from '../services/draws.js';
 import * as customer from '../services/customer.js';
 import * as I from '../icons.js';
 
 initLayout();
 
+const R = CONFIG.rewards;
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const status = rewards.myStatus();
+const fmtDate = (iso) => new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'Asia/Singapore' });
+const me = rewards.myReferrals();
 const link = rewards.myLink();
-const display = link.replace(/^https?:\/\//, '');
-const pts = rewards.fmtPts;
+const range = `${money(prizeMin())} to ${money(prizeMax())}`;
+const STEPS = R.friendSteps;
+const LAST = STEPS.length - 1;
 
-// ── Your points, and how far to the next item ──
-const next = status.next;
-document.getElementById('leaderboard').innerHTML = `
+document.getElementById('ref-lead').textContent = `When a friend you referred starts their new electricity plan, you each get a lucky draw. Every draw wins a grocery voucher from ${range}.`;
+
+if (me.sample) {
+  document.getElementById('sample-note').innerHTML = `<p class="draw-sample" style="margin-bottom:20px">Showing sample data for review. <a href="?sample=0">Hide it</a></p>`;
+}
+
+// ── Draws waiting, and how far to the next bonus ──
+const next = me.next;
+let prev = me.switched; // the last bonus reached (or 0), so the bar fills from there
+while (prev > 0 && !bonusAt(prev)) prev--;
+const pct = Math.round(((me.switched - prev) / (next.at - prev)) * 100);
+const drawRow = (d) => `
+  <li class="draw-item${d.status === 'drawn' ? ' draw-item--used' : ''}">
+    <span class="draw-item__icon">${d.status === 'drawn' ? I.check : I.gift}</span>
+    <span class="draw-item__text">
+      <strong>${d.kind === 'bonus' ? 'Bonus draw' : `Friend ${d.friend} switched`}</strong>
+      <span class="small">${d.status === 'drawn' ? `Won a ${money(d.prize)} voucher` : `Ready since ${esc(fmtDate(d.at))}`}</span>
+    </span>
+    ${d.status === 'ready' ? `<button class="btn btn--orange btn--sm" type="button" data-draw="${esc(d.id)}">Spin</button>` : ''}
+  </li>`;
+document.getElementById('ref-summary').innerHTML = `
   <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
-    <h2 class="h3" style="display:flex;align-items:center;gap:10px"><span style="width:26px;color:var(--blue)">${I.trophy}</span>${customer.firstName() ? `${esc(customer.firstName())}, your points` : 'Your points'}</h2>
-    <span class="small">${status.switched} friend${status.switched === 1 ? '' : 's'} switched</span>
+    <h2 class="h3" style="display:flex;align-items:center;gap:10px"><span style="width:26px;color:var(--blue)">${I.gift}</span>${customer.firstName() ? `${esc(customer.firstName())}, your draws` : 'Your draws'}</h2>
+    <span class="small">${plural(me.switched, 'friend')} switched</span>
   </div>
-  <p class="rewards-panel__pts">${status.points.toLocaleString('en-SG')}<span> pts</span></p>
-  <div class="progress"><div class="progress__track"><div class="progress__fill" id="prog-hero"></div></div></div>
-  <p class="small">${next ? `Next up: ${esc(next.name)}, ${pts(next.points - status.points)} to go. Each friend who switches earns you ${pts(CONFIG.rewards.pointsPerSwitch)}.` : 'You can redeem anything in the catalogue.'}</p>`;
-document.getElementById('leaderboard').classList.replace('board-hero', 'rewards-panel');
+  <p class="ref-panel__big">${me.waiting.length}<span> ${me.waiting.length === 1 ? 'draw' : 'draws'} waiting</span></p>
+  <div class="stack" style="--stack:8px">
+    <div class="progress__track" aria-hidden="true"><div class="progress__fill" id="bonus-fill"></div></div>
+    <p class="small">${next.toGo === 1 ? 'One more friend' : `${next.toGo} more friends`} for a bonus (+${plural(next.extra, 'draw')}).</p>
+  </div>
+  ${me.draws.length
+    ? `<ul class="draw-list">${me.draws.slice().reverse().map(drawRow).join('')}</ul>`
+    : `<p class="small">No draws yet. When a friend’s new plan starts, we’ll send your draw link on WhatsApp${customer.isSignedIn() ? ' and show it here' : ''}.</p>`}`;
+requestAnimationFrame(() => { document.getElementById('bonus-fill').style.width = `${pct}%`; });
 
-// ── Your status, progress and link ──
-const name = customer.firstName();
+document.querySelectorAll('[data-draw]').forEach((b) => b.addEventListener('click', async () => {
+  const d = me.draws.find((x) => x.id === b.dataset.draw);
+  b.disabled = true;
+  try {
+    const href = await rewards.drawLink(d);
+    if (href) location.href = href;
+  } catch {
+    b.disabled = false;
+    toast('Couldn’t open the draw. Try again.');
+  }
+}));
+
+// ── Each friend's progress (numbered only: friends are never named) ──
+const friendRow = (f) => `
+  <li class="friend${f.step === LAST ? ' friend--done' : ''}">
+    <div class="friend__top"><strong>Friend ${f.n}</strong><span class="friend__status">${esc(STEPS[f.step])}${f.step === LAST ? ' 🎉' : ''}</span></div>
+    <ol class="friend__steps" aria-label="Step ${f.step + 1} of ${STEPS.length}">${STEPS.map((s, i) => `<li class="${i <= f.step ? 'is-done' : ''}"><span class="visually-hidden">${esc(s)}</span></li>`).join('')}</ol>
+    <div class="friend__labels" aria-hidden="true">${STEPS.map((s) => `<span>${esc(s)}</span>`).join('')}</div>
+  </li>`;
+
 document.getElementById('my-status').innerHTML = `
   <div class="grid-2 grid-2--top">
-    <div class="card card--shadow stack" style="--stack:18px">
+    <div class="card stack" style="--stack:16px">
       <div>
-        <h2 class="calc-card__title">${name ? `Hi ${esc(name)}` : 'Your progress'}</h2>
-        <p class="small">${esc(CONFIG.rewards.programmeName)}</p>
+        <h2 class="calc-card__title">Your friends</h2>
+        <p class="small">We don’t show names, just where each friend is up to.</p>
       </div>
-      <div class="stats">
-        <div class="stat"><span class="stat__num" data-stat="${status.shared}">0</span><span class="stat__label">Friends referred</span></div>
-        <div class="stat"><span class="stat__num" data-stat="${status.switched}" style="color:var(--green-aa)">0</span><span class="stat__label">Switched &amp; counted</span></div>
-        <div class="stat"><span class="stat__num" data-stat="${status.points}" style="color:var(--orange-display)">0</span><span class="stat__label">Points</span></div>
-      </div>
-      <div class="lb-light progress">
-        <div style="display:flex;justify-content:space-between;font-size:14px"><span><strong>${pts(status.points)}</strong>${next ? ` of ${pts(next.points)}` : ''}</span><span class="small">${next ? esc(next.name) : 'Everything unlocked'}</span></div>
-        <div class="progress__track"><div class="progress__fill" id="prog"></div></div>
-      </div>
-      ${customer.isSignedIn() ? '' : '<p class="small"><a href="signup.html">Create an account</a> to track your progress.</p>'}
+      ${me.friends.length
+        ? `<ul class="friends">${me.friends.map(friendRow).join('')}</ul>`
+        : `<div class="activity-row"><span class="activity-row__icon">${I.userPlus}</span><span>No friends yet. When someone messages us with your code, you’ll see their progress here.</span></div>`}
+      ${customer.isSignedIn() ? '' : '<p class="small"><a href="signup.html">Create an account</a> to track your friends and draws.</p>'}
     </div>
 
-    <div class="card card--shadow stack" style="--stack:16px">
+    <div class="card stack" style="--stack:16px">
       <h2 class="calc-card__title">Your link</h2>
-      <div class="ref-link"><span id="ref-link-text">${esc(display)}</span></div>
+      <div class="ref-link"><span id="ref-link-text">${esc(link.replace(/^https?:\/\//, ''))}</span></div>
       <div class="stack" style="--stack:12px">
         <button class="btn btn--block" type="button" id="ref-copy">Copy link</button>
         <button class="btn btn--wa btn--block" type="button" id="ref-share">${I.chat}<span>Share on WhatsApp</span></button>
@@ -57,34 +97,6 @@ document.getElementById('my-status').innerHTML = `
       <p class="small">Your friend lands on our home page, and your code is added when they message us.</p>
     </div>
   </div>`;
-
-document.getElementById('prog').style.width = status.nextPct + '%';
-document.getElementById('prog-hero').style.width = status.nextPct + '%';
-
-// ── The catalogue: a photo per item, its points and how close you are ──
-document.getElementById('catalogue-lead').textContent = `Every friend who switches earns you ${pts(CONFIG.rewards.pointsPerSwitch)}. Swap them for vouchers and things for the home.`;
-document.getElementById('catalogue').innerHTML = rewards.catalogue().map((r, i) => {
-  const ready = status.points >= r.points;
-  const pct = Math.min(100, Math.round((status.points / r.points) * 100));
-  return `
-  <article class="reward-item reveal" style="--d:${(i % 4) * 0.05}s">
-    <div class="reward-item__img"><img src="${r.src}" alt="" loading="lazy" decoding="async" width="600" height="600" data-photo>${ready ? '<span class="reward-item__tag">Ready to redeem</span>' : ''}</div>
-    <div class="reward-item__body">
-      <h3 class="reward-item__name">${esc(r.name)}</h3>
-      <p class="reward-item__pts">${pts(r.points)}</p>
-      <div class="progress__track" aria-hidden="true"><div class="progress__fill" style="width:${pct}%"></div></div>
-      ${ready
-        ? `<button class="btn btn--wa btn--sm btn--block" type="button" data-redeem="${esc(r.id)}">${I.chat}<span>Redeem</span></button>`
-        : `<p class="small">${pts(r.points - status.points)} to go</p>`}
-    </div>
-  </article>`;
-}).join('');
-document.querySelectorAll('[data-redeem]').forEach((b) => b.addEventListener('click', () => {
-  const r = rewards.catalogue().find((x) => x.id === b.dataset.redeem);
-  openWhatsApp(`Hi Eutility, I'd like to redeem ${pts(r.points)} for: ${r.name}.
-Referral code: ${rewards.myCode()}
-(sent from the Eutility website)`);
-}));
 
 const copyBtn = document.getElementById('ref-copy');
 copyBtn.addEventListener('click', async () => {
@@ -102,28 +114,34 @@ copyBtn.addEventListener('click', async () => {
 
 document.getElementById('ref-share').addEventListener('click', () => {
   track('referral_shared', { how: 'whatsapp' });
-  const text = `I checked my electricity plan with Eutility. See what you could save: ${link}`;
+  const text = `I checked my electricity plan with Eutility. See what you could save, and we both get a lucky draw if you switch: ${link}`;
   window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
 });
 
-// ── Activity + reward icons ──
-// Nothing is invented: until the referral backend reports activity, say so plainly.
-document.getElementById('activity').innerHTML = `
-  <div class="activity-row">
-    <span class="activity-row__icon">${I.gift}</span>
-    <span>Nothing yet. Share your link and you’ll see each friend’s switch here.</span>
-  </div>`;
-
-document.querySelectorAll('[data-icon]').forEach((e) => { e.innerHTML = I[e.dataset.icon]; });
-
-// Count the stat tiles up when they scroll into view
-const stats = document.querySelector('.stats');
-if (stats) {
-  const io = new IntersectionObserver(([en]) => {
-    if (!en.isIntersecting) return;
-    stats.querySelectorAll('[data-stat]').forEach((e) => countUp(e, Number(e.dataset.stat), { duration: 900 }));
-    io.disconnect();
-  });
-  io.observe(stats);
+// ── Recent winners: hidden until there are real ones ──
+const stories = rewards.stories();
+if (stories.length) {
+  document.getElementById('stories').innerHTML = stories.map((s) => `
+    <article class="story reveal">
+      <div class="story__who"><strong>${esc(s.name)}</strong><span>${esc(s.area)} · ${esc(s.ago)}</span></div>
+      ${s.saving ? `<p class="story__save">${money(s.saving)}<span>a year saved vs the SP tariff (est.)</span></p>` : ''}
+      <p class="story__won">Switched their ${esc(s.home)} and won a <strong>${money(s.prize)} voucher</strong>.</p>
+      ${s.sample ? '<span class="story__tag">Sample</span>' : ''}
+    </article>`).join('');
+  document.getElementById('stories-section').hidden = false;
 }
+
+// ── Bonus draws ──
+const ordinal = (n) => {
+  const end = { 1: 'st', 2: 'nd', 3: 'rd' }[n % 10];
+  return `${n}${end && ![11, 12, 13].includes(n % 100) ? end : 'th'}`;
+};
+const last = R.bonusDraws[R.bonusDraws.length - 1].at;
+document.getElementById('bonus-ladder').innerHTML = [
+  `<li><span>Every friend whose plan starts</span><strong>1 draw each</strong></li>`,
+  ...R.bonusDraws.map((b) => `<li><span>Your ${ordinal(b.at)} friend</span><strong>+${plural(b.extra, 'bonus draw')}</strong></li>`),
+  `<li><span>Every ${R.repeatEvery} friends after that (${last + R.repeatEvery}, ${last + 2 * R.repeatEvery} …)</span><strong>+${plural(R.repeatExtra, 'bonus draw')}</strong></li>`,
+].join('');
+document.getElementById('prize-note').innerHTML = `Prizes are ${esc(R.voucherShops)} vouchers from ${range}. The top prize has a ${topOdds()} chance per draw. <a href="draw.html#rules">Read the draw rules</a>.`;
+
 observeReveals();

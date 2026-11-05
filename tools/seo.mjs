@@ -77,8 +77,8 @@ const PAGES = {
     description: 'What switching electricity plan could save a typical HDB flat, condo or landed home in Singapore, worked out from today’s rates.',
   },
   'referrals.html': {
-    title: 'Refer a Friend, Earn Rewards — Eutility',
-    description: 'Get your friends switched to a better electricity plan, climb the leaderboard and earn rewards with Eutility.',
+    title: 'Refer a Friend, You Both Win — Eutility',
+    description: 'Refer a friend to Eutility. When their new electricity plan starts, you both get a lucky draw, and every draw wins a grocery voucher.',
   },
   'electricity-tariff.html': {
     title: `SP Group Electricity Tariff ${tariffPeriod} — Eutility`,
@@ -93,6 +93,7 @@ const PAGES = {
     title: 'Privacy Policy & Terms — Eutility',
     description: 'Eutility Singapore’s Privacy Statement, Website Terms and Conditions and Master Services Agreement terms.',
   },
+  'draw.html': { title: 'Lucky Draw — Eutility', description: 'Spin for your Eutility referral prize. Every draw wins a voucher. Read the draw rules here.', index: false },
   'login.html': { title: 'Log in — Eutility', description: 'Log in to your Eutility account to see your savings checks, bills and rewards.', index: false },
   'signup.html': { title: 'Create your account — Eutility', description: 'Set up your Eutility account: your details, your home, your electricity details and, if you like, your latest bill.', index: false },
   'account.html': { title: 'My account — Eutility', description: 'Your Eutility account: profile, electricity details, saved savings checks, bills and rewards.', index: false },

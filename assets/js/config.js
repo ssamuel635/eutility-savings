@@ -88,43 +88,34 @@ export const CONFIG = {
   // Default share of usage that falls in off-peak hours, used for time-of-use plans.
   defaultOffPeakShare: 0.3,
 
-  // ── Rewards / referral programme (TODO: confirm mechanics with Eutility) ──
+  // ── Referral lucky draw (agreed with Kenneth, 4 Nov 2026; replaced points) ──
+  // When a referred friend's supply starts, the referrer and the friend each get
+  // one instant draw. Bonus draws for the referrer: +1 at the 3rd friend, +2 at
+  // the 5th, then +2 for every further 5 (10, 15, ...). The draw itself runs on
+  // the server (api/_draw-engine.mjs reads the prizes below); the website and
+  // app only show progress and link to it.
   rewards: {
     programmeName: 'Eutility Rewards',   // customer-facing name for the referral programme
-    nextRewardAt: 7,                     // PLACEHOLDER: switches needed for the next reward tier
-    // PLACEHOLDER points (TODO: confirm with Eutility): what each friend's
-    // completed switch earns, and what each item costs. The catalogue is shown
-    // on the website's Rewards page and the app's Rewards tab; `img` is the file
-    // name in assets/img/rewards/ (website) and mobile/assets/rewards/ (app).
-    pointsPerSwitch: 1000,
-    // This month's headline reward, promoted on the app's Home and the Rewards
-    // page. Change it each month (an `id` from the catalogue below).
-    featured: 'ps5',
-    // Photos: product images. PS5 and Nintendo Switch are the makers' own; the
-    // TV (Sharp), desk fan, air fryer (Electrolux), rice cooker (Tecno) and
-    // robot vacuum (Tapo) photos were supplied by Eutility (23 Oct 2026). The
-    // S$10 voucher is a drawn Eutility Rewards voucher, not a retailer's.
-    // `about` is the one-line description on the item's detail page (the app's
-    // reward sheet). Kept generic on purpose: no brands or models until Eutility
-    // confirms what it will actually send (TODO: confirm with Eutility).
-    catalogue: [
-      { id: 'voucher', name: 'S$10 shopping voucher', points: 1000, img: 'gift-voucher', about: 'A S$10 shopping voucher. We’ll confirm where it can be used when you redeem.' },
-      { id: 'fan', name: 'Desk fan', points: 2500, img: 'desk-fan', about: 'A desk fan for your room or work-from-home corner.' },
-      { id: 'rice-cooker', name: 'Rice cooker', points: 3500, img: 'rice-cooker', about: 'A rice cooker for everyday meals at home.' },
-      { id: 'air-fryer', name: 'Air fryer', points: 4500, img: 'air-fryer', about: 'An air fryer for quick, low-oil cooking.' },
-      { id: 'robot-vacuum', name: 'Robot vacuum', points: 9000, img: 'robot-vacuum', about: 'A robot vacuum that cleans your floors on its own.' },
-      { id: 'switch', name: 'Nintendo Switch', points: 14000, img: 'nintendo-switch', about: 'Nintendo’s games console, for play at home or on the go.' },
-      { id: 'ps5', name: 'PlayStation 5', points: 20000, img: 'ps5', about: 'Sony’s PlayStation 5 games console.' },
-      { id: 'tv', name: '50-inch smart TV', points: 24000, img: 'smart-tv', about: 'A 50-inch smart TV with streaming apps built in.' },
+    bonusDraws: [{ at: 3, extra: 1 }, { at: 5, extra: 2 }],
+    repeatEvery: 5,                      // after the last bonus above: +repeatExtra every this many friends
+    repeatExtra: 2,
+    drawDays: 30,                        // a draw link stays valid this long
+    voucherShops: 'FairPrice or Sheng Siong',
+    // PLACEHOLDER prizes and odds (TODO: Eutility to confirm, legal to review).
+    // `weight` is out of 10,000; the top prize must stay at 0.1% (10) or less.
+    // Every draw wins one of these. The result is picked on the server.
+    prizes: [
+      { id: 'v5', value: 5, weight: 9500 },
+      { id: 'v10', value: 10, weight: 300 },
+      { id: 'v20', value: 20, weight: 100 },
+      { id: 'v50', value: 50, weight: 60 },
+      { id: 'v100', value: 100, weight: 30 },
+      { id: 'v500', value: 500, weight: 10 },
     ],
-    // How redeeming works, shown on every item's detail page. Only what the
-    // app actually does today (TODO: Eutility to confirm delivery and terms).
-    redeemNotes: [
-      'Points are added when a friend’s new plan starts.',
-      'Redeeming sends Eutility a WhatsApp message with your request and referral code.',
-      'We confirm the item and delivery with you before anything is sent.',
-      'Items are subject to availability. Terms apply.',
-    ],
+    // Shown on the draw page until legal has reviewed the rules.
+    rulesDraft: true,
+    // Steps a referred friend goes through. Friends are never named (Kenneth, 4 Nov).
+    friendSteps: ['Invited', 'Signed up', 'Switch in progress', 'Supply started'],
   },
 
   // Confetti fires when yearly savings exceed this (brief §3.5 / §6).

@@ -1,0 +1,96 @@
+/* ─────────────────────────────────────────────────────────────
+   Eutility Rewards: the referral lucky draw (draw.html) and the
+   referrals page (friends' progress, draws, success stories).
+   Same style as the rest of the site: white, blue and navy, square
+   cards with a 1px border, no shadows.
+   ───────────────────────────────────────────────────────────── */
+
+/* ── Draw page ── */
+.draw-section { padding-top: clamp(28px, 4vw, 56px); padding-bottom: clamp(40px, 6vw, 72px); }
+.draw-app { min-height: 320px; }
+/* Phones: words, then the wheel, then the button, so the wheel is in view when it turns. */
+.draw-grid { display: grid; gap: 24px; grid-template-areas: "text" "wheel" "action"; }
+.draw-grid__text { grid-area: text; }
+.draw-grid__action { grid-area: action; }
+.draw-grid .wheel { grid-area: wheel; width: min(100%, 250px); }
+@media (min-width: 900px) {
+  .draw-grid { grid-template-columns: 1.1fr 0.9fr; grid-template-areas: "text wheel" "action wheel"; column-gap: clamp(28px, 4vw, 56px); align-items: end; }
+  .draw-grid__action { align-self: start; }
+  .draw-grid .wheel { width: min(100%, 420px); }
+}
+.draw-grid .btn--lg, .draw-grid #spin { justify-self: start; min-width: 240px; font-size: 18px; padding-block: 16px; }
+.draw-grid #spin svg { width: 22px; height: 22px; }
+
+.wheel { position: relative; width: min(100%, 420px); margin-inline: auto; aspect-ratio: 1; }
+.wheel__svg { width: 100%; height: 100%; display: block; }
+.wheel__spin { transform-origin: 100px 100px; transform-box: view-box; }
+.wheel__label { fill: #fff; font: 700 13px var(--font-head); letter-spacing: -0.01em; }
+.wheel__pointer { position: absolute; top: -6px; left: 50%; width: 0; height: 0; transform: translateX(-50%);
+  border-left: 16px solid transparent; border-right: 16px solid transparent; border-top: 30px solid var(--orange-display); }
+.wheel__pointer::after { content: ""; position: absolute; left: -6px; top: -27px; width: 12px; height: 12px; border-radius: 50%; background: #fff; }
+
+.draw-sample { display: inline-block; justify-self: start; margin: 0; padding: 6px 12px; border: 1px dashed var(--orange-aa);
+  color: var(--orange-aa); background: var(--orange-tint); font-size: 14px; font-weight: 600; border-radius: var(--radius-xs); }
+
+.draw-result { display: grid; gap: 16px; justify-items: start; max-width: 720px; }
+.draw-result__icon { width: 64px; height: 64px; display: grid; place-items: center; background: var(--orange-tint); color: var(--orange-aa); border-radius: var(--radius); }
+.draw-result__icon svg { width: 34px; height: 34px; }
+.draw-result__icon--muted { background: var(--blue-tint); color: var(--blue); }
+.draw-result .btn-row { width: 100%; }
+@media (min-width: 640px) { .draw-result .btn-row { flex-direction: row; width: auto; } }
+
+.draw-rules { display: grid; gap: var(--s5); }
+.draw-rules__grid { display: grid; gap: var(--s6); }
+@media (min-width: 900px) { .draw-rules__grid { grid-template-columns: 1fr 1fr; gap: clamp(32px, 5vw, 72px); } }
+.draw-rules p { margin: 0; }
+.draw-odds { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--border); font-size: 15px; }
+.draw-odds th, .draw-odds td { padding: 10px 14px; border-bottom: 1px solid var(--border); text-align: left; }
+.draw-odds th { font: 600 13px var(--font-head); color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.draw-odds td:last-child, .draw-odds th:last-child { text-align: right; white-space: nowrap; }
+
+/* ── Referrals page ── */
+.ref-panel { display: grid; gap: var(--s4); padding: var(--s6); border: 1px solid var(--border); border-radius: var(--radius); background: #fff; }
+.ref-panel__big { font-family: var(--font-head); font-weight: 700; font-size: 52px; line-height: 1; letter-spacing: -0.03em; color: var(--heading); }
+.ref-panel__big span { font-size: 20px; color: var(--orange-aa); letter-spacing: 0; }
+.ref-panel .progress__track { background: var(--cloud); }
+.ref-panel .progress__fill { background: var(--blue); }
+
+.draw-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.draw-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: #fff; }
+.draw-item__icon { width: 38px; height: 38px; flex: none; display: grid; place-items: center; background: var(--orange-tint); color: var(--orange-aa); border-radius: var(--radius-sm); }
+.draw-item__icon svg { width: 20px; height: 20px; }
+.draw-item--used .draw-item__icon { background: var(--cloud); color: var(--muted); }
+.draw-item__text { display: grid; gap: 2px; font-size: 15px; }
+.draw-item__text strong { color: var(--heading); }
+.draw-item .btn { margin-left: auto; flex: none; }
+
+/* Friends' progress: numbered, never named */
+.friends { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.friend { display: grid; gap: 10px; padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: #fff; }
+.friend__top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 15px; }
+.friend__top strong { color: var(--heading); font-family: var(--font-head); }
+.friend__status { font-size: 14px; font-weight: 600; color: var(--blue); }
+.friend--done .friend__status { color: var(--green-aa); }
+.friend__steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin: 0; padding: 0; list-style: none; }
+.friend__steps li { height: 6px; background: var(--cloud); border-radius: 99px; }
+.friend__steps li.is-done { background: var(--blue); }
+.friend--done .friend__steps li.is-done { background: var(--green); }
+.friend__labels { display: none; }
+@media (min-width: 640px) {
+  .friend__labels { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; font-size: 12px; color: var(--muted); }
+}
+
+.bonus-ladder { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.bonus-ladder li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: #fff; font-size: 15px; }
+.bonus-ladder li strong { color: var(--orange-aa); white-space: nowrap; }
+
+/* Success stories: real winners only (labelled while they're samples) */
+.stories { display: grid; gap: 12px; }
+@media (min-width: 768px) { .stories { grid-template-columns: repeat(3, 1fr); gap: var(--s5); } }
+.story { display: grid; gap: 8px; align-content: start; padding: var(--s5); border: 1px solid var(--border); border-radius: var(--radius); background: #fff; }
+.story__who { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; color: var(--muted); }
+.story__who strong { color: var(--heading); font-family: var(--font-head); }
+.story__save { font-family: var(--font-head); font-weight: 700; font-size: 28px; line-height: 1.1; color: var(--orange-display); letter-spacing: -0.02em; }
+.story__save span { display: block; font: 500 14px var(--font-sans); color: var(--slate); letter-spacing: 0; }
+.story__won { font-size: 14px; color: var(--slate); }
+.story__tag { justify-self: start; font-size: 12px; font-weight: 600; color: var(--orange-aa); border: 1px dashed var(--orange-aa); padding: 2px 8px; border-radius: var(--radius-xs); }

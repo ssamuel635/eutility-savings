@@ -21,7 +21,6 @@ const fmtDate = (iso) => {
 };
 const isNum = (v) => typeof v === 'number' && Number.isFinite(v);
 const safeImg = (u) => (typeof u === 'string' && /^data:image\/(png|jpe?g|webp|gif|heic);base64,[a-z0-9+/=]+$/i.test(u) ? u : '');
-const pts = rewards.fmtPts;
 
 const ico = (name, tone) => `<span class="ico-tile ico-tile--${tone}">${I[name]}</span>`;
 const tile = (icon, tone, value, label, href) => `<a class="acct-tile" href="${href}">${ico(icon, tone)}<strong>${value}</strong><span class="small">${label}</span></a>`;
@@ -58,7 +57,7 @@ function dashboard() {
   const bills = customer.listBills();
   const cur = getPlan(c.currentPlanId);
   const target = getPlan(c.intendedPlanId);
-  const st = rewards.myStatus();
+  const st = rewards.myReferrals();
   const best = checks.find((k) => isNum(k.savingYearly));
   const kwh = Number(c.monthlyKwh);
   const recheck = `calculator.html?${esc(new URLSearchParams({ kwh: isNum(kwh) ? kwh : '', plan: c.currentPlanId || '', run: '1' }))}`;
@@ -77,14 +76,14 @@ function dashboard() {
         ${tile('calc', 'blue', best ? `${fmtMoney(best.savingYearly)}/yr` : '—', 'Best saving found', '#checks')}
         ${tile('plug', 'navy', cur ? esc(cur.retailer) : 'Not set', 'Current retailer', '#electricity')}
         ${tile('file', 'orange', String(bills.length), bills.length === 1 ? 'Bill on file' : 'Bills on file', '#bills')}
-        ${tile('gift', 'red', pts(st.points), 'Reward points', '#rewards')}
+        ${tile('gift', 'red', String(st.waiting.length), st.waiting.length === 1 ? 'Draw waiting' : 'Draws waiting', '#rewards')}
       </div>
       <div class="dash-card">
         <h2 class="h4">Next steps</h2>
         <div class="acct-actions">
           ${action(recheck, 'calc', 'blue', 'Re-check my savings', 'Retailers change their rates often.')}
           ${action('signup.html', 'upload', 'orange', 'Upload my latest bill', 'We use it to arrange your switch.')}
-          ${action('referrals.html', 'gift', 'red', 'Share my referral link', `${pts(CONFIG.rewards.pointsPerSwitch)} for every friend who switches.`)}
+          ${action('referrals.html', 'gift', 'red', 'Share my referral link', 'You both get a lucky draw when a friend switches.')}
         </div>
       </div>`,
 
@@ -128,14 +127,14 @@ function dashboard() {
       </div>`,
 
     rewards: `
-      ${head(esc(CONFIG.rewards.programmeName), '<a class="btn btn--sm" href="referrals.html">See every reward</a>')}
+      ${head(esc(CONFIG.rewards.programmeName), '<a class="btn btn--sm" href="referrals.html">See my draws</a>')}
       <div class="dash-card">
-        <p class="acct-points">${st.points.toLocaleString('en-SG')}<span> pts</span></p>
+        <p class="acct-points">${st.waiting.length}<span> ${st.waiting.length === 1 ? 'draw' : 'draws'} waiting</span></p>
         <div class="lb-light progress">
-          <div style="display:flex;justify-content:space-between;gap:12px;font-size:14px"><span>${st.switched} friend${st.switched === 1 ? '' : 's'} switched</span><span class="small">${st.next ? `Next up: ${esc(st.next.name)}, ${pts(st.next.points - st.points)} to go` : 'Everything unlocked'}</span></div>
-          <div class="progress__track"><div class="progress__fill" style="width:${st.nextPct}%"></div></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;font-size:14px"><span>${st.switched} friend${st.switched === 1 ? '' : 's'} switched</span><span class="small">${st.next.toGo === 1 ? 'One more' : `${st.next.toGo} more`} for a bonus draw</span></div>
+          <div class="progress__track"><div class="progress__fill" style="width:${Math.round((st.switched / st.next.at) * 100)}%"></div></div>
         </div>
-        <div class="acct-rewards">${rewards.catalogue().slice(1, 5).map((r) => `<figure><img src="${r.src}" alt="" loading="lazy" width="600" height="600"><figcaption>${esc(r.name)}<span>${pts(r.points)}</span></figcaption></figure>`).join('')}</div>
+        <p class="small">When a friend you referred starts their new plan, you each get a lucky draw. We send your draw links on WhatsApp.${st.sample ? ' <strong>Sample data for review.</strong>' : ''}</p>
       </div>`,
 
     details: `

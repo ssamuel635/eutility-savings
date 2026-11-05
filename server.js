@@ -74,6 +74,7 @@ http.createServer((req, res) => {
     return res.end(JSON.stringify({ error: 'CRM is not set up on this server' }));
   }
   if ((p === '/api/savings/quote' || p === '/api/switch') && fxRoutes) return fxRoutes(req, res, url);
+  if (p === '/api/draw') return drawRoute(req, res);
   if (p.startsWith('/api/auth/') || p === '/api/customers/me') {
     if (authRoutes) return authRoutes(req, res, url);
     res.writeHead(503, { 'Content-Type': 'application/json' });
@@ -94,6 +95,29 @@ http.createServer((req, res) => {
     res.end(buf);
   });
 }).listen(PORT, () => console.log(`\n  Eutility savings site → http://localhost:${PORT}\n`));
+
+// The referral lucky draw is a Vercel Function (api/draw.mjs); run the same code here.
+let drawApi = null;
+async function drawRoute(req, res) {
+  try {
+    drawApi = drawApi || await import(require('url').pathToFileURL(path.join(ROOT, 'api', 'draw.mjs')).href);
+    const handler = drawApi[req.method];
+    if (!handler) { res.writeHead(405, { Allow: 'GET, POST' }); return res.end(); }
+    const chunks = [];
+    for await (const c of req) { chunks.push(c); if (chunks.reduce((t, x) => t + x.length, 0) > 8192) break; }
+    const headers = { ...req.headers, 'x-forwarded-for': req.socket.remoteAddress || '' };
+    const request = new Request(`http://${req.headers.host || 'localhost'}${req.url}`, {
+      method: req.method, headers, body: req.method === 'POST' ? Buffer.concat(chunks) : undefined,
+    });
+    const r = await handler(request);
+    res.writeHead(r.status, Object.fromEntries(r.headers));
+    res.end(Buffer.from(await r.arrayBuffer()));
+  } catch (e) {
+    console.warn(`  Draw: ${e.message}`);
+    res.writeHead(500, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ error: 'Something went wrong' }));
+  }
+}
 
 function send404(res) {
   fs.readFile(path.join(ROOT, '404.html'), (e, buf) => {
