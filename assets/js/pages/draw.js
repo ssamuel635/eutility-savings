@@ -169,6 +169,15 @@ const ordinal = (n) => {
 };
 
 async function start() {
+  // The app's sample draws link to draw.html?sample=referrer|friend|bonus:
+  // swap that for a fresh sample link (the server refuses when draws are live).
+  const sampleKind = new URLSearchParams(location.search).get('sample');
+  if (!token && /^(referrer|friend|bonus)$/.test(sampleKind || '')) {
+    try {
+      const r = await (await fetch(`/api/draw?sample=${sampleKind}`, { headers: { accept: 'application/json' } })).json();
+      if (r.token) return location.replace(`draw.html?t=${encodeURIComponent(r.token)}`);
+    } catch { /* fall through to the explanation */ }
+  }
   let d = { status: 'invalid', prizes: [] };
   try {
     const res = await fetch(`/api/draw${token ? `?t=${encodeURIComponent(token)}` : ''}`, { headers: { accept: 'application/json' } });

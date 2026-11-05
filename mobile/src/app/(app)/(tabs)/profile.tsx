@@ -1,6 +1,6 @@
 // Account, laid out like an Instagram profile rather than a settings list:
-// who you are and what you've achieved at a glance (saving, points, friends
-// switched), the two things people come here to do (edit, share their code),
+// who you are and what you've achieved at a glance (saving, draws waiting,
+// friends switched), the two things people come here to do (edit, share their code),
 // then the settings. Icons in one colour so the lists read calmly.
 
 import { useEffect, useState } from 'react';
@@ -11,7 +11,7 @@ import { Button, Card, ListRow, Screen, Section, Text, Toggle } from '@/componen
 import { api, type Plan } from '@/api';
 import { useQuery } from '@/hooks/useQuery';
 import { displayPhone, money, monthLabel } from '@/lib/format';
-import { pointsFor, shareMessage } from '@/lib/rewards';
+import { shareMessage } from '@/lib/rewards';
 import { contact, generalMessage, openEmail, openWhatsApp } from '@/lib/whatsapp';
 import { useCustomer, useSession } from '@/state/session';
 import { colors, fonts, space } from '@/theme';
@@ -58,7 +58,7 @@ export default function Profile() {
         <View style={s.avatar}><Text style={s.initials}>{initials}</Text></View>
         <View style={s.stats}>
           <Stat value={data ? (data.saving > 0 ? money(data.saving) : '—') : ' '} label="Saving / yr" accent />
-          <Stat value={data ? pointsFor(switched).toLocaleString('en-SG') : ' '} label="Points" />
+          <Stat value={data ? String(data.referrals.draws.filter((d) => d.status === 'ready').length) : ' '} label="Draws waiting" />
           <Stat value={data ? String(switched) : ' '} label="Friends switched" />
         </View>
       </View>

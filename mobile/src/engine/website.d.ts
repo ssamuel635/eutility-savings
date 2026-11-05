@@ -81,10 +81,31 @@ declare module 'eutility-web/config.js' {
     defaultOffPeakShare: number;
     confettiThreshold: number;
     homePresets: { label: string; kwh: number }[];
-    rewards: { programmeName: string; nextRewardAt: number; pointsPerSwitch: number; featured: string; catalogue: { id: string; name: string; points: number; img: string; about?: string }[]; redeemNotes: string[] };
+    rewards: {
+      programmeName: string;
+      bonusDraws: { at: number; extra: number }[];
+      repeatEvery: number;
+      repeatExtra: number;
+      drawDays: number;
+      voucherShops: string;
+      prizes: { id: string; value: number; weight: number }[];
+      rulesDraft: boolean;
+      friendSteps: string[];
+    };
     links: Record<string, string>;
     company: Record<string, string | number>;
   };
   export function waLink(message?: string): string;
   export function mailLink(message?: string, subject?: string): string;
+}
+
+declare module 'eutility-web/services/draws.js' {
+  export function bonusAt(n: number): number;
+  export function drawsEarned(n: number): number;
+  export function nextBonus(n: number): { at: number; extra: number; toGo: number } | null;
+  export function prizeMin(): number;
+  export function prizeMax(): number;
+  export function topOdds(): string;
+  export function money(n: number): string;
+  export function plural(n: number, one: string, many?: string): string;
 }

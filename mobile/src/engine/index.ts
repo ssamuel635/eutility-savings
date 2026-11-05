@@ -21,3 +21,4 @@ export {
 export type { SheetPlan, CompareRow } from 'eutility-web/calc.js';
 
 export { CONFIG, waLink, mailLink } from 'eutility-web/config.js';
+export { bonusAt, drawsEarned, nextBonus, prizeMin, prizeMax, topOdds } from 'eutility-web/services/draws.js';

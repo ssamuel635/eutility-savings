@@ -52,13 +52,15 @@ onSeed((db: Db) => {
   }
 
   db.referrals.push(
-    { id: 'REF-1', referrerId: id, name: 'Priya S.', status: 'switched', at: daysAgo(12) },
-    { id: 'REF-2', referrerId: id, name: 'Marcus L.', status: 'switched', at: daysAgo(8) },
-    { id: 'REF-3', referrerId: id, name: 'Wei Ling', status: 'signed_up', at: daysAgo(2) },
+    { id: 'REF-1', referrerId: id, status: 'switched', at: daysAgo(12) },
+    { id: 'REF-2', referrerId: id, status: 'switched', at: daysAgo(8) },
+    { id: 'REF-3', referrerId: id, status: 'switching', at: daysAgo(5) },
+    { id: 'REF-4', referrerId: id, status: 'signed_up', at: daysAgo(2) },
+    { id: 'REF-5', referrerId: id, status: 'invited', at: daysAgo(1) },
   );
 
   db.notices[id] = [
     { id: 'N-2', title: 'Application received', body: 'We’ve checked your details. Next, the retailer sets up your account.', at: daysAgo(0, 20), read: false, link: '/application' },
-    { id: 'N-1', title: 'Marcus switched', body: 'A friend you referred has switched. That counts towards your next reward.', at: daysAgo(8), read: true, link: '/rewards' },
+    { id: 'N-1', title: 'A friend switched', body: 'Friend 2’s new plan has started, so you both get a lucky draw. Your link is on WhatsApp and in Rewards.', at: daysAgo(8), read: true, link: '/rewards' },
   ];
 });

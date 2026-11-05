@@ -1,20 +1,18 @@
 // Home: a local photo fading into the page, where your switch is up to, the
-// few shortcuts the menu bar doesn't already give you, this month's headline
-// reward, then rewards and savings by home type.
+// few shortcuts the menu bar doesn't already give you, the referral lucky
+// draw, then savings by home type.
 
-import { Image, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Button, Card, Pill, QuickActions, Screen, Text } from '@/components';
 import { CountUp } from '@/components/Motion';
 import { HomeStories } from '@/components/HomeStories';
 import { PhotoHeader } from '@/components/PhotoHeader';
-import { RewardCard } from '@/components/RewardCard';
 import { RewardPromo } from '@/components/RewardPromo';
 import { api, type Application, type Notice, type SavingsQuote } from '@/api';
 import { useQuery } from '@/hooks/useQuery';
 import { firstName, greeting, money } from '@/lib/format';
-import { CATALOGUE, FEATURED, pointsFor, pts } from '@/lib/rewards';
 import { generalMessage, openWhatsApp } from '@/lib/whatsapp';
 import { useCustomer } from '@/state/session';
 import { colors, radius, space } from '@/theme';
@@ -25,9 +23,9 @@ export default function Home() {
     const [apps, quote, notices, referrals] = await Promise.all([
       api.applications.list(), api.savings.latest(), api.notifications.list(), api.referrals.summary(),
     ]);
-    return { app: apps[0] ?? null, quote, unread: notices.filter((n: Notice) => !n.read).length, switched: referrals.successful };
+    return { app: apps[0] ?? null, quote, unread: notices.filter((n: Notice) => !n.read).length, waiting: referrals.draws.filter((d) => d.status === 'ready').length };
   });
-  const balance = pointsFor(data?.switched ?? 0);
+  const waiting = data?.waiting ?? 0;
 
   return (
     <Screen tabs edges={[]} refreshing={refreshing} onRefresh={refresh}>
@@ -76,16 +74,11 @@ export default function Home() {
         <View style={s.sectionHead}>
           <View style={{ flex: 1, gap: 2 }}>
             <Text variant="h2">Rewards</Text>
-            <Text variant="small">You have <Text variant="bodyStrong" color={colors.orangeAA}>{pts(balance)}</Text>. Earn more when friends switch.</Text>
+            <Text variant="small">A lucky draw for you and every friend who switches.</Text>
           </View>
           <Text variant="bodyStrong" color={colors.blue} onPress={() => router.navigate('/rewards')} accessibilityRole="link">See all</Text>
         </View>
-        <RewardPromo balance={balance} onPress={() => router.navigate('/rewards')} />
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.rail} decelerationRate="fast" snapToInterval={140 + space.md} snapToAlignment="start" disableIntervalMomentum>
-          {CATALOGUE.filter((r) => r.id !== FEATURED?.id).slice(0, 6).map((item) => (
-            <RewardCard key={item.id} item={item} balance={balance} width={140} onPress={() => router.navigate('/rewards')} />
-          ))}
-        </ScrollView>
+        <RewardPromo waiting={waiting} onPress={() => router.navigate('/rewards')} />
       </View>
 
       <HomeStories />
@@ -187,5 +180,4 @@ const s = StyleSheet.create({
   segNow: { backgroundColor: colors.blue },
   sectionHead: { flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', gap: space.md },
   // Vertical padding leaves room for the cards' shadows inside the scroller.
-  rail: { gap: space.md, paddingHorizontal: space.xl, marginHorizontal: -space.xl, paddingTop: 4, paddingBottom: 18 },
 });

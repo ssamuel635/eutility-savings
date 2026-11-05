@@ -1,57 +1,49 @@
-// Rewards. The top card holds the whole loop in one place — your points, your
-// code to share, and the friends who used it — because each drives the next:
-// share → friends switch → points. Then how it works, then what points buy (a
-// row to browse, "See all" for the full catalogue, a detail sheet per item).
+// Rewards: the referral lucky draw. The top card holds the whole loop: draws
+// waiting (and how close the next bonus is), your code to share, and each
+// friend's progress (numbered, never named). Then how it works and the bonus
+// draws. A draw opens the website's draw page, the same link sent on WhatsApp.
 
 import { useState } from 'react';
-import { ScrollView, Share, StyleSheet, View } from 'react-native';
-import { router } from 'expo-router';
+import { Linking, Share, StyleSheet, View } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Button, Card, LoadFailed, Loading, Pill, Screen, Text } from '@/components';
 import { ProgressBar } from '@/components/Motion';
 import { PhotoHeader } from '@/components/PhotoHeader';
-import { RewardCard } from '@/components/RewardCard';
-import { RewardDetail } from '@/components/RewardDetail';
-import { api, type ReferralStatus } from '@/api';
-import { CONFIG } from '@/engine';
+import { api, type Draw } from '@/api';
+import { CONFIG, bonusAt, nextBonus, prizeMax, prizeMin, topOdds } from '@/engine';
 import { useQuery } from '@/hooks/useQuery';
 import { ago } from '@/lib/format';
-import { CATALOGUE, pointsFor, pts, redeemMessage, shareMessage, type RewardItem } from '@/lib/rewards';
-import { openWhatsApp } from '@/lib/whatsapp';
+import { FRIEND_STATUS, RULES_URL, ordinal, sgd, shareMessage } from '@/lib/rewards';
 import { colors, fonts, space } from '@/theme';
 
-const STATUS: Record<ReferralStatus, { label: string; tone: 'blue' | 'orange' | 'success' }> = {
-  invited: { label: 'Invited', tone: 'blue' },
-  signed_up: { label: 'Signed up', tone: 'orange' },
-  switched: { label: 'Switched', tone: 'success' },
-};
+const R = CONFIG.rewards;
 
 const STEPS: { icon: keyof typeof Ionicons.glyphMap; text: string }[] = [
   { icon: 'share-social-outline', text: 'Share your code' },
   { icon: 'flash-outline', text: 'A friend switches' },
-  { icon: 'star-outline', text: `You earn ${pts(CONFIG.rewards.pointsPerSwitch)}` },
-  { icon: 'gift-outline', text: 'Swap points for rewards' },
+  { icon: 'gift-outline', text: 'You both get a draw' },
+  { icon: 'trophy-outline', text: 'Spin to win a voucher' },
 ];
 
-const SHOWN_REFERRALS = 3;
-const CARD_W = 150;
+const SHOWN_FRIENDS = 3;
 
 export default function Rewards() {
   const { data, error, loading, refreshing, refresh } = useQuery(() => api.referrals.summary());
   const [copied, setCopied] = useState(false);
-  const [allRefs, setAllRefs] = useState(false);
-  const [open, setOpen] = useState<RewardItem | null>(null);
+  const [allFriends, setAllFriends] = useState(false);
 
   if (loading) return <Screen tabs><Loading /></Screen>;
   if (error || !data) return <Screen tabs><LoadFailed onRetry={refresh} /></Screen>;
 
-  const balance = pointsFor(data.successful);
-  // The next item they can't afford yet, so the bar always points somewhere.
-  const next = CATALOGUE.find((r) => r.points > balance);
-  const progress = next ? Math.min(1, balance / next.points) : 1;
+  const waiting = data.draws.filter((d) => d.status === 'ready');
+  const next = nextBonus(data.successful)!;
+  let prev = data.successful; // the last bonus reached (or 0), so the bar fills from there
+  while (prev > 0 && !bonusAt(prev)) prev--;
+  const progress = (data.successful - prev) / (next.at - prev);
   const share = () => Share.share({ message: shareMessage(data.code, data.link) });
-  const refs = allRefs ? data.referrals : data.referrals.slice(0, SHOWN_REFERRALS);
+  const friends = allFriends ? data.referrals : data.referrals.slice(0, SHOWN_FRIENDS);
+  const last = R.bonusDraws[R.bonusDraws.length - 1].at;
 
   async function copy() {
     await Clipboard.setStringAsync(data!.link);
@@ -61,61 +53,64 @@ export default function Rewards() {
 
   return (
     <Screen tabs edges={[]} refreshing={refreshing} onRefresh={refresh}>
-      <PhotoHeader photo="neighbours" title={CONFIG.rewards.programmeName} subtitle="Refer friends, earn points, swap them for things you’ll use." />
+      <PhotoHeader photo="neighbours" title={R.programmeName} subtitle="Refer a friend. When their new plan starts, you both get a lucky draw." />
+
+      {data.sample ? <Text variant="caption" color={colors.orangeAA}>Sample data for review. Draws open sample draws that never pay out.</Text> : null}
 
       <Card>
-        {/* Points */}
+        {/* Draws waiting, and the next bonus */}
         <View style={s.rowBetween}>
           <View style={{ gap: 2 }}>
-            <Text variant="eyebrow">Your points</Text>
-            <Text style={s.balance}>{balance.toLocaleString('en-SG')}<Text style={s.balanceUnit}> pts</Text></Text>
+            <Text variant="eyebrow">Draws waiting</Text>
+            <Text style={s.balance}>{waiting.length}<Text style={s.balanceUnit}> {waiting.length === 1 ? 'draw' : 'draws'}</Text></Text>
           </View>
           <View style={{ alignItems: 'flex-end', gap: 2 }}>
             <Text variant="caption">Friends switched</Text>
             <Text variant="h2">{data.successful}</Text>
           </View>
         </View>
-        <View style={{ gap: 6 }} accessibilityLabel={next ? `${pts(balance)} of ${pts(next.points)} towards ${next.name}` : 'You can redeem every reward'}>
+        <View style={{ gap: 6 }} accessibilityLabel={`${next.toGo} more friends for a bonus of ${next.extra} draws`}>
           <ProgressBar value={progress} trackStyle={s.track} fillStyle={s.fill} />
-          <Text variant="caption">{next ? `Next up: ${next.name}, ${pts(next.points - balance)} to go.` : 'You can redeem any reward.'}</Text>
+          <Text variant="caption">{next.toGo === 1 ? 'One more friend' : `${next.toGo} more friends`} for a bonus (+{next.extra} draw{next.extra === 1 ? '' : 's'}).</Text>
         </View>
+        {data.draws.length ? data.draws.map((d, i) => <DrawRow key={d.id} draw={d} last={i === data.draws.length - 1} />) : (
+          <Text variant="small">No draws yet. When a friend’s new plan starts, we’ll send your draw link on WhatsApp and show it here.</Text>
+        )}
 
         {/* Your code */}
         <View style={s.divider} />
-        <View style={s.rowBetween}>
-          <View style={{ flex: 1, gap: 2 }}>
-            <Text variant="eyebrow">Your referral code</Text>
-            <Text style={s.code} selectable>{data.code}</Text>
-          </View>
+        <View style={{ gap: 2 }}>
+          <Text variant="eyebrow">Your referral code</Text>
+          <Text style={s.code} selectable>{data.code}</Text>
         </View>
         <View style={{ flexDirection: 'row', gap: space.sm }}>
           <Button label="Share" icon="share-social-outline" small style={{ flex: 1 }} onPress={share} />
           <Button label={copied ? 'Copied' : 'Copy link'} icon={copied ? 'checkmark' : 'copy-outline'} variant="secondary" small style={{ flex: 1 }} onPress={copy} />
         </View>
 
-        {/* Who used it */}
+        {/* Friends who used it: numbered, never named */}
         <View style={s.divider} />
-        <Text variant="eyebrow">Your referrals</Text>
+        <Text variant="eyebrow">Your friends</Text>
         {data.referrals.length ? (
           <>
-            {refs.map((r, i) => (
-              <View key={r.id} style={[s.ref, i < refs.length - 1 && s.refBorder]}>
-                <View style={s.avatar}><Text variant="bodyStrong" color={colors.deep}>{r.name.charAt(0)}</Text></View>
+            {friends.map((r, i) => (
+              <View key={r.id} style={[s.row, i < friends.length - 1 && s.rowBorder]}>
+                <View style={s.avatar}><Text variant="bodyStrong" color={colors.deep}>{r.number}</Text></View>
                 <View style={{ flex: 1 }}>
-                  <Text variant="bodyStrong">{r.name}</Text>
+                  <Text variant="bodyStrong">Friend {r.number}</Text>
                   <Text variant="caption">{ago(r.at)}</Text>
                 </View>
-                <Pill label={STATUS[r.status].label} tone={STATUS[r.status].tone} />
+                <Pill label={FRIEND_STATUS[r.status].label} tone={FRIEND_STATUS[r.status].tone} />
               </View>
             ))}
-            {data.referrals.length > SHOWN_REFERRALS ? (
-              <Text variant="bodyStrong" color={colors.blue} accessibilityRole="button" onPress={() => setAllRefs(!allRefs)}>
-                {allRefs ? 'Show fewer' : `Show all ${data.referrals.length}`}
+            {data.referrals.length > SHOWN_FRIENDS ? (
+              <Text variant="bodyStrong" color={colors.blue} accessibilityRole="button" onPress={() => setAllFriends(!allFriends)}>
+                {allFriends ? 'Show fewer' : `Show all ${data.referrals.length}`}
               </Text>
             ) : null}
           </>
         ) : (
-          <Text variant="small">No one yet. Friends who use your code show up here, from invited to switched.</Text>
+          <Text variant="small">No one yet. Friends who use your code show up here, from invited to supply started. We don’t show names.</Text>
         )}
       </Card>
 
@@ -131,26 +126,43 @@ export default function Rewards() {
         </View>
       </View>
 
-      <View style={{ gap: space.md }}>
-        <View style={s.rowBetween}>
-          <Text variant="h2">Redeem your points</Text>
-          <Text variant="bodyStrong" color={colors.blue} accessibilityRole="link" onPress={() => router.push('/rewards-catalogue')}>See all</Text>
-        </View>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.rail} decelerationRate="fast" snapToInterval={CARD_W + space.md} snapToAlignment="start" disableIntervalMomentum>
-          {CATALOGUE.map((item) => <RewardCard key={item.id} item={item} balance={balance} width={CARD_W} onPress={() => setOpen(item)} />)}
-        </ScrollView>
+      <View style={{ gap: space.sm }}>
+        <Text variant="h3">Bonus draws</Text>
+        <Card>
+          <Ladder label="Every friend whose plan starts" value="1 draw each" />
+          {R.bonusDraws.map((b) => <Ladder key={b.at} label={`Your ${ordinal(b.at)} friend`} value={`+${b.extra} bonus draw${b.extra === 1 ? '' : 's'}`} />)}
+          <Ladder label={`Every ${R.repeatEvery} friends after that (${last + R.repeatEvery}, ${last + 2 * R.repeatEvery} …)`} value={`+${R.repeatExtra} bonus draws`} />
+        </Card>
       </View>
 
-      <Text variant="caption" center>Points are awarded when a friend’s new plan starts. Items are subject to availability. Terms apply.</Text>
-
-      <RewardDetail
-        item={open}
-        balance={balance}
-        onClose={() => setOpen(null)}
-        onRedeem={(item) => { setOpen(null); openWhatsApp(redeemMessage(item, data.code)); }}
-        onShare={() => { setOpen(null); share(); }}
-      />
+      <Text variant="caption" center>
+        Every draw wins a {R.voucherShops} voucher from {sgd(prizeMin())} to {sgd(prizeMax())}. The top prize has a {topOdds()} chance per draw.{' '}
+        <Text variant="caption" color={colors.blue} accessibilityRole="link" onPress={() => Linking.openURL(RULES_URL)}>Draw rules</Text>
+      </Text>
     </Screen>
+  );
+}
+
+function DrawRow({ draw, last }: { draw: Draw; last: boolean }) {
+  const used = draw.status === 'drawn';
+  return (
+    <View style={[s.row, !last && s.rowBorder]}>
+      <View style={[s.drawIcon, used && s.drawIconUsed]}><Ionicons name={used ? 'checkmark' : 'gift'} size={18} color={used ? colors.inkMuted : colors.orangeAA} /></View>
+      <View style={{ flex: 1 }}>
+        <Text variant="bodyStrong">{draw.kind === 'bonus' ? 'Bonus draw' : draw.kind === 'friend' ? 'Welcome draw' : `Friend ${draw.friend} switched`}</Text>
+        <Text variant="caption">{used ? `Won a ${sgd(draw.prize ?? 0)} voucher` : draw.link ? `Ready · ${ago(draw.at)}` : 'Your link is on WhatsApp'}</Text>
+      </View>
+      {!used && draw.link ? <Button label="Spin" small onPress={() => Linking.openURL(draw.link!)} /> : null}
+    </View>
+  );
+}
+
+function Ladder({ label, value }: { label: string; value: string }) {
+  return (
+    <View style={s.ladder}>
+      <Text variant="small" style={{ flex: 1 }}>{label}</Text>
+      <Text variant="bodyStrong" color={colors.orangeAA}>{value}</Text>
+    </View>
   );
 }
 
@@ -162,12 +174,13 @@ const s = StyleSheet.create({
   track: { height: 8, borderRadius: 4, backgroundColor: colors.cloud, overflow: 'hidden' },
   fill: { height: '100%', borderRadius: 4, backgroundColor: colors.blue },
   divider: { height: StyleSheet.hairlineWidth, backgroundColor: colors.border },
-  ref: { flexDirection: 'row', alignItems: 'center', gap: space.md, paddingVertical: space.sm },
-  refBorder: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.border },
+  row: { flexDirection: 'row', alignItems: 'center', gap: space.md, paddingVertical: space.sm },
+  rowBorder: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.border },
   avatar: { width: 36, height: 36, borderRadius: 18, backgroundColor: colors.blueTint, alignItems: 'center', justifyContent: 'center' },
+  drawIcon: { width: 36, height: 36, borderRadius: 10, backgroundColor: '#FFF3E0', alignItems: 'center', justifyContent: 'center' },
+  drawIconUsed: { backgroundColor: colors.cloud },
   steps: { flexDirection: 'row', gap: space.sm },
   step: { flex: 1, alignItems: 'center', gap: 6 },
   stepIcon: { width: 44, height: 44, borderRadius: 14, borderWidth: 1.5, borderColor: 'rgba(0, 123, 184, 0.35)', alignItems: 'center', justifyContent: 'center', backgroundColor: colors.white },
-  // Vertical padding leaves room for the cards' shadows inside the scroller.
-  rail: { gap: space.md, paddingHorizontal: space.xl, marginHorizontal: -space.xl, paddingTop: 4, paddingBottom: 18 },
+  ladder: { flexDirection: 'row', alignItems: 'center', gap: space.md, paddingVertical: 4 },
 });

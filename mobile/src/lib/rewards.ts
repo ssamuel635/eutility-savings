@@ -1,39 +1,28 @@
-// The rewards catalogue: items and points come from the website's config
-// (assets/js/config.js → rewards), photos from mobile/assets/rewards/.
+// Eutility Rewards in the app: the referral lucky draw. The rules (bonus draws,
+// prizes) come from the website's config and services/draws.js, so the app and
+// the website always agree. The draw itself runs on the website's draw page.
 
-import type { ImageSourcePropType } from 'react-native';
 import { CONFIG } from '@/engine';
+import type { ReferralStatus } from '@/api';
 
-const IMAGES: Record<string, ImageSourcePropType> = {
-  'gift-voucher': require('../../assets/rewards/gift-voucher.jpg'),
-  'desk-fan': require('../../assets/rewards/desk-fan.jpg'),
-  'rice-cooker': require('../../assets/rewards/rice-cooker.jpg'),
-  'air-fryer': require('../../assets/rewards/air-fryer.jpg'),
-  'robot-vacuum': require('../../assets/rewards/robot-vacuum.jpg'),
-  'nintendo-switch': require('../../assets/rewards/nintendo-switch.jpg'),
-  ps5: require('../../assets/rewards/ps5.jpg'),
-  'smart-tv': require('../../assets/rewards/smart-tv.jpg'),
+export const SITE = 'https://eutility-savings.vercel.app';
+export const RULES_URL = `${SITE}/draw.html#rules`;
+
+/** Where a friend is up to. Friends are numbered, never named. */
+export const FRIEND_STATUS: Record<ReferralStatus, { label: string; tone: 'blue' | 'orange' | 'success' }> = {
+  invited: { label: CONFIG.rewards.friendSteps[0], tone: 'blue' },
+  signed_up: { label: CONFIG.rewards.friendSteps[1], tone: 'blue' },
+  switching: { label: CONFIG.rewards.friendSteps[2], tone: 'orange' },
+  switched: { label: CONFIG.rewards.friendSteps[3], tone: 'success' },
 };
-
-export interface RewardItem { id: string; name: string; points: number; about?: string; image?: ImageSourcePropType }
-
-export const CATALOGUE: RewardItem[] = CONFIG.rewards.catalogue.map((r) => ({ ...r, image: IMAGES[r.img] }));
-
-/** How redeeming works: shown on every item's detail sheet. */
-export const REDEEM_NOTES: string[] = CONFIG.rewards.redeemNotes;
 
 /** What a customer sends friends when they share their code. */
 export const shareMessage = (code: string, link: string) =>
-  `I switched my electricity plan with Eutility and saved. Check what you could save — use my code ${code}: ${link}`;
+  `I checked my electricity plan with Eutility. See what you could save, and we both get a lucky draw if you switch. Use my code ${code}: ${link}`;
 
-/** The WhatsApp message that asks Eutility for an item. */
-export const redeemMessage = (item: RewardItem, code: string) =>
-  `Hi ${CONFIG.brand}, I'd like to redeem ${pts(item.points)} for: ${item.name}.\nReferral code: ${code}\n(sent from the Eutility app)`;
+export const sgd = (n: number) => `S$${n.toLocaleString('en-SG')}`;
 
-/** This month's headline reward (CONFIG.rewards.featured). */
-export const FEATURED: RewardItem | undefined = CATALOGUE.find((r) => r.id === CONFIG.rewards.featured);
-
-/** Points for a number of friends who switched. */
-export const pointsFor = (switched: number) => switched * CONFIG.rewards.pointsPerSwitch;
-
-export const pts = (n: number) => `${n.toLocaleString('en-SG')} pts`;
+export const ordinal = (n: number) => {
+  const end = ({ 1: 'st', 2: 'nd', 3: 'rd' } as Record<number, string>)[n % 10];
+  return `${n}${end && ![11, 12, 13].includes(n % 100) ? end : 'th'}`;
+};

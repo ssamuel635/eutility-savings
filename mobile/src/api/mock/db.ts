@@ -39,7 +39,7 @@ export interface ApplicationRow {
   promoCode?: string;
 }
 
-export interface ReferralRow { id: string; referrerId: string; name: string; status: ReferralStatus; at: string }
+export interface ReferralRow { id: string; referrerId: string; status: ReferralStatus; at: string }
 
 export interface Db {
   customers: Record<string, Customer>;

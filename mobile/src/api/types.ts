@@ -178,14 +178,30 @@ export interface NewApplication {
   promoCode?: string;
 }
 
-// ── Referrals ────────────────────────────────────────────────
-export type ReferralStatus = 'invited' | 'signed_up' | 'switched';
+// ── Referrals and the lucky draw ─────────────────────────────
+// Friends are numbered, never named (Kenneth, 4 Nov 2026).
+export type ReferralStatus = 'invited' | 'signed_up' | 'switching' | 'switched';
 
 export interface Referral {
   id: string;
-  name: string;            // first name / initial only
+  /** Friend 1, Friend 2 … in the order they used the code. */
+  number: number;
   status: ReferralStatus;
   at: string;
+}
+
+/** One lucky draw: one per friend whose supply started, plus bonus draws. */
+export interface Draw {
+  id: string;
+  kind: 'referrer' | 'friend' | 'bonus';
+  /** Which friend it came from (referrer draws). */
+  friend?: number;
+  status: 'ready' | 'drawn';
+  /** Voucher value in S$, once drawn. */
+  prize?: number;
+  at: string;
+  /** The draw page link (the same one sent on WhatsApp); null when only WhatsApp has it. */
+  link: string | null;
 }
 
 export interface ReferralSummary {
@@ -193,9 +209,7 @@ export interface ReferralSummary {
   link: string;
   referred: number;
   successful: number;
-  /** null until Eutility confirms reward amounts. */
-  rewardsEarned: number | null;
-  nextRewardAt: number;
+  draws: Draw[];
   referrals: Referral[];
   sample: boolean;
 }

@@ -4,15 +4,16 @@
 // (the Excel workbook for now), and application stages staff set there are
 // read back, so the Track tab follows what Eutility does.
 
-import { CONFIG, CONTRACT_FILTERS, TARIFF_PERIOD } from '@/engine';
+import { CONTRACT_FILTERS, TARIFF_PERIOD, bonusAt } from '@/engine';
 import { crm, flushOutbox, toCrmContact, type CrmAction } from '../crm';
-import { ApiError, type Api, type Customer, type Invoice, type Notice, type Plan, type SavingsQuote, type Session } from '../types';
+import { ApiError, type Api, type Customer, type Draw, type Invoice, type Notice, type Plan, type SavingsQuote, type Session } from '../types';
 import { advance, applyCrmStage, toApplication } from './applications';
 import { db, delay, normEmail, normPhone, nowISO, reset, save, uid, type Db } from './db';
 import { catalogue, planById, quote, sheetIdFor } from './pricing';
 import { DEMO } from './seed';
 
-const REFERRAL_BASE = 'https://eutility-savings.vercel.app/r/';
+const SITE = 'https://eutility-savings.vercel.app';
+const REFERRAL_BASE = `${SITE}/r/`;
 
 async function me(): Promise<{ d: Db; c: Customer }> {
   const d = await db();
@@ -343,16 +344,27 @@ export const mockApi: Api = {
     async summary() {
       await delay(250);
       const { d, c } = await me();
-      const mine = d.referrals.filter((r) => r.referrerId === c.id).sort((a, b) => b.at.localeCompare(a.at));
+      // Oldest first, so friends keep their number; shown newest first.
+      const mine = d.referrals.filter((r) => r.referrerId === c.id).sort((a, b) => a.at.localeCompare(b.at));
+      const referrals = mine.map(({ referrerId: _r, ...r }, i) => ({ ...r, number: i + 1 })).reverse();
+      const sample = c.phone === DEMO.phone;
+      // Sample draws for the demo account: one per friend whose supply started
+      // (the first already used), plus bonus draws. Real draws come from the CRM.
+      const switched = referrals.filter((r) => r.status === 'switched').reverse();
+      const draws: Draw[] = [];
+      switched.forEach((r, i) => {
+        draws.push({ id: `D-${r.id}`, kind: 'referrer', friend: r.number, status: i === 0 ? 'drawn' : 'ready', prize: i === 0 ? 5 : undefined, at: r.at, link: null });
+        for (let b = 0; b < bonusAt(i + 1); b++) draws.push({ id: `D-${r.id}-B${b}`, kind: 'bonus', status: 'ready', at: r.at, link: null });
+      });
+      for (const dr of draws) dr.link = dr.status === 'ready' && sample ? `${SITE}/draw.html?sample=${dr.kind}` : null;
       return {
         code: c.referralCode,
         link: REFERRAL_BASE + c.referralCode,
-        referred: mine.length,
-        successful: mine.filter((r) => r.status === 'switched').length,
-        rewardsEarned: null,
-        nextRewardAt: CONFIG.rewards.nextRewardAt,
-        referrals: mine.map(({ referrerId: _r, ...r }) => r),
-        sample: c.phone === DEMO.phone,
+        referred: referrals.length,
+        successful: switched.length,
+        draws: sample ? draws.reverse() : [],
+        referrals,
+        sample,
       };
     },
   },
