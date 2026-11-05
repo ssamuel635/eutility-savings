@@ -56,28 +56,44 @@
     </div>
   </header><!-- /prerender:header -->
 <main id="main">
-  <!-- 1. The draw, and where you're up to -->
-  <section class="container" style="padding-top:clamp(28px,4vw,56px);padding-bottom:clamp(40px,6vw,72px)">
+  <!-- 1. What it is (left) and how it works (top right, Kenneth 5 Nov) -->
+  <section class="container ref-section ref-section--first">
     <div id="sample-note"></div>
-    <div class="grid-2 grid-2--card grid-2--top">
-      <div class="stack" style="--stack:18px">
+    <div class="ref-top">
+      <div class="stack" style="--stack:16px">
         <p class="eyebrow eyebrow--orange">Eutility Rewards</p>
         <h1 class="display">Share it. You both win.</h1>
         <p class="lead" id="ref-lead">When a friend you referred starts their new electricity plan, you each get a lucky draw. Every draw wins a grocery voucher.</p>
         <div class="trust"><span>Free to join</span><span>Every draw wins</span><span><a href="draw.html#rules">Draw rules</a></span></div>
         <div class="photo-frame ref-photo" id="ref-photo"></div>
       </div>
-      <div class="ref-panel" id="ref-summary"></div>
+      <div class="ref-panel ref-how">
+        <h2 class="h3">How it works</h2>
+        <ol class="ref-steps">
+          <li><span class="ref-steps__num">1</span><span><strong>Share your link</strong>Send it on WhatsApp or copy it anywhere.</span></li>
+          <li><span class="ref-steps__num">2</span><span><strong>Your friend switches</strong>They check their bill and move to a better plan with our help.</span></li>
+          <li><span class="ref-steps__num">3</span><span><strong>You both get a draw</strong>Once their new plan starts, we send you each a lucky draw link on WhatsApp.</span></li>
+        </ol>
+        <h3 class="h4">Bonus draws</h3>
+        <ul class="bonus-ladder" id="bonus-ladder"></ul>
+        <p class="small" id="prize-note"></p>
+      </div>
     </div>
   </section>
 
-  <!-- 2. Your friends' progress (never named) and your link -->
-  <section class="container" style="padding-bottom:clamp(48px,7vw,88px)">
-    <div id="my-status"></div>
+  <!-- 2. Your draws and link (left), your friends' progress, never named (right) -->
+  <section class="container ref-section">
+    <div class="ref-mine">
+      <div class="stack" style="--stack:16px">
+        <div class="ref-panel" id="ref-summary"></div>
+        <div class="card stack" style="--stack:14px" id="ref-link-card"></div>
+      </div>
+      <div class="card stack" style="--stack:14px" id="ref-friends"></div>
+    </div>
   </section>
 
   <!-- 3. Recent winners: real customers only, hidden until there are any -->
-  <section class="section section--cloud container" id="stories-section" hidden>
+  <section class="container ref-section ref-section--cloud" id="stories-section" hidden>
     <div class="section-head">
       <p class="eyebrow">Recent winners</p>
       <h2 class="h2">They switched, saved and won.</h2>
@@ -86,27 +102,7 @@
     <div class="stories" id="stories"></div>
   </section>
 
-  <!-- 4. How it works + bonus draws -->
-  <section class="section container">
-    <div class="grid-2 grid-2--top">
-      <div class="stack" style="--stack:16px">
-        <h2 class="h2">How it works</h2>
-        <ol class="steps">
-          <li class="step"><span class="step__num">1</span><h3 class="h4">Share your link</h3><p>Send it on WhatsApp or copy it anywhere.</p></li>
-          <li class="step"><span class="step__num">2</span><h3 class="h4">Your friend switches</h3><p>They check their bill and move to a better plan with our help.</p></li>
-          <li class="step"><span class="step__num">3</span><h3 class="h4">You both get a draw</h3><p>Once their new plan starts, we send you each a lucky draw link on WhatsApp. Spin it and see what you&rsquo;ve won.</p></li>
-        </ol>
-      </div>
-      <div class="stack" style="--stack:16px">
-        <h2 class="h2">Bonus draws</h2>
-        <p class="lead">The more friends you bring, the more you can win.</p>
-        <ul class="bonus-ladder" id="bonus-ladder"></ul>
-        <p class="small" id="prize-note"></p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section--cloud container">
+  <section class="container ref-section">
     <div class="banner banner--blue" style="background:#fff">
       <div class="stack" style="--stack:6px">
         <h2 class="h3">Checked your own bill yet?</h2>

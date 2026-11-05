@@ -77,29 +77,24 @@ const friendRow = (f) => `
     <div class="friend__labels" aria-hidden="true">${STEPS.map((s) => `<span>${esc(s)}</span>`).join('')}</div>
   </li>`;
 
-document.getElementById('my-status').innerHTML = `
-  <div class="grid-2 grid-2--top">
-    <div class="card stack" style="--stack:16px">
-      <div>
-        <h2 class="calc-card__title">Your friends</h2>
-        <p class="small">We don’t show names, just where each friend is up to.</p>
-      </div>
-      ${me.friends.length
-        ? `<ul class="friends">${me.friends.map(friendRow).join('')}</ul>`
-        : `<div class="activity-row"><span class="activity-row__icon">${I.userPlus}</span><span>No friends yet. When someone messages us with your code, you’ll see their progress here.</span></div>`}
-      ${customer.isSignedIn() ? '' : '<p class="small"><a href="signup.html">Create an account</a> to track your friends and draws.</p>'}
-    </div>
+document.getElementById('ref-friends').innerHTML = `
+  <div>
+    <h2 class="calc-card__title">Your friends</h2>
+    <p class="small">We don’t show names, just where each friend is up to.</p>
+  </div>
+  ${me.friends.length
+    ? `<ul class="friends">${me.friends.map(friendRow).join('')}</ul>`
+    : `<div class="activity-row"><span class="activity-row__icon">${I.userPlus}</span><span>No friends yet. When someone messages us with your code, you’ll see their progress here.</span></div>`}
+  ${customer.isSignedIn() ? '' : '<p class="small"><a href="signup.html">Create an account</a> to track your friends and draws.</p>'}`;
 
-    <div class="card stack" style="--stack:16px">
-      <h2 class="calc-card__title">Your link</h2>
-      <div class="ref-link"><span id="ref-link-text">${esc(link.replace(/^https?:\/\//, ''))}</span></div>
-      <div class="stack" style="--stack:12px">
-        <button class="btn btn--block" type="button" id="ref-copy">Copy link</button>
-        <button class="btn btn--wa btn--block" type="button" id="ref-share">${I.chat}<span>Share on WhatsApp</span></button>
-      </div>
-      <p class="small">Your friend lands on our home page, and your code is added when they message us.</p>
-    </div>
-  </div>`;
+document.getElementById('ref-link-card').innerHTML = `
+  <h2 class="calc-card__title">Your link</h2>
+  <div class="ref-link"><span id="ref-link-text">${esc(link.replace(/^https?:\/\//, ''))}</span></div>
+  <div class="ref-link-btns">
+    <button class="btn" type="button" id="ref-copy">Copy link</button>
+    <button class="btn btn--wa" type="button" id="ref-share">${I.chat}<span>Share on WhatsApp</span></button>
+  </div>
+  <p class="small">Your friend lands on our home page, and your code is added when they message us.</p>`;
 
 const copyBtn = document.getElementById('ref-copy');
 copyBtn.addEventListener('click', async () => {
