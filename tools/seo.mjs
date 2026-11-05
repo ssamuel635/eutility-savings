@@ -35,10 +35,12 @@ const { planCount: plans, retailerCount: retailers, regulatedTariff: tariff, tar
 const titleCase = (t) => t.split(' ').map((w) => (/^(a|an)$/.test(w) ? w : w.replace(/(^|-)([a-z])/g, (m, sep, ch) => sep + ch.toUpperCase()))).join(' ');
 
 // One page per home type ("Electricity plans for a 4-room HDB flat"), from the
-// presets in config.js and the pages listed in widgets/home-story.js.
+// presets in config.js and the pages listed in widgets/home-story.js. The titles
+// use the "bill" wording people search ("4-room HDB electricity bill"); "flat"
+// is dropped after HDB to stay under 60 characters.
 const HOME_TYPE_PAGES = Object.fromEntries(CONFIG.homePresets.map((p) => homeFacts(p.label)).filter((f) => f?.href).map((f) => [f.href, {
-  title: `Electricity Plans for ${titleCase(f.inSentence)} — Eutility`,
-  description: `${f.inSentence.charAt(0).toUpperCase()}${f.inSentence.slice(1)} uses about ${f.kwh} kWh a month: about ${fmtMoney(f.onTariff)} a month on SP Group’s tariff. See the plans that cost least for that usage.`,
+  title: `${titleCase(f.name.replace(/ HDB flat$/, ' HDB'))} Electricity Bill & Cheapest Plans — Eutility`,
+  description: `${f.inSentence.charAt(0).toUpperCase()}${f.inSentence.slice(1)} uses about ${f.kwh} kWh a month: a bill of about ${fmtMoney(f.onTariff)} a month on SP Group’s tariff. See the plans that cost least for that usage.`,
 }]));
 
 // The search each page is written to answer (Oct 2026 plan), so new copy and
@@ -47,9 +49,10 @@ const HOME_TYPE_PAGES = Object.fromEntries(CONFIG.homePresets.map((p) => homeFac
 //   calculator.html      electricity savings calculator / cheapest electricity plan
 //   how-it-works.html    how to switch electricity retailer Singapore
 //   electricity-tariff   SP Group electricity tariff <quarter>
-//   electricity-plans-*  electricity plan / bill for an HDB flat, condo or landed home
+//   electricity-plans-*  4-room HDB / condo / landed electricity bill, cheapest plan
 //   faq.html             switching electricity retailer questions
-//   news.html            Singapore electricity market news
+//   news.html            Singapore electricity news, SP tariff updates
+// Nov 2026: phrases taken from the FAQ and the market news (Kenneth, 5 Nov).
 // index: false keeps a page out of search results (account pages, errors).
 const PAGES = {
   'index.html': {
@@ -58,15 +61,15 @@ const PAGES = {
   },
   'calculator.html': {
     title: 'Singapore Electricity Savings Calculator — Eutility',
-    description: 'Enter your usage and current plan to see the cheapest Singapore electricity plans for you and your yearly saving. Businesses can talk to a consultant.',
+    description: 'Enter your usage and current rate to see the cheapest Singapore electricity plans for your home and your yearly saving against SP Group’s tariff.',
   },
   'how-it-works.html': {
     title: 'How to Switch Electricity Retailer in Singapore — Eutility',
-    description: 'Send a photo of your electricity bill on WhatsApp. Eutility checks it independently, shows your savings and helps you switch to your new retailer.',
+    description: 'Switch from SP Group to a cheaper electricity retailer in one WhatsApp chat: send a photo of your bill, see your savings, switch with no break in supply.',
   },
   'faq.html': {
     title: 'Switching Electricity Retailer in Singapore: FAQ — Eutility',
-    description: 'Switching electricity retailer in Singapore: how we work out savings, which retailers we compare, contracts, WhatsApp, referrals and small businesses.',
+    description: 'Switching electricity retailer in Singapore: savings against SP Group’s tariff, the retailers we compare, contracts, deposits, WhatsApp and referrals.',
   },
   'about.html': {
     title: 'About Eutility: Independent Energy Experts Since 1979',
@@ -81,13 +84,13 @@ const PAGES = {
     description: 'Refer a friend to Eutility. When their new electricity plan starts, you both get a lucky draw, and every draw wins a grocery voucher.',
   },
   'electricity-tariff.html': {
-    title: `SP Group Electricity Tariff ${tariffPeriod} — Eutility`,
-    description: `SP Group’s regulated electricity tariff for ${tariffPeriod} is ${tariff}¢/kWh incl. GST. See what it costs each type of home, and the plans that cost less.`,
+    title: `SP Electricity Tariff ${tariffPeriod}: ${tariff}¢/kWh — Eutility`,
+    description: `The latest SP Group tariff revision: ${tariff}¢/kWh incl. GST for ${tariffPeriod}. What it costs each type of home, why it changes, and plans that cost less.`,
   },
   ...HOME_TYPE_PAGES,
   'news.html': {
-    title: 'Singapore Electricity Market News — Eutility',
-    description: 'Electricity tariff changes, retailer news and market updates in Singapore, from SP Group, the Open Electricity Market and local news sites.',
+    title: 'Singapore Electricity News & Tariff Updates — Eutility',
+    description: 'SP Group tariff updates, electricity price news and market headlines for Singapore homes, from SP Group, the Open Electricity Market and local news sites.',
   },
   'legal.html': {
     title: 'Privacy Policy & Terms — Eutility',
