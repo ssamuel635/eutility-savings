@@ -155,11 +155,14 @@ export function compare({
       || a.plan.retailer.localeCompare(b.plan.retailer)
       || a.plan.name.localeCompare(b.plan.name));
 
-  const best = results.find((r) => r.plan.id !== currentPlan.id) || null;
+  // With their own rate, the customer's plan isn't one of ours (Kenneth, 5 Nov: a
+  // retailer isn't tied to its plans in the sheet), so no plan is left out as "theirs".
+  const theirs = ownRate ? null : currentPlan.id;
+  const best = results.find((r) => r.plan.id !== theirs) || null;
   const noMatches = results.length === 0;
   const alreadyBest = !noMatches && (!best || best.savingMonthly <= 0.5);
   // How many other plans cost the same as the recommended one (to the cent).
-  const tiedWith = best ? results.filter((r) => r !== best && r.plan.id !== currentPlan.id && Math.abs(r.total - best.total) < 0.005).length : 0;
+  const tiedWith = best ? results.filter((r) => r !== best && r.plan.id !== theirs && Math.abs(r.total - best.total) < 0.005).length : 0;
   return { current, results, best, alreadyBest, noMatches, tiedWith };
 }
 

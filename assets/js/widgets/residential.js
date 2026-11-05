@@ -22,11 +22,10 @@ const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '
 const isSp = (retailer) => retailer === 'SP Group';
 const ratesNote =`Estimate using retailers’ published rates as at <span class="nowrap">${RATES_DATE}</span>. Promotions not included.`;
 
-/** Second line under a retailer in the picker: SP's tariff, or how many plans a retailer offers. */
+/** Second line under a retailer in the picker: SP's tariff; other retailers ask for the customer's own rate. */
 function retailerSub(r) {
-  const ps = plansOf(r);
   if (r === 'SP Group') return `Regulated tariff · ${TARIFF}¢/kWh`;
-  return `${ps.length} plan${ps.length === 1 ? '' : 's'}`;
+  return 'You enter your rate';
 }
 
 /** Pick the most likely plan when a user knows their retailer but not their plan. */
@@ -77,10 +76,6 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
       <select class="select" id="${id}-retailer">
         ${RETAILERS.map((r) => `<option value="${esc(r)}" data-sub="${esc(retailerSub(r))}"${r === startRetailer ? ' selected' : ''}>${esc(r === 'SP Group' ? 'SP Group (never switched)' : r)}</option>`).join('')}
       </select>
-    </div>
-    <div class="field" id="${id}-plan-field">
-      <label class="field__label" for="${id}-plan">Current plan <span class="small">Not sure? Leave as is</span></label>
-      <select class="select" id="${id}-plan"></select>
     </div>
     <div class="field" id="${id}-rate-field" hidden>
       <fieldset style="border:0;padding:0;margin:0">
@@ -143,7 +138,10 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
   const exact = $(`#${id}-kwh-exact`);
   const exactErr = $(`#${id}-kwh-err`);
   const retailerSel = $(`#${id}-retailer`);
-  const planSel = $(`#${id}-plan`);
+  // Which plan stands for "their current plan": SP's tariff, or for another retailer
+  // just a placeholder for the retailer's name. Their own rate sets the price
+  // (Kenneth, 5 Nov: don't tie a retailer to its plans in our sheet).
+  const currentId = () => (isSp(retailerSel.value) ? DEFAULT_CURRENT_ID : defaultPlanFor(retailerSel.value));
   const rateField = $(`#${id}-rate-field`);
   const rateIn = $(`#${id}-rate`);
   const rateErr = $(`#${id}-rate-err`);
@@ -164,7 +162,7 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
   const ownRate = () => (isSp(retailerSel.value) || billMode() ? null : parseRate(rateIn.value));
   function updateLive() {
     if (!liveBill) return;
-    const cur = getPlan(planSel?.value) || getPlan(DEFAULT_CURRENT_ID);
+    const cur = getPlan(currentId()) || getPlan(DEFAULT_CURRENT_ID);
     const rate = ownRate();
     // Without their rate, any figure for a non-SP customer would be today's price, so show none.
     liveBill.closest('.live-bill').hidden = !isSp(retailerSel.value) && !rate;
@@ -228,21 +226,9 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
   });
   setKwh(kwh);
 
-  function fillPlans(retailer, selectedId) {
-    const ps = plansOf(retailer);
-    const def = defaultPlanFor(retailer);
-    planSel.innerHTML = ps.map((p) => {
-      const tag = p.id === def && ps.length > 1 ? 'Most common' : '';
-      return `<option value="${p.id}" data-sub="${esc(`${rateLabel(p)} · ${contractLabel(p.contractMonths)}`)}"${tag ? ` data-tag="${tag}"` : ''}${p.id === (selectedId || def) ? ' selected' : ''}>${esc(p.name)}</option>`;
-    }).join('');
-    $(`#${id}-plan-field`).hidden = ps.length <= 1;
-  }
-  fillPlans(startRetailer, start.currentId);
   enhanceSelect(retailerSel);
-  enhanceSelect(planSel);
   updateLive();
-  retailerSel.addEventListener('change', () => { fillPlans(retailerSel.value); syncRate(); updateLive(); });
-  planSel.addEventListener('change', updateLive);
+  retailerSel.addEventListener('change', () => { syncRate(); updateLive(); });
 
   function showRateErr(msg) {
     rateIn.setAttribute('aria-invalid', String(!!msg));
@@ -272,15 +258,14 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
 
   /** Hand-off for customers who'd rather send their bill: everything they've entered goes with it. */
   function billWaMessage() {
-    const cur = getPlan(planSel.value) || getPlan(DEFAULT_CURRENT_ID);
+    const retailer = retailerSel.value;
     const home = [...presets].find((b) => b.getAttribute('aria-pressed') === 'true')?.textContent;
     // Format agreed with FXMedia (26 Oct) so the chatbot only has to ask for the bill.
     return [
       'Hi Eutility, please read my bill and work out my savings.',
       '',
       `Usage: ${kwh} kWh/month`,
-      `Current retailer: ${cur.retailer}`,
-      `Current plan: ${cur.name}`,
+      `Current retailer: ${retailer}`,
       ...(home ? [`Home: ${home}`] : []),
       '(sent from the Eutility website)',
     ].join('\n');
@@ -299,7 +284,7 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
   function readInputs() {
     return {
       kwh,
-      currentId: planSel.value || DEFAULT_CURRENT_ID,
+      currentId: currentId(),
       currentRate: ownRate(),
       contract: full ? form.querySelector(`input[name="${id}-contract"]:checked`).value : '24',
       greenOnly: full ? $(`#${id}-green`).checked : false,
@@ -411,13 +396,15 @@ function planWaMessage(res, inputs) {
     "Hi Eutility, I'd like to switch my electricity plan.",
     '',
     `Usage: ${inputs.kwh} kWh/month`,
-    `Current plan: ${c.retailer} – ${c.name}`,
-    ...(res.current.customRate ? [`Current rate: ${res.current.customRate}¢/kWh`] : []),
+    ...(res.current.customRate ? [`Current retailer: ${c.retailer}`, `Current rate: ${res.current.customRate}¢/kWh`] : [`Current plan: ${c.retailer} – ${c.name}`]),
     `Selected plan: ${b.retailer} – ${b.name}`,
     `Estimated savings: ${fmtMoney(res.best.savingYearly)}/year`,
     '(sent from the Eutility website)',
   ].join('\n');
 }
+
+/** Their current plan by name: SP's tariff, or just the retailer when they typed their own rate. */
+const currentName = (current, sep = ' · ') => (current.customRate ? current.plan.retailer : `${current.plan.retailer}${sep}${current.plan.name}`);
 
 /** The current plan's price as shown in results: the rate they typed, or the plan's own. */
 const currentRateLabel = (current) => (current.customRate ? `${current.customRate}¢/kWh · your rate` : rateLabel(current.plan));
@@ -439,7 +426,7 @@ function logSwitch(res, inputs, reference, channel) {
   track('switch_clicked', { channel, plan: res.best.plan.id });
   crm.logComparison(reference, channel === 'email' ? 'switch_email' : 'switch_whatsapp', {
     kwh: inputs.kwh,
-    currentPlanName: `${res.current.plan.retailer} · ${res.current.plan.name}${res.current.customRate ? ` (${res.current.customRate}¢/kWh)` : ''}`,
+    currentPlanName: `${currentName(res.current)}${res.current.customRate ? ` (${res.current.customRate}¢/kWh)` : ''}`,
     bestPlanName: `${res.best.plan.retailer} · ${res.best.plan.name}`,
     savingMonthly: res.best.savingMonthly,
     savingYearly: res.best.savingYearly,
@@ -473,7 +460,7 @@ function howWeEstimate(inputs) {
 
 /** Shown when nothing beats the current plan: still give the visitor somewhere to go. */
 function goodNewsActions(inputs, current, params) {
-  const msg = `Hi Eutility, your calculator says I'm already on one of the cheapest plans (${current.retailer} ${current.name}, about ${inputs.kwh} kWh a month). Are there any promotions I should know about?`;
+  const msg = `Hi Eutility, your calculator says I'm already on one of the cheapest plans (${currentName(current, ' ')}${current.customRate ? ` at ${current.customRate}¢/kWh` : ''}, about ${inputs.kwh} kWh a month). Are there any promotions I should know about?`;
   return `
     <div class="btn-row">
       <a class="btn btn--wa" href="#" data-wa data-wa-message="${esc(msg)}">${I.chat}<span>Ask about promotions</span></a>
@@ -489,7 +476,7 @@ async function renderCompact(el, res, inputs) {
       <div class="stack enter" style="--stack:12px">
         <p class="h4 text-green">Good news: you’re already on one of the cheapest plans for your usage.</p>
         <p class="small">We’ll tell you if that changes. Retailer promotions can still be worth a look.</p>
-        ${goodNewsActions(inputs, res.current.plan, params)}
+        ${goodNewsActions(inputs, res.current, params)}
       </div>`;
     setBarAction(null);
     return;
@@ -526,7 +513,7 @@ function renderFull(el, res, inputs) {
   const sOn = soundEnabled();
   const top = results.slice(0, 5);
   const chartRows = [
-    { label: `${cur.retailer} · ${cur.name}`, sub: 'your plan', total: current.total, cls: 'bar--current' },
+    { label: currentName(current), sub: current.customRate ? 'your rate' : 'your plan', total: current.total, cls: 'bar--current' },
     ...top.filter((r) => r.plan.id !== cur.id).slice(0, 5).map((r, i) => ({
       label: `${r.plan.retailer} · ${r.plan.name}`, sub: contractLabel(r.plan.contractMonths), total: r.total, cls: i === 0 && !alreadyBest ? 'bar--winner' : '',
     })),
@@ -556,7 +543,7 @@ function renderFull(el, res, inputs) {
           <p class="eyebrow" style="color:var(--green-aa)">Good news</p>
           <h2 class="h2">You’re already on one of the cheapest plans for your usage.</h2>
           <p class="lead">Nothing cheaper matches your filters. Try a longer contract length, or ask us about retailer promotions.</p>
-          ${goodNewsActions(inputs, cur, null)}
+          ${goodNewsActions(inputs, current, null)}
         </div>` : `
         <div class="reveal-num">
           <span class="reveal-num__label">You could save</span>
@@ -566,7 +553,7 @@ function renderFull(el, res, inputs) {
         <div class="plan-vs">
           <div class="plan-box">
             <span class="plan-box__eyebrow">Current plan</span>
-            <span class="plan-box__name">${esc(cur.retailer)} · ${esc(cur.name)}</span>
+            <span class="plan-box__name">${esc(currentName(current))}</span>
             <span class="plan-box__meta">${esc(currentRateLabel(current))}</span>
             <span class="plan-box__bill">${fmtMoney(current.total, 2)}<span class="small">/mo</span></span>
           </div>
@@ -638,7 +625,7 @@ function renderFull(el, res, inputs) {
     const saved = customer.saveCheck({
       kwh: inputs.kwh,
       currentPlanId: cur.id,
-      currentPlanName: `${cur.retailer} · ${cur.name}`,
+      currentPlanName: currentName(current),
       bestPlanId: b.id,
       bestPlanName: `${b.retailer} · ${b.name}`,
       savingYearly: best.savingYearly,
