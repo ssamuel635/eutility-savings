@@ -2,6 +2,7 @@
 // Written by tools/news/apply.py from headlines approved in the review page.
 // To take one down, delete its line and run `npm run seo` (rewrites the pages).
 export const NEWS = [
+  {"id": "53b9fc2d5c6f", "date": "2026-11-05", "title": "ICA refutes report that Woodlands Checkpoint power outage resulted in Causeway, JB congestion", "source": "CNA", "kind": "news", "url": "https://www.channelnewsasia.com/singapore/ica-nov-4-causeway-congestion-not-caused-woodlands-checkpoint-power-outage-6526606", "topic": "policy"},
   {"id": "e01d688abf3c", "date": "2026-10-31", "title": "askST: Should I install solar panels at home? How much can I save on electricity?", "source": "The Straits Times", "kind": "news", "url": "https://www.straitstimes.com/singapore/environment/askst-should-i-install-solar-panels-at-home-how-much-can-i-save-on-electricity", "topic": "solar"},
   {"id": "8d83e1dee3b9", "date": "2026-10-30", "title": "Proposal to import 500MW of renewable electricity from Laos to S’pore mooted", "source": "The Straits Times", "kind": "news", "url": "https://www.straitstimes.com/singapore/environment/proposal-to-import-500mw-renewable-electricity-from-laos-to-spore-mooted-boosting-energy-security", "topic": "climate"},
   {"id": "6b93eebce072", "date": "2026-10-30", "title": "LNG traded by Singapore-based firms usually does not physically pass through Singapore, says METI", "source": "CNA", "kind": "news", "url": "https://www.channelnewsasia.com/singapore/lng-singapore-indonesia-ship-export-6507706", "topic": "gas"},
