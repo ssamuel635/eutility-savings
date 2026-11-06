@@ -32,5 +32,28 @@
   "Senoko Energy Supply Pte Ltd",
   "Tuas Power Supply Pte Ltd"
  ],
- "pending": {}
+ "pending": {
+  "53b9fc2d5c6f": {
+   "id": "53b9fc2d5c6f",
+   "title": "ICA refutes report that Woodlands Checkpoint power outage resulted in Causeway, JB congestion",
+   "url": "https://www.channelnewsasia.com/singapore/ica-nov-4-causeway-congestion-not-caused-woodlands-checkpoint-power-outage-6526606",
+   "date": "2026-11-05",
+   "source": "CNA",
+   "source_key": "cna",
+   "kind": "news",
+   "snippet": "In its account of what happened, ICA said a build-up of Singapore-bound traffic occurred amid planned electrical maintenance works, while two vehicle breakdowns on the Malaysian side of the Causeway subsequently contributed to traffic tailing back into Malaysia.",
+   "keywords": [
+    "power outage"
+   ],
+   "also": [
+    {
+     "id": "e4c874e45633",
+     "source": "The Straits Times",
+     "title": "ICA refutes Malaysian media report of power outage at Woodlands Checkpoint",
+     "url": "https://www.straitstimes.com/singapore/ica-refutes-malaysian-media-report-of-power-outage-at-woodlands-checkpoint",
+     "date": "2026-11-05"
+    }
+   ]
+  }
+ }
 }
