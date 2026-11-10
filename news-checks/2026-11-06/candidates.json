@@ -1,0 +1,67 @@
+{
+ "run": "2026-11-06",
+ "collected_at": "2026-11-06T09:44:01+08:00",
+ "days": 7,
+ "sources": [
+  {
+   "source": "SP Group",
+   "kind": "official",
+   "url": "https://www.spgroup.com.sg/about-us/media-resources/news-and-media-releases",
+   "read": 10,
+   "error": ""
+  },
+  {
+   "source": "Open Electricity Market",
+   "kind": "official",
+   "url": "https://www.openelectricitymarket.sg/residential/list-of-retailers",
+   "read": 7,
+   "error": "",
+   "note": "7 retailers listed, no change"
+  },
+  {
+   "source": "The Straits Times",
+   "kind": "news",
+   "url": "https://www.straitstimes.com/news/singapore/rss.xml",
+   "read": 50,
+   "error": ""
+  },
+  {
+   "source": "The Business Times",
+   "kind": "news",
+   "url": "https://www.businesstimes.com.sg/rss/singapore",
+   "read": 43,
+   "error": ""
+  },
+  {
+   "source": "CNA",
+   "kind": "news",
+   "url": "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml&category=10416",
+   "read": 20,
+   "error": ""
+  }
+ ],
+ "items": [
+  {
+   "id": "53b9fc2d5c6f",
+   "title": "ICA refutes report that Woodlands Checkpoint power outage resulted in Causeway, JB congestion",
+   "url": "https://www.channelnewsasia.com/singapore/ica-nov-4-causeway-congestion-not-caused-woodlands-checkpoint-power-outage-6526606",
+   "date": "2026-11-05",
+   "source": "CNA",
+   "source_key": "cna",
+   "kind": "news",
+   "snippet": "In its account of what happened, ICA said a build-up of Singapore-bound traffic occurred amid planned electrical maintenance works, while two vehicle breakdowns on the Malaysian side of the Causeway subsequently contributed to traffic tailing back into Malaysia.",
+   "keywords": [
+    "power outage"
+   ],
+   "also": [
+    {
+     "id": "e4c874e45633",
+     "source": "The Straits Times",
+     "title": "ICA refutes Malaysian media report of power outage at Woodlands Checkpoint",
+     "url": "https://www.straitstimes.com/singapore/ica-refutes-malaysian-media-report-of-power-outage-at-woodlands-checkpoint",
+     "date": "2026-11-05"
+    }
+   ]
+  }
+ ]
+}

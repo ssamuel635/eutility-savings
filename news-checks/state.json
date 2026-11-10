@@ -21,7 +21,9 @@
   "ebd57bc77c6c": "approved",
   "e01d688abf3c": "approved",
   "8d83e1dee3b9": "approved",
-  "6b93eebce072": "approved"
+  "6b93eebce072": "approved",
+  "53b9fc2d5c6f": "approved",
+  "e4c874e45633": "approved"
  },
  "oem_retailers": [
   "Flo Energy Singapore Pte. Ltd.",
@@ -32,19 +34,5 @@
   "Senoko Energy Supply Pte Ltd",
   "Tuas Power Supply Pte Ltd"
  ],
- "pending": {
-  "6b93eebce072": {
-   "id": "6b93eebce072",
-   "title": "LNG traded by Singapore-based firms usually does not physically pass through Singapore, says METI",
-   "url": "https://www.channelnewsasia.com/singapore/lng-singapore-indonesia-ship-export-6507706",
-   "date": "2026-10-30",
-   "source": "CNA",
-   "source_key": "cna",
-   "kind": "news",
-   "snippet": "The Ministry of Energy, Trade and Industry was responding to claims by Indonesian Energy and Mineral Resources Minister Bahlil Lahadalia that some LNG shipped from Indonesia to Singapore was subsequently resold to other countries.",
-   "keywords": [
-    "LNG"
-   ]
-  }
- }
+ "pending": {}
 }
