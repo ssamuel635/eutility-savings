@@ -34,5 +34,19 @@
   "Senoko Energy Supply Pte Ltd",
   "Tuas Power Supply Pte Ltd"
  ],
- "pending": {}
+ "pending": {
+  "07dfa2475af2": {
+   "id": "07dfa2475af2",
+   "title": "To boost energy security, is solar independence for Singapore possible?",
+   "url": "https://www.straitstimes.com/singapore/environment/to-boost-energy-security-is-solar-independence-for-singapore-possible",
+   "date": "2026-11-10",
+   "source": "The Straits Times",
+   "source_key": "straits-times",
+   "kind": "news",
+   "snippet": "",
+   "keywords": [
+    "solar"
+   ]
+  }
+ }
 }
