@@ -1,0 +1,179 @@
+{
+ "retailer": "Keppel Electric",
+ "checked_at": "2026-11-10",
+ "gst_basis_on_site": "both",
+ "sources": [
+  {
+   "url": "https://www.keppelelectric.com/api/AccountPlan/GetAllPlans",
+   "what": "Keppel's own plan feed (the residential price plan page loads it), fetched 10 Nov: 6 active plans, same rates and fact sheet versions as last week"
+  },
+  {
+   "url": "https://www.keppelelectric.com/api/Accountplan/Download/Factsheet",
+   "what": "EMA fact sheet PDFs linked from the feed, downloaded 10 Nov (rates, deposit and termination sections)"
+  }
+ ],
+ "plans": [
+  {
+   "name": "FIXED24",
+   "matches_id": "keppel-electric-fixed24",
+   "type": "fixed",
+   "contractMonths": 24,
+   "rate_incl_gst": 30.9,
+   "rate_excl_gst": 28.35,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "terms": {
+    "factsheet_date": "2026-10-19",
+    "deposit_source": "Security Deposit (see footnote 7): Deposit will be billed via the first invoice as follows: Security Deposit ($) All New Sign-ups HDB 1/2 50 HDB 3/4/5/EA/Jumbo 90 Condo/HDUC/EC 120 Others (e.g. shophouse) 190 Landed 220",
+    "etf_source": "Early Termination Charge (see footnote 6): Early termination charges: A x B x 30% where: A = the number of complete days remaining in the Initial Term under such Agreement after the date on which such Initial Term terminates pursuant to the terms of such Agreement; and B = the arithmetic average of the Charges payable in respect of each day by the Consumer to the Retailer under such Agreement during the period of the latest 2 months immediately preceding the termination.",
+    "changed": false,
+    "deposit": null,
+    "etf": null
+   },
+   "source_url": "https://www.keppelelectric.com/api/AccountPlan/GetAllPlans",
+   "evidence": "FIXED24 24 Months Fixed Rate 30.90¢/kWh (w/GST) Fixed Rate 28.35¢/kWh (w/o GST) (Fact Sheet_FIXED24 v42 _2026 1019 Standard.pdf)",
+   "confidence": "high",
+   "notes": "Read from Keppel's plan feed 10 Nov; fact sheet (same file as last week) downloaded and its deposit and early termination sections re-read: unchanged."
+  },
+  {
+   "name": "FIXED24 Special",
+   "matches_id": "keppel-electric-fixed24-special",
+   "type": "fixed",
+   "contractMonths": 24,
+   "rate_incl_gst": 30.4,
+   "rate_excl_gst": 27.89,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "terms": {
+    "factsheet_date": "2026-10-19",
+    "deposit_source": "Security Deposit (see footnote 7): Deposit will be billed via the first invoice as follows: Security Deposit ($) All New Sign-ups HDB 1/2 50 HDB 3/4/5/EA/Jumbo 90 Condo/HDUC/EC 120 Others (e.g. shophouse) 190 Landed 220",
+    "etf_source": "Early Termination Charge (see footnote 6): Early termination charges: A x B x 30% where: A = the number of complete days remaining in the Initial Term under such Agreement after the date on which such Initial Term terminates pursuant to the terms of such Agreement; and B = the arithmetic average of the Charges payable in respect of each day by the Consumer to the Retailer under such Agreement during the period of the latest 2 months immediately preceding the termination.",
+    "changed": false,
+    "deposit": null,
+    "etf": null
+   },
+   "source_url": "https://www.keppelelectric.com/api/AccountPlan/GetAllPlans",
+   "evidence": "FIXED24 Special 24 Months Fixed Rate 30.40¢/kWh (w/GST) Fixed Rate 27.89¢/kWh (w/o GST) (Fact Sheet_FIXED24 Special v5 _2026 1019_Standard.pdf)",
+   "confidence": "high",
+   "notes": "Read from Keppel's plan feed 10 Nov; fact sheet (same file as last week) downloaded and its deposit and early termination sections re-read: unchanged."
+  },
+  {
+   "name": "FIXED36",
+   "matches_id": "keppel-electric-fixed36",
+   "type": "fixed",
+   "contractMonths": 36,
+   "rate_incl_gst": 30.63,
+   "rate_excl_gst": 28.1,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "terms": {
+    "factsheet_date": "2026-10-19",
+    "deposit_source": "Security Deposit (see footnote 7): Deposit will be billed via the first invoice as follows: Security Deposit ($) All New Sign-ups HDB 1/2 50 HDB 3/4/5/EA/Jumbo 90 Condo/HDUC/EC 120 Others (e.g. shophouse) 190 Landed 220",
+    "etf_source": "Early Termination Charge (see footnote 6): Early termination charges: A x B x 30% where: A = the number of complete days remaining in the Initial Term under such Agreement after the date on which such Initial Term terminates pursuant to the terms of such Agreement; and B = the arithmetic average of the Charges payable in respect of each day by the Consumer to the Retailer under such Agreement during the period of the latest 2 months immediately preceding the termination.",
+    "changed": false,
+    "deposit": null,
+    "etf": null
+   },
+   "source_url": "https://www.keppelelectric.com/api/AccountPlan/GetAllPlans",
+   "evidence": "FIXED36 36 Months Fixed Rate 30.63¢/kWh (w/GST) Fixed Rate 28.10¢/kWh (w/o GST) (Fact Sheet_Fixed36 v17_2026 1019_ NonStandard.pdf)",
+   "confidence": "high",
+   "notes": "Read from Keppel's plan feed 10 Nov; fact sheet (same file as last week) downloaded and its deposit and early termination sections re-read: unchanged."
+  },
+  {
+   "name": "FIXED12",
+   "matches_id": "keppel-electric-fixed12",
+   "type": "fixed",
+   "contractMonths": 12,
+   "rate_incl_gst": 31.15,
+   "rate_excl_gst": 28.58,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "terms": {
+    "factsheet_date": "2026-10-01",
+    "deposit_source": "Security Deposit (see footnote 7): Deposit will be billed via the first invoice as follows: Security Deposit ($) All New Sign-ups HDB 1/2 50 HDB 3/4/5/EA/Jumbo 90 Condo/HDUC/EC 120 Others (e.g. shophouse) 190 Landed 220",
+    "etf_source": "Early Termination Charge (see footnote 6): Early termination charges: A x B x 30% where: A = the number of complete days remaining in the Initial Term under such Agreement after the date on which such Initial Term terminates pursuant to the terms of such Agreement; and B = the arithmetic average of the Charges payable in respect of each day by the Consumer to the Retailer under such Agreement during the period of the latest 2 months immediately preceding the termination.",
+    "changed": false,
+    "deposit": null,
+    "etf": null
+   },
+   "source_url": "https://www.keppelelectric.com/api/AccountPlan/GetAllPlans",
+   "evidence": "FIXED12 12 Months Fixed Rate 31.15¢/kWh (w/GST) Fixed Rate 28.58¢/kWh (w/o GST) (Fact Sheet _FIXED12 v33_2026 1001___Standard.pdf)",
+   "confidence": "high",
+   "notes": "Read from Keppel's plan feed 10 Nov; fact sheet (same file as last week) downloaded and its deposit and early termination sections re-read: unchanged."
+  },
+  {
+   "name": "ecoGreen24",
+   "matches_id": "keppel-electric-ecogreen24",
+   "type": "fixed",
+   "contractMonths": 24,
+   "rate_incl_gst": 38.8,
+   "rate_excl_gst": 35.6,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Green",
+   "terms": {
+    "factsheet_date": "2026-03-14",
+    "deposit_source": "Security Deposit (see footnote 7): Deposit will be billed via the first invoice as follows: Security Deposit ($) All New Sign-ups HDB 1/2 50 HDB 3/4/5/EA/Jumbo 90 Condo/HDUC/EC 120 Others (e.g. shophouse) 190 Landed 220",
+    "etf_source": "Early Termination Charge (see footnote 6): Early termination charges: A x B x 30% where: A = the number of complete days remaining in the Initial Term under such Agreement after the date on which such Initial Term terminates pursuant to the terms of such Agreement; and B = the arithmetic average of the Charges payable in respect of each day by the Consumer to the Retailer under such Agreement during the period of the latest 2 months immediately preceding the termination.",
+    "changed": false,
+    "deposit": null,
+    "etf": null
+   },
+   "source_url": "https://www.keppelelectric.com/api/AccountPlan/GetAllPlans",
+   "evidence": "ecoGreen24 24 Months Fixed Rate 38.80¢/kWh (w/GST) Fixed Rate 35.60¢/kWh (w/o GST) (Fact Sheet_ecoGreen24 v16.1_2026 0426_ NonStandard.pdf)",
+   "confidence": "high",
+   "notes": "Read from Keppel's plan feed 10 Nov; fact sheet (same file as last week) downloaded and its deposit and early termination sections re-read: unchanged."
+  },
+  {
+   "name": "WEEKEND SAVER",
+   "matches_id": "keppel-electric-weekend-saver",
+   "type": "tou",
+   "contractMonths": 24,
+   "rate_incl_gst": null,
+   "rate_excl_gst": null,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": {
+    "offPeak": {
+     "window": "Nights + Weekends",
+     "rate_incl_gst": 27.9
+    },
+    "weekendOffPeak": true,
+    "peak": {
+     "window": "09:00–21:00 (weekdays only)",
+     "rate_incl_gst": 39.9
+    }
+   },
+   "tiers": null,
+   "category": "Standard",
+   "terms": {
+    "factsheet_date": "2026-03-30",
+    "deposit_source": "Security Deposit (see footnote 7): Deposit will be billed via the first invoice as follows: Security Deposit ($) All New Sign-ups HDB 1/2 50 HDB 3/4/5/EA/Jumbo 90 Condo/HDUC/EC 120 Others (e.g. shophouse) 190 Landed 220",
+    "etf_source": "Early Termination Charge (see footnote 6): Early termination charges: A x B x 30% where: A = the number of complete days remaining in the Initial Term under such Agreement after the date on which such Initial Term terminates pursuant to the terms of such Agreement; and B = the arithmetic average of the Charges payable in respect of each day by the Consumer to the Retailer under such Agreement during the period of the latest 2 months immediately preceding the termination.",
+    "changed": false,
+    "deposit": null,
+    "etf": null
+   },
+   "source_url": "https://www.keppelelectric.com/api/AccountPlan/GetAllPlans",
+   "evidence": "ACTIVE, 24 Months, Non-Standard Price Plan, Weekend all day (off-peak): 27.90¢/kWh (w/GST), Weekdays 9am – 9pm (peak): 39.90¢/kWh (w/GST), Weekdays 9pm – 9am (off-peak): 27.90¢/kWh (w/GST), A smart meter is required for this plan to take half-hourly readings. An installation fee of $43.60 (w/ GST) will apply if you do not have one. Refer to FAQ for more information.",
+   "confidence": "high",
+   "notes": "Read from Keppel's plan feed 10 Nov; fact sheet (same file as last week) downloaded and its deposit and early termination sections re-read: unchanged."
+  }
+ ],
+ "not_found": [],
+ "issues": "keppelelectric.com/residential-price-plan opened in the built-in browser 10 Nov but the plan cards did not render, so rates were read from Keppel's own plan feed, which that page loads. Promotions were NOT checked: this file has no promo field, so our current Keppel promotions stay as they are."
+}

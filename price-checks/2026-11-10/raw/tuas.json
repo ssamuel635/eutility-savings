@@ -1,0 +1,162 @@
+{
+ "retailer": "Tuas Power",
+ "checked_at": "2026-11-10",
+ "gst_basis_on_site": "both",
+ "sources": [
+  {
+   "url": "https://www.savewithtuas.com/our-electricity-plans/",
+   "what": "Plans page read in the built-in browser 10 Nov: PowerFIX 24 $0.3090, PowerFIX 36 $0.3063, PowerFIX 25 G+ $0.3270, PowerFIX 12 $0.3115 per kWh with GST; rebates $120/$200/$120/none; codes ONLINE/ONGREEN"
+  },
+  {
+   "url": "https://www.savewithtuas.com/assets/powerfix_24_20261008(283.5)-$120_bill_rebate.pdf",
+   "what": "EMA fact sheet (rates before and after GST, deposit, ETF)"
+  },
+  {
+   "url": "https://www.savewithtuas.com/assets/powerfix_36_20261006(281)-$200_bill_rebate.pdf",
+   "what": "EMA fact sheet (rates before and after GST, deposit, ETF)"
+  },
+  {
+   "url": "https://www.savewithtuas.com/assets/powerfix_25_20261029(300)-$120_bill_rebate.pdf",
+   "what": "EMA fact sheet (rates before and after GST, deposit, ETF)"
+  },
+  {
+   "url": "https://www.savewithtuas.com/assets/pdf/2026/powerfix_12_20261006(285.8).pdf",
+   "what": "EMA fact sheet (rates before and after GST, deposit, ETF)"
+  },
+  {
+   "url": "https://www.savewithtuas.com/promotions/",
+   "what": "Promotions page fetched 10 Nov: ONLINE and ONGREEN 'Until 6 December 2026'"
+  },
+  {
+   "url": "https://www.savewithtuas.com/assets/online_tnc_20261102.pdf",
+   "what": "ONLINE T&Cs: campaign 2 Nov - 6 Dec 2026; PowerFIX 24 $120, PowerFIX 36 $200 bill rebate"
+  },
+  {
+   "url": "https://www.savewithtuas.com/assets/ongreen_tnc_20261102.pdf",
+   "what": "ONGREEN T&Cs: campaign 2 Nov - 6 Dec 2026; PowerFIX 25 G+ $120 bill rebate"
+  }
+ ],
+ "plans": [
+  {
+   "name": "PowerFIX 24",
+   "matches_id": "tuas-power-powerfix-24",
+   "type": "fixed",
+   "contractMonths": 24,
+   "rate_incl_gst": 30.9,
+   "rate_excl_gst": 28.35,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": {
+    "title": "Bill rebate",
+    "value": "S$120",
+    "code": "ONLINE",
+    "expires": "2026-12-06"
+   },
+   "terms": {
+    "factsheet_date": "2026-10-08",
+    "deposit_source": "Security Deposit (see footnote 7): Security Deposit (“SD”) shall be collected and retained on behalf of Retailer by SP Services Limited (“SP”). Existing SP’s customers will not be required to provide additional SD. Non-existing SP’s customers will be required to provide a SD equivalent to 65% of the SD as determined and published by SP.",
+    "etf_source": "Early Termination Charge (see footnote 6): $200.00 (no GST)",
+    "changed": true,
+    "deposit": "None if you already have an SP Services account. Otherwise you pay a deposit of 65% of the amount SP Services sets, collected by SP Services.",
+    "etf": null
+   },
+   "source_url": "https://www.savewithtuas.com/assets/powerfix_24_20261008(283.5)-$120_bill_rebate.pdf",
+   "evidence": "Fixed rate plan: Duration Rates (before GST) Rates (after GST) 24 month/s 28.35 cents/kWh 30.90 cents/kWh",
+   "confidence": "high",
+   "notes": "Plan card (built-in browser) and EMA fact sheet (same file as last week) read 10 Nov; price, deposit and ETF unchanged."
+  },
+  {
+   "name": "PowerFIX 36",
+   "matches_id": "tuas-power-powerfix-36",
+   "type": "fixed",
+   "contractMonths": 36,
+   "rate_incl_gst": 30.63,
+   "rate_excl_gst": 28.1,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": {
+    "title": "Bill rebate",
+    "value": "S$200",
+    "code": "ONLINE",
+    "expires": "2026-12-06"
+   },
+   "terms": {
+    "factsheet_date": "2026-10-06",
+    "deposit_source": "Security Deposit (see footnote 7): Security Deposit (“SD”) shall be collected and retained on behalf of Retailer by SP Services Limited (“SP”). Existing SP’s customers will not be required to provide additional SD. Non-existing SP’s customers will be required to provide a SD equivalent to 65% of the SD as determined and published by SP.",
+    "etf_source": "Early Termination Charge (see footnote 6): $200.00 (no GST)",
+    "changed": true,
+    "deposit": "None if you already have an SP Services account. Otherwise you pay a deposit of 65% of the amount SP Services sets, collected by SP Services.",
+    "etf": null
+   },
+   "source_url": "https://www.savewithtuas.com/assets/powerfix_36_20261006(281)-$200_bill_rebate.pdf",
+   "evidence": "Fixed rate plan: Duration Rates (before GST) Rates (after GST) 36 month/s 28.10 cents/kWh 30.63 cents/kWh",
+   "confidence": "high",
+   "notes": "Plan card (built-in browser) and EMA fact sheet (same file as last week) read 10 Nov; price, deposit and ETF unchanged."
+  },
+  {
+   "name": "PowerFIX 25 G+",
+   "matches_id": "tuas-power-powerfix-25-g",
+   "type": "fixed",
+   "contractMonths": 25,
+   "rate_incl_gst": 32.7,
+   "rate_excl_gst": 30.0,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Green",
+   "promo": {
+    "title": "Bill rebate",
+    "value": "S$120",
+    "code": "ONGREEN",
+    "expires": "2026-12-06"
+   },
+   "terms": {
+    "factsheet_date": "2026-10-29",
+    "deposit_source": "Security Deposit (see footnote 7): Security Deposit (“SD”) shall be collected and retained on behalf of Retailer by SP Services Limited (“SP”). Existing SP’s customers will not be required to provide additional SD. Non-existing SP’s customers will be required to provide a SD equivalent to 65% of the SD as determined and published by SP.",
+    "etf_source": "Early Termination Charge (see footnote 6): $200.00 (no GST)",
+    "changed": true,
+    "deposit": "None if you already have an SP Services account. Otherwise you pay a deposit of 65% of the amount SP Services sets, collected by SP Services.",
+    "etf": null
+   },
+   "source_url": "https://www.savewithtuas.com/assets/powerfix_25_20261029(300)-$120_bill_rebate.pdf",
+   "evidence": "Fixed rate plan: Duration Rates (before GST) Rates (after GST) 25 month/s 30.00 cents/kWh 32.70 cents/kWh",
+   "confidence": "high",
+   "notes": "Plan card (built-in browser) and EMA fact sheet (same file as last week) read 10 Nov; price, deposit and ETF unchanged."
+  },
+  {
+   "name": "PowerFIX 12",
+   "matches_id": "tuas-power-powerfix-12",
+   "type": "fixed",
+   "contractMonths": 12,
+   "rate_incl_gst": 31.15,
+   "rate_excl_gst": 28.58,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "promo": null,
+   "terms": {
+    "factsheet_date": "2026-10-06",
+    "deposit_source": "Security Deposit (see footnote 7): Security Deposit (“SD”) shall be collected and retained on behalf of Retailer by SP Services Limited (“SP”). Existing SP’s customers will not be required to provide additional SD. Non-existing SP’s customers will be required to provide a SD equivalent to 65% of the SD as determined and published by SP.",
+    "etf_source": "Early Termination Charge (see footnote 6): $200.00 (no GST)",
+    "changed": true,
+    "deposit": "None if you already have an SP Services account. Otherwise you pay a deposit of 65% of the amount SP Services sets, collected by SP Services.",
+    "etf": null
+   },
+   "source_url": "https://www.savewithtuas.com/assets/pdf/2026/powerfix_12_20261006(285.8).pdf",
+   "evidence": "Fixed rate plan: Duration Rates (before GST) Rates (after GST) 12 month/s 28.58 cents/kWh 31.15 cents/kWh",
+   "confidence": "high",
+   "notes": "Plan card (built-in browser) and EMA fact sheet (same file as last week) read 10 Nov; price, deposit and ETF unchanged."
+  }
+ ],
+ "not_found": [],
+ "issues": "None. Prices, fact sheets and promotions unchanged from last week."
+}
