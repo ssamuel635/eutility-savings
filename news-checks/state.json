@@ -36,17 +36,17 @@
   "Tuas Power Supply Pte Ltd"
  ],
  "pending": {
-  "07dfa2475af2": {
-   "id": "07dfa2475af2",
-   "title": "To boost energy security, is solar independence for Singapore possible?",
-   "url": "https://www.straitstimes.com/singapore/environment/to-boost-energy-security-is-solar-independence-for-singapore-possible",
-   "date": "2026-11-10",
-   "source": "The Straits Times",
-   "source_key": "straits-times",
+  "9ae69f5676bb": {
+   "id": "9ae69f5676bb",
+   "title": "Singapore opens applications for LNG floating storage unit licences to ‘strengthen supply resilience’",
+   "url": "https://www.businesstimes.com.sg/companies-markets/singapore-opens-applications-lng-floating-storage-unit-licences-strengthen-supply-resilience",
+   "date": "2026-11-12",
+   "source": "The Business Times",
+   "source_key": "business-times",
    "kind": "news",
-   "snippet": "",
+   "snippet": "Applicants must own or charter at least one FSU with a minimum storage capacity of 130,000 cubic metres",
    "keywords": [
-    "solar"
+    "LNG"
    ]
   }
  }
