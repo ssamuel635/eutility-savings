@@ -23,7 +23,8 @@
   "8d83e1dee3b9": "approved",
   "6b93eebce072": "approved",
   "53b9fc2d5c6f": "approved",
-  "e4c874e45633": "approved"
+  "e4c874e45633": "approved",
+  "07dfa2475af2": "approved"
  },
  "oem_retailers": [
   "Flo Energy Singapore Pte. Ltd.",
@@ -34,5 +35,19 @@
   "Senoko Energy Supply Pte Ltd",
   "Tuas Power Supply Pte Ltd"
  ],
- "pending": {}
+ "pending": {
+  "9ae69f5676bb": {
+   "id": "9ae69f5676bb",
+   "title": "Singapore opens applications for LNG floating storage unit licences to ‘strengthen supply resilience’",
+   "url": "https://www.businesstimes.com.sg/companies-markets/singapore-opens-applications-lng-floating-storage-unit-licences-strengthen-supply-resilience",
+   "date": "2026-11-12",
+   "source": "The Business Times",
+   "source_key": "business-times",
+   "kind": "news",
+   "snippet": "Applicants must own or charter at least one FSU with a minimum storage capacity of 130,000 cubic metres",
+   "keywords": [
+    "LNG"
+   ]
+  }
+ }
 }
