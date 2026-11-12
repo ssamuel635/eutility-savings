@@ -10,6 +10,7 @@ import * as Haptics from 'expo-haptics';
 import { Button, Card, ChipGroup, ErrorNote, Screen, Text, Toggle } from '@/components';
 import { api, ApiError, type Plan } from '@/api';
 import { money, recentMonths } from '@/lib/format';
+import { livePromo } from '@/lib/promo';
 import { colors, radius, space } from '@/theme';
 
 type Params = { uri: string; name: string; mime: string; size?: string; planId?: string; quoteId?: string; saving?: string };
@@ -39,7 +40,8 @@ export default function InvoicePreview() {
   }, [p.planId, p.quoteId, p.saving]);
 
   // The plan's promotion code, used unless the customer switches it off (FXMedia checks it)
-  const promo = target?.plan?.promo?.code ? target.plan.promo : null;
+  const live = livePromo(target?.plan?.promo);
+  const promo = live?.code ? live : null;
   const promoCode = promo && usePromo ? promo.code! : undefined;
   const promoParams = (app: { promoCode: string | null }) => (promoCode ? { promo: promoCode, promoApplied: app.promoCode ? '1' : '0' } : {});
 

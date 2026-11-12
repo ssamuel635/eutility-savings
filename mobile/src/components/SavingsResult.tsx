@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import type { PricedPlan, SavingsQuote } from '@/api';
 import { money } from '@/lib/format';
+import { livePromo } from '@/lib/promo';
 import { colors, radius, space } from '@/theme';
 import { CONFIG } from '@/engine';
 import { Button } from './Button';
@@ -100,6 +101,7 @@ export function SavingsResult({ quote, visible, chosenId, onChoose, onClose, onS
 
 function PlanOption({ option, best, selected, onPress }: { option: PricedPlan; best: boolean; selected: boolean; onPress: () => void }) {
   const { plan } = option;
+  const promo = livePromo(plan.promo);
   return (
     <Pressable
       accessibilityRole="radio"
@@ -122,9 +124,9 @@ function PlanOption({ option, best, selected, onPress }: { option: PricedPlan; b
       <Text variant="caption">{plan.priceLabel} · {plan.contractLabel}</Text>
       <View style={s.tags}>
         {best ? <Pill label="Best saving" tone="orange" icon="star" /> : null}
-        {plan.tags.slice(0, 3).map((t) => <Pill key={t} label={t} tone={t === 'Green' ? 'green' : t === 'Promotion' ? 'red' : 'navy'} />)}
+        {plan.tags.filter((t) => t !== 'Promotion' || promo).slice(0, 3).map((t) => <Pill key={t} label={t} tone={t === 'Green' ? 'green' : t === 'Promotion' ? 'red' : 'navy'} />)}
       </View>
-      {plan.promo && selected ? <Text variant="caption" color={colors.orangeAA}>Promotion: {plan.promo.title}{plan.promo.value ? ` — ${plan.promo.value}` : ''}</Text> : null}
+      {promo && selected ? <Text variant="caption" color={colors.orangeAA}>Promotion: {promo.title}{promo.value ? ` — ${promo.value}` : ''}</Text> : null}
       {selected && (plan.contractMonths || plan.deposit) ? (
         <View style={s.fees}>
           {plan.contractMonths ? <Text variant="caption">Early termination: {plan.earlyTermination || 'see retailer terms'}</Text> : null}
