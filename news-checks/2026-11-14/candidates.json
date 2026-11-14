@@ -1,0 +1,58 @@
+{
+ "run": "2026-11-14",
+ "collected_at": "2026-11-14T14:53:55+08:00",
+ "days": 7,
+ "sources": [
+  {
+   "source": "SP Group",
+   "kind": "official",
+   "url": "https://www.spgroup.com.sg/about-us/media-resources/news-and-media-releases",
+   "read": 10,
+   "error": ""
+  },
+  {
+   "source": "Open Electricity Market",
+   "kind": "official",
+   "url": "https://www.openelectricitymarket.sg/residential/list-of-retailers",
+   "read": 7,
+   "error": "",
+   "note": "7 retailers listed, no change"
+  },
+  {
+   "source": "The Straits Times",
+   "kind": "news",
+   "url": "https://www.straitstimes.com/news/singapore/rss.xml",
+   "read": 50,
+   "error": ""
+  },
+  {
+   "source": "The Business Times",
+   "kind": "news",
+   "url": "https://www.businesstimes.com.sg/rss/singapore",
+   "read": 34,
+   "error": ""
+  },
+  {
+   "source": "CNA",
+   "kind": "news",
+   "url": "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml&category=10416",
+   "read": 20,
+   "error": ""
+  }
+ ],
+ "items": [
+  {
+   "id": "63124e234fd4",
+   "title": "Singapore opens applications for LNG floating storage unit licences to ‘strengthen supply resilience’",
+   "url": "https://www.businesstimes.com.sg/companies-markets/energy-commodities/singapore-opens-applications-lng-floating-storage-unit-licences-strengthen-supply-resilience",
+   "date": "2026-11-12",
+   "source": "The Business Times",
+   "source_key": "business-times",
+   "kind": "news",
+   "snippet": "Applicants must own or charter at least one FSU with a minimum storage capacity of 130,000 cubic metres",
+   "keywords": [
+    "LNG"
+   ]
+  }
+ ]
+}
