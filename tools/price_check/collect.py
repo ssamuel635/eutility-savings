@@ -241,7 +241,7 @@ def parse_tuas_factsheet(text, url, current):
         return plan(url.rsplit("/", 1)[-1], None, confidence="low", source_url=url,
                     notes="Couldn't read the plan name or contract length.")
     name = name.group(1)
-    short = re.sub(r"\s+Bill Rebate$", "", name, flags=re.I)  # "PowerFIX 24 Bill Rebate" is our "PowerFIX 24"
+    short = re.sub(r"\s+Bill Rebate(\s+Promo)?$", "", name, flags=re.I)  # "PowerFIX 24 Bill Rebate (Promo)" is our "PowerFIX 24"
     pid = ours.get(name.lower()) or ours.get(short.lower())
     common = dict(contractMonths=int(months.group(1)), source_url=url, category=category(current, pid, name),
                   terms={"factsheet_date": fs_date((re.search(r"Version Date:\s*(\S+)", text) or [None, ""])[1]),

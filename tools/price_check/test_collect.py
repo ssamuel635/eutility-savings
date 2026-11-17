@@ -89,6 +89,8 @@ tu = parse_tuas_factsheet(tuas_head.format("PowerFIX 24 Bill Rebate") + tuas_rat
 check("tuas: 'PowerFIX 24 Bill Rebate' is our PowerFIX 24, both GST figures, fact sheet date",
       (tu["name"], tu["matches_id"], tu["rate_incl_gst"], tu["rate_excl_gst"], tu["contractMonths"], tu["terms"]["factsheet_date"])
       == ("PowerFIX 24", "tuas-power-powerfix-24", 30.9, 28.35, 24, "2026-10-06"))
+tp = parse_tuas_factsheet(tuas_head.format("PowerFIX 24 Bill Rebate Promo") + tuas_rate, "x", current)
+check("tuas: 'PowerFIX 24 Bill Rebate Promo' (renamed 17 Nov) is our PowerFIX 24", tp["matches_id"] == "tuas-power-powerfix-24")
 tg = parse_tuas_factsheet(tuas_head.format("PowerFIX 25 G+ Bill Rebate") + tuas_rate.replace("24 months", "25 months"), "x", current)
 check("tuas: green plan keeps our sheet's category", (tg["matches_id"], tg["category"]) == ("tuas-power-powerfix-25-g", "Green"))
 check("tuas: unrecognised price wording is low confidence, no price",

@@ -1,0 +1,151 @@
+{
+ "retailer": "Keppel Electric",
+ "checked_at": "2026-11-17",
+ "gst_basis_on_site": "both",
+ "method": "script (tools/price_check/collect.py)",
+ "sources": [
+  {
+   "url": "https://www.keppelelectric.com/api/AccountPlan/GetAllPlans",
+   "what": "Keppel's plan feed, the list its residential price plan page loads"
+  }
+ ],
+ "plans": [
+  {
+   "name": "ecoGreen24",
+   "matches_id": "keppel-electric-ecogreen24",
+   "type": "fixed",
+   "contractMonths": 24,
+   "rate_incl_gst": 38.8,
+   "rate_excl_gst": 35.6,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Green",
+   "source_url": "https://www.keppelelectric.com/api/AccountPlan/GetAllPlans",
+   "evidence": "ecoGreen24 24 Months Fixed Rate 38.80¢/kWh (w/GST) Fixed Rate 35.60¢/kWh (w/o GST)",
+   "confidence": "high",
+   "notes": "Read by script.",
+   "terms": {
+    "factsheet_date": "2026-04-26",
+    "changed": false
+   }
+  },
+  {
+   "name": "WEEKEND SAVER",
+   "matches_id": "keppel-electric-weekend-saver",
+   "type": "tou",
+   "contractMonths": 24,
+   "rate_incl_gst": null,
+   "rate_excl_gst": null,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": {
+    "offPeak": {
+     "window": "Nights + Weekends",
+     "rate_incl_gst": 27.9
+    },
+    "peak": {
+     "window": "09:00–21:00 (weekdays only)",
+     "rate_incl_gst": 39.9
+    }
+   },
+   "tiers": null,
+   "category": "Standard",
+   "source_url": "https://www.keppelelectric.com/api/AccountPlan/GetAllPlans",
+   "evidence": "ACTIVE, 24 Months, Non-Standard Price Plan, Weekend all day (off-peak): 27.90¢/kWh (w/GST), Weekdays 9am – 9pm (peak): 39.90¢/kWh (w/GST), Weekdays 9pm – 9am (off-peak): 27.90¢/kWh (w/GST), A smart meter is required for this plan to take half-hourly readings. An installation fee of $43.60 (w/ GST) will apply if you do not have one. Refer to FAQ for more information.",
+   "confidence": "high",
+   "notes": "Read by script.",
+   "terms": {
+    "factsheet_date": "2026-03-30",
+    "changed": false
+   }
+  },
+  {
+   "name": "FIXED12",
+   "matches_id": "keppel-electric-fixed12",
+   "type": "fixed",
+   "contractMonths": 12,
+   "rate_incl_gst": 31.15,
+   "rate_excl_gst": 28.58,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "source_url": "https://www.keppelelectric.com/api/AccountPlan/GetAllPlans",
+   "evidence": "FIXED12 12 Months Fixed Rate 31.15¢/kWh (w/GST) Fixed Rate 28.58¢/kWh (w/o GST)",
+   "confidence": "high",
+   "notes": "Read by script.",
+   "terms": {
+    "factsheet_date": "2026-10-01",
+    "changed": false
+   }
+  },
+  {
+   "name": "FIXED24",
+   "matches_id": "keppel-electric-fixed24",
+   "type": "fixed",
+   "contractMonths": 24,
+   "rate_incl_gst": 30.9,
+   "rate_excl_gst": 28.35,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "source_url": "https://www.keppelelectric.com/api/AccountPlan/GetAllPlans",
+   "evidence": "FIXED24 24 Months Fixed Rate 30.90¢/kWh (w/GST) Fixed Rate 28.35¢/kWh (w/o GST)",
+   "confidence": "high",
+   "notes": "Read by script.",
+   "terms": {
+    "factsheet_date": "2026-10-19",
+    "changed": false
+   }
+  },
+  {
+   "name": "FIXED24 Special",
+   "matches_id": "keppel-electric-fixed24-special",
+   "type": "fixed",
+   "contractMonths": 24,
+   "rate_incl_gst": 30.4,
+   "rate_excl_gst": 27.89,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "source_url": "https://www.keppelelectric.com/api/AccountPlan/GetAllPlans",
+   "evidence": "FIXED24 Special 24 Months Fixed Rate 30.40¢/kWh (w/GST) Fixed Rate 27.89¢/kWh (w/o GST)",
+   "confidence": "high",
+   "notes": "Read by script.",
+   "terms": {
+    "factsheet_date": "2026-10-19",
+    "changed": false
+   }
+  },
+  {
+   "name": "FIXED36",
+   "matches_id": "keppel-electric-fixed36",
+   "type": "fixed",
+   "contractMonths": 36,
+   "rate_incl_gst": 30.63,
+   "rate_excl_gst": 28.1,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "source_url": "https://www.keppelelectric.com/api/AccountPlan/GetAllPlans",
+   "evidence": "FIXED36 36 Months Fixed Rate 30.63¢/kWh (w/GST) Fixed Rate 28.10¢/kWh (w/o GST)",
+   "confidence": "high",
+   "notes": "Read by script.",
+   "terms": {
+    "factsheet_date": "2026-10-19",
+    "changed": false
+   }
+  }
+ ],
+ "not_found": [],
+ "issues": ""
+}

@@ -2,8 +2,8 @@
 // Source: price-comparison-sheet.xlsx
 export const META = {
   "source": "price-comparison-sheet.xlsx",
-  "generated": "2026-11-10",
-  "ratesAsAt": "2026-11-10",
+  "generated": "2026-11-17",
+  "ratesAsAt": "2026-11-17",
   "regulatedTariff": 31.16,
   "tariffPeriod": "Oct–Dec 2026",
   "planCount": 32,
@@ -33,7 +33,7 @@ export const PLANS = [
       "code": "GENECO200 / GENECO100",
       "conditions": null,
       "value": "S$200 for current SP Group customers (GENECO200, first 660); S$100 for others (GENECO100, first 70)",
-      "expires": "2026-11-12"
+      "expires": "2026-11-30"
     },
     "notes": []
   },
@@ -45,7 +45,7 @@ export const PLANS = [
     "pricingType": "fixed",
     "pricingLabel": "Fixed",
     "contractMonths": 12,
-    "rate": 30.5,
+    "rate": 31.15,
     "discount": null,
     "dailyCharge": 0.0,
     "tou": null,
@@ -58,7 +58,7 @@ export const PLANS = [
       "title": "Bill rebate (online sign-ups)",
       "code": "GENECO15",
       "conditions": null,
-      "value": "S$15 (first 150 customers)",
+      "value": "S$15 (first 300 customers)",
       "expires": "2026-12-31"
     },
     "notes": []

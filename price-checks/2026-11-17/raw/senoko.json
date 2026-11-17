@@ -1,0 +1,206 @@
+{
+ "retailer": "Senoko Energy",
+ "checked_at": "2026-11-17",
+ "gst_basis_on_site": "both",
+ "method": "script (tools/price_check/collect.py)",
+ "sources": [
+  {
+   "url": "https://www.senokoenergy.com/households/price-plans",
+   "what": "Price plans page (which fact sheets are current)"
+  },
+  {
+   "url": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXPG-36av1",
+   "what": "EMA fact sheet HH-GMOFIXPG-36av1"
+  },
+  {
+   "url": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXPG-24av1",
+   "what": "EMA fact sheet HH-GMOFIXPG-24av1"
+  },
+  {
+   "url": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXPG-12av1",
+   "what": "EMA fact sheet HH-GMOFIXPG-12av1"
+  },
+  {
+   "url": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFDOTPG-36al1",
+   "what": "EMA fact sheet HH-GMOFDOTPG-36al1"
+  },
+  {
+   "url": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFDOTPG-24al1",
+   "what": "EMA fact sheet HH-GMOFDOTPG-24al1"
+  },
+  {
+   "url": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOPOPPG-24av1",
+   "what": "EMA fact sheet HH-GMOPOPPG-24av1"
+  },
+  {
+   "url": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXFG-24av1",
+   "what": "EMA fact sheet HH-GMOFIXFG-24av1"
+  }
+ ],
+ "plans": [
+  {
+   "name": "LifePower36",
+   "matches_id": "senoko-energy-lifepower36",
+   "type": "fixed",
+   "contractMonths": 36,
+   "rate_incl_gst": 29.95,
+   "rate_excl_gst": 27.48,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "source_url": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXPG-36av1",
+   "evidence": "Fixed Price Plan: 29.95¢/kWh within the contractual period (27.48¢/kWh before GST)",
+   "confidence": "high",
+   "notes": "Read by script.",
+   "terms": {
+    "factsheet_date": "2026-10-22",
+    "changed": false
+   }
+  },
+  {
+   "name": "LifePower24",
+   "matches_id": "senoko-energy-lifepower24",
+   "type": "fixed",
+   "contractMonths": 24,
+   "rate_incl_gst": 30.5,
+   "rate_excl_gst": 27.98,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "source_url": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXPG-24av1",
+   "evidence": "Fixed Price Plan: 30.50¢/kWh within the contractual period (27.98¢/kWh before GST)",
+   "confidence": "high",
+   "notes": "Read by script.",
+   "terms": {
+    "factsheet_date": "2026-10-22",
+    "changed": false
+   }
+  },
+  {
+   "name": "LifePower12",
+   "matches_id": "senoko-energy-lifepower12",
+   "type": "fixed",
+   "contractMonths": 12,
+   "rate_incl_gst": 31.15,
+   "rate_excl_gst": 28.58,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "source_url": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXPG-12av1",
+   "evidence": "Fixed Price Plan: 31.15¢/kWh within the contractual period (28.58¢/kWh before GST)",
+   "confidence": "high",
+   "notes": "Read by script.",
+   "terms": {
+    "factsheet_date": "2026-10-22",
+    "changed": false
+   }
+  },
+  {
+   "name": "LifeSteady36",
+   "matches_id": "senoko-energy-lifesteady36",
+   "type": "dot",
+   "contractMonths": 36,
+   "rate_incl_gst": null,
+   "rate_excl_gst": null,
+   "discount": {
+    "value": 1.64,
+    "kind": "cents"
+   },
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "source_url": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFDOTPG-36al1",
+   "evidence": "Discount Off the Regulated Tariff Plan: 1.64¢/kWh within the contractual period (1.50¢/kWh before GST)",
+   "confidence": "high",
+   "notes": "Read by script. Before GST: 1.50.",
+   "terms": {
+    "factsheet_date": "2026-06-16",
+    "changed": false
+   }
+  },
+  {
+   "name": "LifeSteady24",
+   "matches_id": "senoko-energy-lifesteady24",
+   "type": "dot",
+   "contractMonths": 24,
+   "rate_incl_gst": null,
+   "rate_excl_gst": null,
+   "discount": {
+    "value": 1.64,
+    "kind": "cents"
+   },
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "source_url": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFDOTPG-24al1",
+   "evidence": "Discount Off the Regulated Tariff Plan: 1.64¢/kWh within the contractual period (1.50¢/kWh before GST)",
+   "confidence": "high",
+   "notes": "Read by script. Before GST: 1.50.",
+   "terms": {
+    "factsheet_date": "2026-06-16",
+    "changed": false
+   }
+  },
+  {
+   "name": "LifeSavvy24",
+   "matches_id": "senoko-energy-lifesavvy24",
+   "type": "tou",
+   "contractMonths": 24,
+   "rate_incl_gst": null,
+   "rate_excl_gst": null,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": {
+    "peak": {
+     "window": "07:00–23:00",
+     "rate_incl_gst": 37.95
+    },
+    "offPeak": {
+     "window": "23:00–07:00",
+     "rate_incl_gst": 21.05
+    }
+   },
+   "tiers": null,
+   "category": "Standard",
+   "source_url": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOPOPPG-24av1",
+   "evidence": "Peak Period (7am to 11pm): 37.95¢/kWh within the contractual period (34.82¢/kWh before GST) Off-Peak Period (11pm to 7am): 21.05¢/kWh within the contractual period (19.31¢/kWh before GST)",
+   "confidence": "high",
+   "notes": "Read by script.",
+   "terms": {
+    "factsheet_date": "2026-10-22",
+    "changed": false
+   }
+  },
+  {
+   "name": "LifeGreen24",
+   "matches_id": "senoko-energy-lifegreen24",
+   "type": "fixed",
+   "contractMonths": 24,
+   "rate_incl_gst": 30.88,
+   "rate_excl_gst": 28.33,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Green",
+   "source_url": "https://www.senokoenergy.com/custom/document/FS?plancode=HH-GMOFIXFG-24av1",
+   "evidence": "Fixed Price Plan : 30.88¢/kWh within the contractual period (28.33¢/kWh before GST)",
+   "confidence": "high",
+   "notes": "Read by script.",
+   "terms": {
+    "factsheet_date": "2026-10-22",
+    "changed": false
+   }
+  }
+ ],
+ "not_found": [],
+ "issues": ""
+}
