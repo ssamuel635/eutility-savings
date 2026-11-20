@@ -1,0 +1,19 @@
+{
+ "run": "2026-11-20",
+ "approved_by": "ebin",
+ "approved_at": "2026-11-20T16:17:50+08:00",
+ "items": [
+  "8ad48028cbe9",
+  "04f85f1fe262",
+  "9ee7a2d36318",
+  "d4da4f63031f"
+ ],
+ "rejected": [],
+ "topics": {
+  "8ad48028cbe9": "gas",
+  "04f85f1fe262": "climate",
+  "9ee7a2d36318": "grid",
+  "d4da4f63031f": "policy"
+ },
+ "via": "staff Review page"
+}
