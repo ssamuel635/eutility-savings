@@ -42,57 +42,26 @@
   "Tuas Power Supply Pte Ltd"
  ],
  "pending": {
-  "9ee7a2d36318": {
-   "id": "9ee7a2d36318",
-   "title": "ASEAN Power Grid can boost region’s economy, bring in trillions: Tan See Leng",
-   "url": "https://www.straitstimes.com/singapore/environment/asean-power-grid-can-boost-regions-economy-bring-in-couple-of-trillions-tan-see-leng",
-   "date": "2026-11-20",
-   "source": "The Straits Times",
-   "source_key": "straits-times",
-   "kind": "news",
-   "snippet": "Indonesia had expressed reservations about exporting electricity to Singapore.",
-   "keywords": [
-    "Power Grid",
-    "electricity"
-   ]
-  },
-  "8ad48028cbe9": {
-   "id": "8ad48028cbe9",
-   "title": "Diversifying energy sources and fuel suppliers critical for S’pore’s energy security: Tan See Leng",
-   "url": "https://www.straitstimes.com/singapore/environment/diversifying-energy-sources-and-fuel-suppliers-key-to-self-sufficiency-in-spore-tan-see-leng",
-   "date": "2026-11-20",
-   "source": "The Straits Times",
-   "source_key": "straits-times",
-   "kind": "news",
-   "snippet": "He foresees that natural gas could make up 50%, or less, of Singapore's energy mix around 2050.",
-   "keywords": [
-    "natural gas"
-   ]
-  },
-  "d4da4f63031f": {
-   "id": "d4da4f63031f",
-   "title": "Singapore takes ‘prosper thy neighbour’ approach to Asean energy trade: Tan See Leng",
-   "url": "https://www.businesstimes.com.sg/international/asean/singapore-takes-prosper-thy-neighbour-approach-asean-energy-trade-tan-see-leng",
-   "date": "2026-11-20",
-   "source": "The Business Times",
-   "source_key": "business-times",
-   "kind": "news",
-   "snippet": "Regional electricity trade and fuel stockpiles are key areas for future development, says minister",
-   "keywords": [
-    "electricity"
-   ]
-  },
-  "04f85f1fe262": {
-   "id": "04f85f1fe262",
-   "title": "Built in Singapore and Batam, bound for the North Sea: The massive platforms delivering renewable power to Europe",
-   "url": "https://www.channelnewsasia.com/singapore/wind-renewable-power-electricity-europe-seatrium-6568211",
+  "1ddd7055fcf8": {
+   "id": "1ddd7055fcf8",
+   "title": "Indonesia's piped gas supply to Singapore fully restored on Nov 12: METI",
+   "url": "https://www.channelnewsasia.com/singapore/indonesias-piped-gas-supply-singapore-fully-restored-nov-12-meti-6569076",
    "date": "2026-11-20",
    "source": "CNA",
    "source_key": "cna",
    "kind": "news",
-   "snippet": "Once installed, each platform will help connect wind farms to Europe's electricity grid, transmitting enough renewable energy to power around 1.5 million homes.",
+   "snippet": "This follows an 18-day reduction in exports, as Indonesia diverted some gas supplies to meet domestic electricity needs.",
    "keywords": [
     "electricity"
+   ],
+   "also": [
+    {
+     "id": "a4940059d95a",
+     "source": "The Straits Times",
+     "title": "Indonesia restored piped gas supply to S’pore on Nov 12: METI",
+     "url": "https://www.straitstimes.com/singapore/indonesia-restored-piped-gas-supply-to-spore-on-nov-12-meti",
+     "date": "2026-11-20"
+    }
    ]
   }
  }
