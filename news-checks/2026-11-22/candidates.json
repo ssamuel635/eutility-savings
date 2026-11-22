@@ -1,0 +1,67 @@
+{
+ "run": "2026-11-22",
+ "collected_at": "2026-11-22T15:18:26+08:00",
+ "days": 7,
+ "sources": [
+  {
+   "source": "SP Group",
+   "kind": "official",
+   "url": "https://www.spgroup.com.sg/about-us/media-resources/news-and-media-releases",
+   "read": 10,
+   "error": ""
+  },
+  {
+   "source": "Open Electricity Market",
+   "kind": "official",
+   "url": "https://www.openelectricitymarket.sg/residential/list-of-retailers",
+   "read": 7,
+   "error": "",
+   "note": "7 retailers listed, no change"
+  },
+  {
+   "source": "The Straits Times",
+   "kind": "news",
+   "url": "https://www.straitstimes.com/news/singapore/rss.xml",
+   "read": 43,
+   "error": ""
+  },
+  {
+   "source": "The Business Times",
+   "kind": "news",
+   "url": "https://www.businesstimes.com.sg/rss/singapore",
+   "read": 34,
+   "error": ""
+  },
+  {
+   "source": "CNA",
+   "kind": "news",
+   "url": "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml&category=10416",
+   "read": 19,
+   "error": ""
+  }
+ ],
+ "items": [
+  {
+   "id": "1ddd7055fcf8",
+   "title": "Indonesia's piped gas supply to Singapore fully restored on Nov 12: METI",
+   "url": "https://www.channelnewsasia.com/singapore/indonesias-piped-gas-supply-singapore-fully-restored-nov-12-meti-6569076",
+   "date": "2026-11-20",
+   "source": "CNA",
+   "source_key": "cna",
+   "kind": "news",
+   "snippet": "This follows an 18-day reduction in exports, as Indonesia diverted some gas supplies to meet domestic electricity needs.",
+   "keywords": [
+    "electricity"
+   ],
+   "also": [
+    {
+     "id": "a4940059d95a",
+     "source": "The Straits Times",
+     "title": "Indonesia restored piped gas supply to S’pore on Nov 12: METI",
+     "url": "https://www.straitstimes.com/singapore/indonesia-restored-piped-gas-supply-to-spore-on-nov-12-meti",
+     "date": "2026-11-20"
+    }
+   ]
+  }
+ ]
+}
