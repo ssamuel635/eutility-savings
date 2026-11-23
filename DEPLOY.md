@@ -123,6 +123,7 @@ Vercel (Project → Settings → Environment Variables, Production and Preview).
 |---|---|
 | `GATE_SECRET` | Random string that signs the session cookie. Change it to sign everyone out. |
 | `GATE_USERS` | Comma-separated accounts, each `name:role:salt:hash`. Role is `admin` or `viewer`. Passwords are stored only as salted PBKDF2 hashes. |
+| `GATE_USERS_EXTRA` | Optional, same format. One-off accounts (e.g. `testuser1` for the lawyers' review, 23 Nov) added without rewriting `GATE_USERS`. Make a line with `node tools/gate-user.mjs <name> viewer <password>`. |
 
 - **Sign in:** any page shows the sign-in form; you land back on that page afterwards. Sessions last 14 days.
 - **Admin page:** `/__gate/admin` (admins only) lists accounts and how to manage them.

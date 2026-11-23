@@ -43,8 +43,8 @@ function env(name) {
   try { return (typeof process !== 'undefined' && process.env && process.env[name]) || ''; } catch { return ''; }
 }
 
-/** Parse GATE_USERS → Map(name → {role, salt, hash}). */
-export function parseUsers(raw = env('GATE_USERS')) {
+/** Parse GATE_USERS (+ GATE_USERS_EXTRA, for one-off accounts added without rewriting the main list) → Map(name → {role, salt, hash}). */
+export function parseUsers(raw = [env('GATE_USERS'), env('GATE_USERS_EXTRA')].filter(Boolean).join(',')) {
   const users = new Map();
   for (const entry of raw.split(',').map((s) => s.trim()).filter(Boolean)) {
     const [name, role, salt, hash] = entry.split(':');
