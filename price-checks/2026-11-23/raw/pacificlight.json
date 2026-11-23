@@ -1,0 +1,306 @@
+{
+ "retailer": "PacificLight",
+ "checked_at": "2026-11-23",
+ "gst_basis_on_site": "both",
+ "method": "script (tools/price_check/collect.py)",
+ "sources": [
+  {
+   "url": "https://www.pacificlight.com.sg/support/factsheet",
+   "what": "Fact sheet index (which fact sheets are current)"
+  },
+  {
+   "url": "https://www.pacificlight.com.sg/support/factsheet-detail/1-easy-save-no-contract-1-july-2026",
+   "what": "EMA fact sheet"
+  },
+  {
+   "url": "https://www.pacificlight.com.sg/support/factsheet-detail/10-classic-60-20-aug-2026",
+   "what": "EMA fact sheet"
+  },
+  {
+   "url": "https://www.pacificlight.com.sg/support/factsheet-detail/9-savvy-saver-36-8-oct-2026",
+   "what": "EMA fact sheet"
+  },
+  {
+   "url": "https://www.pacificlight.com.sg/support/factsheet-detail/02-easy-peasy-no-contract-7-oct-2026",
+   "what": "EMA fact sheet"
+  },
+  {
+   "url": "https://www.pacificlight.com.sg/support/factsheet-detail/03-9-to-9-no-contract-7-oct-2026",
+   "what": "EMA fact sheet"
+  },
+  {
+   "url": "https://www.pacificlight.com.sg/support/factsheet-detail/05-savvy-saver-12-5-nov-2026",
+   "what": "EMA fact sheet"
+  },
+  {
+   "url": "https://www.pacificlight.com.sg/support/factsheet-detail/04-sunny-side-up-12-5-nov-2026",
+   "what": "EMA fact sheet"
+  },
+  {
+   "url": "https://www.pacificlight.com.sg/support/factsheet-detail/06-savvy-saver-24-8-oct-2026",
+   "what": "EMA fact sheet"
+  },
+  {
+   "url": "https://www.pacificlight.com.sg/support/factsheet-detail/08-Stack-It-Up-24-8-oct-2026",
+   "what": "EMA fact sheet"
+  },
+  {
+   "url": "https://www.pacificlight.com.sg/support/factsheet-detail/07-save-while-sleeping-24-8-oct-2026",
+   "what": "EMA fact sheet"
+  }
+ ],
+ "plans": [
+  {
+   "name": "Easy Save",
+   "matches_id": "pacificlight-easy-save",
+   "type": "dot",
+   "contractMonths": 0,
+   "rate_incl_gst": null,
+   "rate_excl_gst": null,
+   "discount": {
+    "value": 18.0,
+    "kind": "percent"
+   },
+   "dailyCharge_incl_gst": 0.55,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "source_url": "https://www.pacificlight.com.sg/support/factsheet-detail/1-easy-save-no-contract-1-july-2026",
+   "evidence": "Discount-off Regulated Tariff Plan: 18% Discount Off Tariff + Daily Charge 55¢/day (Rate excl. 9% GST for Daily Charge is 50¢/day). Rates are subject to change with a minimum of 10 business days' notice from PacificLight via Email/ SMS/ Internet Messaging Application.",
+   "confidence": "high",
+   "notes": "Read by script.",
+   "terms": {
+    "factsheet_date": "2026-11-04",
+    "changed": false
+   }
+  },
+  {
+   "name": "Classic 60",
+   "matches_id": "pacificlight-classic-60",
+   "type": "dot",
+   "contractMonths": 60,
+   "rate_incl_gst": null,
+   "rate_excl_gst": null,
+   "discount": {
+    "value": 3.0,
+    "kind": "percent"
+   },
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "source_url": "https://www.pacificlight.com.sg/support/factsheet-detail/10-classic-60-20-aug-2026",
+   "evidence": "Discount off SP Regulated Tariff plan: Up to 8% off ( 3% off SP Regulated Tariff + 5% Prompt Payment Discount*)",
+   "confidence": "high",
+   "notes": "Read by script. Plus a prompt payment discount (see the fact sheet).",
+   "terms": {
+    "factsheet_date": "2026-11-04",
+    "changed": false
+   }
+  },
+  {
+   "name": "Savvy Saver 36",
+   "matches_id": "pacificlight-savvy-saver-36",
+   "type": "fixed",
+   "contractMonths": 36,
+   "rate_incl_gst": 28.9,
+   "rate_excl_gst": 26.513,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "source_url": "https://www.pacificlight.com.sg/support/factsheet-detail/9-savvy-saver-36-8-oct-2026",
+   "evidence": "Fixed price plan: 28.90¢/kWh (Rate excl. 9% GST is 26.513¢/kWh)",
+   "confidence": "high",
+   "notes": "Read by script.",
+   "terms": {
+    "factsheet_date": "2026-11-04",
+    "changed": false
+   }
+  },
+  {
+   "name": "Easy Peasy",
+   "matches_id": "pacificlight-easy-peasy",
+   "type": "fixed",
+   "contractMonths": 0,
+   "rate_incl_gst": 27.0,
+   "rate_excl_gst": 24.77,
+   "discount": null,
+   "dailyCharge_incl_gst": 0.55,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "source_url": "https://www.pacificlight.com.sg/support/factsheet-detail/02-easy-peasy-no-contract-7-oct-2026",
+   "evidence": "Fixed price plan: 27.00¢/kWh + Daily Charge 55¢/day (Rate excl. 9% GST is 24.77¢/kWh + Daily Charge is 50¢/day). Rates are subject to change with a minimum of 10 business days' notice from PacificLight via Email/ SMS/ Internet Messaging Application.",
+   "confidence": "high",
+   "notes": "Read by script.",
+   "terms": {
+    "factsheet_date": "2026-11-04",
+    "changed": false
+   }
+  },
+  {
+   "name": "9 to 9",
+   "matches_id": "pacificlight-9-to-9",
+   "type": "tou",
+   "contractMonths": 0,
+   "rate_incl_gst": null,
+   "rate_excl_gst": null,
+   "discount": null,
+   "dailyCharge_incl_gst": 1.01,
+   "tou": {
+    "peak": {
+     "window": "09:00–21:00",
+     "rate_incl_gst": 36.95
+    },
+    "offPeak": {
+     "window": "21:00–09:00",
+     "rate_incl_gst": 20.05
+    }
+   },
+   "tiers": null,
+   "category": "Standard",
+   "source_url": "https://www.pacificlight.com.sg/support/factsheet-detail/03-9-to-9-no-contract-7-oct-2026",
+   "evidence": "Two-tiered fixed-rate plan: (i) 36.95¢/kWh from 9 am to 9 pm; (ii) 20.05¢/kWh from 9 pm to 9 am; and Daily Charge of $1.01/day applies. (Rates excl. 9% GST are 33.899¢/kWh and 18.394¢/kWh, with a Daily Charge of 92.52¢/day). Rates are subject to change with a minimum of 10 business days' notice from PacificLight via Email/ SMS/ Internet Messaging Application.",
+   "confidence": "high",
+   "notes": "Read by script.",
+   "terms": {
+    "factsheet_date": "2026-11-04",
+    "changed": false
+   }
+  },
+  {
+   "name": "Savvy Saver 12",
+   "matches_id": "pacificlight-savvy-saver-12",
+   "type": "fixed",
+   "contractMonths": 12,
+   "rate_incl_gst": 31.15,
+   "rate_excl_gst": 28.577,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "source_url": "https://www.pacificlight.com.sg/support/factsheet-detail/05-savvy-saver-12-5-nov-2026",
+   "evidence": "Fixed price plan: 31.15¢/kWh (Rate excl. 9% GST is 28.577¢/kWh)",
+   "confidence": "high",
+   "notes": "Read by script.",
+   "terms": {
+    "factsheet_date": "2026-11-05",
+    "changed": false
+   }
+  },
+  {
+   "name": "Sunny Side-Up 12",
+   "matches_id": "pacificlight-sunny-side-up-12",
+   "type": "fixed",
+   "contractMonths": 12,
+   "rate_incl_gst": 31.15,
+   "rate_excl_gst": 28.577,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Green",
+   "source_url": "https://www.pacificlight.com.sg/support/factsheet-detail/04-sunny-side-up-12-5-nov-2026",
+   "evidence": "Fixed price plan: 31.15¢/kWh (Rate excl. 9% GST is 28.577¢/kWh)",
+   "confidence": "high",
+   "notes": "Read by script.",
+   "terms": {
+    "factsheet_date": "2026-11-05",
+    "changed": false
+   }
+  },
+  {
+   "name": "Savvy Saver 24",
+   "matches_id": "pacificlight-savvy-saver-24",
+   "type": "fixed",
+   "contractMonths": 24,
+   "rate_incl_gst": 29.0,
+   "rate_excl_gst": 26.605,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "source_url": "https://www.pacificlight.com.sg/support/factsheet-detail/06-savvy-saver-24-8-oct-2026",
+   "evidence": "Fixed price plan: 29.00¢/kWh (Rate excl. 9% GST is 26.605¢/kWh)",
+   "confidence": "high",
+   "notes": "Read by script.",
+   "terms": {
+    "factsheet_date": "2026-11-04",
+    "changed": false
+   }
+  },
+  {
+   "name": "Stack It Up 24",
+   "matches_id": "pacificlight-stack-it-up-24",
+   "type": "tiered",
+   "contractMonths": 24,
+   "rate_incl_gst": null,
+   "rate_excl_gst": null,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": [
+    {
+     "from": 0,
+     "to": 300,
+     "rate_incl_gst": 29.2
+    },
+    {
+     "from": 300,
+     "to": 600,
+     "rate_incl_gst": 28.6
+    },
+    {
+     "from": 600,
+     "to": null,
+     "rate_incl_gst": 27.6
+    }
+   ],
+   "category": "Standard",
+   "source_url": "https://www.pacificlight.com.sg/support/factsheet-detail/08-Stack-It-Up-24-8-oct-2026",
+   "evidence": "Fixed-price plan based on usage per billing period: (i) Stack 1 - First 300 kWh @29.20¢/kWh (ii) Stack 2 - Usage between 301 to 600 kWh @28.60¢/kWh (iii) Stack 3 - Above 600 kWh @27.60¢/kWh (Rates excl. 9% GST are 26.788¢/kWh, 26.24¢/kWh and 25.32¢/kWh respectively)",
+   "confidence": "high",
+   "notes": "Read by script.",
+   "terms": {
+    "factsheet_date": "2026-11-04",
+    "changed": false
+   }
+  },
+  {
+   "name": "Save While Sleeping 24",
+   "matches_id": "pacificlight-save-while-sleeping-24",
+   "type": "tou",
+   "contractMonths": 24,
+   "rate_incl_gst": null,
+   "rate_excl_gst": null,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": {
+    "peak": {
+     "window": "07:00–23:00",
+     "rate_incl_gst": 33.0
+    },
+    "offPeak": {
+     "window": "23:00–07:00",
+     "rate_incl_gst": 23.0
+    }
+   },
+   "tiers": null,
+   "category": "Standard",
+   "source_url": "https://www.pacificlight.com.sg/support/factsheet-detail/07-save-while-sleeping-24-8-oct-2026",
+   "evidence": "Peak/off-peak fixed-rate plan: (i) 33.00¢/kWh during peak periods from 7 am to 11 pm (Day) (ii) 23.00¢/kWh during off-peak periods from 11 pm to 7 am (Night) (Rates excl. 9% GST are 30.275¢/kWh and 21.10¢/kWh).",
+   "confidence": "high",
+   "notes": "Read by script.",
+   "terms": {
+    "factsheet_date": "2026-11-04",
+    "changed": false
+   }
+  }
+ ],
+ "not_found": [],
+ "issues": ""
+}

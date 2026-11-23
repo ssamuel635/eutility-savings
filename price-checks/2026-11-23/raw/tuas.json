@@ -1,0 +1,116 @@
+{
+ "retailer": "Tuas Power",
+ "checked_at": "2026-11-23",
+ "gst_basis_on_site": "both",
+ "method": "script (tools/price_check/collect.py)",
+ "sources": [
+  {
+   "url": "https://savewithtuas.com/our-electricity-plans/",
+   "what": "Plans page (which fact sheets are current)"
+  },
+  {
+   "url": "https://savewithtuas.com/assets/powerfix_24_20261008(283.5)-$120_bill_rebate.pdf",
+   "what": "EMA fact sheet"
+  },
+  {
+   "url": "https://savewithtuas.com/assets/powerfix_36_20261006(281)-$200_bill_rebate.pdf",
+   "what": "EMA fact sheet"
+  },
+  {
+   "url": "https://savewithtuas.com/assets/powerfix_25_20261029(300)-$120_bill_rebate.pdf",
+   "what": "EMA fact sheet"
+  },
+  {
+   "url": "https://savewithtuas.com/assets/pdf/2026/powerfix_12_20261006(285.8).pdf",
+   "what": "EMA fact sheet"
+  }
+ ],
+ "plans": [
+  {
+   "name": "PowerFIX 24",
+   "matches_id": "tuas-power-powerfix-24",
+   "type": "fixed",
+   "contractMonths": 24,
+   "rate_incl_gst": 30.9,
+   "rate_excl_gst": 28.35,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "source_url": "https://savewithtuas.com/assets/powerfix_24_20261008(283.5)-$120_bill_rebate.pdf",
+   "evidence": "Fixed rate plan: Duration Rates (before GST) Rates (after GST) 24 month/s 28.35 cents/kWh 30.90 cents/kWh",
+   "confidence": "high",
+   "notes": "Read by script.",
+   "terms": {
+    "factsheet_date": "2026-10-08",
+    "changed": false
+   }
+  },
+  {
+   "name": "PowerFIX 36",
+   "matches_id": "tuas-power-powerfix-36",
+   "type": "fixed",
+   "contractMonths": 36,
+   "rate_incl_gst": 30.63,
+   "rate_excl_gst": 28.1,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "source_url": "https://savewithtuas.com/assets/powerfix_36_20261006(281)-$200_bill_rebate.pdf",
+   "evidence": "Fixed rate plan: Duration Rates (before GST) Rates (after GST) 36 month/s 28.10 cents/kWh 30.63 cents/kWh",
+   "confidence": "high",
+   "notes": "Read by script.",
+   "terms": {
+    "factsheet_date": "2026-10-06",
+    "changed": false
+   }
+  },
+  {
+   "name": "PowerFIX 25 G+",
+   "matches_id": "tuas-power-powerfix-25-g",
+   "type": "fixed",
+   "contractMonths": 25,
+   "rate_incl_gst": 32.7,
+   "rate_excl_gst": 30.0,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Green",
+   "source_url": "https://savewithtuas.com/assets/powerfix_25_20261029(300)-$120_bill_rebate.pdf",
+   "evidence": "Fixed rate plan: Duration Rates (before GST) Rates (after GST) 25 month/s 30.00 cents/kWh 32.70 cents/kWh",
+   "confidence": "high",
+   "notes": "Read by script.",
+   "terms": {
+    "factsheet_date": "2026-10-29",
+    "changed": false
+   }
+  },
+  {
+   "name": "PowerFIX 12",
+   "matches_id": "tuas-power-powerfix-12",
+   "type": "fixed",
+   "contractMonths": 12,
+   "rate_incl_gst": 31.15,
+   "rate_excl_gst": 28.58,
+   "discount": null,
+   "dailyCharge_incl_gst": null,
+   "tou": null,
+   "tiers": null,
+   "category": "Standard",
+   "source_url": "https://savewithtuas.com/assets/pdf/2026/powerfix_12_20261006(285.8).pdf",
+   "evidence": "Fixed rate plan: Duration Rates (before GST) Rates (after GST) 12 month/s 28.58 cents/kWh 31.15 cents/kWh",
+   "confidence": "high",
+   "notes": "Read by script.",
+   "terms": {
+    "factsheet_date": "2026-10-06",
+    "changed": false
+   }
+  }
+ ],
+ "not_found": [],
+ "issues": ""
+}
