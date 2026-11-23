@@ -1,0 +1,67 @@
+{
+ "run": "2026-11-23",
+ "collected_at": "2026-11-23T16:01:32+08:00",
+ "days": 7,
+ "sources": [
+  {
+   "source": "SP Group",
+   "kind": "official",
+   "url": "https://www.spgroup.com.sg/about-us/media-resources/news-and-media-releases",
+   "read": 10,
+   "error": ""
+  },
+  {
+   "source": "Open Electricity Market",
+   "kind": "official",
+   "url": "https://www.openelectricitymarket.sg/residential/list-of-retailers",
+   "read": 7,
+   "error": "",
+   "note": "7 retailers listed, no change"
+  },
+  {
+   "source": "The Straits Times",
+   "kind": "news",
+   "url": "https://www.straitstimes.com/news/singapore/rss.xml",
+   "read": 37,
+   "error": ""
+  },
+  {
+   "source": "The Business Times",
+   "kind": "news",
+   "url": "https://www.businesstimes.com.sg/rss/singapore",
+   "read": 41,
+   "error": ""
+  },
+  {
+   "source": "CNA",
+   "kind": "news",
+   "url": "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml&category=10416",
+   "read": 20,
+   "error": ""
+  }
+ ],
+ "items": [
+  {
+   "id": "ac60a5929ec8",
+   "title": "Singapore’s core inflation eases to 1.5% in October",
+   "url": "https://www.businesstimes.com.sg/singapore/singapores-core-inflation-eases-1-5-october",
+   "date": "2026-11-23",
+   "source": "The Business Times",
+   "source_key": "business-times",
+   "kind": "news",
+   "snippet": "This is due to lower inflation for services, and electricity and gas",
+   "keywords": [
+    "electricity"
+   ],
+   "also": [
+    {
+     "id": "e21fc5ce2e13",
+     "source": "CNA",
+     "title": "Singapore’s core inflation eased to 1.5% in October; price pressures expected to pick up early next year",
+     "url": "https://www.channelnewsasia.com/singapore/october-core-inflation-price-pressures-2027-6573951",
+     "date": "2026-11-23"
+    }
+   ]
+  }
+ ]
+}
