@@ -26,7 +26,13 @@
   "e4c874e45633": "approved",
   "07dfa2475af2": "approved",
   "9ae69f5676bb": "rejected",
-  "63124e234fd4": "rejected"
+  "63124e234fd4": "rejected",
+  "d4da4f63031f": "approved",
+  "8ad48028cbe9": "approved",
+  "04f85f1fe262": "approved",
+  "9ee7a2d36318": "approved",
+  "1ddd7055fcf8": "approved",
+  "a4940059d95a": "approved"
  },
  "oem_retailers": [
   "Flo Energy Singapore Pte. Ltd.",
@@ -37,5 +43,28 @@
   "Senoko Energy Supply Pte Ltd",
   "Tuas Power Supply Pte Ltd"
  ],
- "pending": {}
+ "pending": {
+  "ac60a5929ec8": {
+   "id": "ac60a5929ec8",
+   "title": "Singapore’s core inflation eases to 1.5% in October",
+   "url": "https://www.businesstimes.com.sg/singapore/singapores-core-inflation-eases-1-5-october",
+   "date": "2026-11-23",
+   "source": "The Business Times",
+   "source_key": "business-times",
+   "kind": "news",
+   "snippet": "This is due to lower inflation for services, and electricity and gas",
+   "keywords": [
+    "electricity"
+   ],
+   "also": [
+    {
+     "id": "e21fc5ce2e13",
+     "source": "CNA",
+     "title": "Singapore’s core inflation eased to 1.5% in October; price pressures expected to pick up early next year",
+     "url": "https://www.channelnewsasia.com/singapore/october-core-inflation-price-pressures-2027-6573951",
+     "date": "2026-11-23"
+    }
+   ]
+  }
+ }
 }
