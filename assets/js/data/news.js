@@ -2,6 +2,7 @@
 // Written by tools/news/apply.py from headlines approved in the review page.
 // To take one down, delete its line and run `npm run seo` (rewrites the pages).
 export const NEWS = [
+  {"id": "ac60a5929ec8", "date": "2026-11-23", "title": "Singapore’s core inflation eases to 1.5% in October", "source": "The Business Times", "kind": "news", "url": "https://www.businesstimes.com.sg/singapore/singapores-core-inflation-eases-1-5-october", "topic": "policy"},
   {"id": "d4da4f63031f", "date": "2026-11-20", "title": "Singapore takes ‘prosper thy neighbour’ approach to Asean energy trade: Tan See Leng", "source": "The Business Times", "kind": "news", "url": "https://www.businesstimes.com.sg/international/asean/singapore-takes-prosper-thy-neighbour-approach-asean-energy-trade-tan-see-leng", "topic": "policy"},
   {"id": "1ddd7055fcf8", "date": "2026-11-20", "title": "Indonesia's piped gas supply to Singapore fully restored on Nov 12: METI", "source": "CNA", "kind": "news", "url": "https://www.channelnewsasia.com/singapore/indonesias-piped-gas-supply-singapore-fully-restored-nov-12-meti-6569076", "topic": "gas"},
   {"id": "8ad48028cbe9", "date": "2026-11-20", "title": "Diversifying energy sources and fuel suppliers critical for S’pore’s energy security: Tan See Leng", "source": "The Straits Times", "kind": "news", "url": "https://www.straitstimes.com/singapore/environment/diversifying-energy-sources-and-fuel-suppliers-key-to-self-sufficiency-in-spore-tan-see-leng", "topic": "gas"},
