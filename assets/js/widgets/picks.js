@@ -49,7 +49,7 @@ export function picksMarkup(kwh = CONFIG.defaultKwh) {
       </div>
     </div>
     <div class="pick-card__actions">
-      <button class="btn btn--wa btn--block" type="button" data-wa data-wa-message="Hi Eutility, I'm interested in switching to ${esc(r.plan.retailer)} ${esc(r.plan.name)}. Can you check if it suits my usage?" aria-label="Switch to ${esc(r.plan.retailer)} ${esc(r.plan.name)} on WhatsApp">${I.chat}<span>Switch on WhatsApp</span></button>
+      <button class="btn btn--wa btn--block" type="button" data-wa data-wa-message="Hi Eutility, I've selected a plan. Can you check if it suits my usage?" aria-label="Switch to ${esc(r.plan.retailer)} ${esc(r.plan.name)} on WhatsApp">${I.chat}<span>Switch on WhatsApp</span></button>
       <a class="link-arrow" href="calculator.html?kwh=${kwh}&run=1">Compare for my usage</a>
     </div>
   </article>`).join('');

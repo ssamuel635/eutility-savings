@@ -256,19 +256,9 @@ export function mountResidential(root, { mode = 'full', initial = {}, bare = fal
   syncRate();
   updateLive();
 
-  /** Hand-off for customers who'd rather send their bill: everything they've entered goes with it. */
+  /** Hand-off for customers who'd rather send their bill. Wording set by FXMedia (24 Nov): the bot reads usage and retailer from the bill. */
   function billWaMessage() {
-    const retailer = retailerSel.value;
-    const home = [...presets].find((b) => b.getAttribute('aria-pressed') === 'true')?.textContent;
-    // Format agreed with FXMedia (26 Oct) so the chatbot only has to ask for the bill.
-    return [
-      'Hi Eutility, please read my bill and work out my savings.',
-      '',
-      `Usage: ${kwh} kWh/month`,
-      `Current retailer: ${retailer}`,
-      ...(home ? [`Home: ${home}`] : []),
-      '(sent from the Eutility website)',
-    ].join('\n');
+    return 'Hi Eutility, please read my bill and work out my savings.';
   }
   root.querySelectorAll('[data-bill-wa]').forEach((a) => a.addEventListener('click', (e) => {
     e.preventDefault();
@@ -458,14 +448,15 @@ function howWeEstimate(inputs) {
   return `How we estimate: your usage × each plan’s published rate (plus any daily charge), compared with ${against}. Retailer rates as at ${RATES_DATE}. Discount-off-tariff plans use SP Group’s regulated tariff of ${TARIFF}¢/kWh for ${TARIFF_PERIOD} (incl. GST). Time-of-use plans assume ${Math.round(inputs.offPeakShare * 100)}% of your usage is off-peak. Promotions are shown separately and not included. Your actual bill depends on your usage and the retailer’s terms.`;
 }
 
-/** Shown when nothing beats the current plan: still give the visitor somewhere to go. */
-function goodNewsActions(inputs, current, params) {
-  const msg = `Hi Eutility, your calculator says I'm already on one of the cheapest plans (${currentName(current, ' ')}${current.customRate ? ` at ${current.customRate}¢/kWh` : ''}, about ${inputs.kwh} kWh a month). Are there any promotions I should know about?`;
-  return `
+/**
+ * Shown when nothing beats the current plan. No "ask about promotions" button:
+ * the chatbot doesn't list promotions, customers bring their own code (FXMedia, 24 Nov).
+ */
+function goodNewsActions(params) {
+  return params ? `
     <div class="btn-row">
-      <a class="btn btn--wa" href="#" data-wa data-wa-message="${esc(msg)}">${I.chat}<span>Ask about promotions</span></a>
-      ${params ? `<a class="btn btn--secondary" href="calculator.html?${params}">See the full comparison</a>` : ''}
-    </div>`;
+      <a class="btn btn--secondary" href="calculator.html?${params}">See the full comparison</a>
+    </div>` : '';
 }
 
 // ── Compact result (homepage) ──
@@ -475,8 +466,8 @@ async function renderCompact(el, res, inputs) {
     el.innerHTML = `
       <div class="stack enter" style="--stack:12px">
         <p class="h4 text-green">Good news: you’re already on one of the cheapest plans for your usage.</p>
-        <p class="small">We’ll tell you if that changes. Retailer promotions can still be worth a look.</p>
-        ${goodNewsActions(inputs, res.current, params)}
+        <p class="small">We’ll tell you if that changes.</p>
+        ${goodNewsActions(params)}
       </div>`;
     setBarAction(null);
     return;
@@ -542,8 +533,7 @@ function renderFull(el, res, inputs) {
         <div class="stack" style="--stack:12px">
           <p class="eyebrow" style="color:var(--green-aa)">Good news</p>
           <h2 class="h2">You’re already on one of the cheapest plans for your usage.</h2>
-          <p class="lead">Nothing cheaper matches your filters. Try a longer contract length, or ask us about retailer promotions.</p>
-          ${goodNewsActions(inputs, current, null)}
+          <p class="lead">Nothing cheaper matches your filters. Try a longer contract length.</p>
         </div>` : `
         <div class="reveal-num">
           <span class="reveal-num__label">You could save</span>
