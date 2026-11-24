@@ -93,9 +93,21 @@ export function createFakeFxmedia({ key = FAKE_KEY, seed = [] } = {}) {
       return ok({ customer_id: 'fake-' + norm(b.phone).slice(-4), duplicate, status: 'signed', signed_at: new Date().toISOString() },
         { message: duplicate ? 'Already signed (duplicate request ignored).' : 'OK' });
     },
+    'PUT /sign-up-status': (b) => {
+      const c = contacts.get(norm(b.phone));
+      if (!c) return fail(404, 'CONTACT_NOT_FOUND', 'No contact with this phone number.');
+      if (!['signed', 'unsigned'].includes(b.sign_up_status)) return fail(400, 'INVALID_SIGN_UP_STATUS', 'Use signed or unsigned.');
+      c.sign_up_status = b.sign_up_status;
+      return ok({ contact: c });
+    },
   };
   function answer(method, pathname, apiKey, body) {
     calls.push({ method, path: pathname, key: apiKey, body });
+    const docs = method === 'GET' && /^\/api\/web\/v1\/plans\/([^/]+)\/documents$/.exec(pathname);
+    if (docs && apiKey === key) {
+      if (!FAKE_PLANS.some((p) => p.plan_id === docs[1])) return fail(409, 'PLAN_NOT_AVAILABLE', 'This plan is not available any more.');
+      return ok({ plan_id: docs[1], fact_sheet_url: `https://example.com/fact-sheets/${docs[1]}.pdf`, ema_advisory_url: 'https://example.com/ema-advisory.pdf' });
+    }
     const route = routes[`${method} ${pathname.replace('/api/web/v1', '')}`];
     return apiKey !== key ? fail(401, 'UNAUTHORIZED', 'Bad key') : route ? route(body) : fail(404, 'NOT_FOUND', 'No route');
   }

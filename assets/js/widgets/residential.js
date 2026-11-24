@@ -405,16 +405,23 @@ function barFor(res, inputs, el, reference) {
   setBarAction({
     label: `Switch & save ${fmtMoney(res.best.savingYearly)}/yr`,
     sub: `${res.best.plan.retailer} ${res.best.plan.name}`,
+    href: switchUrl(res, inputs),
     message: planWaMessage(res, inputs),
     subject: planMailSubject(res),
     onSend: (channel) => logSwitch(res, inputs, reference, channel),
-  }, el.querySelector('[data-wa-switch]'));
+  }, el.querySelector('[data-web-switch]'));
+}
+
+/** The website Switch (switch.html) for the best plan, with the numbers it was priced on. */
+function switchUrl(res, inputs) {
+  const p = new URLSearchParams({ plan: res.best.plan.id, kwh: inputs.kwh, current: res.current.plan.id, ...(res.current.customRate ? { rate: res.current.customRate } : {}) });
+  return `switch.html?${p}`;
 }
 
 /** Record the comparison in the CRM when someone taps Switch (no account needed). */
 function logSwitch(res, inputs, reference, channel) {
   track('switch_clicked', { channel, plan: res.best.plan.id });
-  crm.logComparison(reference, channel === 'email' ? 'switch_email' : 'switch_whatsapp', {
+  crm.logComparison(reference, { email: 'switch_email', website: 'switch_website' }[channel] || 'switch_whatsapp', {
     kwh: inputs.kwh,
     currentPlanName: `${currentName(res.current)}${res.current.customRate ? ` (${res.current.customRate}¢/kWh)` : ''}`,
     bestPlanName: `${res.best.plan.retailer} · ${res.best.plan.name}`,
@@ -481,17 +488,16 @@ async function renderCompact(el, res, inputs) {
         ${freeMonths(res.best) ? `<span class="free-months">That’s about ${freeMonths(res.best)} of electricity bills</span>` : ''}
       </div>
       <div class="btn-row">
-        <button class="btn btn--wa" type="button" data-switch data-wa-switch>${I.chat}<span>Switch on WhatsApp</span></button>
+        <a class="btn" href="${switchUrl(res, inputs)}" data-switch data-web-switch>Switch now <span class="arrow" aria-hidden="true">→</span></a>
         <a class="btn btn--secondary" href="calculator.html?${params}">See the full comparison</a>
       </div>
-      <p class="small">No account needed. <a href="signup.html?plan=${encodeURIComponent(res.best.plan.id)}&kwh=${inputs.kwh}">Save this result to an account</a> if you’d like to come back to it.</p>
-      <p class="small">${esc(CONFIG.whatsappSameNumber)}</p>
+      <p class="small">No account needed: about 2 minutes, and we confirm on WhatsApp. <a href="signup.html?plan=${encodeURIComponent(res.best.plan.id)}&kwh=${inputs.kwh}">Save this result to an account</a> if you’d like to come back to it.</p>
       <p class="small muted-note">${ratesNote}</p>
     </div>`;
   const r = el.getBoundingClientRect();
   if (r.bottom > innerHeight || r.top < 0) el.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'center' });
   const ref = crm.newReference('EC');
-  el.querySelector('[data-wa-switch]')?.addEventListener('click', () => { logSwitch(res, inputs, ref, 'whatsapp'); openWhatsApp(planWaMessage(res, inputs)); });
+  el.querySelector('[data-web-switch]')?.addEventListener('click', () => logSwitch(res, inputs, ref, 'website'));
   barFor(res, inputs, el, ref);
   await celebrate(el.querySelector('[data-n]'), res.best.savingYearly);
   el.querySelector('[data-switch]').classList.add('btn--pulse');
@@ -557,10 +563,10 @@ function renderFull(el, res, inputs) {
           </div>
         </div>
         <div class="btn-row">
-          <button class="btn btn--wa" type="button" data-switch data-wa-switch>${I.chat}<span>Switch on WhatsApp</span></button>
+          <a class="btn" href="${switchUrl(res, inputs)}" data-switch data-web-switch>Switch now <span class="arrow" aria-hidden="true">→</span></a>
           <button class="btn btn--secondary" type="button" data-mail-switch>${I.mail}<span>Switch by email</span></button>
         </div>
-        <p class="res-actions-note">No account needed. We confirm the plan with you before anything is submitted. ${esc(CONFIG.whatsappSameNumber)}${customer.isSignedIn() ? ' · Saved to <a href="account.html">your account</a>' : ` · <a href="signup.html?plan=${encodeURIComponent(b.id)}&kwh=${inputs.kwh}">Save this to an account</a>`}</p>
+        <p class="res-actions-note">No account needed: about 2 minutes, and we confirm on WhatsApp.${customer.isSignedIn() ? ' · Saved to <a href="account.html">your account</a>' : ` · <a href="signup.html?plan=${encodeURIComponent(b.id)}&kwh=${inputs.kwh}">Save this to an account</a>`}</p>
         <details class="disclosure">
           <summary>Plan details and fine print</summary>
           <div class="disclosure__body">
@@ -628,7 +634,7 @@ function renderFull(el, res, inputs) {
   // Wire actions — the switch handoff carries the plan and the numbers, so this
   // alone is a complete request. The account offer sits beside it, never in front.
   const ref = best ? crm.newReference('EC') : '';
-  el.querySelector('[data-wa-switch]')?.addEventListener('click', () => { logSwitch(res, inputs, ref, 'whatsapp'); openWhatsApp(planWaMessage(res, inputs)); });
+  el.querySelector('[data-web-switch]')?.addEventListener('click', () => logSwitch(res, inputs, ref, 'website'));
   el.querySelector('[data-mail-switch]')?.addEventListener('click', () => { logSwitch(res, inputs, ref, 'email'); openEmail(planWaMessage(res, inputs), planMailSubject(res)); });
   barFor(res, inputs, el, ref);
   el.querySelector('[data-widen]')?.addEventListener('click', () => el.dispatchEvent(new CustomEvent('calc:widen', { bubbles: true })));

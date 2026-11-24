@@ -2048,6 +2048,8 @@ body { line-height: 1.65; }
    action is recognisable at a glance. Classes: .btn--wa, .btn--wa-outline. */
 @media (max-width: 1023px) {
   .wa-bar__main, .wa-bar.is-action .wa-bar__main { background: #25D366; color: #294671 !important; }
+  .wa-bar.is-web .wa-bar__main { background: var(--blue-aa); color: #fff !important; }
+  .wa-bar.is-web .wa-bar__main > svg { display: none; }
 }
 .btn--wa.btn--pulse { animation-name: pulse-wa; }
 @keyframes pulse-wa {

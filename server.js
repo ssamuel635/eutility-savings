@@ -5,6 +5,7 @@
 // - Customer data API: /api/crm/* → the CRM in server/crm (Excel by default)
 // - Customer sign-in: /api/auth/*, /api/customers/me → server/auth
 // - The app's savings check and switch: /api/savings/quote, /api/switch → server/fxmedia
+// - The website Switch: /api/web-switch → api/web-switch.mjs (a Vercel Function)
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
@@ -74,7 +75,8 @@ http.createServer((req, res) => {
     return res.end(JSON.stringify({ error: 'CRM is not set up on this server' }));
   }
   if ((p === '/api/savings/quote' || p === '/api/switch') && fxRoutes) return fxRoutes(req, res, url);
-  if (p === '/api/draw') return drawRoute(req, res);
+  if (p === '/api/draw') return functionRoute('draw', req, res);
+  if (p === '/api/web-switch') return functionRoute('web-switch', req, res);
   if (p.startsWith('/api/auth/') || p === '/api/customers/me') {
     if (authRoutes) return authRoutes(req, res, url);
     res.writeHead(503, { 'Content-Type': 'application/json' });
@@ -96,15 +98,15 @@ http.createServer((req, res) => {
   });
 }).listen(PORT, () => console.log(`\n  Eutility savings site → http://localhost:${PORT}\n`));
 
-// The referral lucky draw is a Vercel Function (api/draw.mjs); run the same code here.
-let drawApi = null;
-async function drawRoute(req, res) {
+// Vercel Functions in api/ (the referral lucky draw, the website Switch): run the same code here.
+const functions = {};
+async function functionRoute(name, req, res) {
   try {
-    drawApi = drawApi || await import(require('url').pathToFileURL(path.join(ROOT, 'api', 'draw.mjs')).href);
-    const handler = drawApi[req.method];
+    functions[name] = functions[name] || await import(require('url').pathToFileURL(path.join(ROOT, 'api', `${name}.mjs`)).href);
+    const handler = functions[name][req.method];
     if (!handler) { res.writeHead(405, { Allow: 'GET, POST' }); return res.end(); }
     const chunks = [];
-    for await (const c of req) { chunks.push(c); if (chunks.reduce((t, x) => t + x.length, 0) > 8192) break; }
+    for await (const c of req) { chunks.push(c); if (chunks.reduce((t, x) => t + x.length, 0) > 16384) break; }
     const headers = { ...req.headers, 'x-forwarded-for': req.socket.remoteAddress || '' };
     const request = new Request(`http://${req.headers.host || 'localhost'}${req.url}`, {
       method: req.method, headers, body: req.method === 'POST' ? Buffer.concat(chunks) : undefined,
@@ -113,7 +115,7 @@ async function drawRoute(req, res) {
     res.writeHead(r.status, Object.fromEntries(r.headers));
     res.end(Buffer.from(await r.arrayBuffer()));
   } catch (e) {
-    console.warn(`  Draw: ${e.message}`);
+    console.warn(`  ${name}: ${e.message}`);
     res.writeHead(500, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ error: 'Something went wrong' }));
   }

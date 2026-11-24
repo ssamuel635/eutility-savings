@@ -286,6 +286,7 @@ function mobileBar(bar) {
   main.addEventListener('click', (e) => {
     if (!barAction) return;                      // default: generic chat (data-wa handler)
     e.preventDefault(); e.stopImmediatePropagation();
+    if (barAction.href) { barAction.onSend?.('website'); location.href = barAction.href; return; }
     barAction.onSend?.('whatsapp');
     openWhatsApp(barAction.message);
   }, true);
@@ -321,6 +322,7 @@ export function setBarAction(action, watch) {
   sub.textContent = action?.sub || '';
   sub.hidden = !action?.sub;
   bar.classList.toggle('is-action', !!action);
+  bar.classList.toggle('is-web', !!action?.href); // a website link, not WhatsApp: blue, no chat icon
   bar.classList.remove('is-pop'); void bar.offsetWidth; if (action) bar.classList.add('is-pop');
 
   inlineSwitchObserver?.disconnect();

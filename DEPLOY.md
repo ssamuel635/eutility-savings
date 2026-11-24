@@ -125,6 +125,17 @@ Vercel (Project → Settings → Environment Variables, Production and Preview).
 | `GATE_USERS` | Comma-separated accounts, each `name:role:salt:hash`. Role is `admin` or `viewer`. Passwords are stored only as salted PBKDF2 hashes. |
 | `GATE_USERS_EXTRA` | Optional, same format. One-off accounts (e.g. `testuser1` for the lawyers' review, 23 Nov) added without rewriting `GATE_USERS`. Make a line with `node tools/gate-user.mjs <name> viewer <password>`. |
 
+**Website Switch (`switch.html` → `api/web-switch.mjs`, 24 Nov).** Without these, the page says online switching isn't set up and offers WhatsApp instead. Production, Sensitive:
+
+| Variable | What it is |
+|---|---|
+| `FXMEDIA_BASE_URL` | FXMedia's API, e.g. `https://dev-eutility-wa.fxwebapps.com` |
+| `FXMEDIA_API_KEY` | FXMedia's key for that environment (same as the local `.env`) |
+| `FXMEDIA_TEST_PHONES` | Numbers Eutility owns, comma-separated, e.g. `+6584818562`. Only these can switch: FXMedia's dev API writes to the LIVE Freshworks account, and no SMS is sent yet (the code shows on screen). |
+| `WEB_SWITCH_SECRET` | Long random string that signs the switch codes, e.g. `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
+
+Real SMS codes (and switching for any number) wait for Kenneth's OK on the SMS cost.
+
 - **Sign in:** any page shows the sign-in form; you land back on that page afterwards. Sessions last 14 days.
 - **Admin page:** `/__gate/admin` (admins only) lists accounts and how to manage them.
 - **Sign out:** `/__gate/logout`.

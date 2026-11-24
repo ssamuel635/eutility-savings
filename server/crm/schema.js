@@ -27,6 +27,7 @@ const ACTIONS = {
   switch_whatsapp: 'Switch request (WhatsApp)',
   switch_email: 'Switch request (email)',
   switch_app: 'Switch request (app)',
+  switch_website: 'Switch started (website)',
   bill_uploaded: 'Bill uploaded',
   business_quote: 'Business quote',
 };
