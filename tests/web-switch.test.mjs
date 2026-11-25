@@ -109,6 +109,8 @@ test('plan matching: by retailer\'s first word and plan name, or a fixed id', ()
   assert.equal(matchPlan({ id: 'k', retailer: 'Keppel Electric', name: 'Fixed12' }, top)?.plan_id, 'a');
   assert.equal(matchPlan({ id: 'g', retailer: 'Geneco', name: 'Get It Fixed 12' }, top), null);
   assert.equal(matchPlan({ id: 'x', retailer: 'Other', name: 'Other' }, top, { x: 'b' })?.plan_id, 'b');
+  const sembcorp = [{ plan_id: 's24', retailer: 'Sembcorp Power', plan: '24M Fixed Price Plan' }];
+  assert.equal(matchPlan({ id: 'sembcorp-power-24m-fixed-price-plan-home', retailer: 'Sembcorp Power', name: '24M Fixed Price Plan Home' }, sembcorp)?.plan_id, 's24');
 });
 
 test('setup lists FXMedia\'s home types; no key means "not set up", not a crash', async () => {

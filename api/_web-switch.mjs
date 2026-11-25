@@ -33,8 +33,14 @@ const VERIFIED_TTL_SEC = 30 * 60;
 const TIMEOUT_MS = 15_000;
 const SG_MOBILE = /^\+65[89]\d{7}$/;
 
-// Our plan id → FXMedia plan_id, for plans the name match below can't find.
-// Fill in from FXMedia's plan list (asked for on 24 Nov).
+// Our plan id → FXMedia's plan name, where the two names differ (checked in their
+// dev portal 25 Nov). Names, not ids: Monika says plan ids may change in production.
+export const PLAN_NAMES = {
+  'sembcorp-power-24m-fixed-price-plan-home': '24M Fixed Price Plan',
+  'sembcorp-power-12m-fixed-price-plan-home': '12M Fixed Price Plan',
+};
+
+// Our plan id → FXMedia plan_id: last resort only, as ids may change in production.
 export const PLAN_IDS = {};
 
 const norm = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -50,11 +56,12 @@ export function normPhone(v) {
   return '';
 }
 
-/** FXMedia's plan for one of ours: the PLAN_IDS entry, else same retailer and same plan name. */
-export function matchPlan(ours, topPlans, ids = PLAN_IDS) {
+/** FXMedia's plan for one of ours: the PLAN_IDS entry, else same retailer and same plan name (or its PLAN_NAMES alias). */
+export function matchPlan(ours, topPlans, ids = PLAN_IDS, names = PLAN_NAMES) {
   const fixed = ids[ours.id];
   if (fixed) return topPlans.find((p) => String(p.plan_id) === fixed) || null;
-  return topPlans.find((p) => firstWord(p.retailer) === firstWord(ours.retailer) && norm(p.plan) === norm(ours.name)) || null;
+  const name = norm(names[ours.id] || ours.name);
+  return topPlans.find((p) => firstWord(p.retailer) === firstWord(ours.retailer) && norm(p.plan) === name) || null;
 }
 
 class HttpError extends Error {
