@@ -115,7 +115,7 @@ function panel() {
       <div><span>Contract</span><span>${esc(p.contractLabel)}</span></div>
       ${p.earlyTermination ? `<div><span>Early termination</span><span>${esc(p.earlyTermination)}</span></div>` : ''}
       ${p.monthly != null ? `<div><span>Estimated bill</span><span>${fmtMoney(p.monthly, 2)} a month</span></div>` : ''}
-      ${p.savingYearly > 0 ? `<div><span>Estimated saving</span><span>${fmtMoney(p.savingYearly)} a year vs SP Group’s tariff</span></div>` : ''}
+      ${p.savingYearly > 0 ? `<div><span>Estimated saving</span><span>${fmtMoney(p.savingYearly)} a year vs your current plan</span></div>` : ''}
       <div><span>Name</span><span>${esc(s.fullName)}</span></div>
       <div><span>Address</span><span>${esc(`${s.address}, Singapore ${s.postal}`)}</span></div>
     </div>
