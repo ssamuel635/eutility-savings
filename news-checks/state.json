@@ -33,7 +33,8 @@
   "9ee7a2d36318": "approved",
   "1ddd7055fcf8": "approved",
   "a4940059d95a": "approved",
-  "ac60a5929ec8": "approved"
+  "ac60a5929ec8": "approved",
+  "e21fc5ce2e13": "approved"
  },
  "oem_retailers": [
   "Flo Energy Singapore Pte. Ltd.",
@@ -45,26 +46,30 @@
   "Tuas Power Supply Pte Ltd"
  ],
  "pending": {
-  "ac60a5929ec8": {
-   "id": "ac60a5929ec8",
-   "title": "Singapore’s core inflation eases to 1.5% in October",
-   "url": "https://www.businesstimes.com.sg/singapore/singapores-core-inflation-eases-1-5-october",
+  "9e61663fec3a": {
+   "id": "9e61663fec3a",
+   "title": "In the COP summit ‘dragon boat race’, all must row to the same drumbeat to secure climate future",
+   "url": "https://www.straitstimes.com/singapore/environment/cop31s-failure-to-secure-political-commitment-could-influence-singapores-carbon-tax-trajectory",
    "date": "2026-11-23",
-   "source": "The Business Times",
-   "source_key": "business-times",
+   "source": "The Straits Times",
+   "source_key": "straits-times",
    "kind": "news",
-   "snippet": "This is due to lower inflation for services, and electricity and gas",
+   "snippet": "Singapore’s carbon tax rate from 2028 to 2030 could be among things hit by a lack of consensus among nations.",
    "keywords": [
-    "electricity"
-   ],
-   "also": [
-    {
-     "id": "e21fc5ce2e13",
-     "source": "CNA",
-     "title": "Singapore’s core inflation eased to 1.5% in October; price pressures expected to pick up early next year",
-     "url": "https://www.channelnewsasia.com/singapore/october-core-inflation-price-pressures-2027-6573951",
-     "date": "2026-11-23"
-    }
+    "carbon tax"
+   ]
+  },
+  "518c3ba3d87c": {
+   "id": "518c3ba3d87c",
+   "title": "About 220 Seatrium employees to lose jobs as group consolidates global yard network",
+   "url": "https://www.channelnewsasia.com/singapore/seatrium-retrenchment-layoff-workforce-yards-6577316",
+   "date": "2026-11-24",
+   "source": "CNA",
+   "source_key": "cna",
+   "kind": "news",
+   "snippet": "The exercise is Seatrium's first workforce restructuring since it was formed in 2023 from the merger of Sembcorp Marine and Keppel Offshore & Marine.",
+   "keywords": [
+    "Sembcorp"
    ]
   }
  }
