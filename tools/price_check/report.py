@@ -2,7 +2,8 @@
 Weekly price check: the review page (price-checks/<date>/report.html).
 
 Built by compare.py. The approver ticks what's right, types their name and
-presses "Save approvals", which saves approved-<date>.json for apply.py.
+presses "Save approvals", which saves approved-<date>.json for apply.py (straight into
+the run folder when opened with review_server.py, else a download to Downloads).
 """
 from compare import DAYS, MAX_JUMP, RATE_MAX, RATE_MIN, STALE_DAYS, TYPICAL_KWH, esc, fmt
 
@@ -64,26 +65,36 @@ APPROVE_JS = """<script>
     boxes.forEach((b) => { b.checked = on; });
     update();
   });
+  // Served by review_server.py: save straight into the run folder. Opened from disk: a plain
+  // download to Downloads (no "Save as" box, which let the file land in a folder apply.py never checks).
+  const download = (text, file) => {
+    const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([text], { type: 'application/json' })), download: file });
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  };
+  const next = '. Next, ask Claude to \u201capply the approved changes for ' + run + '\u201d.';
   save.addEventListener('click', async () => {
     const pick = (k) => boxes.filter((b) => b.checked && b.dataset.kind === k).map((b) => b.dataset.id);
     const data = { run, approved_by: name.value.trim(), approved_at: new Date().toISOString(),
                    plans: pick('plan'), promotions: pick('promo'), terms: pick('terms') };
     const text = JSON.stringify(data, null, 1), file = 'approved-' + run + '.json';
+    save.disabled = true;
+    msg.textContent = 'Saving\u2026';
     try {
-      if (window.showSaveFilePicker) {
-        const h = await window.showSaveFilePicker({ suggestedName: file, types: [{ description: 'Approvals', accept: { 'application/json': ['.json'] } }] });
-        const w = await h.createWritable();
-        await w.write(text);
-        await w.close();
+      if (location.protocol.startsWith('http')) {
+        const r = await fetch('save', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: text });
+        const j = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(j.error || 'the review server said ' + r.status);
+        msg.textContent = '\u2713 Saved ' + j.file + ' in the run folder (' + j.count + (j.count === 1 ? ' change' : ' changes') + ')' + next;
       } else {
-        const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([text], { type: 'application/json' })), download: file });
-        a.click();
-        setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+        download(text, file);
+        msg.textContent = 'Downloaded ' + file + ' to your Downloads folder' + next;
       }
-      msg.textContent = 'Saved ' + file + '. Next, ask Claude to \\u201capply the approved changes for ' + run + '\\u201d.';
     } catch (e) {
-      if (e.name !== 'AbortError') msg.textContent = 'Couldn\\u2019t save: ' + e.message;
+      download(text, file);
+      msg.textContent = 'Couldn\u2019t save in the run folder (' + e.message + '), so it was downloaded to Downloads instead' + next;
     }
+    update();
   });
   update();
 })();

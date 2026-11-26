@@ -134,9 +134,16 @@ the script collector: `python3 tools/price_check/test_collect.py`
 
 ## Step 3: approve (person)
 
-Open `report.html`, tick what's right, type your name in the bar at the bottom and press
-**Save approvals**. That saves `approved-<date>.json`. Save it in the run folder or leave it in
-Downloads. Then ask Claude to "apply the approved changes for <date>".
+Run `python tools/price_check/review_server.py` (the newest run; or pass `price-checks/<date>`).
+It opens the report in your browser. Tick what's right, type your name in the bar at the bottom
+and press **Save approvals**: `approved-<date>.json` is saved straight into the run folder, and
+the bar shows a green "Saved". Press Ctrl+C in the terminal when done. Then ask Claude to
+"apply the approved changes for <date>".
+
+The server only runs on this PC (127.0.0.1) and only accepts ticks that are in that report.
+Opening `report.html` straight from disk still works: Save approvals then downloads the file
+to Downloads, where apply.py also looks. (Until 26 Nov it opened a "Save as" box, and the file
+could land in a folder apply.py never checks; that's why approvals were done in chat.)
 
 Applying means:
 1. `python3 tools/price_check/apply.py price-checks/<date>`. It applies only what was ticked,
@@ -154,7 +161,7 @@ are added to the sheet by hand.
 (coverage, changes, blocked, double-checked). apply.py adds who approved, how much, and when it
 went live. Together they show how reliable the agent is over time.
 
-Tests: `python3 tools/price_check/test_compare.py`, `test_terms.py`, `test_runlog.py` and `test_collect.py`
+Tests: `python3 tools/price_check/test_compare.py`, `test_terms.py`, `test_runlog.py`, `test_collect.py` and `test_review_server.py`
 
 ## Weekly schedule
 
