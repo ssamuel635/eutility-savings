@@ -93,6 +93,14 @@ const liveApi: Api = {
   ...mockApi,
   auth,
   customer,
+  plans: {
+    ...mockApi.plans,
+    // Only FXMedia's plans (not in the price sheet) have documents to show before Sign Up
+    async documents(planId) {
+      if (planById(planId) || (await deviceSession())) return null;
+      return fxmedia.documents(planId);
+    },
+  },
   savings: {
     ...mockApi.savings,
     async quote(input) {

@@ -74,7 +74,7 @@ http.createServer((req, res) => {
     res.writeHead(503, { 'Content-Type': 'application/json' });
     return res.end(JSON.stringify({ error: 'CRM is not set up on this server' }));
   }
-  if ((p === '/api/savings/quote' || p === '/api/switch') && fxRoutes) return fxRoutes(req, res, url);
+  if ((p === '/api/savings/quote' || p === '/api/switch' || p === '/api/switch/documents') && fxRoutes) return fxRoutes(req, res, url);
   if (p === '/api/draw') return functionRoute('draw', req, res);
   if (p === '/api/web-switch') return functionRoute('web-switch', req, res);
   if (p.startsWith('/api/auth/') || p === '/api/customers/me') {

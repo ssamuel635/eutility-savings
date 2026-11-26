@@ -83,6 +83,12 @@ export interface Plan {
   tags: string[];
 }
 
+/** Read before switching to an FXMedia plan (as on the website Switch). null = not uploaded yet. */
+export interface PlanDocuments {
+  factSheetUrl: string | null;
+  emaAdvisoryUrl: string | null;
+}
+
 export interface PlanCatalogue {
   plans: Plan[];
   ratesAsAt: string;       // "22 September 2026"
@@ -249,6 +255,8 @@ export interface Api {
   plans: {
     /** → GET /plans?status=active   (FXMedia request #1: plan & pricing data) */
     catalogue(): Promise<PlanCatalogue>;
+    /** → GET /api/switch/documents: an FXMedia plan's fact sheet and EMA advisory. Absent/null on the device mock. */
+    documents?(planId: string): Promise<PlanDocuments | null>;
   };
   savings: {
     /** → POST /savings/quote         (FXMedia request #2: one calculation for every channel) */

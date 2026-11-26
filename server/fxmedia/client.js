@@ -108,6 +108,16 @@ function createFxmediaClient({ env = process.env, fetch = globalThis.fetch } = {
       return (await call('POST', '/comparison', { phone: customerPhone(phone), preference, limit })).data;
     },
 
+    /** The plan's fact sheet and EMA advisory links (each may be null), to show before Sign Up. */
+    async planDocuments(planId) {
+      return (await call('GET', `/plans/${encodeURIComponent(planId)}/documents`)).data || {};
+    },
+
+    /** Mark the contact's sign-up "signed": that's what makes the chatbot send the WhatsApp confirmation. */
+    async setSignUpStatus(phone, status = 'signed') {
+      return (await call('PUT', '/sign-up-status', { phone: customerPhone(phone), sign_up_status: status })).data;
+    },
+
     /** Record the plan the customer picked (a plan_id from comparison). Safe to repeat. */
     async signUp(phone, planId, promoCode = '') {
       return (await call('POST', '/sign-up', { phone: customerPhone(phone), plan_id: planId, promo_code: promoCode })).data;

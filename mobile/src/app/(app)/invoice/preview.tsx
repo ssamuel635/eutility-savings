@@ -3,12 +3,12 @@
 // already in progress, in which case the bill is added to that.
 
 import { useEffect, useState } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, Linking, StyleSheet, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import * as Haptics from 'expo-haptics';
 import { Button, Card, ChipGroup, ErrorNote, Screen, Text, Toggle } from '@/components';
-import { api, ApiError, type Plan } from '@/api';
+import { api, ApiError, type Plan, type PlanDocuments } from '@/api';
 import { money, recentMonths } from '@/lib/format';
 import { livePromo } from '@/lib/promo';
 import { colors, radius, space } from '@/theme';
@@ -20,6 +20,7 @@ export default function InvoicePreview() {
   const months = recentMonths(4);
   const [month, setMonth] = useState(months[1].value); // last month's bill is the usual one
   const [target, setTarget] = useState<{ plan: Plan | null; quoteId: string | null; saving: number } | null>(null);
+  const [docs, setDocs] = useState<PlanDocuments | null>(null);
   const [usePromo, setUsePromo] = useState(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -38,6 +39,14 @@ export default function InvoicePreview() {
       setTarget({ plan, quoteId: p.quoteId || latest?.id || null, saving: plan ? saving : 0 });
     })().catch(() => setTarget({ plan: null, quoteId: null, saving: 0 }));
   }, [p.planId, p.quoteId, p.saving]);
+
+  // An FXMedia plan: its fact sheet and EMA's advisory, to read before sending (as on the website Switch)
+  const planId = target?.plan?.id;
+  useEffect(() => {
+    setDocs(null);
+    if (!planId || !api.plans.documents) return;
+    api.plans.documents(planId).then(setDocs).catch(() => setDocs(null));
+  }, [planId]);
 
   // The plan's promotion code, used unless the customer switches it off (FXMedia checks it)
   const live = livePromo(target?.plan?.promo);
@@ -117,6 +126,17 @@ export default function InvoicePreview() {
                 value={usePromo}
                 onChange={setUsePromo}
               />
+            ) : null}
+            {docs ? (
+              <Text variant="small">
+                {docs.factSheetUrl ? (
+                  <>Please read the plan’s <Text variant="small" color={colors.blue} accessibilityRole="link" onPress={() => Linking.openURL(docs.factSheetUrl!)}>fact sheet</Text></>
+                ) : 'The retailer’s fact sheet will be sent to you with your confirmation'}
+                {docs.emaAdvisoryUrl ? (
+                  <> and EMA’s <Text variant="small" color={colors.blue} accessibilityRole="link" onPress={() => Linking.openURL(docs.emaAdvisoryUrl!)}>advisory for consumers</Text></>
+                ) : null}
+                {' '}before you send.
+              </Text>
             ) : null}
           </>
         ) : (

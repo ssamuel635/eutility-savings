@@ -18,7 +18,7 @@ import { Platform } from 'react-native';
 import Constants from 'expo-constants';
 import { linkCustomer } from './mock';
 import { db, save } from './mock/db';
-import { ApiError, type Api, type ApiErrorCode, type ContractFilter, type Customer, type PricedPlan, type Session } from './types';
+import { ApiError, type Api, type ApiErrorCode, type ContractFilter, type Customer, type PlanDocuments, type PricedPlan, type Session } from './types';
 
 function baseUrl() {
   const set = process.env.EXPO_PUBLIC_API_URL || process.env.EXPO_PUBLIC_CRM_URL;
@@ -91,6 +91,14 @@ export const fxmedia = {
   async quote(input: { kwh: number; currentRetailer: string; currentPlanId: string; contract: ContractFilter; greenOnly: boolean }) {
     try {
       return await request<FxQuote>('POST', '/api/savings/quote', input, true);
+    } catch (e) {
+      if (e instanceof NotAvailable) return null;
+      throw e;
+    }
+  },
+  async documents(planId: string) {
+    try {
+      return await request<PlanDocuments>('GET', `/api/switch/documents?planId=${encodeURIComponent(planId)}`, undefined, true);
     } catch (e) {
       if (e instanceof NotAvailable) return null;
       throw e;

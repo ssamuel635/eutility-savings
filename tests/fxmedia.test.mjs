@@ -168,6 +168,10 @@ test('the app\'s savings check and switch through FXMedia, signed in', async () 
       headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) } });
     return { status: res.status, body: await res.json() };
   };
+  const get = async (p, token) => {
+    const res = await fetch(base + p, { headers: token ? { Authorization: `Bearer ${token}` } : {} });
+    return { status: res.status, body: await res.json() };
+  };
   try {
     await client.saveContact({ phone: TEST, full_name: 'Test Eutility Dev', terms_accepted: true });
     const token = tokens.session('FX-6591234567', TEST);
@@ -180,8 +184,16 @@ test('the app\'s savings check and switch through FXMedia, signed in', async () 
     assert.equal(fx.calls.find((c) => c.path.endsWith('/comparison')).body.limit, 'all');
 
     const planId = q.body.plans[0].plan.id;
+    const docs = await get(`/api/switch/documents?planId=${planId}`, token);
+    assert.equal(docs.status, 200);
+    assert.ok(docs.body.factSheetUrl.endsWith('.pdf') && docs.body.emaAdvisoryUrl.endsWith('.pdf'), 'fact sheet and EMA advisory before confirming');
+    assert.equal((await get(`/api/switch/documents?planId=${planId}`)).status, 401, 'signed-in customers only');
+    assert.equal((await get('/api/switch/documents?planId=gone', token)).status, 409, 'a plan no longer offered');
+
+    assert.equal(fx.contacts.get(TEST).sign_up_status, undefined);
     const s = await call('/api/switch', { planId }, token);
     assert.deepEqual([s.status, s.body.duplicate, typeof s.body.reference], [200, false, 'string']);
+    assert.equal(fx.contacts.get(TEST).sign_up_status, 'signed', 'marked signed, so the chatbot sends the WhatsApp confirmation');
     assert.equal((await call('/api/switch', { planId }, token)).body.duplicate, true, 'a retry records nothing new');
     const gone = await call('/api/switch', { planId: 'gone' }, token);
     assert.deepEqual([gone.status, gone.body.code], [409, 'validation'], 'shown to the customer: choose again');

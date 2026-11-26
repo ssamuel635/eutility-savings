@@ -7,7 +7,10 @@
 //        → saves usage and current retailer on the contact, then FXMedia's
 //          comparison: { calculatedOn, current: { provider, monthly }, plans: [{ plan, monthly, … }] }
 //   POST /api/switch         { planId, promoCode? } → FXMedia sign-up: { reference, duplicate, signedAt, promoApplied }
-//        (a code FXMedia refuses for that plan: signed up without it, promoApplied false)
+//        (a code FXMedia refuses for that plan: signed up without it, promoApplied false),
+//        then marks the contact "signed" so the chatbot sends the WhatsApp confirmation
+//   GET  /api/switch/documents?planId=…  → { factSheetUrl, emaAdvisoryUrl } (each may be null),
+//        shown before the customer confirms, as on the website Switch
 //
 // Plans come back in the app's Plan shape (mobile/src/api/types.ts). Their ids
 // are FXMedia's plan ids, which /api/switch needs. FXMedia prices against the
@@ -128,7 +131,23 @@ function createFxmediaRoutes({ client, tokens, env = process.env }) {
             r = await client.signUp(phone, planId, '');
             promoApplied = false;
           }
+          // Sign-up is safe to repeat, so if this fails the customer can simply try again
+          await client.setSignUpStatus(phone, 'signed');
           return json(res, 200, { reference: r.customer_id, duplicate: !!r.duplicate, signedAt: r.signed_at || null, promoApplied });
+        }
+
+        case 'GET /api/switch/documents': {
+          signedIn(req);
+          const planId = String(url.searchParams.get('planId') || '').trim();
+          if (!/^[A-Za-z0-9_-]{1,64}$/.test(planId)) throw new ValidationError('Choose a plan first');
+          let d = {};
+          try {
+            d = await client.planDocuments(planId);
+          } catch (e) {
+            // No fact sheet uploaded yet: the app says it comes with the confirmation, as the website does
+            if (e.code !== 'FACT_SHEET_NOT_AVAILABLE') throw e;
+          }
+          return json(res, 200, { factSheetUrl: d.fact_sheet_url || null, emaAdvisoryUrl: d.ema_advisory_url || null });
         }
 
         default:
