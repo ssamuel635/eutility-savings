@@ -13,7 +13,7 @@ For each retailer below, read the **official** sources and write
 
 | Key | Retailer | Where the reliable numbers are (from past runs) |
 |---|---|---|
-| geneco | Geneco | geneco.sg/residential/electricity-plans: **open in a real browser**; the plan cards (name, months, ¢/kWh incl. GST, promo) only render there. Promo T&C PDFs on get.geneco.sg |
+| geneco | Geneco | geneco.sg/residential/electricity-plans: **open in a real browser**; the plan cards (name, months, ¢/kWh incl. GST, promo) only render there. Promo T&C PDFs on get.geneco.sg. (The script collector reads the same prices from the page's `genecoObj` data, see below.) |
 | senoko | Senoko Energy | senokoenergy.com/households/price-plans and the plan fact sheets (`/custom/document/FS?plancode=…`), which show incl. and excl. GST |
 | keppel | Keppel Electric | keppelelectric.com/residential-price-plan in a browser. The page loads Keppel's own plan list from `/api/AccountPlan/GetAllPlans` (name, rate with/without GST, fact sheet version): the most reliable read. Promos: /promotions |
 | tuas | Tuas Power | **savewithtuas.com/our-electricity-plans/** (Tuas Power Supply's consumer site, not tuaspower.com.sg) and the fact sheet PDFs linked there |
@@ -70,7 +70,7 @@ AI: Keppel's plan feed, Senoko's and Tuas's EMA fact sheets (PDF), PacificLight'
 (web pages, one per plan, listed on its fact sheet index) and SP Group's tariff page.
 
 ```bash
-python3 tools/price_check/collect.py                 # writes raw/keppel.json, senoko, sp-group, tuas, pacificlight
+python3 tools/price_check/collect.py                 # writes raw/keppel.json, senoko, sp-group, tuas, pacificlight, geneco
 python3 tools/price_check/collect.py --folder price-checks-script   # a side copy, for comparing with the agent's run
 ```
 
@@ -85,8 +85,15 @@ Monday task runs from 2 Nov 2026 for two weeks: `--folder price-checks-script --
 First checked 28 Oct 2026: all 28 plans (14 for Keppel, Senoko and SP Group; 4 Tuas; 10 PacificLight)
 matched the approved 26 Oct run exactly. Notes: Tuas names its fact sheets "PowerFIX 24 Bill Rebate"
 (read as our "PowerFIX 24"); PacificLight's Classic 60 is stored as 3% off tariff, its extra 5% prompt
-payment discount goes in the notes, as in the sheet. Geneco and Sembcorp still need the agent or a
-person (Sembcorp blocks scripts).
+payment discount goes in the notes, as in the sheet. Sembcorp still needs the agent or a person
+(it blocks scripts).
+
+Geneco (added 27 Nov 2026): its plans page carries the plan cards' data as JSON (`var genecoObj`):
+each plan's rate before GST and the GST rate (peak and off-peak rates for Get It 7 To 7). The script
+works out the incl. GST price, rounded once to 2 places. (Geneco's own page rounds twice, gets 29.01
+for Get It Fixed 24 and patches it to 29.00 by hand; the fact sheet says 29.00.) The data has no
+time bands, so 7 To 7's hours are kept from our sheet. The fact sheet date comes from the rate
+reference (e.g. GetItFixed24_20260930). First checked 27 Nov: all 4 plans matched the 23 Nov run.
 
 ## Step 1b: second read (separate pass)
 

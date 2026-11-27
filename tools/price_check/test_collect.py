@@ -3,8 +3,8 @@ Run: python3 tools/price_check/test_collect.py   (no network: the samples below 
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
-from collect import (against, clock, fs_date, parse_keppel, parse_pl_factsheet, parse_senoko_factsheet, parse_sp,
-                     parse_tuas_factsheet, pl_slugs, senoko_codes, tuas_factsheets)
+from collect import (against, clock, fs_date, geneco_data, parse_geneco, parse_keppel, parse_pl_factsheet,
+                     parse_senoko_factsheet, parse_sp, parse_tuas_factsheet, pl_slugs, senoko_codes, tuas_factsheets)
 from compare import as_plan, sanity
 
 fails = 0
@@ -26,6 +26,10 @@ current = {
     "tuas-power-powerfix-25-g": {"retailer": "Tuas Power", "name": "PowerFIX 25 G+", "available": True, "category": "Green"},
     "pacificlight-savvy-saver-24": {"retailer": "PacificLight", "name": "Savvy Saver 24", "available": True},
     "pacificlight-sunny-side-up-12": {"retailer": "PacificLight", "name": "Sunny Side-Up 12", "available": True, "category": "Green"},
+    "geneco-get-it-fixed-24": {"retailer": "Geneco", "name": "Get It Fixed 24", "available": True, "pricingType": "fixed", "rate": 29.0},
+    "geneco-get-it-7-to-7": {"retailer": "Geneco", "name": "Get It 7 To 7", "available": True, "pricingType": "tou",
+                             "tou": {"offPeak": {"window": "19:00–07:00", "rate": 27.9}, "peak": {"window": "07:00–19:00", "rate": 32.5}}},
+    "geneco-give-us-a-try": {"retailer": "Geneco", "name": "Give Us A Try", "available": True, "pricingType": "fixed", "rate": 31.0},
 }
 
 # ── Keppel's plan feed ──
@@ -166,6 +170,35 @@ check("side-by-side: a different tier rate is reported", len(against({"plans": [
                                                                       {"plans": [st2]})) == 1)
 for f in (sw, st):
     check(f"guards: {f['name']} passes (every rate in its quote)", not sanity(f, as_plan(f), {"pricingType": f["type"]}))
+
+# ── Geneco: the plan data on its plans page (copied 27 Nov 2026, trimmed) ──
+GENECO_PAGE = """<script id="geneco-plans-js-extra">
+var genecoObj = {"planData":[{"Name":"Get It Fixed 24","ContractDuration":"24","RateReference":"GetItFixed24_20260930","TouType":"ALL DAY"},
+{"Name":"Get It 7 To 7","ContractDuration":"24","RateReference":"GetIt7To7_20260824","TouType":"2 TIER"},
+{"Name":"Get It Fixed 36","ContractDuration":"36","RateReference":"GetItFixed36_20261201","TouType":"ALL DAY"}],
+"ratesData":{"args":[],"data":{"Success":true,"Result":[
+{"PlanCode":"FXTRFALLDAY","RateReference":"GetItFixed24_20260930","TierKind":"A","Rate":0.2661,"PRate":0,"OPRate":0,"GSTRate":1.09},
+{"PlanCode":"FXTRF2TIER","RateReference":"GetIt7To7_20260824","TierKind":"OP","Rate":0,"PRate":0.2982,"OPRate":0.256,"GSTRate":1.09}]}}};
+</script>"""
+g = parse_geneco(geneco_data(GENECO_PAGE), current)
+gp = {x["name"]: x for x in g["plans"]}
+check("geneco: 0.2661 before GST shows as 29.00¢ (not 29.01: rounded once, as the fact sheet says)",
+      gp["Get It Fixed 24"]["rate_incl_gst"] == 29.0 and gp["Get It Fixed 24"]["rate_excl_gst"] == 26.61)
+check("geneco: fact sheet date from the rate reference", gp["Get It Fixed 24"]["terms"]["factsheet_date"] == "2026-09-30")
+t7 = gp["Get It 7 To 7"]
+check("geneco: 7 To 7 peak 32.50¢ and off-peak 27.90¢, hours kept from our sheet",
+      t7["type"] == "tou" and t7["tou"]["peak"] == {"window": "07:00–19:00", "rate_incl_gst": 32.5}
+      and t7["tou"]["offPeak"]["rate_incl_gst"] == 27.9)
+check("geneco: a plan with no rates is unreadable, not guessed", gp["Get It Fixed 36"]["confidence"] == "low"
+      and gp["Get It Fixed 36"]["rate_incl_gst"] is None)
+check("geneco: our plan missing from the page goes in not_found", g["not_found"] == ["geneco-give-us-a-try"])
+for f in (gp["Get It Fixed 24"], t7):
+    check(f"guards: Geneco {f['name']} passes", not sanity(f, as_plan(f), {"pricingType": f["type"], "rate": f["rate_incl_gst"]}))
+try:
+    geneco_data("<html>no data</html>")
+    check("geneco: a page without its plan data is an error", False)
+except ValueError:
+    check("geneco: a page without its plan data is an error", True)
 
 # ── Helpers ──
 check("clock: 7am, 11pm, 12am, 9:30pm", [clock(x) for x in ("7am", "11pm", "12am", "9:30pm")] == ["07:00", "23:00", "00:00", "21:30"])

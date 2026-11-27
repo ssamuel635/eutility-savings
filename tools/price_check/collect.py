@@ -7,6 +7,7 @@ Weekly price check, step 1 for the retailers a plain script can read (no browser
   sp-group   SP Group's tariff page
   tuas       Tuas Power's EMA fact sheets (PDFs), found from its plans page
   pacificlight  PacificLight's EMA fact sheets (web pages), found from its fact sheet index
+  geneco     Geneco's plan and rate data, which its electricity plans page carries as JSON
 
 It writes price-checks/<date>/raw/<key>.json in the format PROCEDURE.md describes, so
 compare.py, the report, approvals and publishing work unchanged. Every number comes with
@@ -14,8 +15,8 @@ the exact source text in `evidence`, and compare.py rejects any number not in it
 
 Prices only. Promotions and contract wording are left out of the files (compare.py then
 leaves them as they are); each plan still carries its fact sheet date, so a newer fact
-sheet shows in the report for a person to check. The other retailers (Geneco, Sembcorp)
-stay with the weekly Claude check or a person.
+sheet shows in the report for a person to check. Sembcorp (it refuses scripts) stays with
+the weekly Claude check or a person.
 
 Each site's robots.txt is respected, and each page is read once.
 
@@ -27,6 +28,7 @@ Usage:
 """
 import argparse
 import html
+from decimal import ROUND_HALF_UP, Decimal
 import io
 import json
 import re
@@ -51,6 +53,7 @@ SP_PAGE = "https://www.spgroup.com.sg/our-services/utilities/tariff-information"
 TUAS_PAGE = "https://savewithtuas.com/our-electricity-plans/"
 PL_INDEX = "https://www.pacificlight.com.sg/support/factsheet"
 PL_FS = "https://www.pacificlight.com.sg/support/factsheet-detail/{}"
+GENECO_PAGE = "https://www.geneco.sg/residential/electricity-plans"
 MONTHS = {m: i for i, m in enumerate(["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"], 1)}
 
 
@@ -325,6 +328,65 @@ def collect_pacificlight(current):
     return finding("PacificLight", sources, plans, our_ids(current, "PacificLight"))
 
 
+# ── Geneco: the plan and rate data on its plans page ─────────────────────────
+def geneco_data(page):
+    """The `var genecoObj = {...};` block Geneco's page builds its plan cards from."""
+    m = re.search(r"var genecoObj\s*=\s*(?=\{)", page)
+    if not m:
+        raise ValueError("no genecoObj plan data on the plans page")
+    return json.JSONDecoder().raw_decode(page, m.end())[0]
+
+
+def geneco_cents(rate, gst):
+    """S$/kWh before GST -> ¢/kWh incl. GST, rounded once to 2 places. (Geneco's page rounds to 3
+    places first, which turns 29.0049 into 29.01, then patches "29.01" back to "29.00" by hand.)"""
+    a = Decimal(str(rate)) * 100 * Decimal(str(gst))
+    return float(a.quantize(Decimal("0.01"), ROUND_HALF_UP))
+
+
+def parse_geneco(data, current):
+    ours = our_ids(current, "Geneco")
+    rates = {r["RateReference"]: r for r in (data.get("ratesData", {}).get("data") or {}).get("Result") or []}
+    if not (data.get("ratesData", {}).get("data") or {}).get("Success"):
+        raise ValueError("Geneco's rate data says it didn't load (Success is false)")
+    plans = []
+    for p in data.get("planData") or []:
+        name, ref = p["Name"].strip(), p.get("RateReference") or ""
+        pid = ours.get(name.lower())
+        r = rates.get(ref)
+        d = re.search(r"_(\d{4})(\d{2})(\d{2})$", ref)
+        common = dict(contractMonths=int(p.get("ContractDuration") or 0), source_url=GENECO_PAGE,
+                      category=category(current, pid, name),
+                      terms={"factsheet_date": f"{d.group(1)}-{d.group(2)}-{d.group(3)}" if d else None, "changed": False})
+        if not r:
+            plans.append(plan(name, pid, confidence="low", **common, notes=f"No rates on the page for {ref}."))
+            continue
+        gst = r.get("GSTRate") or 1.09
+        head = f"{name} ({p.get('ContractDuration')} months), {ref} {r.get('PlanCode')}, GSTRate {gst}:"
+        if "DOTP" in (r.get("PlanCode") or ""):
+            plans.append(plan(name, pid, confidence="low", **common, evidence=head,
+                              notes="A discount-off-tariff plan: the script doesn't read these yet."))
+        elif r.get("Rate"):
+            inc, exc = geneco_cents(r["Rate"], gst), round(r["Rate"] * 100, 3)
+            plans.append(plan(name, pid, type="fixed", **common, rate_incl_gst=inc, rate_excl_gst=exc,
+                              evidence=f"{head} Rate {r['Rate']} ({exc}¢ before GST) -> {inc:.2f}¢/kWh (inc. GST) on the plan card"))
+        elif r.get("PRate") and r.get("OPRate"):
+            peak, off = geneco_cents(r["PRate"], gst), geneco_cents(r["OPRate"], gst)
+            # The data has no time bands, so they're kept from our sheet (the plan name says 7 to 7)
+            win = (current.get(pid) or {}).get("tou") or {}
+            plans.append(plan(name, pid, type="tou", **common,
+                              evidence=f"{head} PRate {r['PRate']} -> {peak:.2f}¢/kWh (inc. GST) peak; "
+                                       f"OPRate {r['OPRate']} -> {off:.2f}¢/kWh (inc. GST) off-peak",
+                              tou={"peak": {"window": (win.get("peak") or {}).get("window"), "rate_incl_gst": peak},
+                                   "offPeak": {"window": (win.get("offPeak") or {}).get("window"), "rate_incl_gst": off}},
+                              notes="Read by script. Peak and off-peak hours aren't in Geneco's data: kept from our sheet."))
+        else:
+            plans.append(plan(name, pid, confidence="low", **common, evidence=head,
+                              notes="The page shows no rate for this plan (Geneco hides its card)."))
+    sources = [{"url": GENECO_PAGE, "what": "Electricity plans page: the plan and rate data its plan cards are built from"}]
+    return finding("Geneco", sources, plans, ours)
+
+
 # ── SP Group: the regulated tariff ───────────────────────────────────────────
 def parse_sp(page, current):
     ours = our_ids(current, "SP Group")
@@ -347,9 +409,10 @@ COLLECTORS = {
     "sp-group": lambda cur: parse_sp(fetch(SP_PAGE), cur),
     "tuas": collect_tuas,
     "pacificlight": collect_pacificlight,
+    "geneco": lambda cur: parse_geneco(geneco_data(fetch(GENECO_PAGE)), cur),
 }
 RETAILER = {"keppel": "Keppel Electric", "senoko": "Senoko Energy", "sp-group": "SP Group",
-            "tuas": "Tuas Power", "pacificlight": "PacificLight"}
+            "tuas": "Tuas Power", "pacificlight": "PacificLight", "geneco": "Geneco"}
 PRICE_FIELDS = ("type", "contractMonths", "rate_incl_gst", "rate_excl_gst", "discount", "dailyCharge_incl_gst")
 
 
